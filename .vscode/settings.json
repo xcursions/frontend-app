@@ -1,0 +1,8 @@
+{
+  "scss.lint.unknownAtRules": "ignore",
+  "editor.letterSpacing": 0,
+  "editor.multiCursorPaste": "spread",
+  "editor.wordWrap": "off",
+  "debug.console.wordWrap": true,
+  "diffEditor.wordWrap": "inherit"
+}

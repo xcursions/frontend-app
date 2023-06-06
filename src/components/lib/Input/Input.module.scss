@@ -1,0 +1,48 @@
+.wrapper {
+  @apply flex flex-col gap-1;
+}
+
+.container {
+  @apply relative flex w-full items-center overflow-hidden border 
+  border-gray-300 bg-gray-100 focus-within:border-primary-main;
+}
+
+.input {
+  @apply flex-1 rounded-md border-transparent
+    bg-transparent px-4 py-3 font-dmSansRegular text-sm
+    text-gray-600 focus:text-gray-900 disabled:cursor-not-allowed;
+
+  &[type='date']::-webkit-calendar-picker-indicator,
+  &[type='time']::-webkit-calendar-picker-indicator,
+  &[type='datetime-local']::-webkit-calendar-picker-indicator {
+    @apply z-20 opacity-0;
+  }
+}
+
+.date_icon {
+  @apply absolute top-[50%] right-[3%] z-10 -translate-x-[50%] -translate-y-[50%];
+}
+
+.label {
+  @apply font-dmSansBold text-xxs md:text-xs;
+}
+
+.password_toggle {
+  @apply px-4;
+}
+
+.icon {
+  @apply mx-2 flex h-full items-center justify-center;
+
+  &__start {
+    @apply ml-4;
+  }
+
+  &__end {
+    @apply mr-4;
+  }
+}
+
+.helper_text {
+  @apply text-xxs leading-none text-gray-400;
+}

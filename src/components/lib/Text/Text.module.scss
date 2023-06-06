@@ -1,0 +1,15 @@
+.body1 {
+  @apply font-dmSansRegular text-sm md:text-base;
+}
+
+.body2 {
+  @apply font-dmSansRegular text-base md:text-lg;
+}
+
+.subheading {
+  @apply font-dmSansRegular text-base md:text-xl;
+}
+
+.caption {
+  @apply font-dmSansRegular text-xs md:text-sm;
+}
