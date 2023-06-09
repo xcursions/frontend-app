@@ -23,7 +23,8 @@ const Navbar = () => {
               <Image
                 src={
                   navbar
-                    ? "/assets/images/landing-page/Logo_white.png"
+                    ? "/assets/images/landing-page/logo2.png" ||
+                      "/assets/images/landing-page/Logo.png"
                     : "/assets/images/landing-page/Logo.png"
                 }
                 alt="Xcursion logo"
@@ -94,13 +95,7 @@ const Navbar = () => {
               <div className="mt-3 space-y-2 md:inline-block lg:hidden">
                 <Link
                   href="/"
-                  className="inline-block w-full rounded-md bg-gray-600 px-4 py-2 text-center text-white shadow hover:bg-gray-800"
-                >
-                  Sign in
-                </Link>
-                <Link
-                  href="/"
-                  className="inline-block w-full rounded-md bg-white px-4 py-2 text-center text-gray-800 shadow hover:bg-gray-100"
+                  className="inline-block w-full rounded-3xl bg-white px-4 py-2 text-center text-gray-800 shadow hover:bg-gray-100"
                 >
                   Sign up
                 </Link>
