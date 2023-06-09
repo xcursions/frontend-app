@@ -4,11 +4,11 @@
 
 .container {
   @apply relative flex w-full items-center overflow-hidden border 
-  border-gray-300 bg-gray-100 focus-within:border-primary-main;
+  border-gray-300 shadow-lg rounded-xl bg-white focus-within:border-primary-main;
 }
 
 .input {
-  @apply flex-1 rounded-md border-transparent
+  @apply flex-1 rounded-2xl border-transparent
     bg-transparent px-4 py-3 font-dmSansRegular text-sm
     text-gray-600 focus:text-gray-900 disabled:cursor-not-allowed;
 
@@ -24,7 +24,7 @@
 }
 
 .label {
-  @apply font-dmSansBold text-xxs md:text-xs;
+  @apply font-dmSansRegular text-sm md:text-base;
 }
 
 .password_toggle {

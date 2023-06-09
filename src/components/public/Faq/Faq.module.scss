@@ -1,0 +1,17 @@
+.wrapper {
+    @apply w-full relative bg-[#FFFFFF] overflow-x-hidden overflow-y-hidden  p-5;
+  }
+  .container {
+    @apply relative mx-auto w-full
+  }
+  .accordion {
+    @apply mx-auto max-w-[573px];
+  }
+  
+  .accordion_title {
+    @apply mx-auto mt-5 flex cursor-pointer flex-row  justify-between rounded bg-white py-2 px-4 shadow-2xl;
+  }
+  .accordion_content {
+    @apply rounded px-4 font-dmSansRegular font-light py-2 text-[#667084] bg-white shadow-xl;
+  }
+  

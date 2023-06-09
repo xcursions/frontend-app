@@ -1,8 +1,8 @@
 .wrapper {
-    @apply relative flex w-full items-start bg-[#FAFAFA] justify-start overflow-x-hidden px-5 py-10;
+    @apply w-full items-start bg-[#FFFFFF] justify-start overflow-x-hidden overflow-y-hidden  px-5 py-10;
   }
   .container {
-    @apply mx-auto flex w-full max-w-[1112px] flex-col gap-[24px];
+    @apply relative top-[43vw] pt-8 pb-16 md:top-[8vw] lg:top-0 lg:mt-[60px] mx-auto flex w-full max-w-[1112px] flex-col gap-[24px];
   }
   .heading {
     @apply text-center items-center pt-5 text-[24px] md:font-[30px] font-bold lg:text-[36px]
@@ -11,7 +11,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 4.9px;
-    @apply mx-auto;
+    @apply mx-auto pb-6;
   }
   .card {
     position: relative;
@@ -46,4 +46,52 @@
   }
   .card_text {
     @apply text-[14px] lg:text-[16px];
+  }
+  .card_image {
+    position: relative;
+    flex-basis: calc(33% - 8px);
+    margin: 4px;
+    transition: flex 0.5s ease;
+    cursor: pointer;
+  }
+  .card_image::before {
+    content: '';
+    position: absolute;
+    border-radius: 20px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.8),
+      rgba(0, 0, 0, 0)
+    );
+    opacity: 0.8;
+  }
+  @media screen and (max-width: 1000px) {
+    .card_image {
+      flex-basis: calc(100% - 0px);
+    }
+  }
+  @media screen and (min-width: 1024px) {
+    .card_image:hover {
+      flex: 1.2;
+    }
+    .card_image:not(:hover) {
+      flex: 0.9;
+    }
+  }
+  .pics {
+    max-height: 298px;
+    @apply h-full w-full rounded-[20px] lg:h-[530px];
+  }
+  .imagetextbody {
+    @apply absolute bottom-0 flex justify-between items-end left-0 right-0 pb-2 pl-4 opacity-100;
+  }
+  .imageheading {
+    @apply font-dmSansMedium text-[14px] font-bold text-[#FFFFFF] sm:text-[24px];
+  }
+  .imagetext {
+    @apply font-dmSansRegular text-[10px] text-[#dad7d7] shadow-2xl sm:text-[16px];
   }
