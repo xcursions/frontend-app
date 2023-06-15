@@ -6,6 +6,6 @@
       backdrop-filter: blur();
     }
     &__container {
-        @apply mx-auto justify-between px-4 font-dmSansMedium md:flex md:items-center md:px-8 lg:max-w-7xl;
+        @apply mx-auto justify-between px-4 lg:pl-[100px] lg:pr-[100px] font-dmSansMedium md:flex md:items-center md:px-8 lg:max-w-7xl;
     }
   }

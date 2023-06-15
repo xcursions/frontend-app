@@ -13,7 +13,7 @@ const Home = () => {
   return (
     <div>
       <div>
-        <Navbar />
+        <Navbar text={"white"} logo={"white"} />
         <Header />
         <WhyChooseUs />
         <TopDestinations />

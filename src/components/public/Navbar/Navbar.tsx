@@ -9,9 +9,21 @@ import { BsSearch } from "react-icons/bs";
 
 import styles from "./Navbar.module.scss";
 
-const Navbar = () => {
+type Props = {
+  text: string;
+  logo: string;
+};
+
+const Navbar = ({ text, logo }: Props) => {
   const [navbar, setNavbar] = useState(false);
+  const textColor = text === "black" ? "text-[ #475467]" : "text-white";
   const color = navbar ? "bg-[#0A83FF]" : " ";
+  const icon =
+    logo === "black"
+      ? "/assets/images/landing-page/logo_black.png"
+      : "/assets/images/landing-page/Logo.png";
+  const buttonColor =
+    text === "black" ? "bg-[#0A83FF] text-white" : "bg-white text-[#0A83FF] ";
   return (
     <nav
       className={`${styles["nav__backdrop-filter"]} ${color} absolute z-30 w-full `}
@@ -25,11 +37,12 @@ const Navbar = () => {
                   navbar
                     ? "/assets/images/landing-page/logo2.png" ||
                       "/assets/images/landing-page/Logo.png"
-                    : "/assets/images/landing-page/Logo.png"
+                    : icon
                 }
                 alt="Xcursion logo"
                 width={100}
-                height={100}
+                height={300}
+                className="h-[30px]"
               />
             </Link>
 
@@ -54,7 +67,7 @@ const Navbar = () => {
                 ) : (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-white"
+                    className={`${textColor} h-6 w-6 `}
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -78,16 +91,24 @@ const Navbar = () => {
             }`}
           >
             <ul className="items-center justify-center space-y-8 md:flex md:space-x-6 md:space-y-0">
-              <li className="text-white hover:text-indigo-200">
-                <Link href="/">Trips</Link>
+              <li
+                className={`${textColor} hover:text-2xl  hover:underline focus:underline`}
+              >
+                <Link href="/trips">Trips</Link>
               </li>
-              <li className="text-white hover:text-indigo-200">
+              <li
+                className={`${textColor} hover:text-2xl hover:underline focus:underline`}
+              >
                 <Link href="/">Blog</Link>
               </li>
-              <li className="text-white hover:text-indigo-200">
+              <li
+                className={`${textColor} hover:text-2xl  hover:underline focus:underline`}
+              >
                 <Link href="/">Contact Us</Link>
               </li>
-              <li className="text-white hover:text-indigo-200">
+              <li
+                className={`${textColor} hover:text-2xl hover:underline focus:underline`}
+              >
                 <Link href="/">About US</Link>
               </li>
             </ul>
@@ -106,11 +127,11 @@ const Navbar = () => {
 
         <div className="hidden items-center space-x-6 text-center md:flex">
           <div className="flex items-center">
-            <BsSearch className="text-xl font-extrabold text-white" />
+            <BsSearch className={`text-xl font-extrabold ${textColor}`} />
           </div>
           <Link
             href="/"
-            className="flex items-center rounded-full bg-white px-4 py-2 text-[#0A83FF] shadow hover:bg-gray-100"
+            className={`flex items-center rounded-full px-4 py-2 ${buttonColor} shadow hover:bg-gray-100`}
           >
             Sign up
           </Link>

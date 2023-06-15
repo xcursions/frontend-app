@@ -1,0 +1,9 @@
+.header_wrapper {
+    @apply w-full px-5 pt-[80px] md:pt-[100px] lg:pt-[120px] lg:pl-[100px] lg:pr-[100px]
+  }
+  .header {
+    @apply max-w-[1241px] max-h-[700px] relative;
+  }
+  .textContainer {
+    @apply absolute top-[30%] lg:top-[40%] left-0 right-0 mx-auto
+  }

@@ -1,0 +1,12 @@
+.card_container {
+    @apply mx-auto pt-6 ;
+  }
+  .card_image {
+    position: relative;
+    margin: 4px;
+    cursor: pointer;
+  }
+  .pics {
+    max-height: 298px;
+    @apply h-[146px] w-[163px] md:w-[228px] md:h-[223px] lg:w-[293px] rounded-[20px] lg:h-[300px];
+  }
