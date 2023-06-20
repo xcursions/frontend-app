@@ -1,5 +1,3 @@
-import "../app/globals.scss";
-
 import React from "react";
 
 import Footer from "@/components/public/Footer/Footer";

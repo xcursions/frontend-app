@@ -1,9 +1,13 @@
 import React from "react";
 
+import Faq from "@/components/public/Faq/Faq";
+
 const Blog = () => {
   return (
     <div>
-      <div>Creating something new today</div>
+      <div>
+        <Faq />
+      </div>
     </div>
   );
 };

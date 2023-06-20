@@ -1,7 +1,11 @@
 "use client";
 
+import type { FormEvent } from "react";
 import React, { useState } from "react";
 import { FiFilter } from "react-icons/fi";
+
+import Input from "@/components/lib/Input";
+import Select from "@/components/lib/Select/Select";
 
 import postData from "./data";
 import styles from "./SearchTrips.module.scss";
@@ -14,18 +18,39 @@ const initialState = {
   price: "",
   duration: "",
 };
+const optionLocation = [
+  { value: "Maldives", label: "Maldives" },
+  { value: "Santorini", label: "Santorini" },
+  { value: "San Francisco", label: "San Francisco" },
+  { value: "Bali", label: "Bali" },
+];
+const optionTrip = [
+  { value: "All Trip", label: "All Trip" },
+  { value: "Private Trip", label: "Private Trip" },
+  { value: "Group Trip", label: "Group Trip" },
+];
+const optionPrice = [
+  { value: "100k-200k", label: "100k-200k" },
+  { value: "200k-300k", label: "200k-300k" },
+  { value: "400k-900k", label: "400k-900k" },
+];
+const optionDuration = [
+  { value: "All", label: "All" },
+  { value: "1 week", label: "1 week" },
+  { value: "2 weeks", label: "2 weeks" },
+  { value: "1 month", label: "1 month" },
+  { value: "2 month", label: "2 month" },
+  { value: "3 month", label: "3 month" },
+];
 const SearchTrips = () => {
   const [payload, setPayload] = useState(initialState);
   const [showFilter, setShowFilter] = useState(false);
 
-  const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = event.target;
-    setPayload((prevPayload) => ({
-      ...prevPayload,
-      [name]: value,
-    }));
+  const handleChange = (event: FormEvent<HTMLInputElement>) => {
+    setPayload({
+      ...payload,
+      [event.currentTarget.name]: event.currentTarget.value,
+    });
   };
   return (
     <div className={styles.wrapper}>
@@ -38,7 +63,7 @@ const SearchTrips = () => {
             </label>
             <div className="flex w-full ">
               <div className="relative w-full">
-                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                {/* <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                   <svg
                     aria-hidden="true"
                     className="h-5 w-5 text-gray-500 dark:text-gray-400"
@@ -47,19 +72,19 @@ const SearchTrips = () => {
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      fill-rule="evenodd"
+                      fillRule="evenodd"
                       d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                      clip-rule="evenodd"
+                      clipRule="evenodd"
                     ></path>
                   </svg>
-                </div>
-                <input
+                </div> */}
+                <Input
                   type="text"
                   name="search"
                   value={payload.search}
                   onChange={handleChange}
                   id="simple-search"
-                  className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-[#667084] shadow-md focus:border-blue-500  focus:ring-blue-500"
+                  className="block w-[280px] rounded-lg border border-gray-300 bg-gray-50 text-sm text-[#667084] shadow-md focus:border-blue-500 focus:ring-blue-500 md:w-[350px]  lg:w-[342px]"
                   placeholder="Search for trips, events"
                   required
                 />
@@ -92,7 +117,7 @@ const SearchTrips = () => {
                 showFilter ? "block" : "hidden"
               } relative w-full lg:block`}
             >
-              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+              {/* <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                 <div className="flex py-2">
                   <img
                     src="/assets/images/icons/plane.png"
@@ -101,26 +126,30 @@ const SearchTrips = () => {
                   />
                   <p className=" text-[12px]">Trip Type:</p>
                 </div>
-              </div>
-              <select
-                name="trips"
+              </div> */}
+              <Select
+                placeholder={"Trip type"}
                 value={payload.trips}
-                onChange={handleChange}
-                id="simple-search"
-                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-20 text-sm text-[#667084]
-                 shadow-md focus:border-blue-500 focus:ring-blue-500"
-              >
-                <option>All Trip</option>
-                <option>Private Trip</option>
-                <option>Group Trip</option>
-              </select>
+                onChange={(event) =>
+                  setPayload({
+                    ...payload,
+                    trips: event.value,
+                  })
+                }
+                options={optionTrip.map((option) => ({
+                  value: option.value,
+                  label: option.label,
+                }))}
+                showArrow
+                className=" block w-full cursor-pointer  rounded-lg border border-gray-300 bg-gray-50 text-sm text-[#667084] shadow-md lg:w-[200px]"
+              />
             </div>
             <div
               className={`${
                 showFilter ? "block" : "hidden"
               } relative w-full lg:block`}
             >
-              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+              {/* <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                 <div className="flex py-2">
                   <img
                     src="/assets/images/icons/dollar.png"
@@ -129,27 +158,30 @@ const SearchTrips = () => {
                   />
                   <p className="ml-1 text-[12px]">Price:</p>
                 </div>
-              </div>
-              <select
-                name="price"
+              </div> */}
+              <Select
+                placeholder={"Price"}
                 value={payload.price}
-                onChange={handleChange}
-                id="simple-search"
-                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-16 text-sm text-[#667084]
-                 shadow-md focus:border-blue-500 focus:ring-blue-500"
-              >
-                <option>All</option>
-                <option>100k-200k</option>
-                <option>300k-400k</option>
-                <option>400k-900k</option>
-              </select>
+                onChange={(event) =>
+                  setPayload({
+                    ...payload,
+                    price: event.value,
+                  })
+                }
+                options={optionPrice.map((option) => ({
+                  value: option.value,
+                  label: option.label,
+                }))}
+                showArrow
+                className=" block w-full cursor-pointer  rounded-lg border border-gray-300 bg-gray-50 text-sm text-[#667084] shadow-md lg:w-[200px]"
+              />
             </div>
             <div
               className={`${
                 showFilter ? "block" : "hidden"
               } relative w-full lg:block`}
             >
-              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+              {/* <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                 <div className="flex py-2">
                   <img
                     src="/assets/images/icons/map.png"
@@ -158,29 +190,30 @@ const SearchTrips = () => {
                   />
                   <p className="ml-1 text-[12px]">Location:</p>
                 </div>
-              </div>
-              <select
-                name="location"
+              </div> */}
+              <Select
+                placeholder={"Location"}
                 value={payload.location}
-                onChange={handleChange}
-                id="simple-search"
-                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-20 text-sm text-[#667084]
-                 shadow-md focus:border-blue-500 focus:ring-blue-500"
-              >
-                <option>All</option>
-                <option>Nigeria</option>
-                <option>Peru</option>
-                <option>Finland</option>
-                <option>England</option>
-                <option>United States</option>
-              </select>
+                onChange={(event) =>
+                  setPayload({
+                    ...payload,
+                    location: event.value,
+                  })
+                }
+                options={optionLocation.map((option) => ({
+                  value: option.value,
+                  label: option.label,
+                }))}
+                showArrow
+                className=" block w-full cursor-pointer  rounded-lg border border-gray-300 bg-gray-50 text-sm text-[#667084] shadow-md lg:w-[200px]"
+              />
             </div>
             <div
               className={`${
                 showFilter ? "block" : "hidden"
               } relative w-full lg:block`}
             >
-              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+              {/* <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                 <div className="flex py-2">
                   <img
                     src="/assets/images/icons/calendar1.png"
@@ -189,22 +222,23 @@ const SearchTrips = () => {
                   />
                   <p className="ml-1 text-[12px]">Duration:</p>
                 </div>
-              </div>
-              <select
-                name="duration"
+              </div> */}
+              <Select
+                placeholder={"Duration"}
                 value={payload.duration}
-                onChange={handleChange}
-                id="simple-search"
-                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-20 text-sm text-[#667084]
-                 shadow-md focus:border-blue-500 focus:ring-blue-500"
-              >
-                <option>All</option>
-                <option>1 Week</option>
-                <option>2 Weeks</option>
-                <option>1 Month</option>
-                <option>2 Months</option>
-                <option>3 Months</option>
-              </select>
+                onChange={(event) =>
+                  setPayload({
+                    ...payload,
+                    duration: event.value,
+                  })
+                }
+                options={optionDuration.map((option) => ({
+                  value: option.value,
+                  label: option.label,
+                }))}
+                showArrow
+                className=" block w-full cursor-pointer  rounded-lg border border-gray-300 bg-gray-50 text-sm text-[#667084] shadow-md lg:w-[200px]"
+              />
             </div>
             <button
               type="submit"
@@ -220,9 +254,9 @@ const SearchTrips = () => {
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                 ></path>
               </svg>
@@ -243,7 +277,7 @@ const SearchTrips = () => {
         {/* Trip Cards */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {postData.map((post) => (
-            <TripCard post={post} key={post.url} />
+            <TripCard post={post} key={`${post.url}-${post.id}`} />
           ))}
         </div>
       </div>

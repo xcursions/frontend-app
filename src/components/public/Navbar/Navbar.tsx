@@ -1,8 +1,6 @@
-/* eslint-disable import/no-extraneous-dependencies */
-
 "use client";
 
-import Image from "next/image";
+// import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import { BsSearch } from "react-icons/bs";
@@ -32,7 +30,7 @@ const Navbar = ({ text, logo }: Props) => {
         <div>
           <div className="flex items-center justify-between py-3 md:block md:py-5">
             <Link href="/">
-              <Image
+              <img
                 src={
                   navbar
                     ? "/assets/images/landing-page/logo2.png" ||
@@ -40,9 +38,9 @@ const Navbar = ({ text, logo }: Props) => {
                     : icon
                 }
                 alt="Xcursion logo"
-                width={100}
-                height={300}
-                className="h-[30px]"
+                // width={100}
+                // height={300}
+                className="h-[26px] w-[113px] lg:h-[30px] lg:w-[133px]"
               />
             </Link>
 
@@ -99,7 +97,7 @@ const Navbar = ({ text, logo }: Props) => {
               <li
                 className={`${textColor} hover:text-2xl hover:underline focus:underline`}
               >
-                <Link href="/">Blog</Link>
+                <Link href="/blog">Blog</Link>
               </li>
               <li
                 className={`${textColor} hover:text-2xl  hover:underline focus:underline`}
@@ -115,8 +113,8 @@ const Navbar = ({ text, logo }: Props) => {
             {navbar && (
               <div className="mt-3 space-y-2 md:inline-block lg:hidden">
                 <Link
-                  href="/"
-                  className="inline-block w-full rounded-3xl bg-white px-4 py-2 text-center text-gray-800 shadow hover:bg-gray-100"
+                  href="/login"
+                  className="inline-block w-full rounded-3xl bg-white px-4 py-2 text-center text-gray-800 shadow"
                 >
                   Sign up
                 </Link>
@@ -130,8 +128,8 @@ const Navbar = ({ text, logo }: Props) => {
             <BsSearch className={`text-xl font-extrabold ${textColor}`} />
           </div>
           <Link
-            href="/"
-            className={`flex items-center rounded-full px-4 py-2 ${buttonColor} shadow hover:bg-gray-100`}
+            href="/login"
+            className={`flex items-center rounded-full px-4 py-2 ${buttonColor} shadow`}
           >
             Sign up
           </Link>

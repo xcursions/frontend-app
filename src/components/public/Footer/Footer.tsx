@@ -46,9 +46,9 @@ const Footer = () => {
                 </h2>
                 <ul className="text-[14px] font-light text-gray-100">
                   <li className="mb-4">
-                    <a href="https://flowbite.com/" className="hover:underline">
+                    <Link href="/trips" className="hover:underline">
                       Trips
-                    </a>
+                    </Link>
                   </li>
                   <li className="mb-4">
                     <a

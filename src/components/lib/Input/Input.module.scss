@@ -1,10 +1,11 @@
 .wrapper {
-  @apply flex flex-col gap-1;
+  @apply flex flex-col gap-1 py-1;
 }
 
 .container {
   @apply relative flex w-full items-center overflow-hidden border 
-  border-gray-300 shadow-lg rounded-xl bg-white focus-within:border-primary-main;
+  border-gray-200 shadow-xl rounded-lg bg-white focus:border-blue-500
+  focus:ring-blue-500;
 }
 
 .input {

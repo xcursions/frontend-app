@@ -28,7 +28,7 @@ const Input: FC<InputProps> = ({
       <div className="">
         {label && <label className={styles.label}>{label} </label>}
         <div
-          className={`${styles.container} ${containerClass || "rounded-md"} ${
+          className={`${styles.container} ${containerClass || "rounded-2xl"} ${
             error ? "border !border-red-600" : ""
           } ${containerClass || ""}`}
         >
