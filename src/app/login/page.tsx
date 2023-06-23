@@ -1,13 +1,15 @@
 "use client";
 
-// import { GoogleLogin } from "@react-oauth/google";
+import Image from "next/image";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
 import React, { useState } from "react";
 
 import Button from "@/components/lib/Button/Button";
 import Heading from "@/components/lib/Heading/Heading";
 import Input from "@/components/lib/Input/Input";
 import Text from "@/components/lib/Text/Text";
+import Navbar from "@/components/public/Navbar";
 
 const initialState = {
   email: "",
@@ -20,10 +22,16 @@ const Login = () => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPayload({ ...payload, [event.target.name]: event.target.value });
   };
+  const handleGoogle = () => {
+    signIn("google");
+  };
+  const handleFacebook = () => {
+    signIn("facebook");
+  };
   return (
     <div className="w-full  overflow-hidden bg-[#FFFFFF]">
       <div className="flex">
-        <div className="relative h-screen w-[40%] bg-[url('/assets/images/login.png')]">
+        <div className="relative hidden h-screen w-[40%] bg-[url('/assets/images/login.png')] lg:block">
           <img src="/assets/images/login.png" alt="login image" />
           <Link href="/" className="absolute top-0 z-20 hidden lg:block">
             <img
@@ -44,24 +52,56 @@ const Login = () => {
             </Text>
           </div>
         </div>
-        <div className="m-auto content-center items-center justify-center">
-          <div className="m-auto items-center justify-center">
-            <Heading type="h1" className="m-auto font-dmSansBold text-[24px]">
+        <div className="lg:hidden">
+          <Navbar text="black" logo="black" />
+        </div>
+        <div className="m-auto mt-16 content-center items-center justify-center lg:mt-auto">
+          <div className="m-auto mt-8 items-center justify-center px-3 lg:mt-4">
+            <Heading
+              type="h1"
+              className="m-auto text-center font-dmSansBold text-[24px]"
+            >
               Your gateway to unforgettable journeys 🏝️
             </Heading>
             <Text className="text-center text-[14px] text-[#667084]">
               Get Access to your account
             </Text>
-            <div className="my-5">
-              {/* <GoogleLogin
-                onSuccess={() => {}}
-                onError={() => console.log("Error")}
-              /> */}
+            <div className="my-5 flex flex-col gap-3 lg:flex-row">
+              <button
+                onClick={handleGoogle}
+                className="focus:shadow-outline mt-4 flex h-12 items-center
+                 justify-center gap-3 rounded-3xl border-2 border-[#F2F4F7]
+                  bg-[#F2F4F7] px-6 font-dmSansMedium text-[14px] text-black
+                   transition-colors duration-300 hover:bg-slate-200"
+              >
+                <Image
+                  src="/assets/images/icons/google.png"
+                  width={20}
+                  height={20}
+                  alt="Google signin buttton"
+                />
+                <span>Login with Google</span>
+              </button>
+              <button
+                onClick={handleFacebook}
+                className="focus:shadow-outline mt-4 flex h-12 items-center
+                 justify-center gap-3 rounded-3xl border-2 border-[#1877F2]
+                  bg-[#1877F2] px-6 font-dmSansMedium text-[14px] text-[#FFFFFF]
+                   transition-colors duration-300 hover:bg-[#1877f4dd]"
+              >
+                <Image
+                  src="/assets/images/icons/facebook.png"
+                  width={20}
+                  height={20}
+                  alt="Google signin buttton"
+                />
+                <span>Login with Facebook</span>
+              </button>
             </div>
             <div className="my-5 flex items-center justify-center">
-              <hr className="grow border-t-2 border-black" />
+              <hr className="border-t-1 grow border-black" />
               <span className="mx-4 font-semibold text-gray-600">or</span>
-              <hr className="grow border-t-2 border-black" />
+              <hr className="border-t-1 grow border-black" />
             </div>
             <div className="gap-4">
               <Input
@@ -78,9 +118,19 @@ const Login = () => {
                 value={payload.password}
                 onChange={handleChange}
               />
-              <Button onClick={handleSubmit}>Login</Button>
+              <Link href="/forgot-password">
+                <Text className=" pb-5 pt-3 text-center text-[14px] text-[#0A83FF] underline">
+                  Forgot Password
+                </Text>
+              </Link>
+              <Button
+                onClick={handleSubmit}
+                className="w-full rounded-3xl bg-[#0A83FF] text-[16px]"
+              >
+                Login
+              </Button>
             </div>
-            <Text className="my-3 text-[14px] text-[#667084]">
+            <Text className="my-3 text-center text-[14px] text-[#667084]">
               Dont have an account yet.
               <Link href="/signup">
                 <span className="text-[#0A83FF]">Create account</span>
