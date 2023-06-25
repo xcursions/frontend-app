@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import React, { useState } from "react";
 
@@ -10,14 +11,50 @@ import Heading from "@/components/lib/Heading/Heading";
 import Input from "@/components/lib/Input/Input";
 import Text from "@/components/lib/Text/Text";
 import Navbar from "@/components/public/Navbar";
+import { useAppDispatch, useErrorHandler, useSuccessHandler } from "@/hooks";
+import { useLoginMutation } from "@/services/auth";
+import { setUserData, setUserToken } from "@/store/slices/userSlice";
+import { validateLoginInputs } from "@/utils/validators";
+import { isEmpty } from "@/utils/validators/helpers";
 
 const initialState = {
   email: "",
   password: "",
 };
 const Login = () => {
+  const dispatch = useAppDispatch();
   const [payload, setPayload] = useState(initialState);
-  const handleSubmit = () => {};
+  const [errors, setErrors] = useState(initialState);
+  const router = useRouter();
+
+  const [login, { isLoading, isError, isSuccess, data, error }] =
+    useLoginMutation();
+
+  useErrorHandler({ isError, error });
+  useSuccessHandler({
+    isSuccess,
+    showToast: false,
+    successFunction: () => {
+      if (data?.data) {
+        dispatch(setUserData(data?.data));
+        dispatch(setUserToken(data?.meta?.token));
+        router.push("/user/dashboard");
+      }
+      return null;
+    },
+    toastMessage: "Log in successful!",
+  });
+  const handleSubmit = () => {
+    setErrors(initialState);
+
+    const { valid, errors: validationErrors } = validateLoginInputs(payload);
+
+    if (valid) {
+      login(payload);
+    } else {
+      setErrors(validationErrors);
+    }
+  };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPayload({ ...payload, [event.target.name]: event.target.value });
@@ -109,6 +146,8 @@ const Login = () => {
                 placeholder="Enter your email address"
                 name="email"
                 value={payload.email}
+                error={!isEmpty(errors.email)}
+                helperText={errors.email}
                 onChange={handleChange}
               />
               <Input
@@ -116,6 +155,8 @@ const Login = () => {
                 name="password"
                 placeholder="Enter Password"
                 value={payload.password}
+                error={!isEmpty(errors.password)}
+                helperText={errors.password}
                 onChange={handleChange}
               />
               <Link href="/forgot-password">
@@ -125,6 +166,7 @@ const Login = () => {
               </Link>
               <Button
                 onClick={handleSubmit}
+                loading={isLoading}
                 className="w-full rounded-3xl bg-[#0A83FF] text-[16px]"
               >
                 Login

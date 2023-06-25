@@ -4,4 +4,12 @@ import { createSelector } from "reselect";
 
 export const selectUser = (state: RootState) => state.user.user;
 
-export const selectUserId = createSelector(selectUser, (user) => user?._id);
+export const selectedUser = createSelector(selectUser, (user) => user);
+export const selectUserOtpId = createSelector(
+  selectUser,
+  (user) => user?.otpId
+);
+export const selectedUserId = createSelector(
+  selectUser,
+  (user) => user?.userId || user?.id
+);
