@@ -29,8 +29,13 @@ const initialState = {
   otpId: "",
   otpCode: "",
 };
+const initialResendState = {
+  userId: "",
+  otpId: "",
+};
 const Verify = () => {
   const [payload, setPayload] = useState(initialState);
+  const [otpPayload, setOtpPayload] = useState(initialResendState);
   const [errors, setErrors] = useState(initialState);
   const router = useRouter();
   const userId = useAppSelector(selectedUserId);
@@ -73,7 +78,7 @@ const Verify = () => {
     }
   };
   const handleResendOtp = () => {
-    resendOtp(payload);
+    resendOtp(otpPayload);
   };
   useSuccessHandler({
     isSuccess: isResendSuccess,
@@ -86,6 +91,12 @@ const Verify = () => {
   useEffect(() => {
     if (userId && userOtp) {
       setPayload((prevPayload) => ({
+        ...prevPayload,
+        // eslint-disable-next-line object-shorthand
+        userId: userId,
+        otpId: userOtp,
+      }));
+      setOtpPayload((prevPayload) => ({
         ...prevPayload,
         // eslint-disable-next-line object-shorthand
         userId: userId,
@@ -141,8 +152,8 @@ const Verify = () => {
                 otpType="number"
                 disabled={false}
                 inputClassName={`m-0 flex-1 rounded-md
-                border-3  border-gray-100 bg-transparent bg-gray-200
-               font-proximaNovaRegular text-sm 
+                border-3  border-gray-100 bg-gray-300
+               font-dmSansBold text-sm 
               text-gray-600 focus:text-gray-900 focus:outline-none;
             `}
                 className={`flex items-center gap-2`}
@@ -174,7 +185,7 @@ const Verify = () => {
 
             <Text className="my-3 text-[14px] text-[#667084]">
               Dont have an account yet.
-              <Link href="/auth/signin">
+              <Link href="/signin">
                 <span className="text-[#0A83FF]">Create account</span>
               </Link>
             </Text>

@@ -23,7 +23,7 @@ const useErrorHandler = ({
   useEffect(() => {
     if (isError && showToast) {
       toaster.error(
-        error?.data?.message || "Something went wrong, try again later."
+        error?.data?.meta?.message || "Something went wrong, try again later."
       );
     }
   }, [isError]);
@@ -40,7 +40,7 @@ const useErrorHandler = ({
     if (isError) {
       if (error?.data?.error_code === 143) {
         dispatch(logout());
-        router.push("/auth/login");
+        router.push("/login");
       }
     }
   }, [isError]);
