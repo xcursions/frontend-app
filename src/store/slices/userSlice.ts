@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 import type { IUser } from "@/types";
 
-const persistedToken: string | undefined = Cookies.get("xcursions-token");
+const persistedToken: string | null = localStorage.getItem("xcursions-token");
 const userData =
   typeof window !== "undefined" && localStorage.getItem("xcursions-user");
 
@@ -39,7 +39,7 @@ const userSlice = createSlice({
     //   });
     // },
     logout(state) {
-      // localStorage.removeItem('token');
+      localStorage.removeItem("xcursions-token");
       localStorage.removeItem("user");
       Cookies.remove("xcursions-token");
       state.user = null;

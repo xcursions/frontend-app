@@ -6,4 +6,3 @@ export { useLogoutUser } from "./useLogoutUser";
 export { default as useMediaQuery } from "./useMediaQuery";
 export { default as usePasswordChecker } from "./usePasswordChecker";
 export { default as useSuccessHandler } from "./useSuccessHandler";
-export { default as useUserData } from "./useUserData";

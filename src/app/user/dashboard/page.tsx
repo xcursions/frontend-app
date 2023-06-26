@@ -1,10 +1,16 @@
 import React from "react";
 
+import Vendor from "@/templates/Vendors";
+
 const page = () => {
   return (
-    <div>
-      <p>You have successfully logged in</p>
-    </div>
+    <>
+      <Vendor>
+        <div>
+          <p>You have successfully logged in</p>
+        </div>
+      </Vendor>
+    </>
   );
 };
 

@@ -12,7 +12,7 @@ type IUser = {
   _id: string;
   first_name: string;
   last_name: string;
-  full_name?: string;
+  fullName?: string;
   account_type: string;
   dob?: string;
   phone?: string;
