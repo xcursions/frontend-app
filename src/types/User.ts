@@ -1,23 +1,47 @@
 type IUser = {
+  id: string;
+  userId?: string;
+  otpId?: string;
+  emailVerified: boolean;
+  suspended: boolean;
+  role: string;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string;
+  profile: UserProfile;
   _id: string;
   first_name: string;
   last_name: string;
-  full_name?: string;
+  fullName?: string;
   account_type: string;
   dob?: string;
   phone?: string;
-  gender?: string;
   email: string;
   remember_token?: string;
   is_activated: boolean;
-  onboarding_status:
-    | "completed"
-    | "onboardingOne"
-    | "onboardingTwo"
-    | "onboardingThree";
   is_paid?: boolean;
   is_subscribed: boolean;
   is_trial_eligible: boolean;
   is_claimed: boolean;
 };
 export default IUser;
+
+type UserProfile = {
+  id: string;
+  userId: string;
+  fullName: string;
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  middleName: string;
+  avatarUrl: string;
+  dateOfBirth: string;
+  gender: string;
+  address: string;
+  state: string;
+  city: string;
+  country: string;
+  username: string;
+  createdAt: string;
+  updatedAt: string;
+};

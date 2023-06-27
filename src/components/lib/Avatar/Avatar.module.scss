@@ -1,0 +1,19 @@
+.image {
+    @apply h-10 w-10 rounded-full;
+  }
+  
+  .name {
+    @apply flex h-10 w-10 items-center justify-center 
+    rounded-full border-2 border-white bg-primary-main
+     text-xs font-medium capitalize  text-white 
+     duration-200 hover:bg-primary-dark;
+  }
+  
+  .icon {
+    &__container {
+      @apply relative h-10 w-10 overflow-hidden rounded-full 
+      bg-gray-100;
+    }
+  
+    @apply absolute -left-1 h-12 w-12 text-gray-400;
+  }

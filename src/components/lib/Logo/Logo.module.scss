@@ -1,0 +1,7 @@
+.container {
+    @apply flex h-16 w-40 items-center justify-center;
+  }
+  
+  .image {
+    @apply h-full w-full object-contain;
+  }

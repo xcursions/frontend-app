@@ -1,0 +1,7 @@
+.container {
+    @apply relative h-screen w-screen overflow-x-hidden bg-[#fafafa];
+  }
+  
+  .main {
+    @apply flex w-full flex-col;
+  }
