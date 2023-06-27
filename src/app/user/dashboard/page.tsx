@@ -5,18 +5,12 @@
 
 import React from "react";
 
-// import Dashboard from "@/Pages/dashboard";
+import Dashboard from "@/Pages/dashboard";
 // import Vendor from "@/templates/Vendors";
-// import Layout from "@/ui-components/layout";
+import Layout from "@/ui-components/layout";
 
-// export default () => (
-//   <Layout>
-//     {/* <Dashboard /> */}
-//     <div>Testing</div>
-//   </Layout>
-// );
-const Dashboard = () => {
-  return <>welcome justin</>;
-};
-
-export default Dashboard;
+export default () => (
+  <Layout>
+    <Dashboard />
+  </Layout>
+);

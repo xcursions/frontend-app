@@ -5,12 +5,11 @@
 
 import React from "react";
 
-// import Profile from "@/Pages/Profile";
+import Profile from "@/Pages/Profile";
 import Layout from "@/ui-components/layout";
 
 export default () => (
   <Layout>
-    {/* <Profile /> */}
-    <p>Account</p>
+    <Profile />
   </Layout>
 );
