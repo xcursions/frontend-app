@@ -5,11 +5,12 @@
 
 import React from "react";
 
-import Wallet from "@/Pages/wallet";
+// import Wallet from "@/Pages/wallet";
 import Layout from "@/ui-components/layout";
 
 export default () => (
   <Layout>
-    <Wallet />
+    {/* <Wallet /> */}
+    <p>Testing</p>
   </Layout>
 );
