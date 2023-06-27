@@ -291,6 +291,28 @@
   resolved "https://registry.npmjs.org/@eslint/js/-/js-8.41.0.tgz"
   integrity sha512-LxcyMGxwmTh2lY9FwHPGWOHmYFCZvbrFCBZL4FzSSsxsRPuhrYUg/49/0KDfW8tnIEaEHtfmn6+NPN+1DqaNmA==
 
+"@fullcalendar/core@^6.1.8":
+  version "6.1.8"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/core/-/core-6.1.8.tgz#62008f7b2785dc01f0bf8c2f0c853925eab1c03a"
+  integrity sha512-i8JBIvZCWGO9dsMEDcx9bnsQZ9PtGSJdOXGgWbhLaGq2iq41OBdp9g9gM4b/Otv2oK8bL5Gl6CsMmb/HkDtA6Q==
+  dependencies:
+    preact "~10.12.1"
+
+"@fullcalendar/daygrid@^6.1.8":
+  version "6.1.8"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/daygrid/-/daygrid-6.1.8.tgz#2ca4a10892f5e2abeac0f8a8ecc8f07c002a4bf4"
+  integrity sha512-kCZxQFKb9Vqa3CZRX0v7rMSJ2mlTt4gDpyLfiNJKxUAq7W51uKurPaFZWicaXy1ESHVBxKNlbx5uNjBpyu50JQ==
+
+"@fullcalendar/interaction@^6.1.8":
+  version "6.1.8"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/interaction/-/interaction-6.1.8.tgz#36c35bd5718f893e8215a45d48a6ef7d5fcc4650"
+  integrity sha512-r6W4E9ohaA87M2uPSlmpE2WT7Fzu7LN0u2pE6D/tThruCEaAPbN8Pw5+sqclsuyTIL09mg0eSJm/ggJekTabSA==
+
+"@fullcalendar/react@^6.1.8":
+  version "6.1.8"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/react/-/react-6.1.8.tgz#247b979c5ab9dd74680935fb24a3235df46c7e80"
+  integrity sha512-E8GQSQyZHkjpwxQW5Vci7iZgN7f33ntuRcvfGii4Fn35t9VHGz2SEyKAWXpVf38elcKTZKVgajU9ipStd+1LEg==
+
 "@humanwhocodes/config-array@^0.11.8":
   version "0.11.8"
   resolved "https://registry.npmjs.org/@humanwhocodes/config-array/-/config-array-0.11.8.tgz"
@@ -354,6 +376,11 @@
   dependencies:
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
+
+"@kurkle/color@^0.3.0":
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/@kurkle/color/-/color-0.3.2.tgz#5acd38242e8bde4f9986e7913c8fdf49d3aa199f"
+  integrity sha512-fuscdXJ9G1qb7W8VdHi+IwRqij3lBkosAm4ydQtEmbY58OzHXqQhvlxqEkoz0yssNVn38bcpRWgA9PP+OGoisw==
 
 "@next/env@13.4.6":
   version "13.4.6"
@@ -1162,6 +1189,13 @@ chalk@^4.0.0, chalk@^4.1.0:
   dependencies:
     ansi-styles "^4.1.0"
     supports-color "^7.1.0"
+
+chart.js@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-4.3.0.tgz#ac363030ab3fec572850d2d872956f32a46326a1"
+  integrity sha512-ynG0E79xGfMaV2xAHdbhwiPLczxnNNnasrmPEXriXsPJGjmhOBYzFVEsB65w2qMDz+CaBJJuJD0inE/ab/h36g==
+  dependencies:
+    "@kurkle/color" "^0.3.0"
 
 check-more-types@^2.24.0:
   version "2.24.0"
@@ -3806,6 +3840,11 @@ preact@^10.6.3:
   version "10.15.1"
   resolved "https://registry.yarnpkg.com/preact/-/preact-10.15.1.tgz#a1de60c9fc0c79a522d969c65dcaddc5d994eede"
   integrity sha512-qs2ansoQEwzNiV5eAcRT1p1EC/dmEzaATVDJNiB3g2sRDWdA7b7MurXdJjB2+/WQktGWZwxvDrnuRFbWuIr64g==
+
+preact@~10.12.1:
+  version "10.12.1"
+  resolved "https://registry.yarnpkg.com/preact/-/preact-10.12.1.tgz#8f9cb5442f560e532729b7d23d42fd1161354a21"
+  integrity sha512-l8386ixSsBdbreOAkqtrwqHwdvR35ID8c3rKPa8lCWuO86dBi32QWHV4vfsZK1utLLFMvw+Z5Ad4XLkZzchscg==
 
 prelude-ls@^1.2.1:
   version "1.2.1"

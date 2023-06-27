@@ -1,4 +1,4 @@
-import "../../globals.scss";
+import "./dashboard.scss";
 
 export const metadata = {
   title: "User dashboard",
