@@ -6,11 +6,16 @@
 import React from "react";
 
 // import Wallet from "@/Pages/wallet";
-import Layout from "@/ui-components/layout";
+// import Layout from "@/ui-components/layout";
 
-export default () => (
-  <Layout>
-    {/* <Wallet /> */}
-    <p>Testing</p>
-  </Layout>
-);
+// export default () => (
+//   <Layout>
+//     {/* <Wallet /> */}
+//     <p>Testing</p>
+//   </Layout>
+// );
+const Wallet = () => {
+  return <p>Wallet</p>;
+};
+
+export default Wallet;
