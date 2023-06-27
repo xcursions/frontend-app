@@ -5,12 +5,11 @@
 
 import React from "react";
 
-import Dashboard from "@/Pages/dashboard";
-// import Vendor from "@/templates/Vendors";
+import Wallet from "@/Pages/wallet";
 import Layout from "@/ui-components/layout";
 
 export default () => (
   <Layout>
-    <Dashboard />
+    <Wallet />
   </Layout>
 );

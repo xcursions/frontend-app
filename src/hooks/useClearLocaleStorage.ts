@@ -11,7 +11,7 @@ export const useLogoutUser = () => {
 
   const clearUserStorage = () => {
     dispatch(logout());
-    const destination = loginRedirect(pathname);
+    const destination = loginRedirect(pathname !== null ? `${pathname}` : "/");
     router.push(destination);
   };
 

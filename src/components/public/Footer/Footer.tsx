@@ -51,28 +51,19 @@ const Footer = () => {
                     </Link>
                   </li>
                   <li className="mb-4">
-                    <a
-                      href="https://tailwindcss.com/"
-                      className="hover:underline"
-                    >
+                    <Link href="/" className="hover:underline">
                       Blogs
-                    </a>
+                    </Link>
                   </li>
                   <li className="mb-4">
-                    <a
-                      href="https://tailwindcss.com/"
-                      className="hover:underline"
-                    >
+                    <Link href="/" className="hover:underline">
                       Events
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
-                      href="https://tailwindcss.com/"
-                      className="hover:underline"
-                    >
+                    <Link href="/" className="hover:underline">
                       Company
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </div>
@@ -82,28 +73,19 @@ const Footer = () => {
                 </h2>
                 <ul className="text-[14px] font-light text-gray-100">
                   <li className="mb-4">
-                    <a
-                      href="https://github.com/themesberg/flowbite"
-                      className="hover:underline "
-                    >
+                    <Link href="/" className="hover:underline ">
                       Contact Us
-                    </a>
+                    </Link>
                   </li>
                   <li className="mb-4">
-                    <a
-                      href="https://discord.gg/4eeurUVvTy"
-                      className="hover:underline"
-                    >
+                    <Link href="/" className="hover:underline">
                       About Us
-                    </a>
+                    </Link>
                   </li>
                   <li className="mb-4">
-                    <a
-                      href="https://discord.gg/4eeurUVvTy"
-                      className="hover:underline"
-                    >
+                    <Link href="/" className="hover:underline">
                       Faq
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </div>
@@ -113,14 +95,14 @@ const Footer = () => {
                 </h2>
                 <ul className="text-[14px] font-light text-gray-100">
                   <li className="mb-4">
-                    <a href="#" className="hover:underline">
+                    <Link href="/" className="hover:underline">
                       Privacy Policy
-                    </a>
+                    </Link>
                   </li>
                   <li className="mb-4">
-                    <a href="#" className="hover:underline">
+                    <Link href="/" className="hover:underline">
                       Terms and Conditions
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </div>

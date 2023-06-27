@@ -1,0 +1,15 @@
+.container{
+    width: calc(100% - 1100px);
+    background: #fff;
+    position: absolute;
+    z-index: 1000;
+    left: 1100px;
+    // top: 350px;
+    display: flex;
+    margin-top: 20px;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 20px;
+    @apply hidden xl:block border;
+}
