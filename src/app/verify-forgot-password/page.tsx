@@ -122,8 +122,9 @@ const ForgotPassword = () => {
               />
               <Input
                 label="Password"
-                name="password"
+                name="newPassword"
                 placeholder="Enter Password"
+                type="password"
                 value={payload.newPassword}
                 error={!isEmpty(errors.newPassword)}
                 helperText={errors.newPassword}
@@ -133,7 +134,7 @@ const ForgotPassword = () => {
                 label="Confirm Password"
                 placeholder="*******"
                 type="password"
-                name="confirm password"
+                name="confirmPassword"
                 value={payload.confirmPassword}
                 error={!isEmpty(errors.confirmPassword)}
                 helperText={errors.confirmPassword}

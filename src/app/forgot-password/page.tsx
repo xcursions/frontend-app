@@ -84,6 +84,11 @@ const ForgotPassword = () => {
         </div>
         <div className="m-auto mt-16 content-center items-center justify-center lg:mt-auto">
           <div className="m-auto mt-8 items-center justify-center px-3 lg:mt-4">
+            <img
+              src="/assets/images/verify_password2.png"
+              alt="login image"
+              className="mx-auto h-[120px] w-[90px] items-center pb-10"
+            />
             <Heading
               type="h1"
               className="m-auto text-center font-dmSansBold text-[24px]"
@@ -93,7 +98,7 @@ const ForgotPassword = () => {
             <Text className="text-center text-[14px] text-[#667084]">
               Reset your password in just a few clicks!
             </Text>
-            <div className="flex w-[342px] flex-col gap-4 md:w-[402px]">
+            <div className="flex w-[342px] flex-col gap-4 pt-10 md:w-[402px]">
               <Input
                 label="Email Address"
                 placeholder="Enter your email address"
@@ -110,6 +115,12 @@ const ForgotPassword = () => {
               >
                 Reset Password
               </Button>
+              <Text className="mx-auto text-[14px]">
+                Remember Password.
+                <span className="text-[#0A83FF]">
+                  <Link href={"/login"}>Login</Link>
+                </span>
+              </Text>
             </div>
           </div>
         </div>
