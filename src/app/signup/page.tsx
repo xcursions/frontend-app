@@ -1,9 +1,9 @@
 "use client";
 
+import { useGoogleLogin } from "@react-oauth/google";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
 import React, { useState } from "react";
 
 import Button from "@/components/lib/Button/Button";
@@ -80,12 +80,10 @@ const Signup = () => {
     specialChar &&
     confirmPassword === payload.password;
 
-  const handleGoogle = () => {
-    signIn("google");
-  };
-  const handleFacebook = () => {
-    signIn("facebook");
-  };
+  const googleLogin = useGoogleLogin({
+    onSuccess: (tokenResponse) => console.log(tokenResponse),
+    onError: (tokenResponse) => console.log(tokenResponse),
+  });
   return (
     <div className="w-full  overflow-hidden bg-[#FFFFFF]">
       <div className="flex">
@@ -126,7 +124,7 @@ const Signup = () => {
             </Text>
             <div className="my-3 flex flex-col gap-3 lg:flex-row">
               <button
-                onClick={handleGoogle}
+                onClick={() => googleLogin}
                 className="focus:shadow-outline mt-4 flex h-12 items-center
                  justify-center gap-3 rounded-3xl border-2 border-[#F2F4F7]
                   bg-[#F2F4F7] px-6 font-dmSansMedium text-[14px] text-black
@@ -141,7 +139,7 @@ const Signup = () => {
                 <span>Login with Google</span>
               </button>
               <button
-                onClick={handleFacebook}
+                onClick={() => {}}
                 className="focus:shadow-outline mt-4 flex h-12 items-center
                  justify-center gap-3 rounded-3xl border-2 border-[#1877F2]
                   bg-[#1877F2] px-6 font-dmSansMedium text-[14px] text-[#FFFFFF]
