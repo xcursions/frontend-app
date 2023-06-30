@@ -1,12 +1,12 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 import Button from "@/components/lib/Button";
 import Heading from "@/components/lib/Heading/Heading";
+import OtpInput from "@/components/lib/OtpInput";
 import Text from "@/components/lib/Text/Text";
 import Navbar from "@/components/public/Navbar";
 import {
@@ -56,17 +56,7 @@ const Verify = () => {
     },
     toastMessage: "Account verified successfully!",
   });
-  // @ts-ignore
-  const OTPInput = dynamic(() => import("otp-input-react"), {
-    ssr: false,
-  });
 
-  const handleChange = (value: string) => {
-    setPayload((prevPayload) => ({
-      ...prevPayload,
-      otpCode: value,
-    }));
-  };
   const handleSubmit = () => {
     setErrors(initialState);
     const { valid, errors: validationErrors } = validateOTPInputs(payload);
@@ -143,21 +133,15 @@ const Verify = () => {
               A verification code has been sent to your email
             </Text>
             <div className="gap-4">
-              <OTPInput
-                // @ts-ignore
+              <OtpInput
                 value={payload.otpCode}
-                onChange={handleChange}
-                autoFocus
-                OTPLength={6}
-                otpType="number"
-                disabled={false}
-                inputClassName={`m-0 flex-1 rounded-md
-                border-3  border-gray-100 bg-gray-300
-               font-dmSansBold text-sm 
-              text-gray-600 focus:text-gray-900 focus:outline-none;
-            `}
-                className={`flex items-center gap-2`}
-                inputStyles={{ marginRight: 0, height: 40, width: 40 }}
+                valueLength={6}
+                onChange={(value: string) =>
+                  setPayload((prevPayload) => ({
+                    ...prevPayload,
+                    otpCode: value,
+                  }))
+                }
               />
               {!isEmpty(errors.otpCode) && (
                 <span className="text-xxs leading-none text-red-500">

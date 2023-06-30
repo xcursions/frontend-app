@@ -31,7 +31,7 @@ export const authApi = createApi({
     }),
     forgotPassword: builder.mutation<any, ForgotPasswordPayload>({
       query: (data) => ({
-        url: "/auth/login/forget-password",
+        url: "/auth/login/forgot-password",
         method: "post",
         data,
       }),
