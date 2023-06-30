@@ -77,7 +77,50 @@ export const validateOTPInputs = ({ otpCode }: { otpCode: string }) => {
   };
 
   if (isEmpty(otpCode)) errors.otpCode = "OTP cannot be empty";
-  if (otpCode.length !== 6) errors.otpCode = "OTP must be only 4 characters";
+  if (otpCode.length !== 6) errors.otpCode = "OTP must be only 6 characters";
+
+  return {
+    valid: isValid(errors),
+    errors,
+  };
+};
+export const validateForgotPasswordInputs = ({ email }: { email: string }) => {
+  const errors = {
+    email: "",
+  };
+
+  if (isEmpty(email)) errors.email = "Email cannot be empty";
+  else if (!isEmail(email)) errors.email = "Invalid email address";
+
+  return {
+    valid: isValid(errors),
+    errors,
+  };
+};
+export const validateVerifyForgotPasswordInputs = ({
+  otpCode,
+  newPassword,
+  confirmPassword,
+}: {
+  otpCode: string;
+  newPassword: string;
+  confirmPassword: string;
+}) => {
+  const errors = {
+    otpCode: "",
+    userId: "",
+    otpId: "",
+    newPassword: "",
+    confirmPassword: "",
+  };
+
+  if (isEmpty(otpCode)) errors.otpCode = "OTP cannot be empty";
+  if (isEmpty(newPassword)) errors.newPassword = "Password cannot be empty";
+  if (isEmpty(confirmPassword))
+    errors.confirmPassword = "Confirm Password cannot be empty";
+  if (otpCode.length !== 6) errors.otpCode = "OTP must be only 6 characters";
+  if (newPassword !== confirmPassword)
+    errors.confirmPassword = "confirm password must match the password";
 
   return {
     valid: isValid(errors),
