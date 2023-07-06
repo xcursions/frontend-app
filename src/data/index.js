@@ -9,7 +9,7 @@ export const menuList = [
   {
     text: 'Edit Profile',
     Icon: FiUser,
-    href: '/profile',
+    href: '/user/account',
   },
   {
     text: 'Go to HomePage',

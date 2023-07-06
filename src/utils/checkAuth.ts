@@ -14,8 +14,8 @@ export const checkAuth = () => {
     if (parsedToken) {
       if (parsedToken.exp * 1000 < Date.now()) {
         tokenIsValid = false;
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
+        localStorage.removeItem("xcursions-token");
+        localStorage.removeItem("xcursions-user");
       } else {
         tokenIsValid = true;
       }
