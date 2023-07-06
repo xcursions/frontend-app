@@ -5,13 +5,13 @@
 
 import React from "react";
 
-import Profile from "@/Pages/Profile";
+import Favourites from "@/Pages/Favourites";
 import Layout from "@/ui-components/layout";
 
 export default () => (
   <div className="bg-[#ffffff]">
     <Layout>
-      <Profile />
+      <Favourites />
     </Layout>
   </div>
 );

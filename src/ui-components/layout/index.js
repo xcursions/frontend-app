@@ -46,7 +46,8 @@ const Layout = ({ children }) => {
             toggleSidebarMenu={toggleSidebarMenu}
             showSidebarMenu={showSidebarMenu}
           />
-          <CalendarComponent />
+          {pathname !== '/user/account' &&
+            pathname !== '/user/account/favourite' && <CalendarComponent />}
           <section className="content">{children}</section>
         </>
       )}

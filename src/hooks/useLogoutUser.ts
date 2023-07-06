@@ -1,7 +1,8 @@
-// eslint-disable-next-line simple-import-sort/imports
+import { usePathname, useRouter } from "next/navigation";
+
 import { logout } from "@/store/slices/userSlice";
 import { loginRedirect } from "@/utils/serversideProps.helper";
-import { usePathname, useRouter } from "next/navigation";
+
 import useAppDispatch from "./useAppDispatch";
 
 export const useLogoutUser = () => {
@@ -11,6 +12,7 @@ export const useLogoutUser = () => {
 
   const clearUserStorage = () => {
     dispatch(logout());
+    // @ts-ignore
     const destination = loginRedirect(pathname);
     router.push(destination);
   };

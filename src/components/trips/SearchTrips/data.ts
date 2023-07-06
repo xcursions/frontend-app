@@ -47,12 +47,12 @@ const postData = [
     location: "Bali, Indonesia",
     price: "200,000",
   },
-  {
-    id: 9,
-    url: "/assets/images/trip/card9.png",
-    location: "Bali, Indonesia",
-    price: "200,000",
-  },
+  // {
+  //   id: 9,
+  //   url: "/assets/images/trip/card9.png",
+  //   location: "Bali, Indonesia",
+  //   price: "200,000",
+  // },
   {
     id: 10,
     url: "/assets/images/trip/card10.png",

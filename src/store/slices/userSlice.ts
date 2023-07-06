@@ -30,18 +30,18 @@ const userSlice = createSlice({
       localStorage.setItem("xcursions-user", JSON.stringify(action.payload));
       state.user = action.payload;
     },
-    setUserToken(state, action: PayloadAction<string>) {
-      localStorage.setItem("xcursions-token", JSON.stringify(action.payload));
-      state.token = action.payload;
-    },
-    // setUserToken(_state, action: PayloadAction<string>) {
-    //   // state.token = action.payload;
-    //   // localStorage.setItem('token', action.payload);
-    //   Cookies.set("xcursions-token", action.payload, {
-    //     expires: 7,
-    //     sameSite: "strict",
-    //   });
+    // setUserToken(state, action: PayloadAction<string>) {
+    //   localStorage.setItem("xcursions-token", JSON.stringify(action.payload));
+    //   state.token = action.payload;
     // },
+    setUserToken(state, action: PayloadAction<string>) {
+      state.token = action.payload;
+      localStorage.setItem("xcursions-token", action.payload);
+      Cookies.set("xcursions-token", action.payload, {
+        expires: 7,
+        sameSite: "strict",
+      });
+    },
     logout(state) {
       localStorage.removeItem("xcursions-token");
       localStorage.removeItem("xcursions-user");
