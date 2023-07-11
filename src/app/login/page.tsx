@@ -1,6 +1,6 @@
 "use client";
 
-import { useGoogleLogin } from "@react-oauth/google";
+import { GoogleLogin } from "@react-oauth/google";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -12,7 +12,7 @@ import Input from "@/components/lib/Input/Input";
 import Text from "@/components/lib/Text/Text";
 import Navbar from "@/components/public/Navbar";
 import { useAppDispatch, useErrorHandler, useSuccessHandler } from "@/hooks";
-import { useLoginMutation } from "@/services/auth";
+import { useGoogleLoginMutation, useLoginMutation } from "@/services/auth";
 import { setUserData, setUserToken } from "@/store/slices/userSlice";
 import { validateLoginInputs } from "@/utils/validators";
 import { isEmpty } from "@/utils/validators/helpers";
@@ -29,14 +29,11 @@ const Login = () => {
 
   const [login, { isLoading, isError, isSuccess, data, error }] =
     useLoginMutation();
-  const googleLogin = useGoogleLogin({
-    onSuccess: (tokenResponse) => console.log(tokenResponse),
-    onError: (tokenResponse) => console.log(tokenResponse),
-  });
+  const [googleLogin, { isSuccess: googleSuccess, data: googleData }] =
+    useGoogleLoginMutation();
   useErrorHandler({ isError, error });
   useSuccessHandler({
     isSuccess,
-    showToast: false,
     successFunction: () => {
       if (data?.data) {
         dispatch(setUserData(data?.data));
@@ -46,6 +43,15 @@ const Login = () => {
       return null;
     },
     toastMessage: "Log in successful!",
+  });
+  useSuccessHandler({
+    isSuccess: googleSuccess,
+    successFunction: () => {
+      dispatch(setUserData(googleData?.data));
+      dispatch(setUserToken(googleData?.meta?.token));
+      router.push("/user/dashboard");
+    },
+    toastMessage: "Successfully logged in using Google",
   });
   const handleSubmit = () => {
     setErrors(initialState);
@@ -101,24 +107,24 @@ const Login = () => {
               Get Access to your account
             </Text>
             <div className="my-5 flex flex-col gap-3 lg:flex-row">
-              <button
-                onClick={() => googleLogin()}
-                className="focus:shadow-outline mt-4 flex h-12 items-center
-                 justify-center gap-3 rounded-3xl border-2 border-[#F2F4F7]
-                  bg-[#F2F4F7] px-6 font-dmSansMedium text-[14px] text-black
-                   transition-colors duration-300 hover:bg-slate-200"
-              >
-                <Image
-                  src="/assets/images/icons/google.png"
-                  width={20}
-                  height={20}
-                  alt="Google signin buttton"
+              <div className=" mt-5">
+                <GoogleLogin
+                  onSuccess={(credentialResponse) =>
+                    googleLogin({ idToken: credentialResponse?.credential })
+                  }
+                  onError={() => {}}
+                  // @ts-ignore
+                  scope="openid https://www.googleapis.com/auth/userinfo.email"
+                  type="standard"
+                  shape="pill"
+                  text="signin_with"
+                  width="250"
+                  size="large"
                 />
-                <span>Login with Google</span>
-              </button>
+              </div>
               <button
                 onClick={() => {}}
-                className="focus:shadow-outline mt-4 flex h-12 items-center
+                className="focus:shadow-outline mt-4 flex h-10 items-center
                  justify-center gap-3 rounded-3xl border-2 border-[#1877F2]
                   bg-[#1877F2] px-6 font-dmSansMedium text-[14px] text-[#FFFFFF]
                    transition-colors duration-300 hover:bg-[#1877f4dd]"
@@ -152,6 +158,7 @@ const Login = () => {
                 name="password"
                 placeholder="Enter Password"
                 value={payload.password}
+                type="password"
                 error={!isEmpty(errors.password)}
                 helperText={errors.password}
                 onChange={handleChange}

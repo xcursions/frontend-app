@@ -31,5 +31,5 @@ export type ForgotPasswordOTPPayload = {
   confirmPassword: string;
 };
 export type GoogleLoginPayload = {
-  idToken: string;
+  idToken: any;
 };

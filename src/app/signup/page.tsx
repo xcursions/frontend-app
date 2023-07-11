@@ -1,6 +1,6 @@
 "use client";
 
-import { useGoogleLogin } from "@react-oauth/google";
+import { GoogleLogin } from "@react-oauth/google";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -17,8 +17,8 @@ import {
   usePasswordChecker,
   useSuccessHandler,
 } from "@/hooks";
-import { useRegisterMutation } from "@/services/auth";
-import { setUserData } from "@/store/slices/userSlice";
+import { useGoogleSignupMutation, useRegisterMutation } from "@/services/auth";
+import { setUserData, setUserToken } from "@/store/slices/userSlice";
 import { validateRegisterInputs } from "@/utils/validators";
 import { isEmpty } from "@/utils/validators/helpers";
 
@@ -38,6 +38,8 @@ const Signup = () => {
   const dispatch = useAppDispatch();
   const [register, { isLoading, data, isError, error, isSuccess }] =
     useRegisterMutation();
+  const [googleLogin, { isSuccess: googleSuccess, data: googleData }] =
+    useGoogleSignupMutation();
 
   useErrorHandler({ isError, error });
   useSuccessHandler({
@@ -49,7 +51,15 @@ const Signup = () => {
     },
     toastMessage: "Account created successfully!",
   });
-
+  useSuccessHandler({
+    isSuccess: googleSuccess,
+    successFunction: () => {
+      dispatch(setUserData(googleData?.data));
+      dispatch(setUserToken(googleData?.meta?.token));
+      router.push("/user/dashboard");
+    },
+    toastMessage: "Successfully logged in using Google",
+  });
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPayload({ ...payload, [event.target.name]: event.target.value });
   };
@@ -79,11 +89,6 @@ const Signup = () => {
     lowerCase &&
     specialChar &&
     confirmPassword === payload.password;
-
-  const googleLogin = useGoogleLogin({
-    onSuccess: (tokenResponse) => console.log(tokenResponse),
-    onError: (tokenResponse) => console.log(tokenResponse),
-  });
   return (
     <div className="w-full  overflow-hidden bg-[#FFFFFF]">
       <div className="flex">
@@ -123,21 +128,21 @@ const Signup = () => {
               Create your account
             </Text>
             <div className="my-3 flex flex-col gap-3 lg:flex-row">
-              <button
-                onClick={() => googleLogin}
-                className="focus:shadow-outline mt-4 flex h-12 items-center
-                 justify-center gap-3 rounded-3xl border-2 border-[#F2F4F7]
-                  bg-[#F2F4F7] px-6 font-dmSansMedium text-[14px] text-black
-                   transition-colors duration-300 hover:bg-slate-200"
-              >
-                <Image
-                  src="/assets/images/icons/google.png"
-                  width={20}
-                  height={20}
-                  alt="Google signin buttton"
+              <div className=" mt-5">
+                <GoogleLogin
+                  onSuccess={(credentialResponse) =>
+                    googleLogin({ idToken: credentialResponse?.credential })
+                  }
+                  onError={() => {}}
+                  // @ts-ignore
+                  scope="openid https://www.googleapis.com/auth/userinfo.email"
+                  type="standard"
+                  shape="pill"
+                  text="signup_with"
+                  width="250"
+                  size="large"
                 />
-                <span>Login with Google</span>
-              </button>
+              </div>
               <button
                 onClick={() => {}}
                 className="focus:shadow-outline mt-4 flex h-12 items-center
