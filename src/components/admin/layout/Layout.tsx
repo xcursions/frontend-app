@@ -1,23 +1,22 @@
-/* eslint-disable import/extensions */
+"use client";
 
-'use client';
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
-/* eslint-disable no-unneeded-ternary */
-import { useEffect, useState } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
-import FullPageLoader from '@/components/lib/FullPageLoader';
-import { useAppSelector, useAuth } from '@/hooks';
-import Header from '../Header';
-import SidebarNavigation from '../SidebarNavigation';
-import CalendarComponent from '../Calendar/Calendar';
+import FullPageLoader from "@/components/lib/FullPageLoader";
+import { useAppSelector, useAuth } from "@/hooks";
 
-const Layout = ({ children }) => {
+import Header from "../Header/Header";
+import SidebarNavigation from "../SidebarNavigation/SidebarNavigation";
+
+const Layout = ({ children }: any) => {
   const [sidebarMenuActive, setSidebarMenuActive] = useState(true);
 
   const toggleSidebarMenu = () => setSidebarMenuActive(!sidebarMenuActive);
   const showSidebarMenu = () => setSidebarMenuActive(true);
 
   useEffect(() => {
+    // eslint-disable-next-line no-unneeded-ternary
     setSidebarMenuActive(window.innerWidth > 768 ? true : false);
   }, []);
   const router = useRouter();
@@ -26,10 +25,10 @@ const Layout = ({ children }) => {
   const { isAuthenticated } = useAuth(true);
 
   useEffect(() => {
-    if (!user?.suspended && user?.profile?.id) {
+    if (!user?.suspended && user?.profile?.id && user?.role === "admin") {
       router.push(`${pathname}`);
     } else {
-      router.push('/login');
+      router.push("/admin/login");
     }
   }, [user, router, pathname]);
   return (
@@ -44,10 +43,9 @@ const Layout = ({ children }) => {
           />
           <Header
             toggleSidebarMenu={toggleSidebarMenu}
+            // @ts-ignore
             showSidebarMenu={showSidebarMenu}
           />
-          {pathname !== '/user/account' &&
-            pathname !== '/user/account/favourite' && <CalendarComponent />}
           <section className="content">{children}</section>
         </>
       )}

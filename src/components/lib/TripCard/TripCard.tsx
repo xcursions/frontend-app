@@ -13,7 +13,6 @@ import styles from "./TripCard.module.scss";
 //   };
 // };
 const TripCard = ({ post }: any) => {
-  console.log(post);
   return (
     <div className={styles.card_container}>
       <div className={styles.card_image}>

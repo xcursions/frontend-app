@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   important: true,
@@ -43,6 +44,20 @@ module.exports = {
       '6xl': '4rem',
     },
     extend: {
+      keyframes: {
+        'accordion-down': {
+          from: { height: 0 },
+          to: { height: 'var(--radix-accordion-content-height)' },
+        },
+        'accordion-up': {
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: 0 },
+        },
+      },
+      animation: {
+        'accordion-down': 'accordion-down 0.2s ease-out',
+        'accordion-up': 'accordion-up 0.2s ease-out',
+      },
       colors: {
         'myafro-black': '#313131',
         'afro-black-500': '#030303',
@@ -65,5 +80,42 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [require('tailwindcss-animate')],
 };
+
+// /** @type {import('tailwindcss').Config} */
+// module.exports = {
+//   darkMode: ['class'],
+//   content: [
+//     './pages/**/*.{ts,tsx}',
+//     './components/**/*.{ts,tsx}',
+//     './app/**/*.{ts,tsx}',
+//     './src/**/*.{ts,tsx}',
+//   ],
+//   theme: {
+//     container: {
+//       center: true,
+//       padding: '2rem',
+//       screens: {
+//         '2xl': '1400px',
+//       },
+//     },
+//     extend: {
+//       keyframes: {
+//         'accordion-down': {
+//           from: { height: 0 },
+//           to: { height: 'var(--radix-accordion-content-height)' },
+//         },
+//         'accordion-up': {
+//           from: { height: 'var(--radix-accordion-content-height)' },
+//           to: { height: 0 },
+//         },
+//       },
+//       animation: {
+//         'accordion-down': 'accordion-down 0.2s ease-out',
+//         'accordion-up': 'accordion-up 0.2s ease-out',
+//       },
+//     },
+//   },
+//   plugins: [require('tailwindcss-animate')],
+// };

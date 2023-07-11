@@ -63,10 +63,6 @@ export const authApi = createApi({
         method: "get",
       }),
     }),
-
-    adminLogin: builder.mutation<any, LoginPayload>({
-      query: (data) => ({ url: "/admin-account/login", method: "post", data }),
-    }),
   }),
 });
 
@@ -74,7 +70,6 @@ export const {
   useLoginMutation,
   useRegisterMutation,
   useVerifyOTPMutation,
-  useAdminLoginMutation,
   useResendOTPMutation,
   useVerifyForgotPasswordMutation,
   useGoogleLoginMutation,
