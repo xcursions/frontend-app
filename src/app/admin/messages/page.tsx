@@ -13,8 +13,10 @@ import Text from "@/components/lib/Text";
 import useErrorHandler from "@/hooks/useErrorHandler";
 import useSuccessHandler from "@/hooks/useSuccessHandler";
 import {
+  useCreateOutingDestinationMutation,
   useCreateOutingImageMutation,
   useCreateOutingMutation,
+  useCreateOutingPickupMutation,
 } from "@/services/admin";
 
 import styles from "./Profile.module.scss";
@@ -30,16 +32,45 @@ const initialState = {
   endDate: "",
   deadlineGap: "",
 };
+const initialDestinationState = {
+  city: "",
+  country: "",
+  continent: "",
+  location: "",
+};
 
 const Page = () => {
   const [outings, setOutings] = useState(initialState);
+  const [outingDestination, setOutingDestination] = useState(
+    initialDestinationState
+  );
+  const [id, setId] = useState("5a4a6580-56a7-4a9a-b4bf-93ba6d3e5a3c");
   const [file, setFile] = useState<File | null>(null);
   const [uploadImage, { isLoading, isError, error }] =
     useCreateOutingImageMutation();
-  const id = "6726h2hgst6772";
+  // const id = "5dc38fa-66f0-48e3-be87-b6e0a7a69b4a";
+  const [
+    uploadDestination,
+    {
+      isLoading: destinationLoading,
+      isSuccess: destinationSuccess,
+      isError: isDestinationError,
+      error: destinationError,
+    },
+  ] = useCreateOutingDestinationMutation();
+  const [
+    uploadPickup,
+    {
+      isLoading: pickupLoading,
+      isSuccess: pickupSuccess,
+      isError: ispickupError,
+      error: pickupError,
+    },
+  ] = useCreateOutingPickupMutation();
   const [
     uploadOuting,
     {
+      data: outingsData,
       isLoading: profileLoading,
       isSuccess: profileSuccess,
       isError: isProfileError,
@@ -66,13 +97,20 @@ const Page = () => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setOutings({ ...outings, [event.target.name]: event.target.value });
   };
+  const handleDestinationChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setOutingDestination({
+      ...outingDestination,
+      [event.target.name]: event.target.value,
+    });
+  };
   const handleUploadImage = () => {
     if (file) {
       const formData = new FormData();
       formData.append("image", file as File);
       formData.append("type", "image");
-      // @ts-ignore
-      uploadImage({ id, formData });
+      uploadImage({ query: id, data: formData });
     }
   };
   const handleProfileSubmit = () => {
@@ -86,13 +124,44 @@ const Page = () => {
     isError: isProfileError,
     error: profileError,
   });
+  useErrorHandler({
+    isError: isDestinationError,
+    error: destinationError,
+  });
+  useErrorHandler({
+    isError: ispickupError,
+    error: pickupError,
+  });
   useSuccessHandler({
     isSuccess: profileSuccess,
     successFunction: () => {
+      console.log(outingsData);
+      setId(outingsData?.id);
+      console.log(id);
       setOutings(initialState);
     },
     toastMessage: "Outing Created successfully!",
   });
+  useSuccessHandler({
+    isSuccess: destinationSuccess,
+    successFunction: () => {
+      setOutingDestination(initialDestinationState);
+    },
+    toastMessage: "Destination Created successfully!",
+  });
+  useSuccessHandler({
+    isSuccess: pickupSuccess,
+    successFunction: () => {
+      setOutingDestination(initialDestinationState);
+    },
+    toastMessage: "Pickup Created successfully!",
+  });
+  const handleDestinationSubmit = () => {
+    uploadDestination({ query: id, data: outingDestination });
+  };
+  const handlePickupSubmit = () => {
+    uploadPickup({ query: id, data: outingDestination });
+  };
   return (
     <Layout>
       <div className={styles.container}>
@@ -150,7 +219,7 @@ const Page = () => {
             </div>
           </div>
           <div className={styles.profileForm}>
-            <Text className="text-[15px] font-bold">ACCOUNT INFO</Text>
+            <Text className="text-[15px] font-bold">Outing INFO</Text>
             <Input
               placeholder="Outing Name"
               label="name"
@@ -222,6 +291,51 @@ const Page = () => {
             </Button>
             {profileLoading && <FullPageLoader />}
           </div>
+          <div className="py-5 lg:py-10">
+            <Text className="text-[15px] font-bold">Update Destination</Text>
+            <Input
+              label="Destination"
+              placeholder="City"
+              name="city"
+              value={outingDestination.city}
+              onChange={handleDestinationChange}
+            />
+            <Input
+              label="Continent"
+              name="continent"
+              placeholder="Continent"
+              value={outingDestination.continent}
+              onChange={handleDestinationChange}
+            />
+            <Input
+              label="country"
+              placeholder="country"
+              name="country"
+              value={outingDestination.country}
+              onChange={handleDestinationChange}
+            />
+            <Input
+              label="location"
+              placeholder="location"
+              name="location"
+              value={outingDestination.location}
+              onChange={handleDestinationChange}
+            />
+            <Button
+              className="mt-5 w-full rounded-3xl bg-[#0A83FF]"
+              onClick={handleDestinationSubmit}
+            >
+              Update Destination
+            </Button>
+            <Button
+              className="mt-5 w-full rounded-3xl bg-[#0A83FF]"
+              onClick={handlePickupSubmit}
+            >
+              Update Pickup
+            </Button>
+            {pickupLoading && <FullPageLoader />}
+            {destinationLoading && <FullPageLoader />}
+          </div>
         </div>
         {isLoading && <FullPageLoader />}
       </div>
@@ -230,295 +344,3 @@ const Page = () => {
 };
 
 export default Page;
-/*
-import Image from "next/image";
-import React, { useCallback, useEffect, useState } from "react";
-import { useDropzone } from "react-dropzone";
-import { TbFileUpload } from "react-icons/tb";
-
-import Button from "@/components/lib/Button/Button";
-import FullPageLoader from "@/components/lib/FullPageLoader";
-import Heading from "@/components/lib/Heading";
-import Input from "@/components/lib/Input";
-import Text from "@/components/lib/Text";
-import useErrorHandler from "@/hooks/useErrorHandler";
-import useSuccessHandler from "@/hooks/useSuccessHandler";
-import {
-  useChangePasswordMutation,
-  useGetUserProfileQuery,
-  useUpdateUserPictureMutation,
-  useUpdateUserProfileMutation,
-} from "@/services/user";
-
-import styles from "./Profile.module.scss";
-
-const profileImage = "/assets/images/icons/profile_avatar.png";
-
-const initialState = {
-  fullName: "",
-  country: "",
-  state: "",
-  address: "",
-  city: "",
-  gender: "",
-};
-const initialPasswordState = {
-  oldPassword: "",
-  newPassword: "",
-  confirmPassword: "",
-};
-const ProfileForm = () => {
-  const [user, setUser] = useState<any>([]);
-  const [profile, setProfile] = useState(initialState);
-  const [password, setPassword] = useState(initialPasswordState);
-  const [file, setFile] = useState<File | null>(null);
-  const { data, isSuccess } = useGetUserProfileQuery();
-  const [uploadImage, { isLoading, isError, error }] =
-    useUpdateUserPictureMutation();
-  const [
-    uploadProfile,
-    {
-      isLoading: profileLoading,
-      isSuccess: profileSuccess,
-      isError: isProfileError,
-      error: profileError,
-    },
-  ] = useUpdateUserProfileMutation();
-  const [
-    updatePassword,
-    {
-      isLoading: isPasswordLoading,
-      isError: isPasswordError,
-      error: passwordError,
-      isSuccess: passwordSuccess,
-    },
-  ] = useChangePasswordMutation();
-
-  useEffect(() => {
-    if (isSuccess) {
-      setUser(data);
-    }
-  }, [data, isSuccess]);
-
-  useErrorHandler({
-    isError,
-    error,
-  });
-  useErrorHandler({
-    isError: isProfileError,
-    error: profileError,
-  });
-  useErrorHandler({
-    isError: isPasswordError,
-    error: passwordError,
-  });
-  useSuccessHandler({
-    isSuccess: profileSuccess,
-    successFunction: () => {
-      setProfile(initialState);
-    },
-    toastMessage: "Profile Updated successfully!",
-  });
-  useSuccessHandler({
-    isSuccess: passwordSuccess,
-    successFunction: () => {
-      setPassword(initialPasswordState);
-    },
-    toastMessage: "Password Changed successfully!",
-  });
-
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    if (acceptedFiles) {
-      const newFile = acceptedFiles[0];
-
-      if (newFile) {
-        setFile(newFile);
-      }
-    }
-  }, []);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: {
-      "image/png": [".png"],
-      "image/jpg": [".jpg"],
-      "image/jpeg": [".jpeg"],
-    },
-  });
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setProfile({ ...profile, [event.target.name]: event.target.value });
-  };
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword({ ...password, [event.target.name]: event.target.value });
-  };
-  const handleProfileSubmit = () => {
-    uploadProfile(profile);
-  };
-  const handlePasswordSubmit = () => {
-    updatePassword(password);
-  };
-  const handleUploadImage = () => {
-    if (file) {
-      const formData = new FormData();
-      formData.append("image", file as File);
-      formData.append("type", "image");
-
-      uploadImage(formData);
-    }
-  };
-  return (
-    <div className={styles.container}>
-      <div className={styles.title}>
-        <Heading type="h1" className="ml-5 py-4 text-[18px]">
-          Edit Profile
-        </Heading>
-      </div>
-      <div className={styles.wrapper}>
-        <div className={styles.profileCard}>
-          <Image
-            src={user?.data?.avatarUrl || profileImage}
-            width={"400"}
-            height={"400"}
-            alt={user?.data?.fullName}
-            className="max-h-[100px] max-w-[100px] rounded-full p-3"
-          />
-          <div className="w-full p-3 lg:w-[142px]">
-            <Text className="font-dmSansBold text-[14px]">Profile Picture</Text>
-            {file ? (
-              <figure className={styles.container}>
-                <img
-                  src={URL.createObjectURL(file)}
-                  alt=""
-                  className={styles.image}
-                />
-              </figure>
-            ) : (
-              <div className={styles.dropzone} {...getRootProps()}>
-                <input {...getInputProps()} accept="image/*" multiple={false} />
-
-                <TbFileUpload className="text-3xl" />
-
-                {isDragActive ? (
-                  <Text className="font-dmSansBold">Drop your image here!</Text>
-                ) : (
-                  <>
-                    <Text className="text-[10px] font-light">
-                      We recommend an image of at least 400x400. Supports jpg,
-                      png and gif
-                    </Text>
-                  </>
-                )}
-              </div>
-            )}
-
-            <Button
-              className="mt-5 rounded-2xl bg-gray-300 text-[14px] text-[#667084]"
-              onClick={handleUploadImage}
-              loading={isLoading}
-            >
-              Upload
-            </Button>
-          </div>
-        </div>
-        <div className={styles.profileForm}>
-          <Text className="text-[15px] font-bold">ACCOUNT INFO</Text>
-          <Input
-            placeholder="John Doe"
-            label="Full Name"
-            name="fullName"
-            value={profile.fullName}
-            onChange={handleChange}
-          />
-          <Input
-            placeholder="Country"
-            label="Country"
-            name="country"
-            value={profile.country}
-            onChange={handleChange}
-          />
-          <Input
-            placeholder="State"
-            label="State"
-            name="state"
-            value={profile.state}
-            onChange={handleChange}
-          />
-          <Input
-            placeholder="Enter Address"
-            label="Address"
-            name="address"
-            value={profile.address}
-            onChange={handleChange}
-          />
-          <Input
-            placeholder="Enter City"
-            label="City"
-            name="city"
-            value={profile.city}
-            onChange={handleChange}
-          />
-          <Input
-            placeholder="Enter gender"
-            label="Sex"
-            name="gender"
-            value={profile.gender}
-            onChange={handleChange}
-          />
-          <Button
-            className="mt-5 w-full rounded-3xl bg-[#0A83FF]"
-            disabled={
-              !profile.address ||
-              !profile.fullName ||
-              !profile.gender ||
-              !profile.country ||
-              !profile.state ||
-              !profile.city
-            }
-            onClick={handleProfileSubmit}
-          >
-            Update Profile
-          </Button>
-          {profileLoading && <FullPageLoader />}
-          <div className="py-5 lg:py-10">
-            <Text className="text-[15px] font-bold">EDIT PASSWORD</Text>
-            <Input
-              label="Old Password"
-              type="password"
-              placeholder="Old Password"
-              name="oldPassword"
-              value={password.oldPassword}
-              onChange={handlePasswordChange}
-            />
-            <Input
-              label="New Password"
-              type="password"
-              name="newPassword"
-              placeholder="New Password"
-              value={password.newPassword}
-              onChange={handlePasswordChange}
-            />
-            <Input
-              label="Confirm New Password"
-              type="password"
-              placeholder="Confirm Password"
-              name="confirmPassword"
-              value={password.confirmPassword}
-              onChange={handlePasswordChange}
-            />
-            <Button
-              className="mt-5 w-full rounded-3xl bg-[#0A83FF]"
-              disabled={password.newPassword !== password.confirmPassword}
-              onClick={handlePasswordSubmit}
-            >
-              Update Password
-            </Button>
-            {isPasswordLoading && <FullPageLoader />}
-          </div>
-        </div>
-      </div>
-      {isLoading && <FullPageLoader />}
-    </div>
-  );
-};
-
-export default ProfileForm;
-*/

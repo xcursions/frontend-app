@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import EventCard from "@/components/lib/EventCard/EventCard";
 import Text from "@/components/lib/Text/Text";
 import TripCard from "@/components/lib/TripCard/TripCard";
 import { useAppSelector, useSuccessHandler } from "@/hooks";
@@ -10,11 +11,10 @@ import {
 import HeaderSection from "@/ui-components/HeaderSection";
 import Section from "@/ui-components/Section";
 
-// import styles from "./Home.module.scss";
-
 export default function Dashboard() {
   const [trips, setTrips] = useState<any>([]);
-  const { data, isSuccess } = useGetAllOutingsQuery();
+  const [events, setEvents] = useState<any>([]);
+  const { data, isSuccess } = useGetAllOutingsQuery("?type=tour");
   const { data: eventData, isSuccess: eventSuccess } =
     useSearchOutingsQuery("?type=event");
   const { user } = useAppSelector((state) => state.user);
@@ -27,8 +27,15 @@ export default function Dashboard() {
       }
     },
   });
-  console.log(eventSuccess);
-  console.log(eventData);
+  useSuccessHandler({
+    isSuccess: eventSuccess,
+    showToast: false,
+    successFunction: () => {
+      if (eventData) {
+        setEvents(eventData);
+      }
+    },
+  });
   return (
     <>
       <div className="mt-[19px] max-w-[783px] border-2">
@@ -131,6 +138,19 @@ export default function Dashboard() {
             <Text className="p-2 font-dmSansMedium text-[12px] text-[#667084] underline">
               view all
             </Text>
+          </div>
+          <div className="no-scrollbar flex max-w-[682px] overflow-x-auto scroll-smooth">
+            <div
+              className="grid gap-2"
+              style={{
+                gridTemplateColumns: `repeat(${events?.result?.length}, 1fr)`,
+              }}
+            >
+              {eventSuccess &&
+                events.result?.map((post: { id: any }) => (
+                  <EventCard post={post} key={`${post.id}`} />
+                ))}
+            </div>
           </div>
         </div>
       </div>

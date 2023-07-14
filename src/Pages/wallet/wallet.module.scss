@@ -1,0 +1,39 @@
+.container{
+    @apply mt-[19px] max-w-[783px] border
+}
+.wrapper {
+    @apply mx-auto
+}
+.horizontal_div {
+    // width: 100%;
+    // height: 100px;
+    // background-color: blue;
+    // background-image: linear-gradient(45deg, darkblue 25%, transparent 25%),
+    //   linear-gradient(-45deg, darkblue 25%, transparent 25%),
+    //   linear-gradient(45deg, transparent 75%, darkblue 75%),
+    //   linear-gradient(-45deg, transparent 75%, darkblue 75%);
+    // background-size: 10px 10px;
+    // background-position: 0 0, 0 5px, 5px -5px, -5px 0;
+    position: relative;
+    width: 100%;
+    height: 210px;
+    background: repeating-linear-gradient(
+      45deg,
+      #0A83FF,
+      #0A83FF 15px,
+      rgb(53, 51, 51) 15px,
+      rgb(47, 45, 45) 30px
+    );
+    @apply opacity-90 w-[345px] pl-2 lg:ml-[31px] lg:w-[395px] rounded-3xl
+  }
+  .horizontal_div:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0A83FF;
+    opacity: 0.8; /* Adjust the opacity value as desired */
+    @apply rounded-3xl
+  }

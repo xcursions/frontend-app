@@ -6,8 +6,8 @@ export const publicApi = createApi({
   reducerPath: "publicApi",
   baseQuery: axiosBaseQuery(),
   endpoints: (builder) => ({
-    getAllOutings: builder.query<any, void>({
-      query: () => ({ url: "/outing/outings", method: "get" }),
+    getAllOutings: builder.query<any, any>({
+      query: (query) => ({ url: `/outing/outings${query}`, method: "get" }),
     }),
     searchOutings: builder.query<any, any>({
       query: (query) => ({ url: `/outing/outings${query}`, method: "get" }),

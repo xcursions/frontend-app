@@ -9,3 +9,9 @@ export type CreateOutingPayload = {
   endDate: string;
   deadlineGap: string;
 };
+export type CreateOutingDestinationPayload = {
+  city: string;
+  country: string;
+  continent: string;
+  location: string;
+};

@@ -2,7 +2,10 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 
 import axiosBaseQuery from "@/utils/api/baseQuery";
 
-import type { CreateOutingPayload } from "./payload";
+import type {
+  CreateOutingDestinationPayload,
+  CreateOutingPayload,
+} from "./payload";
 
 export const adminApi = createApi({
   reducerPath: "adminApi",
@@ -18,7 +21,31 @@ export const adminApi = createApi({
         data,
       }),
     }),
+    createOutingDestination: builder.mutation<
+      any,
+      { query: string; data: CreateOutingDestinationPayload }
+    >({
+      query: ({ query, data }) => ({
+        url: `/outing-destination/outings/${query}`,
+        method: "post",
+        data,
+      }),
+    }),
+    createOutingPickup: builder.mutation<
+      any,
+      { query: string; data: CreateOutingDestinationPayload }
+    >({
+      query: ({ query, data }) => ({
+        url: `/outing-pickup/outings/${query}`,
+        method: "post",
+        data,
+      }),
+    }),
   }),
 });
-export const { useCreateOutingMutation, useCreateOutingImageMutation } =
-  adminApi;
+export const {
+  useCreateOutingMutation,
+  useCreateOutingImageMutation,
+  useCreateOutingDestinationMutation,
+  useCreateOutingPickupMutation,
+} = adminApi;

@@ -7,7 +7,7 @@ import { DataTable } from "@/components/services/DataTable";
 
 async function getData(): Promise<Payment[]> {
   const result = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/outing/outings`
+    `${process.env.NEXT_PUBLIC_BASE_URL}/outing/outings?type=tour`
   )
     .then((res) => res.json())
     .then((data) => data.result)
