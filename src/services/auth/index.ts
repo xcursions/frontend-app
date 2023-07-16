@@ -56,13 +56,6 @@ export const authApi = createApi({
         data,
       }),
     }),
-
-    getSingleCategory: builder.query<any, any>({
-      query: ({ id }) => ({
-        url: `/category/view-category?resolved_name=${id}`,
-        method: "get",
-      }),
-    }),
   }),
 });
 
@@ -75,5 +68,4 @@ export const {
   useGoogleLoginMutation,
   useGoogleSignupMutation,
   useForgotPasswordMutation,
-  useGetSingleCategoryQuery,
 } = authApi;

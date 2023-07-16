@@ -13,12 +13,33 @@ import type {
 export const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: axiosBaseQuery(),
+  tagTypes: ["User", "UserInfo"],
   endpoints: (builder) => ({
-    getUser: builder.query<any, any>({
+    getUser: builder.query<any, void>({
       query: () => ({ url: "/user", method: "get" }),
+      providesTags: ["User"],
     }),
     changePassword: builder.mutation<any, ChangePasswordPayload>({
       query: (data) => ({ url: "/user/change-password", method: "post", data }),
+    }),
+    getWalletBalance: builder.query<any, void>({
+      query: () => ({ url: "/wallet/wallet", method: "get" }),
+      providesTags: ["UserInfo"],
+    }),
+    getTransactions: builder.query<any, any>({
+      query: (query) => ({
+        url: `/fiat-deposit/deposits${query}`,
+        method: "get",
+      }),
+      providesTags: ["UserInfo"],
+    }),
+    initiateLinkDeposit: builder.mutation<any, any>({
+      query: (data) => ({
+        url: "/fiat-deposit/deposits/link",
+        method: "post",
+        data,
+      }),
+      invalidatesTags: ["UserInfo"],
     }),
     changeEmail: builder.mutation<any, ChangeEmailPayload>({
       query: (data) => ({ url: "/user/change-email", method: "post", data }),
@@ -43,6 +64,7 @@ export const userApi = createApi({
         method: "put",
         data,
       }),
+      invalidatesTags: ["User"],
     }),
     updateUserPicture: builder.mutation<any, any>({
       query: (data) => ({
@@ -50,12 +72,14 @@ export const userApi = createApi({
         method: "put",
         data,
       }),
+      invalidatesTags: ["User"],
     }),
     getUserProfile: builder.query<any, void>({
       query: () => ({
         url: "/user/profile",
         method: "get",
       }),
+      providesTags: ["User"],
     }),
     logout: builder.mutation<any, any>({
       query: () => ({ url: "/user/logout/", method: "post" }),
@@ -73,4 +97,7 @@ export const {
   useUpdateUserPictureMutation,
   useUpdateUserProfileMutation,
   useGetUserProfileQuery,
+  useGetWalletBalanceQuery,
+  useGetTransactionsQuery,
+  useInitiateLinkDepositMutation,
 } = userApi;
