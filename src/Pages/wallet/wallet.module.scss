@@ -24,7 +24,7 @@
       rgb(53, 51, 51) 15px,
       rgb(47, 45, 45) 30px
     );
-    @apply opacity-90 w-[345px] pl-2 lg:ml-[31px] lg:w-[395px] rounded-3xl
+    @apply opacity-90 w-[345px] shadow-xl pl-2 lg:ml-[31px] lg:w-[395px] rounded-3xl
   }
   .horizontal_div:before {
     content: "";

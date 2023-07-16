@@ -14,4 +14,8 @@ export const publicApi = createApi({
     }),
   }),
 });
-export const { useGetAllOutingsQuery, useSearchOutingsQuery } = publicApi;
+export const {
+  useGetAllOutingsQuery,
+  useSearchOutingsQuery,
+  useLazySearchOutingsQuery,
+} = publicApi;

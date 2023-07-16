@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { TbFileUpload } from "react-icons/tb";
 
@@ -35,11 +35,10 @@ const initialPasswordState = {
   confirmPassword: "",
 };
 const ProfileForm = () => {
-  const [user, setUser] = useState<any>([]);
   const [profile, setProfile] = useState(initialState);
   const [password, setPassword] = useState(initialPasswordState);
   const [file, setFile] = useState<File | null>(null);
-  const { data, isSuccess } = useGetUserProfileQuery();
+  const { data } = useGetUserProfileQuery();
   const [uploadImage, { isLoading, isError, error }] =
     useUpdateUserPictureMutation();
   const [
@@ -60,12 +59,6 @@ const ProfileForm = () => {
       isSuccess: passwordSuccess,
     },
   ] = useChangePasswordMutation();
-
-  useEffect(() => {
-    if (isSuccess) {
-      setUser(data);
-    }
-  }, [data, isSuccess]);
 
   useErrorHandler({
     isError,
@@ -142,10 +135,10 @@ const ProfileForm = () => {
       <div className={styles.wrapper}>
         <div className={styles.profileCard}>
           <Image
-            src={user?.data?.avatarUrl || profileImage}
+            src={data?.data?.avatarUrl || profileImage}
             width={"400"}
             height={"400"}
-            alt={user?.data?.fullName}
+            alt={data?.data?.fullName}
             className="max-h-[100px] max-w-[100px] rounded-full p-3"
           />
           <div className="w-full p-3 lg:w-[142px]">
