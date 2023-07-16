@@ -1,9 +1,9 @@
 import React from "react";
 
 import Layout from "@/components/admin/layout/Layout";
-import type { Payment } from "@/components/services/Colums";
-import { columns } from "@/components/services/Colums";
-import { DataTable } from "@/components/services/DataTable";
+import type { Payment } from "@/components/admin/services/Colums";
+import { columns } from "@/components/admin/services/Colums";
+import { DataTable } from "@/components/admin/services/DataTable";
 
 async function getData(): Promise<Payment[]> {
   const result = await fetch(

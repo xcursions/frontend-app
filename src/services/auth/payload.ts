@@ -33,3 +33,19 @@ export type ForgotPasswordOTPPayload = {
 export type GoogleLoginPayload = {
   idToken: any;
 };
+export type ChangePasswordPayload = {
+  oldPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+};
+export type ChangeEmailPayload = {
+  email: string;
+};
+export type ChangeEmailOtpPayload = {
+  otpId: string;
+  otpCode: string;
+};
+export type ConfirmEmailOtpPayload = {
+  otpId: string;
+  otpCode: string;
+};
