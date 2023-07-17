@@ -3,11 +3,15 @@ import { useState } from "react";
 import EventCard from "@/components/lib/EventCard/EventCard";
 import Text from "@/components/lib/Text/Text";
 import TripCard from "@/components/lib/TripCard/TripCard";
-import { useAppSelector, useSuccessHandler } from "@/hooks";
+import { useSuccessHandler } from "@/hooks";
 import {
   useGetAllOutingsQuery,
   useSearchOutingsQuery,
 } from "@/services/public";
+import {
+  useGetUserProfileQuery,
+  useGetWalletBalanceQuery,
+} from "@/services/user";
 import HeaderSection from "@/ui-components/HeaderSection";
 import Section from "@/ui-components/Section";
 
@@ -15,9 +19,11 @@ export default function Dashboard() {
   const [trips, setTrips] = useState<any>([]);
   const [events, setEvents] = useState<any>([]);
   const { data, isSuccess } = useGetAllOutingsQuery("?type=tour");
+  const { data: walletBalance, isSuccess: walletBallanceSuccess } =
+    useGetWalletBalanceQuery();
   const { data: eventData, isSuccess: eventSuccess } =
     useSearchOutingsQuery("?type=event");
-  const { user } = useAppSelector((state) => state.user);
+  // const { user } = useAppSelector((state) => state.user);
   useSuccessHandler({
     isSuccess,
     showToast: false,
@@ -36,12 +42,16 @@ export default function Dashboard() {
       }
     },
   });
+  const { data: userProfile, isSuccess: userSuccess } =
+    useGetUserProfileQuery();
   return (
     <>
       <div className="mt-[19px] max-w-[783px] border-2">
         <div className="mx-[30px]">
           <HeaderSection
-            heading={`Hello, ${user?.profile?.fullName} 🏝️`}
+            heading={`Hello, ${
+              userSuccess && userProfile?.data?.fullName.split(" ")[0]
+            } 🏝️`}
             subHeading={"Welcome back to your dashboard"}
           />
 
@@ -55,7 +65,7 @@ export default function Dashboard() {
               <div className="items-center text-center">
                 <p className="text-start text-[12px] text-[#3B9CFF]">Balance</p>
                 <p className="font-dmSansBold text-[26px] font-bold text-[#021A33]">
-                  ₦200k
+                  ₦{walletBallanceSuccess && parseInt(walletBalance.amount, 10)}
                 </p>
               </div>
             </div>

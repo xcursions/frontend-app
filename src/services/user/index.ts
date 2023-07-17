@@ -41,6 +41,30 @@ export const userApi = createApi({
       }),
       invalidatesTags: ["UserInfo"],
     }),
+    initiateCardDeposit: builder.mutation<any, any>({
+      query: (data) => ({
+        url: "/fiat-deposit/deposits/card",
+        method: "post",
+        data,
+      }),
+      invalidatesTags: ["UserInfo"],
+    }),
+    submitCardPin: builder.mutation<any, any>({
+      query: (data) => ({
+        url: "/fiat-deposit/deposits/card/submit-pin",
+        method: "post",
+        data,
+      }),
+      invalidatesTags: ["UserInfo"],
+    }),
+    submitCardOtp: builder.mutation<any, any>({
+      query: (data) => ({
+        url: "/fiat-deposit/deposits/card/submit-otp",
+        method: "post",
+        data,
+      }),
+      invalidatesTags: ["UserInfo"],
+    }),
     changeEmail: builder.mutation<any, ChangeEmailPayload>({
       query: (data) => ({ url: "/user/change-email", method: "post", data }),
     }),
@@ -100,4 +124,7 @@ export const {
   useGetWalletBalanceQuery,
   useGetTransactionsQuery,
   useInitiateLinkDepositMutation,
+  useInitiateCardDepositMutation,
+  useSubmitCardPinMutation,
+  useSubmitCardOtpMutation,
 } = userApi;
