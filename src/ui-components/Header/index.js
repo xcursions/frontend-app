@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { HiOutlineMenuAlt1 } from 'react-icons/hi';
 import { useLogoutUser } from '@/hooks';
 import Input from '@/components/lib/Input/Input';
+import { useGetUserProfileQuery } from '@/services/user';
 import DropdownMenu from '../DropdownMenu';
 import IconWrapper from '../IconWrapper';
 import UserIcon from '../UserIcon';
@@ -77,6 +78,7 @@ const NotificationList = ({ img = null, desc = '', datetime = '' }) => {
 };
 
 const Header = ({ toggleSidebarMenu }) => {
+  const { data, isSuccess } = useGetUserProfileQuery();
   return (
     <>
       <section className={styles.container}>
@@ -159,6 +161,9 @@ const Header = ({ toggleSidebarMenu }) => {
                 </ul>
               </DropdownMenu>
             </li>
+            <p className="font-dmSansRegular text-[14px] text-[#101828]">
+              {isSuccess && data?.data?.fullName.split(' ')[0]}
+            </p>
           </ul>
         </div>
       </section>
