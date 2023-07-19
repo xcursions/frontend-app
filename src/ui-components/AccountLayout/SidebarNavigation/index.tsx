@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/dot-notation */
 /* eslint-disable import/extensions */
 /* eslint-disable dot-notation */
+
+"use client";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 

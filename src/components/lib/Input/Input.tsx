@@ -2,7 +2,7 @@
 
 import type { FC } from "react";
 import { useState } from "react";
-import { BsCalendar2Event, BsClock } from "react-icons/bs";
+import { BsCalendar2Event, BsClock, BsSearch } from "react-icons/bs";
 import { MdOutlineVisibility, MdOutlineVisibilityOff } from "react-icons/md";
 
 import styles from "./Input.module.scss";
@@ -33,8 +33,10 @@ const Input: FC<InputProps> = ({
           } ${containerClass || ""}`}
         >
           {startIcon && (
-            <div className={`${styles.icon} ${styles.icon__start}`}>
-              {startIcon}
+            <div
+              className={`${styles.icon} ${styles.icon__start} ml-3 rounded-lg bg-white`}
+            >
+              <BsSearch className={`text-xl font-extrabold`} />
             </div>
           )}
           <input

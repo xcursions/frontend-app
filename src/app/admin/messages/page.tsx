@@ -110,7 +110,11 @@ const Page = () => {
       const formData = new FormData();
       formData.append("image", file as File);
       formData.append("type", "image");
-      uploadImage({ query: id, data: formData });
+      uploadImage({
+        query: id,
+        data: formData,
+      });
+      setFile(null);
     }
   };
   const handleProfileSubmit = () => {

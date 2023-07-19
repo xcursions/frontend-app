@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 
 import EventCard from "@/components/lib/EventCard/EventCard";
@@ -56,16 +58,18 @@ export default function Dashboard() {
           />
 
           <Section>
-            <div className="flex w-[342px] content-center items-center rounded-2xl bg-[#e2ecf6] text-center shadow-md md:w-full lg:w-[214px]">
+            <div className="flex w-[346px] content-center items-center rounded-2xl bg-[#e2ecf6] text-center shadow-md md:w-full lg:w-[224px]">
               <img
                 src="/assets/images/icons/dashboard1.png"
                 alt="dashboard"
-                className=" my-8 ml-6 mr-3 max-w-[60px] items-center rounded-full shadow-lg"
+                className=" my-8 ml-5 mr-2 max-w-[60px] items-center rounded-full shadow-lg"
               />
               <div className="items-center text-center">
                 <p className="text-start text-[12px] text-[#3B9CFF]">Balance</p>
                 <p className="font-dmSansBold text-[26px] font-bold text-[#021A33]">
-                  ₦{walletBallanceSuccess && parseInt(walletBalance.amount, 10)}
+                  ₦
+                  {walletBallanceSuccess &&
+                    parseInt(walletBalance.amount, 10).toLocaleString()}
                 </p>
               </div>
             </div>

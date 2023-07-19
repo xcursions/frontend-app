@@ -1,5 +1,5 @@
 .card_container {
-    @apply mx-auto pt-6 ;
+    @apply mx-auto pt-6  w-[163px] lg:w-[292px] ;
   }
   .card_image {
     position: relative;
@@ -7,6 +7,5 @@
     cursor: pointer;
   }
   .pics {
-    max-height: 298px;
-    @apply rounded-[20px];
+    @apply rounded-[20px] h-[150px] lg:h-[300px];
   }

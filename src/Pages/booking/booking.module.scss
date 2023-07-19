@@ -1,0 +1,12 @@
+.container{
+    @apply mt-[19px] max-w-[783px] border
+}
+.wrapper {
+    @apply mx-auto
+}
+.card_container {
+    @apply flex flex-col gap-4 lg:flex-row
+}
+.card {
+    @apply lg:w-[225px] w-[345px] shadow-xl rounded-2xl mt-[24px] lg:mt-[32px] border
+}
