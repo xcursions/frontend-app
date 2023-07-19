@@ -19,14 +19,14 @@ const TripCard = ({ post }: any) => {
         <img
           className={styles.pics}
           src={post.outingGallery?.[0]?.image}
-          alt="santorini greece"
+          alt={post.name}
         />
         <div className="absolute right-1 top-1 mr-2 mt-2 rounded-full bg-white p-2">
           <AiOutlineHeart className="text-xl" />
         </div>
         <div>
           <Text className="font-dmSansRegular text-[16px] font-normal text-[#1D2838]">
-            {post.outingDestination.city}
+            {post.name}
           </Text>
           <Text className="font-dmSansBold text-[16px] text-[#101828]">
             {`₦${Math.floor(post.price)}`}

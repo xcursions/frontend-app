@@ -1,11 +1,9 @@
 "use client";
 
-import type { FormEvent } from "react";
 import React, { useState } from "react";
 import { BsSearch } from "react-icons/bs";
 
 import Heading from "@/components/lib/Heading/Heading";
-import Input from "@/components/lib/Input";
 import Select from "@/components/lib/Select/Select";
 
 const initialState = {
@@ -25,15 +23,14 @@ const optionPrice = [
   { value: "30000-40000", label: "30000-40000" },
   { value: "50000 and above", label: "50000 and above" },
 ];
+const optionDate = [
+  { value: "383884", label: "August" },
+  { value: "20000-30000", label: "September" },
+  { value: "30000-40000", label: "October" },
+  { value: "50000 and above", label: "anytime" },
+];
 const Search = () => {
   const [payload, setPayload] = useState(initialState);
-
-  const handleChange = (event: FormEvent<HTMLInputElement>) => {
-    setPayload({
-      ...payload,
-      [event.currentTarget.name]: event.currentTarget.value,
-    });
-  };
   return (
     <div className=" absolute top-[60%] md:top-[80%]">
       <div className=" rounded-2xl bg-[#FFFFFF] p-5 shadow-lg">
@@ -49,6 +46,7 @@ const Search = () => {
           <Select
             placeholder={"Select an Option"}
             label="Location"
+            startIcon={"/assets/images/landing-page/map.png"}
             value={payload.location}
             onChange={(event) =>
               setPayload({
@@ -61,22 +59,41 @@ const Search = () => {
               value: option.value,
               label: option.label,
             }))}
-            className=" block w-[290px] cursor-pointer  rounded-lg border border-gray-300 bg-gray-50 text-sm text-[#667084] shadow-md md:w-auto lg:w-[270px] xl:w-[300px]"
+            className=" block w-[290px] cursor-pointer  rounded-lg  text-sm text-[#667084] md:w-auto lg:w-[270px] xl:w-[300px]"
           />
-          <Input
+          <Select
+            placeholder={"When are you going"}
+            label="Date"
+            value={payload.date}
+            startIcon={"/assets/images/landing-page/calendar.png"}
+            onChange={(event) =>
+              setPayload({
+                ...payload,
+                date: event.value,
+              })
+            }
+            options={optionDate.map((option) => ({
+              value: option.value,
+              label: option.label,
+            }))}
+            showArrow
+            className=" block w-[290px] cursor-pointer text-sm text-[#667084] md:w-auto lg:w-[270px] xl:w-[300px]"
+          />
+          {/* <Input
             type="date"
             label="Date"
             name="date"
             value={payload.date}
             onChange={handleChange}
             placeholder="When are you going"
-            className=" block w-[290px] rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-[#667084] shadow-md focus:border-blue-500
+            className=" block w-[290px] cursor-pointer rounded-lg p-2.5 pl-10 text-sm text-[#667084] focus:border-blue-500
             focus:ring-blue-500 md:w-auto lg:w-[270px] xl:w-[300px]"
-          />
+          /> */}
           <Select
             placeholder={"Select an Option"}
             label="Price"
             value={payload.price}
+            startIcon={"/assets/images/landing-page/dollar.png"}
             onChange={(event) =>
               setPayload({
                 ...payload,
@@ -88,9 +105,9 @@ const Search = () => {
               label: option.label,
             }))}
             showArrow
-            className=" block w-[290px] cursor-pointer  rounded-lg border border-gray-300 bg-gray-50 text-sm text-[#667084] shadow-md md:w-auto lg:w-[270px] xl:w-[300px]"
+            className=" block w-[290px] cursor-pointer text-sm text-[#667084] md:w-auto lg:w-[270px] xl:w-[300px]"
           />
-          <button className="flex w-full justify-center gap-3 rounded-3xl bg-[#0A83FF] p-3  text-white lg:mt-4 lg:p-5">
+          <button className="flex w-full justify-center gap-3 rounded-3xl bg-[#0A83FF] p-3 text-white lg:mt-4 lg:w-[80px] lg:p-5">
             <BsSearch />
             <span className="text-center md:hidden">Search</span>
           </button>

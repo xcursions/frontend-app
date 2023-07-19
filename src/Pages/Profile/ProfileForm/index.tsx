@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
