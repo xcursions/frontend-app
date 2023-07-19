@@ -1,4 +1,7 @@
 /* eslint-disable no-unneeded-ternary */
+
+"use client";
+
 import { useEffect, useState } from "react";
 
 import SidebarNavigation from "./SidebarNavigation";

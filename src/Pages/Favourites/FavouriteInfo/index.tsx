@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 
 import Heading from "@/components/lib/Heading";

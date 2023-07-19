@@ -1,13 +1,13 @@
+/* eslint-disable react/display-name */
+/* eslint-disable import/no-anonymous-default-export */
+
 import React from "react";
 
+import Booking from "@/Pages/booking";
 import Layout from "@/ui-components/layout";
 
-const Page = () => {
-  return (
-    <Layout>
-      <div> booking</div>
-    </Layout>
-  );
-};
-
-export default Page;
+export default () => (
+  <Layout>
+    <Booking />
+  </Layout>
+);

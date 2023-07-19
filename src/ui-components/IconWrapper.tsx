@@ -1,9 +1,10 @@
+// @ts-ignore
 const IconWrapper = ({ children, style = {}, onClick = () => {} }) => {
   return (
     <div
       onClick={onClick}
       style={{
-        position: 'relative',
+        position: "relative",
         ...style,
       }}
     >

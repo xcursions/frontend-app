@@ -5,9 +5,10 @@ import React, { useState } from "react";
 import { FiFilter } from "react-icons/fi";
 
 import Input from "@/components/lib/Input";
+import { Pagination } from "@/components/lib/Pagination";
 import Select from "@/components/lib/Select/Select";
+import { useGetAllOutingsQuery } from "@/services/public";
 
-import postData from "./data";
 import styles from "./SearchTrips.module.scss";
 import TripCard from "./TripCard/TripCard";
 
@@ -44,6 +45,11 @@ const optionDuration = [
 ];
 const SearchTrips = () => {
   const [payload, setPayload] = useState(initialState);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const pageLimit = 8;
+  const { data, isSuccess } = useGetAllOutingsQuery(
+    `?type=tour&limit=${pageLimit}&page=${currentPage}`
+  );
   const [showFilter, setShowFilter] = useState(false);
 
   const handleChange = (event: FormEvent<HTMLInputElement>) => {
@@ -52,6 +58,7 @@ const SearchTrips = () => {
       [event.currentTarget.name]: event.currentTarget.value,
     });
   };
+  console.log(data);
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
@@ -63,10 +70,11 @@ const SearchTrips = () => {
                 <Input
                   type="text"
                   name="search"
+                  startIcon
                   value={payload.search}
                   onChange={handleChange}
                   id="simple-search"
-                  className="block w-[280px] rounded-lg border border-gray-300 bg-gray-50 text-sm text-[#667084] shadow-md focus:border-blue-500 focus:ring-blue-500 md:w-[350px] lg:w-[342px]"
+                  className="block w-[280px] rounded-lg text-sm text-[#667084] focus:border-blue-500 focus:ring-blue-500 md:w-[350px] lg:w-[342px]"
                   placeholder="Search for trips, events"
                   required
                 />
@@ -112,6 +120,7 @@ const SearchTrips = () => {
               <Select
                 placeholder={"Trip type"}
                 value={payload.trips}
+                startIcon={"/assets/images/icons/plane.png"}
                 onChange={(event) =>
                   setPayload({
                     ...payload,
@@ -123,7 +132,7 @@ const SearchTrips = () => {
                   label: option.label,
                 }))}
                 showArrow
-                className=" block w-full cursor-pointer  rounded-lg border border-gray-300 bg-gray-50 text-sm text-[#667084] shadow-md"
+                className=" block w-full cursor-pointer rounded-lg  text-sm text-[#667084]"
               />
             </div>
             <div
@@ -144,6 +153,7 @@ const SearchTrips = () => {
               <Select
                 placeholder={"Price"}
                 value={payload.price}
+                startIcon={"/assets/images/icons/dollar.png"}
                 onChange={(event) =>
                   setPayload({
                     ...payload,
@@ -155,7 +165,7 @@ const SearchTrips = () => {
                   label: option.label,
                 }))}
                 showArrow
-                className=" block w-full cursor-pointer  rounded-lg border border-gray-300 bg-gray-50 text-sm text-[#667084] shadow-md"
+                className=" block w-full cursor-pointer  rounded-lg text-sm text-[#667084]"
               />
             </div>
             <div
@@ -176,6 +186,7 @@ const SearchTrips = () => {
               <Select
                 placeholder={"Location"}
                 value={payload.location}
+                startIcon={"/assets/images/icons/map.png"}
                 onChange={(event) =>
                   setPayload({
                     ...payload,
@@ -187,7 +198,7 @@ const SearchTrips = () => {
                   label: option.label,
                 }))}
                 showArrow
-                className=" block w-full cursor-pointer  rounded-lg border border-gray-300 bg-gray-50 text-sm text-[#667084] shadow-md"
+                className=" block w-full cursor-pointer  rounded-lg text-sm text-[#667084]"
               />
             </div>
             <div
@@ -208,6 +219,7 @@ const SearchTrips = () => {
               <Select
                 placeholder={"Duration"}
                 value={payload.duration}
+                startIcon={"/assets/images/icons/calendar1.png"}
                 onChange={(event) =>
                   setPayload({
                     ...payload,
@@ -219,17 +231,27 @@ const SearchTrips = () => {
                   label: option.label,
                 }))}
                 showArrow
-                className=" block w-full cursor-pointer  rounded-lg border border-gray-300 bg-gray-50 text-sm text-[#667084] shadow-md"
+                className=" block w-full cursor-pointer  rounded-lg text-sm text-[#667084]"
               />
             </div>
           </form>
         </div>
         {/* Trip Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {postData.map((post) => (
-            <TripCard post={post} key={`${post.url}-${post.id}`} />
-          ))}
+        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+          {isSuccess &&
+            data.result.map((post: any) => (
+              <TripCard post={post} key={`${post.id}`} />
+            ))}
         </div>
+        {data && (
+          <Pagination
+            className="pagination-bar my-8"
+            currentPage={currentPage}
+            totalCount={data?.totalElements}
+            pageLimit={pageLimit}
+            onPageChange={(v) => setCurrentPage(v)}
+          />
+        )}
       </div>
     </div>
   );

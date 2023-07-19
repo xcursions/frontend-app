@@ -15,7 +15,7 @@ const Header = () => {
           alt="image of vacation"
           width={1500}
           height={1000}
-          className="h-[273px] w-screen md:h-[410px] lg:h-[500px]"
+          className=" h-[273px] w-screen md:h-[410px] lg:h-[500px]"
         />
         <div className={styles.textContainer}>
           <Heading

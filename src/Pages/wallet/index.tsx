@@ -1,3 +1,5 @@
+"use client";
+
 import type { FormEvent } from "react";
 import { useEffect, useState } from "react";
 import { AiFillEye } from "react-icons/ai";
@@ -200,7 +202,7 @@ const Wallet = () => {
         <Text className="pl-2 text-[14px] text-[#667084] lg:pl-[31px] lg:text-[16px]">
           Welcome back to your dashboard
         </Text>
-        <div className="flex flex-col gap-[25px] lg:flex-row">
+        <div className={styles.card_container}>
           <div className={styles.horizontal_div}>
             <div className=" absolute z-50 mx-auto items-center pb-[31px] pl-[40px] pt-[33px]">
               <Text className="text-[14px] text-[#FFFFFF] lg:text-[16px]">
@@ -208,7 +210,9 @@ const Wallet = () => {
               </Text>
               <div className="mt-[8px] flex items-center gap-3">
                 <Text className="text-[24px]  text-[#FFFFFF] lg:text-[30px]">
-                  ₦{walletBallanceSuccess && parseInt(walletBalance.amount, 10)}
+                  ₦
+                  {walletBallanceSuccess &&
+                    parseInt(walletBalance.amount, 10).toLocaleString()}
                 </Text>
                 <AiFillEye className="text-[30px]" />
               </div>
@@ -277,7 +281,7 @@ const Wallet = () => {
             <DataTable columns={columns} data={data} />
           </div>
           <div className="mx-auto max-w-[200px] content-center items-center justify-center py-10">
-            {data?.length < 0 && (
+            {data?.length < 1 && (
               <div className="mx-auto content-center items-center justify-items-center">
                 <Text className="mx-auto mb-5 mt-7 text-center text-[12px]">
                   Sorry you don’t have any schedule at the moment
