@@ -1,19 +1,20 @@
 import { isEmail, isEmpty, isValid } from "./helpers";
 
 export const validateLoginInputs = ({
-  email,
+  identity,
   password,
 }: {
-  email: string;
+  identity: string;
   password: string;
 }) => {
   const errors = {
-    email: "",
+    identity: "",
     password: "",
   };
 
-  if (isEmpty(email)) errors.email = "Email cannot be empty";
-  else if (!isEmail(email)) errors.email = "Invalid email address";
+  if (isEmpty(identity)) errors.identity = "Email or Username cannot be empty";
+  // else if (!isEmail(identity))
+  //   errors.identity = "Invalid email address or username";
 
   if (isEmpty(password)) errors.password = "Password cannot be empty";
 

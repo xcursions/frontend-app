@@ -52,7 +52,8 @@ export default function Dashboard() {
         <div className="mx-[30px]">
           <HeaderSection
             heading={`Hello, ${
-              userSuccess && userProfile?.data?.fullName.split(" ")[0]
+              (userSuccess && userProfile.data.username) ||
+              (userSuccess && userProfile?.data?.fullName.split(" ")[0])
             } 🏝️`}
             subHeading={"Welcome back to your dashboard"}
           />

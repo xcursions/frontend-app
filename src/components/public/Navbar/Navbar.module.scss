@@ -1,11 +1,12 @@
 .nav {
     &__backdrop-filter {
-      max-width: 1440px;
+      max-width: 1241px;
       margin: 0 auto;
       right: 0;
+      left: 0;
       backdrop-filter: blur();
     }
     &__container {
-        @apply mx-auto justify-between px-4 xl:pl-[100px] xl:pr-[100px] font-dmSansMedium md:flex md:items-center md:px-8 lg:max-w-7xl;
+        @apply mx-auto justify-between px-3  font-dmSansMedium md:flex md:items-center lg:max-w-7xl;
     }
   }
