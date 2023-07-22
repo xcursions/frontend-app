@@ -13,8 +13,6 @@ export const validateLoginInputs = ({
   };
 
   if (isEmpty(identity)) errors.identity = "Email or Username cannot be empty";
-  // else if (!isEmail(identity))
-  //   errors.identity = "Invalid email address or username";
 
   if (isEmpty(password)) errors.password = "Password cannot be empty";
 
