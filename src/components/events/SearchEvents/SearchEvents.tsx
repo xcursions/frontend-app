@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import type { FormEvent } from "react";
 import React, { useState } from "react";
 import { FiFilter } from "react-icons/fi";
@@ -9,8 +10,8 @@ import { Pagination } from "@/components/lib/Pagination";
 import Select from "@/components/lib/Select/Select";
 import { useGetAllOutingsQuery } from "@/services/public";
 
-import styles from "./SearchTrips.module.scss";
-import TripCard from "./TripCard/TripCard";
+import EventCard from "./EventCard/EventCard";
+import styles from "./SearchEvents.module.scss";
 
 const initialState = {
   search: "",
@@ -43,12 +44,12 @@ const optionDuration = [
   { value: "2 month", label: "2 month" },
   { value: "3 month", label: "3 month" },
 ];
-const SearchTrips = () => {
+const SearchEvents = () => {
   const [payload, setPayload] = useState(initialState);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const pageLimit = 8;
   const { data, isSuccess } = useGetAllOutingsQuery(
-    `?type=tour&limit=${pageLimit}&page=${currentPage}`
+    `?type=event&limit=${pageLimit}&page=${currentPage}`
   );
   const [showFilter, setShowFilter] = useState(false);
 
@@ -196,10 +197,12 @@ const SearchTrips = () => {
           </form>
         </div>
         {/* Trip Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
           {isSuccess &&
             data.result.map((post: any) => (
-              <TripCard post={post} key={`${post.id}`} />
+              <Link href={`/events/${post.id}`} key={`${post.id}`}>
+                <EventCard post={post} key={`${post.id}`} />
+              </Link>
             ))}
         </div>
         {data && (
@@ -216,4 +219,4 @@ const SearchTrips = () => {
   );
 };
 
-export default SearchTrips;
+export default SearchEvents;

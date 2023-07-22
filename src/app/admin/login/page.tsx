@@ -16,7 +16,7 @@ import { validateLoginInputs } from "@/utils/validators";
 import { isEmpty } from "@/utils/validators/helpers";
 
 const initialState = {
-  email: "",
+  identity: "",
   password: "",
 };
 
@@ -86,9 +86,9 @@ const Login = () => {
               label="Email Address"
               placeholder="Enter your email address"
               name="email"
-              value={payload.email}
-              error={!isEmpty(errors.email)}
-              helperText={errors.email}
+              value={payload.identity}
+              error={!isEmpty(errors.identity)}
+              helperText={errors.identity}
               onChange={handleChange}
             />
             <Input
