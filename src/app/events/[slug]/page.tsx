@@ -9,7 +9,7 @@ import Subscription from "@/components/public/Subscription/Subscription";
 async function getOutingData(slug: string) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/outing/outings/${slug}`,
-    { cache: "force-cache" }
+    { cache: "default" }
   );
   const data = await res.json();
   return data;

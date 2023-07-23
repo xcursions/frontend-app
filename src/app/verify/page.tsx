@@ -20,7 +20,11 @@ import {
   selectedUserId,
   selectUserOtpId,
 } from "@/store/selector/user.selector";
-import { setUserData, setUserToken } from "@/store/slices/userSlice";
+import {
+  setUserAuthMethod,
+  setUserData,
+  setUserToken,
+} from "@/store/slices/userSlice";
 import { validateOTPInputs } from "@/utils/validators";
 import { isEmpty } from "@/utils/validators/helpers";
 
@@ -52,6 +56,7 @@ const Verify = () => {
     successFunction: () => {
       dispatch(setUserData(data?.data));
       dispatch(setUserToken(data?.meta?.token));
+      dispatch(setUserAuthMethod("regular-auth"));
       router.push("/user/dashboard");
     },
     toastMessage: "Account verified successfully!",

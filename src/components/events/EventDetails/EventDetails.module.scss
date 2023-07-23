@@ -10,7 +10,7 @@
 .card_container {
   display: grid;
     grid-template-columns: 60% 40%;
-    grid-gap: 10px;
+    grid-gap: 30px;
 }
 @media screen and (max-width: 768px) {
     .card_container {
@@ -19,4 +19,31 @@
   }
   .image_container {
     @apply mt-[24px] lg:mt-[40px]
+  }
+  .details {
+    @apply mt-[24px] lg:mt-[40px] md:mr-4
+  }
+  .icons {
+    @apply flex gap-3 justify-end
+  }
+  @media screen and (min-width: 769px) {
+    .icons{
+      @apply mr-8
+    }
+  }
+  .icon {
+    @apply bg-[#ffffff] items-center py-2 cursor-pointer shadow-md rounded-full text-4xl font-dmSansBold
+  }
+  .map  {
+    @apply mt-[56px] hidden overflow-hidden
+  }
+  @media screen and (min-width: 769px) {
+    .map{
+      @apply block
+    }
+  }
+  @media screen and (min-width: 769px) {
+    .map_mobile{
+      @apply hidden
+    }
   }

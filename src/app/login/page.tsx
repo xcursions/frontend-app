@@ -13,7 +13,11 @@ import Text from "@/components/lib/Text/Text";
 import Navbar from "@/components/public/Navbar";
 import { useAppDispatch, useErrorHandler, useSuccessHandler } from "@/hooks";
 import { useGoogleLoginMutation, useLoginMutation } from "@/services/auth";
-import { setUserData, setUserToken } from "@/store/slices/userSlice";
+import {
+  setUserAuthMethod,
+  setUserData,
+  setUserToken,
+} from "@/store/slices/userSlice";
 import { validateLoginInputs } from "@/utils/validators";
 import { isEmpty } from "@/utils/validators/helpers";
 
@@ -38,6 +42,7 @@ const Login = () => {
       if (data?.data) {
         dispatch(setUserData(data?.data));
         dispatch(setUserToken(data?.meta?.token));
+        dispatch(setUserAuthMethod("regular-auth"));
         router.push("/user/dashboard");
       }
       return null;
@@ -49,6 +54,7 @@ const Login = () => {
     successFunction: () => {
       dispatch(setUserData(googleData?.data));
       dispatch(setUserToken(googleData?.meta?.token));
+      dispatch(setUserAuthMethod("social-auth"));
       router.push("/user/dashboard");
     },
     toastMessage: "Successfully logged in using Google",
