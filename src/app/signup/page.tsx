@@ -18,7 +18,11 @@ import {
   useSuccessHandler,
 } from "@/hooks";
 import { useGoogleSignupMutation, useRegisterMutation } from "@/services/auth";
-import { setUserData, setUserToken } from "@/store/slices/userSlice";
+import {
+  setUserAuthMethod,
+  setUserData,
+  setUserToken,
+} from "@/store/slices/userSlice";
 import { validateRegisterInputs } from "@/utils/validators";
 import { isEmpty } from "@/utils/validators/helpers";
 
@@ -56,6 +60,7 @@ const Signup = () => {
     successFunction: () => {
       dispatch(setUserData(googleData?.data));
       dispatch(setUserToken(googleData?.meta?.token));
+      dispatch(setUserAuthMethod("social-auth"));
       router.push("/user/dashboard");
     },
     toastMessage: "Successfully logged in using Google",

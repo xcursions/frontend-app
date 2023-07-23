@@ -44,11 +44,10 @@ const Page = () => {
   const [outingDestination, setOutingDestination] = useState(
     initialDestinationState
   );
-  const [id, setId] = useState("5a4a6580-56a7-4a9a-b4bf-93ba6d3e5a3c");
+  const [id, setId] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [uploadImage, { isLoading, isError, error }] =
     useCreateOutingImageMutation();
-  // const id = "5dc38fa-66f0-48e3-be87-b6e0a7a69b4a";
   const [
     uploadDestination,
     {
@@ -139,9 +138,7 @@ const Page = () => {
   useSuccessHandler({
     isSuccess: profileSuccess,
     successFunction: () => {
-      console.log(outingsData);
       setId(outingsData?.id);
-      console.log(id);
       setOutings(initialState);
     },
     toastMessage: "Outing Created successfully!",

@@ -85,7 +85,7 @@ const Login = () => {
             <Input
               label="Email Address"
               placeholder="Enter your email address"
-              name="email"
+              name="identity"
               value={payload.identity}
               error={!isEmpty(errors.identity)}
               helperText={errors.identity}
@@ -101,11 +101,9 @@ const Login = () => {
               helperText={errors.password}
               onChange={handleChange}
             />
-            <Link href="/forgot-password">
-              <Text className=" pb-5 pt-3 text-center text-[14px] text-[#0A83FF] underline">
-                Forgot Password
-              </Text>
-            </Link>
+            <Text className=" pb-5 pt-3 text-center text-[14px] text-[#0A83FF] underline">
+              <Link href="/forgot-password">Forgot Password</Link>
+            </Text>
             <Button
               onClick={handleSubmit}
               loading={isLoading}
