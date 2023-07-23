@@ -14,7 +14,7 @@
     width: 100%;
     height: auto;
     border-radius: 6px 6px 0 0;
-    @apply rounded-3xl
+    @apply rounded-3xl px-1
   }
   .see_more_button {
     position: absolute;
@@ -32,11 +32,13 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 10px;
+    @apply px-1 max-h-[95px] md:max-h-[145px] lg:max-h-[190px] rounded-3xl
   }
   .image_card .grid_item {
     border-radius: 6px;
     overflow: hidden;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    @apply rounded-3xl
   }
   .image_card .grid_item img {
     width: 100%;

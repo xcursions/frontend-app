@@ -5,7 +5,7 @@ import { IoNotificationsOutline } from "react-icons/io5";
 
 import FullPageLoader from "@/components/lib/FullPageLoader";
 import Input from "@/components/lib/Input/Input";
-import { useLogoutUser } from "@/hooks";
+import { useAppSelector, useLogoutUser } from "@/hooks";
 import { useGetUserProfileQuery } from "@/services/user";
 
 import { menuList } from "../../data";
@@ -88,6 +88,7 @@ const NotificationList = ({ img = null, desc = "", datetime = "" }) => {
 
 const Header = ({ toggleSidebarMenu }: any) => {
   const { data, isSuccess } = useGetUserProfileQuery();
+  const { auth } = useAppSelector((state) => state.user);
   return (
     <>
       <section className={styles.container}>
@@ -177,7 +178,9 @@ const Header = ({ toggleSidebarMenu }: any) => {
               </DropdownMenu>
             </li>
             <p className="hidden font-dmSansRegular text-[14px] text-[#101828] lg:block">
-              {isSuccess && data?.data?.fullName.split(" ")[0]}
+              {auth === "regular-auth"
+                ? isSuccess && data?.data?.username
+                : isSuccess && data?.data?.lastName}
             </p>
           </ul>
         </div>

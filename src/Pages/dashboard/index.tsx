@@ -5,7 +5,7 @@ import { useState } from "react";
 import EventCard from "@/components/lib/EventCard/EventCard";
 import Text from "@/components/lib/Text/Text";
 import TripCard from "@/components/lib/TripCard/TripCard";
-import { useSuccessHandler } from "@/hooks";
+import { useAppSelector, useSuccessHandler } from "@/hooks";
 import {
   useGetAllOutingsQuery,
   useSearchOutingsQuery,
@@ -26,6 +26,7 @@ export default function Dashboard() {
   const { data: eventData, isSuccess: eventSuccess } =
     useSearchOutingsQuery("?type=event");
   // const { user } = useAppSelector((state) => state.user);
+  const { auth } = useAppSelector((state) => state.user);
   useSuccessHandler({
     isSuccess,
     showToast: false,
@@ -50,14 +51,20 @@ export default function Dashboard() {
     <>
       <div className="mt-[19px] max-w-[783px] border-2">
         <div className="mx-[30px]">
-          <HeaderSection
-            heading={`Hello, ${
-              (userSuccess && userProfile.data.username) ||
-              (userSuccess && userProfile?.data?.fullName.split(" ")[0])
-            } 🏝️`}
-            subHeading={"Welcome back to your dashboard"}
-          />
-
+          {auth === "regular-auth" ? (
+            <HeaderSection
+              heading={`Hello, ${userSuccess && userProfile.data.username} 🏝️`}
+              subHeading={"Welcome back to your dashboard"}
+            />
+          ) : (
+            <HeaderSection
+              heading={`Hello, ${
+                (userSuccess && userProfile.data.lastName) ||
+                (userSuccess && userProfile?.data?.fullName.split(" ")[0])
+              } 🏝️`}
+              subHeading={"Welcome back to your dashboard"}
+            />
+          )}
           <Section>
             <div className="flex w-[346px] content-center items-center rounded-2xl bg-[#e2ecf6] text-center shadow-md md:w-full lg:w-[224px]">
               <img
