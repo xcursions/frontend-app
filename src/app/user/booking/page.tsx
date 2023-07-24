@@ -7,7 +7,9 @@ import Booking from "@/Pages/booking";
 import Layout from "@/ui-components/layout";
 
 export default () => (
-  <Layout>
-    <Booking />
-  </Layout>
+  <div className="bg-[#ffffff]">
+    <Layout>
+      <Booking />
+    </Layout>
+  </div>
 );

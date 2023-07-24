@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 
 import EventCard from "@/components/lib/EventCard/EventCard";
@@ -170,7 +171,9 @@ export default function Dashboard() {
             >
               {eventSuccess &&
                 events.result?.map((post: { id: any }) => (
-                  <EventCard post={post} key={`${post.id}`} />
+                  <Link href={`/events/${post.id}`} key={`${post.id}`}>
+                    <EventCard post={post} />
+                  </Link>
                 ))}
             </div>
           </div>
