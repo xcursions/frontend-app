@@ -111,7 +111,7 @@ const Navbar = ({ text, logo }: Props) => {
               </li>
             </ul>
             {navbar && (
-              <div className="mt-3 space-y-2 md:inline-block lg:hidden">
+              <div className="mt-3 space-y-2 md:hidden">
                 <Link
                   href="/login"
                   className="inline-block w-full rounded-3xl bg-white px-4 py-2 text-center text-gray-800 shadow"

@@ -1,0 +1,19 @@
+.wrapper {
+    @apply w-full pt-[80px] md:pt-[90px] lg:pt-[100px]
+}
+.container {
+    @apply mx-auto bg-[#F9FAFB] max-w-[1270px] px-3;
+}
+.back {
+    @apply flex w-auto max-w-[100px] cursor-pointer items-center gap-2 rounded-3xl border p-2 font-dmSansBold text-[14px] text-[#1D2838] shadow-md
+}
+.card_container {
+    display: grid;
+      grid-template-columns: 60% 40%;
+      grid-gap: 30px;
+  }
+  @media screen and (max-width: 768px) {
+      .card_container {
+        grid-template-columns: 1fr;
+      }
+    }

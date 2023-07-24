@@ -7,7 +7,9 @@ import Wallet from "@/Pages/wallet";
 import Layout from "@/ui-components/layout";
 
 export default () => (
-  <Layout>
-    <Wallet />
-  </Layout>
+  <div className="bg-[#ffffff]">
+    <Layout>
+      <Wallet />
+    </Layout>
+  </div>
 );
