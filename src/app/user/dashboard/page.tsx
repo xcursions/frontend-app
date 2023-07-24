@@ -8,7 +8,9 @@ import Dashboard from "@/Pages/dashboard";
 import Layout from "@/ui-components/layout";
 
 export default () => (
-  <Layout>
-    <Dashboard />
-  </Layout>
+  <div className="bg-[#ffffff]">
+    <Layout>
+      <Dashboard />
+    </Layout>
+  </div>
 );

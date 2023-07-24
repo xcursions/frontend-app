@@ -1,15 +1,18 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import toaster from "react-hot-toast";
 import {
+  AiFillApple,
   AiOutlineArrowLeft,
   AiOutlineMinus,
   AiOutlinePlus,
   AiOutlineShareAlt,
 } from "react-icons/ai";
-import { FaRegClock } from "react-icons/fa";
+import { FaMicrosoft, FaRegClock } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 import { FiFacebook, FiInstagram, FiLink, FiTwitter } from "react-icons/fi";
 import { GrFavorite } from "react-icons/gr";
 import { TbCalendar } from "react-icons/tb";
@@ -32,6 +35,7 @@ const initialState = {
   id: "",
 };
 const EventDetails = ({ detailsData }: Props) => {
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [galleryOpen, setGalleryOpen] = useState(false);
   const [payload, setPayload] = useState(initialState);
   const router = useRouter();
@@ -40,6 +44,9 @@ const EventDetails = ({ detailsData }: Props) => {
   };
   const handleClose = () => {
     setGalleryOpen(false);
+  };
+  const toggleModal = () => {
+    setIsCalendarOpen(!isCalendarOpen);
   };
   const formatDate = (dateString: string | number | Date) => {
     const date = new Date(dateString);
@@ -224,15 +231,76 @@ const EventDetails = ({ detailsData }: Props) => {
                   </div>
                 </div>
                 <div className="my-5 mr-3 flex flex-col gap-3 pb-3 md:flex-row">
-                  <Button className="w-full rounded-3xl bg-[#F2F4F7] text-[#667084]">
+                  <Button
+                    className="w-full rounded-3xl bg-[#F2F4F7] text-[#667084]"
+                    onClick={toggleModal}
+                  >
                     Add to Calendar
                   </Button>
-                  <Button className="w-full rounded-3xl">Get Ticket</Button>
+                  <Link
+                    href={`/checkout/?outing=${detailsData.id}&count=${payload.count}`}
+                    className="w-full"
+                  >
+                    <Button
+                      className="w-full rounded-3xl"
+                      disabled={payload.count === 0}
+                    >
+                      Get Ticket
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        {isCalendarOpen && (
+          <>
+            <div
+              className="fixed inset-0 z-[31] bg-[#021A3366] opacity-75"
+              onClick={toggleModal}
+            ></div>
+            <div className="fixed inset-0 z-[32] flex w-[326px] items-center justify-center lg:left-[510px] lg:w-[418px]">
+              <div className="w-full rounded-3xl bg-white p-5 shadow-lg">
+                <p
+                  className="cursor-pointer text-end font-dmSansBold text-[16px] text-[#98A2B3]"
+                  onClick={toggleModal}
+                >
+                  X
+                </p>
+                <div className="mx-auto items-center text-center">
+                  <Heading type="h3">Add to calendar</Heading>
+                  <div className="mx-auto my-5 flex justify-center gap-3">
+                    <div>
+                      <div className="mx-auto max-w-[40px] cursor-pointer items-center rounded-full bg-[#F2F4F7] p-2">
+                        <FcGoogle />
+                      </div>
+                      <span className="text-[12px]">Google</span>
+                    </div>
+                    <div>
+                      <div className="mx-auto max-w-[40px] cursor-pointer items-center rounded-full bg-[#000000] p-2 text-[#ffffff]">
+                        <AiFillApple />
+                      </div>
+                      <span className="text-[12px]">Apple</span>
+                    </div>
+                    <div>
+                      <div className=" mx-auto max-w-[40px] cursor-pointer items-center rounded-full bg-[#F2F4F7] p-2">
+                        <FaMicrosoft />
+                      </div>
+                      <span className="text-[12px]">Microsoft</span>
+                    </div>
+                  </div>
+                  <Text className=" my-5 flex gap-3 px-12 font-dmSansRegular text-[14px] text-[#101828] lg:pl-20">
+                    <TbCalendar className=" text-xl text-[#0A83FF]" />
+                    {formatDatesRange(
+                      detailsData.outingDate[0].startDate,
+                      detailsData.outingDate[0].endDate
+                    )}
+                  </Text>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
         <div className={styles.map_mobile}>
           <Text className="pb-3 font-dmSansMedium text-[24px] text-[#1D2838]">
             Event Location
