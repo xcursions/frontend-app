@@ -144,7 +144,6 @@ const Signup = () => {
                   type="standard"
                   shape="pill"
                   text="signup_with"
-                  width="250"
                   size="large"
                 />
               </div>
