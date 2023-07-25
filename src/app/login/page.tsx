@@ -118,13 +118,14 @@ const Login = () => {
                   onSuccess={(credentialResponse) =>
                     googleLogin({ idToken: credentialResponse?.credential })
                   }
-                  onError={() => {}}
+                  onError={() => {
+                    console.log("Login Failed");
+                  }}
                   // @ts-ignore
                   scope="openid https://www.googleapis.com/auth/userinfo.email"
                   type="standard"
                   shape="pill"
                   text="signin_with"
-                  width="250"
                   size="large"
                 />
               </div>
