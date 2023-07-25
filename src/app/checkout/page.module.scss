@@ -11,9 +11,13 @@
     display: grid;
       grid-template-columns: 60% 40%;
       grid-gap: 30px;
+      @apply mb-10
   }
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 850px) {
       .card_container {
         grid-template-columns: 1fr;
+      }
+      .card_container div:nth-child(1) {
+        order: 2;
       }
     }
