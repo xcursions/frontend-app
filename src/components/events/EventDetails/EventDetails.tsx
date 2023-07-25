@@ -18,6 +18,7 @@ import { GrFavorite } from "react-icons/gr";
 import { TbCalendar } from "react-icons/tb";
 
 import Button from "@/components/lib/Button";
+import { formatDatesRange } from "@/components/lib/FormatWeekRange/FormatWeekRage";
 import GalleryViewer from "@/components/lib/GalleryViewer";
 import Heading from "@/components/lib/Heading/Heading";
 import MapComponent from "@/components/lib/MapComponent/MapComponent";
@@ -48,33 +49,6 @@ const EventDetails = ({ detailsData }: Props) => {
   const toggleModal = () => {
     setIsCalendarOpen(!isCalendarOpen);
   };
-  const formatDate = (dateString: string | number | Date) => {
-    const date = new Date(dateString);
-    const day = date.getDate();
-    const month = date.toLocaleString("default", { month: "short" });
-
-    let daySuffix = "th";
-    if (day === 1 || day === 21 || day === 31) {
-      daySuffix = "st";
-    } else if (day === 2 || day === 22) {
-      daySuffix = "nd";
-    } else if (day === 3 || day === 23) {
-      daySuffix = "rd";
-    }
-
-    return `${day}${daySuffix} ${month}`;
-  };
-
-  const formatDatesRange = (
-    startDateString: string | number | Date,
-    endDateString: string | number | Date
-  ) => {
-    const startDate = formatDate(startDateString);
-    const endDate = formatDate(endDateString);
-
-    return `${startDate} - ${endDate}`;
-  };
-
   const shareOnTwitter = () => {
     const linkToShare = window.location.href;
     const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
