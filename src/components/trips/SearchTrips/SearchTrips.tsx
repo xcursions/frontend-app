@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import type { FormEvent } from "react";
 import React, { useState } from "react";
 import { FiFilter } from "react-icons/fi";
@@ -199,7 +200,9 @@ const SearchTrips = () => {
         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
           {isSuccess &&
             data.result.map((post: any) => (
-              <TripCard post={post} key={`${post.id}`} />
+              <Link key={`${post.id}`} href={`/trips/${post.id}`}>
+                <TripCard post={post} />
+              </Link>
             ))}
         </div>
         {data && (

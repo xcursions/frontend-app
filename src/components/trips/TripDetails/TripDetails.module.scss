@@ -1,0 +1,49 @@
+.wrapper {
+    @apply w-full pt-[80px] md:pt-[90px] lg:pt-[100px]
+}
+.container {
+    @apply mx-auto max-w-[1241px] px-3;
+}
+.back {
+    @apply flex w-auto max-w-[156px] cursor-pointer items-center gap-2 rounded-3xl border p-2 font-dmSansBold text-[14px] text-[#1D2838] shadow-md
+}
+.card_container {
+  display: grid;
+    grid-template-columns: 60% 40%;
+    grid-gap: 30px;
+}
+@media screen and (max-width: 768px) {
+    .card_container {
+      grid-template-columns: 1fr;
+    }
+  }
+  .image_container {
+    @apply mt-[24px] lg:mt-[40px]
+  }
+  .details {
+    @apply mt-[24px] lg:mt-[40px] md:mr-4
+  }
+  .icons {
+    @apply flex gap-3 justify-end
+  }
+  @media screen and (min-width: 769px) {
+    .icons{
+      @apply mr-8
+    }
+  }
+  .icon {
+    @apply bg-[#ffffff] items-center py-2 cursor-pointer shadow-md rounded-full text-4xl font-dmSansBold
+  }
+  .map  {
+    @apply mt-[56px] hidden overflow-hidden
+  }
+  @media screen and (min-width: 769px) {
+    .map{
+      @apply block
+    }
+  }
+  @media screen and (min-width: 769px) {
+    .map_mobile{
+      @apply hidden
+    }
+  }
