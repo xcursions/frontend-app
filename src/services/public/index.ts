@@ -12,10 +12,17 @@ export const publicApi = createApi({
     searchOutings: builder.query<any, any>({
       query: (query) => ({ url: `/outing/outings${query}`, method: "get" }),
     }),
+    getOutingAddOn: builder.query<any, string>({
+      query: (query) => ({
+        url: `/outing-addon/outings/${query}`,
+        method: "get",
+      }),
+    }),
   }),
 });
 export const {
   useGetAllOutingsQuery,
   useSearchOutingsQuery,
+  useGetOutingAddOnQuery,
   useLazySearchOutingsQuery,
 } = publicApi;
