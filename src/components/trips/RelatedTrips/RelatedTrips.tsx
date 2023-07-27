@@ -24,7 +24,7 @@ const RelatedTrips = () => {
           >
             {eventSuccess &&
               eventData.result?.map((post: { id: any }) => (
-                <Link href={`/events/${post.id}`} key={`${post.id}`}>
+                <Link href={`/trips/${post.id}`} key={`${post.id}`}>
                   <TripCard post={post} />
                 </Link>
               ))}

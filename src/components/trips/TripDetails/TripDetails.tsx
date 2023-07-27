@@ -5,15 +5,13 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import toaster from "react-hot-toast";
 import {
-  AiFillApple,
   AiOutlineArrowLeft,
   AiOutlineMinus,
   AiOutlinePlus,
   AiOutlineShareAlt,
 } from "react-icons/ai";
-import { FaMicrosoft, FaRegClock } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
-import { FiFacebook, FiInstagram, FiLink, FiTwitter } from "react-icons/fi";
+import { BiPlus } from "react-icons/bi";
+import { FaRegClock } from "react-icons/fa";
 import { GrFavorite } from "react-icons/gr";
 import { TbCalendar } from "react-icons/tb";
 
@@ -24,8 +22,10 @@ import Heading from "@/components/lib/Heading/Heading";
 import MapComponent from "@/components/lib/MapComponent/MapComponent";
 import OutingGallery from "@/components/lib/OutingGallery/OutingGallery";
 import Text from "@/components/lib/Text/Text";
+import { useGetOutingAddOnQuery } from "@/services/public";
 import type { OutingProps } from "@/types";
 
+import Addon from "../Addon/Addon";
 import styles from "./TripDetails.module.scss";
 
 type Props = {
@@ -37,8 +37,12 @@ const initialState = {
 };
 const TripDetails = ({ detailsData }: Props) => {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [selectedTrip, setSelectedTrip] = useState("group");
   const [galleryOpen, setGalleryOpen] = useState(false);
   const [payload, setPayload] = useState(initialState);
+  const { data: outingData, isSuccess: outingSuccess } = useGetOutingAddOnQuery(
+    detailsData.id
+  );
   const router = useRouter();
   const handleOpen = () => {
     setGalleryOpen(true);
@@ -49,20 +53,6 @@ const TripDetails = ({ detailsData }: Props) => {
   const toggleModal = () => {
     setIsCalendarOpen(!isCalendarOpen);
   };
-  const shareOnTwitter = () => {
-    const linkToShare = window.location.href;
-    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-      "Check out this link: "
-    )}&url=${encodeURIComponent(linkToShare)}`;
-    window.open(twitterUrl, "_blank");
-  };
-  const shareOnFacebook = () => {
-    const linkToShare = window.location.href;
-    const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-      linkToShare
-    )}`;
-    window.open(facebookUrl, "_blank");
-  };
   const handleCopyLink = () => {
     const linkToCopy = window.location.href;
     navigator.clipboard
@@ -70,6 +60,10 @@ const TripDetails = ({ detailsData }: Props) => {
       .then(() => toaster("Link copied to clipboard!"))
       .catch((err) => toaster("Failed to copy link:", err));
   };
+  const handleSelect = (trip: React.SetStateAction<string>) => {
+    setSelectedTrip(trip);
+  };
+  //  console.log(detailsData);
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
@@ -86,16 +80,47 @@ const TripDetails = ({ detailsData }: Props) => {
               />
             )}
             <div className={styles.map}>
-              <Text className="pb-3 font-dmSansMedium text-[24px] text-[#1D2838]">
-                Event Location
+              <Text className="py-5 font-dmSansMedium text-[24px] text-[#1D2838]">
+                What is Included
               </Text>
-              <MapComponent events={detailsData.outingDestination} />
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                {outingSuccess &&
+                  outingData
+                    .filter((trip: { default: any }) => trip.default)
+                    .map(
+                      (
+                        info: React.JSX.IntrinsicAttributes & {
+                          name: string;
+                          description: string;
+                          icon: string;
+                          cost: string;
+                        },
+                        index: React.Key | null | undefined
+                      ) => <Addon key={index} {...info} />
+                    )}
+                <div className="m-[10px] flex items-center justify-center rounded-[20px] bg-[#F2F4F7] text-center lg:h-[223px] lg:w-[223px]">
+                  <div
+                    className="flex cursor-pointer flex-col items-center justify-center"
+                    onClick={toggleModal}
+                  >
+                    <BiPlus className="text-[30px]" />
+                    <Text className="text-[16px]">New Addons</Text>
+                    <Text className="mt-[5px] text-[12px] text-[#23262F]">
+                      You can add other things you want on your trip here
+                    </Text>
+                  </div>
+                </div>
+              </div>
               <Text className="py-5 font-dmSansMedium text-[24px] text-[#1D2838]">
                 Top Reviews
               </Text>
               <Text className="font-dmSansMediumItalic text-[18px] text-gray-400">
                 No Reviews yet
               </Text>
+              <Text className="pb-3 font-dmSansMedium text-[24px] text-[#1D2838]">
+                Pickup City
+              </Text>
+              <MapComponent events={detailsData.outingPickup} />
             </div>
           </div>
           <div className={styles.details}>
@@ -116,12 +141,31 @@ const TripDetails = ({ detailsData }: Props) => {
               className="text-[14px] text-[#667084]"
               dangerouslySetInnerHTML={{ __html: detailsData.description }}
             />
-            <div className="mt-8 rounded-2xl bg-[#ffffff] shadow-md">
+            <div className="mt-8 rounded-2xl border bg-[#ffffff] shadow-md">
               <div className="mx-auto pl-4">
-                <Text className="mb-3 font-dmSansBold text-[18px] font-bold text-[#101828]">
-                  Details of the trip
-                </Text>
-                <Text className="mb-3 flex items-center gap-3 font-dmSansRegular text-[14px] text-[#101828]">
+                <div className="mr-3 flex pt-[30px]">
+                  <div
+                    onClick={() => handleSelect("private")}
+                    className={`flex-1 rounded-3xl py-2 text-center text-[14px] ${
+                      selectedTrip === "private"
+                        ? "bg-black text-white"
+                        : "bg-gray-200 text-[#667084]"
+                    } cursor-pointer`}
+                  >
+                    Private Trip
+                  </div>
+                  <div
+                    onClick={() => handleSelect("group")}
+                    className={`ml-[-15px] flex-1 rounded-3xl py-2 text-center text-[14px] ${
+                      selectedTrip === "group"
+                        ? "bg-black text-white"
+                        : "bg-gray-200 text-[#667084]"
+                    } cursor-pointer`}
+                  >
+                    Group Trip
+                  </div>
+                </div>
+                <Text className="mb-3 mt-[30px] flex items-center gap-3 font-dmSansRegular text-[14px] text-[#101828]">
                   <TbCalendar className=" text-xl" />
                   {formatDatesRange(
                     detailsData.outingDate[0].startDate,
@@ -174,43 +218,7 @@ const TripDetails = ({ detailsData }: Props) => {
                 <div className="my-5 mr-2 items-center justify-center">
                   <hr className="border-t-1 grow border-[#E4E7EC]" />
                 </div>
-                <Text className="mb-3 font-dmSansRegular text-[16px] font-normal text-[#101828]">
-                  Share on social media
-                </Text>
-                <div className="my-3 flex items-center gap-3 pb-3">
-                  <div
-                    className="cursor-pointer rounded-full bg-gray-300 p-2"
-                    onClick={shareOnFacebook}
-                  >
-                    <FiFacebook />
-                  </div>
-                  <div
-                    className="cursor-pointer items-center rounded-full bg-gray-300 p-2"
-                    onClick={shareOnTwitter}
-                  >
-                    <FiTwitter />
-                  </div>
-                  <div
-                    className="cursor-pointer rounded-full bg-gray-300 p-2"
-                    onClick={handleCopyLink}
-                  >
-                    <FiInstagram />
-                  </div>
-                  <div
-                    className="flex cursor-pointer items-center gap-1 rounded-3xl bg-[#EBF5FF] p-2 text-[16px] text-[#0A83FF]"
-                    onClick={handleCopyLink}
-                  >
-                    <FiLink />
-                    <span className="hidden md:flex">Copy the link</span>
-                  </div>
-                </div>
-                <div className="my-5 mr-3 flex flex-col gap-3 pb-3 md:flex-row">
-                  <Button
-                    className="w-full rounded-3xl bg-[#F2F4F7] text-[#667084]"
-                    onClick={toggleModal}
-                  >
-                    Add to Calendar
-                  </Button>
+                <div className="my-5 mr-3 pb-3 ">
                   <Link
                     href={`/checkout/?outing=${detailsData.id}&count=${payload.count}`}
                     className="w-full"
@@ -233,7 +241,7 @@ const TripDetails = ({ detailsData }: Props) => {
               className="fixed inset-0 z-[31] bg-[#021A3366] opacity-75"
               onClick={toggleModal}
             ></div>
-            <div className="fixed inset-0 z-[32] flex w-[326px] items-center justify-center lg:left-[510px] lg:w-[418px]">
+            <div className="fixed inset-0 z-[32] flex w-[326px] items-center justify-center lg:left-[422px] lg:w-[597px]">
               <div className="w-full rounded-3xl bg-white p-5 shadow-lg">
                 <p
                   className="cursor-pointer text-end font-dmSansBold text-[16px] text-[#98A2B3]"
@@ -242,50 +250,82 @@ const TripDetails = ({ detailsData }: Props) => {
                   X
                 </p>
                 <div className="mx-auto items-center text-center">
-                  <Heading type="h3">Add to calendar</Heading>
-                  <div className="mx-auto my-5 flex justify-center gap-3">
-                    <div>
-                      <div className="mx-auto max-w-[40px] cursor-pointer items-center rounded-full bg-[#F2F4F7] p-2">
-                        <FcGoogle />
-                      </div>
-                      <span className="text-[12px]">Google</span>
-                    </div>
-                    <div>
-                      <div className="mx-auto max-w-[40px] cursor-pointer items-center rounded-full bg-[#000000] p-2 text-[#ffffff]">
-                        <AiFillApple />
-                      </div>
-                      <span className="text-[12px]">Apple</span>
-                    </div>
-                    <div>
-                      <div className=" mx-auto max-w-[40px] cursor-pointer items-center rounded-full bg-[#F2F4F7] p-2">
-                        <FaMicrosoft />
-                      </div>
-                      <span className="text-[12px]">Microsoft</span>
-                    </div>
+                  <Heading type="h3">Addons for your Travel</Heading>
+                  <div className="grid grid-cols-3 gap-3 py-5">
+                    {outingSuccess &&
+                      outingData
+                        .filter((trip: any) => !trip.default)
+                        .map((item: any) => {
+                          return (
+                            <div
+                              key={item.id}
+                              className="flex items-center gap-2 rounded-3xl border pl-2 shadow-md"
+                            >
+                              <div>
+                                <img
+                                  src={item.icon}
+                                  alt={item.name}
+                                  className="h-[16px] w-[16px] "
+                                />
+                              </div>
+                              <div>
+                                <p className="text-[14px] text-[#344054]">
+                                  {item.name}
+                                </p>
+                                <p className="text-start text-[9px] text-[#667084]">
+                                  ₦{parseInt(item.cost, 10).toLocaleString()}
+                                </p>
+                              </div>
+                            </div>
+                          );
+                        })}
                   </div>
-                  <Text className=" my-5 flex gap-3 px-12 font-dmSansRegular text-[14px] text-[#101828] lg:pl-20">
-                    <TbCalendar className=" text-xl text-[#0A83FF]" />
-                    {formatDatesRange(
-                      detailsData.outingDate[0].startDate,
-                      detailsData.outingDate[0].endDate
-                    )}
-                  </Text>
+                  <Button className="w-full rounded-3xl">Add Addons</Button>
                 </div>
               </div>
             </div>
           </>
         )}
         <div className={styles.map_mobile}>
-          <Text className="pb-3 font-dmSansMedium text-[24px] text-[#1D2838]">
-            Event Location
+          <Text className="py-5 font-dmSansMedium text-[24px] text-[#1D2838]">
+            What is Included
           </Text>
-          <MapComponent events={detailsData.outingDestination} />
+          <div className="grid grid-cols-1 md:grid-cols-2">
+            {outingSuccess &&
+              outingData.map(
+                (
+                  info: React.JSX.IntrinsicAttributes & {
+                    name: string;
+                    description: string;
+                    icon: string;
+                    cost: string;
+                  },
+                  index: React.Key | null | undefined
+                ) => <Addon key={index} {...info} />
+              )}
+            <div className="m-[10px] flex h-[189px] w-[340px] items-center justify-center rounded-[20px] bg-[#F2F4F7] text-center">
+              <div
+                className="flex cursor-pointer flex-col items-center justify-center"
+                onClick={toggleModal}
+              >
+                <BiPlus className="text-[30px]" />
+                <Text className="text-[16px]">New Addons</Text>
+                <Text className="mt-[5px] text-[12px] text-[#23262F]">
+                  You can add other things you want on your trip here
+                </Text>
+              </div>
+            </div>
+          </div>
           <Text className="py-5 font-dmSansMedium text-[24px] text-[#1D2838]">
             Top Reviews
           </Text>
           <Text className="font-dmSansMediumItalic text-[18px] text-gray-400">
             No Reviews yet
           </Text>
+          <Text className="pb-3 font-dmSansMedium text-[24px] text-[#1D2838]">
+            Pickup City
+          </Text>
+          <MapComponent events={detailsData.outingPickup} />
         </div>
         <GalleryViewer
           galleryOpen={galleryOpen}
