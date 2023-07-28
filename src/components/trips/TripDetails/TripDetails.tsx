@@ -12,15 +12,21 @@ import {
 } from "react-icons/ai";
 import { BiPlus } from "react-icons/bi";
 import { FaRegClock } from "react-icons/fa";
+import { GiCancel } from "react-icons/gi";
 import { GrFavorite } from "react-icons/gr";
+import { RiErrorWarningLine } from "react-icons/ri";
 import { TbCalendar } from "react-icons/tb";
 
 import Button from "@/components/lib/Button";
-import { formatDatesRange } from "@/components/lib/FormatWeekRange/FormatWeekRage";
+import {
+  formatDatesRange,
+  formatWeeksRange,
+} from "@/components/lib/FormatWeekRange/FormatWeekRage";
 import GalleryViewer from "@/components/lib/GalleryViewer";
 import Heading from "@/components/lib/Heading/Heading";
 import MapComponent from "@/components/lib/MapComponent/MapComponent";
 import OutingGallery from "@/components/lib/OutingGallery/OutingGallery";
+import { SubtractDate } from "@/components/lib/SubtractDate/SubtractDate";
 import Text from "@/components/lib/Text/Text";
 import { useGetOutingAddOnQuery } from "@/services/public";
 import type { OutingProps } from "@/types";
@@ -37,6 +43,7 @@ const initialState = {
 };
 const TripDetails = ({ detailsData }: Props) => {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [selectedItems, setSelectedItems] = useState<any[]>([]);
   const [selectedTrip, setSelectedTrip] = useState("group");
   const [galleryOpen, setGalleryOpen] = useState(false);
   const [payload, setPayload] = useState(initialState);
@@ -63,7 +70,21 @@ const TripDetails = ({ detailsData }: Props) => {
   const handleSelect = (trip: React.SetStateAction<string>) => {
     setSelectedTrip(trip);
   };
-  //  console.log(detailsData);
+  const handleItemClick = (item: any) => {
+    const itemExists = selectedItems.some(
+      (selectedItem) => selectedItem.id === item.id
+    );
+    if (itemExists) {
+      // Remove the item from the selectedItems array if it already exists
+      setSelectedItems(
+        selectedItems.filter((selectedItem) => selectedItem.id !== item.id)
+      );
+    } else {
+      // Add the item to the selectedItems array if it doesn't exist
+      setSelectedItems([...selectedItems, item]);
+    }
+  };
+  // console.log(detailsData);
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
@@ -94,10 +115,23 @@ const TripDetails = ({ detailsData }: Props) => {
                           description: string;
                           icon: string;
                           cost: string;
+                          default: boolean;
                         },
                         index: React.Key | null | undefined
                       ) => <Addon key={index} {...info} />
                     )}
+                {selectedItems.length > 0 &&
+                  selectedItems.map((info, index) => (
+                    <div key={info.id} className="relative">
+                      <div
+                        className="absolute right-4 top-4 cursor-pointer"
+                        onClick={() => handleItemClick(info)}
+                      >
+                        <GiCancel className="text-[#98A2B3]" />
+                      </div>
+                      <Addon key={index} {...info} />
+                    </div>
+                  ))}
                 <div className="m-[10px] flex items-center justify-center rounded-[20px] bg-[#F2F4F7] text-center lg:h-[223px] lg:w-[223px]">
                   <div
                     className="flex cursor-pointer flex-col items-center justify-center"
@@ -172,10 +206,26 @@ const TripDetails = ({ detailsData }: Props) => {
                     detailsData.outingDate[0].endDate
                   )}
                 </Text>
-                <Text className="flex items-center gap-3 font-dmSansRegular text-[12px] text-[#101828]">
+                <Text className="flex items-center gap-3 font-dmSansRegular text-[14px] text-[#101828]">
                   <FaRegClock className=" text-xl" />
-                  No Depature time available
+                  {Math.floor(
+                    formatWeeksRange(
+                      detailsData?.outingDate[0]?.startDate,
+                      detailsData?.outingDate[0]?.endDate
+                    )
+                  )}{" "}
+                  weeks
                 </Text>
+                <div className="my-7 mr-3 flex items-center gap-3 rounded-3xl bg-[#FFECEB] py-2">
+                  <RiErrorWarningLine className="ml-3 text-[#F04438]" />{" "}
+                  <Text className="text-[12px] text-[#601B16]">
+                    Deadline for payment is{" "}
+                    {SubtractDate(
+                      detailsData?.outingDate[0]?.startDate,
+                      detailsData?.deadlineGap
+                    )}
+                  </Text>
+                </div>
                 <div className="my-5 mr-2 items-center justify-center">
                   <hr className="border-t-1 grow border-[#E4E7EC]" />
                 </div>
@@ -251,28 +301,34 @@ const TripDetails = ({ detailsData }: Props) => {
                 </p>
                 <div className="mx-auto items-center text-center">
                   <Heading type="h3">Addons for your Travel</Heading>
-                  <div className="grid grid-cols-3 gap-3 py-5">
+                  <div className="grid grid-cols-2 gap-3 py-5 lg:grid-cols-3">
                     {outingSuccess &&
                       outingData
                         .filter((trip: any) => !trip.default)
                         .map((item: any) => {
+                          const isSelected = selectedItems.some(
+                            (selectedItem) => selectedItem.id === item.id
+                          );
                           return (
                             <div
                               key={item.id}
-                              className="flex items-center gap-2 rounded-3xl border pl-2 shadow-md"
+                              className={`flex items-center gap-2 rounded-3xl border pl-2 shadow-md ${
+                                isSelected
+                                  ? "bg-[#000000] text-[#ffffff]"
+                                  : "bg-[#F2F4F7] text-[#344054]"
+                              }`}
+                              onClick={() => handleItemClick(item)}
                             >
                               <div>
                                 <img
                                   src={item.icon}
                                   alt={item.name}
-                                  className="h-[16px] w-[16px] "
+                                  className="h-[16px] w-[16px]"
                                 />
                               </div>
                               <div>
-                                <p className="text-[14px] text-[#344054]">
-                                  {item.name}
-                                </p>
-                                <p className="text-start text-[9px] text-[#667084]">
+                                <p className="text-[14px]">{item.name}</p>
+                                <p className="text-start text-[9px]">
                                   ₦{parseInt(item.cost, 10).toLocaleString()}
                                 </p>
                               </div>
@@ -280,7 +336,9 @@ const TripDetails = ({ detailsData }: Props) => {
                           );
                         })}
                   </div>
-                  <Button className="w-full rounded-3xl">Add Addons</Button>
+                  <Button className="w-full rounded-3xl" onClick={toggleModal}>
+                    Add Addons({selectedItems.length})
+                  </Button>
                 </div>
               </div>
             </div>
@@ -292,17 +350,32 @@ const TripDetails = ({ detailsData }: Props) => {
           </Text>
           <div className="grid grid-cols-1 md:grid-cols-2">
             {outingSuccess &&
-              outingData.map(
-                (
-                  info: React.JSX.IntrinsicAttributes & {
-                    name: string;
-                    description: string;
-                    icon: string;
-                    cost: string;
-                  },
-                  index: React.Key | null | undefined
-                ) => <Addon key={index} {...info} />
-              )}
+              outingData
+                .filter((trip: { default: any }) => trip.default)
+                .map(
+                  (
+                    info: React.JSX.IntrinsicAttributes & {
+                      name: string;
+                      description: string;
+                      icon: string;
+                      cost: string;
+                      default: boolean;
+                    },
+                    index: React.Key | null | undefined
+                  ) => <Addon key={index} {...info} />
+                )}
+            {selectedItems.length > 0 &&
+              selectedItems.map((info, index) => (
+                <div key={info.id} className="relative">
+                  <div
+                    className="absolute right-4 top-2 cursor-pointer"
+                    onClick={() => handleItemClick(info)}
+                  >
+                    <GiCancel className="text-[#98A2B3]" />
+                  </div>
+                  <Addon key={index} {...info} />
+                </div>
+              ))}
             <div className="m-[10px] flex h-[189px] w-[340px] items-center justify-center rounded-[20px] bg-[#F2F4F7] text-center">
               <div
                 className="flex cursor-pointer flex-col items-center justify-center"
