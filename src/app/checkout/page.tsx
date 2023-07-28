@@ -37,7 +37,7 @@ const Page = () => {
   );
   const { user } = useAppSelector((state) => state.user);
   const { isAuthenticated } = useAuth(true);
-  const { data } = useGetAllOutingsQuery(`/${search}`);
+  const { data, isSuccess } = useGetAllOutingsQuery(`/${search}`);
 
   useEffect(() => {
     if (!user) {
@@ -141,29 +141,32 @@ const Page = () => {
                         </Text>
                         <Text className=" my-5 flex gap-3 font-dmSansRegular text-[14px] text-[#475467]">
                           <TbCalendar className=" text-xl text-[#475467]" />
-                          {formatDatesRange(
-                            data?.outingDate[0]?.startDate,
-                            data?.outingDate[0]?.endDate
-                          )}
+                          {isSuccess &&
+                            formatDatesRange(
+                              data?.outingDate[0]?.startDate,
+                              data?.outingDate[0]?.endDate
+                            )}
                         </Text>
                         <Text className="flex items-center gap-3">
                           <AiOutlineClockCircle />{" "}
-                          {Math.floor(
-                            formatWeeksRange(
-                              data?.outingDate[0]?.startDate,
-                              data?.outingDate[0]?.endDate
-                            )
-                          )}{" "}
+                          {isSuccess &&
+                            Math.floor(
+                              formatWeeksRange(
+                                data?.outingDate[0]?.startDate,
+                                data?.outingDate[0]?.endDate
+                              )
+                            )}{" "}
                           weeks
                         </Text>
                         <div className="my-7 mr-3 flex items-center gap-3 rounded-3xl bg-[#FFECEB] py-2">
                           <AiOutlineClockCircle className="ml-3 text-[#F04438]" />{" "}
                           <Text className="text-[12px] text-[#601B16]">
                             Deadline for payment is{" "}
-                            {SubtractDate(
-                              data?.outingDate[0]?.startDate,
-                              data?.deadlineGap
-                            )}
+                            {isSuccess &&
+                              SubtractDate(
+                                data?.outingDate[0]?.startDate,
+                                data?.deadlineGap
+                              )}
                           </Text>
                         </div>
                       </div>
@@ -198,7 +201,7 @@ const Page = () => {
                           </Text>
                           <span className="text-[18px] text-[#101828] ">
                             ₦
-                            {data?.price
+                            {isSuccess && data.price
                               ? (
                                   parseInt(data.price, 10) * count
                                 ).toLocaleString()

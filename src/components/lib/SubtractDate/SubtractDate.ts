@@ -48,7 +48,8 @@ export const SubtractDate = (
 ) => {
   const startDate = new Date(startDateString);
   startDate.setDate(startDate.getDate() - deadline);
-  const newDate = startDate.toLocaleDateString("en-GB");
+  const newDate = startDate.toISOString();
   const result = formatDate(newDate);
   return result;
 };
+// .toLocaleDateString("en-GB")
