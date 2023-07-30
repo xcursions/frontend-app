@@ -75,7 +75,7 @@ export default function Dashboard() {
               />
               <div className="items-center text-center">
                 <p className="text-start text-[12px] text-[#3B9CFF]">Balance</p>
-                <p className="font-dmSansBold text-[26px] font-bold text-[#021A33]">
+                <p className="font-dmSansBold text-[20px] font-bold text-[#021A33]">
                   ₦
                   {walletBallanceSuccess &&
                     parseInt(walletBalance.amount, 10).toLocaleString()}
@@ -90,7 +90,7 @@ export default function Dashboard() {
               />
               <div className="items-center text-center">
                 <p className="text-start text-[12px] text-[#FF9E3B]">Trips</p>
-                <p className="font-dmSansBold text-[26px] font-bold text-[#021A33]">
+                <p className="font-dmSansBold text-[20px] font-bold text-[#021A33]">
                   50
                 </p>
               </div>
@@ -103,7 +103,7 @@ export default function Dashboard() {
               />
               <div className="items-center text-center">
                 <p className="text-start text-[12px] text-[#9E3BFF]">Events</p>
-                <p className="font-dmSansBold text-[26px] font-bold text-[#021A33]">
+                <p className="font-dmSansBold text-[20px] font-bold text-[#021A33]">
                   20
                 </p>
               </div>
