@@ -50,8 +50,8 @@ const Page = () => {
   );
   const { data: bookingData, isSuccess: isBookingSuccess } =
     useGetBookingByIdQuery({
-      query: booking.outingId || "",
-      id: booking.id || "",
+      query: booking?.outingId || "",
+      id: booking?.id || "",
     });
   const [
     handleCheckout,
@@ -88,7 +88,7 @@ const Page = () => {
   useSuccessHandler({
     isSuccess: isBookingParticipantSuccess,
     successFunction: () => {
-      handleCheckout({ query: booking.id || "", data: payload });
+      handleCheckout({ query: booking?.id || "", data: payload });
     },
   });
   useSuccessHandler({
@@ -142,12 +142,12 @@ const Page = () => {
   const handleSubmit = () => {
     if (data.length > 0) {
       handleBookingParticipants({
-        query: booking.outingId,
-        id: booking.id,
+        query: booking?.outingId,
+        id: booking?.id,
         data,
       });
     } else {
-      handleCheckout({ query: booking.id, data: payload });
+      handleCheckout({ query: booking?.id, data: payload });
     }
   };
   return (
@@ -425,9 +425,9 @@ const Page = () => {
                         <div className="flex justify-between py-2 pr-3 text-[14px] text-[#667084]">
                           <Text className="text-[14px]">Addons</Text>
                           {isBookingSuccess &&
-                          bookingData.bookingAddon.length > 0 ? (
+                          bookingData?.bookingAddon.length > 0 ? (
                             <div>
-                              {bookingData.bookingAddon.map((name: any) => (
+                              {bookingData?.bookingAddon.map((name: any) => (
                                 <Text
                                   className="my-1 w-fit text-[12px]"
                                   key={name.id}
