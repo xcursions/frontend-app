@@ -46,10 +46,13 @@ const Page = () => {
   const { booking } = useAppSelector((state) => state.user);
   const { isAuthenticated } = useAuth(true);
   const { data: tripInfo, isSuccess } = useGetAllOutingsQuery(
-    `/${booking?.outingId}`
+    `/${booking?.outingId || ""}`
   );
   const { data: bookingData, isSuccess: isBookingSuccess } =
-    useGetBookingByIdQuery({ query: booking.outingId, id: booking.id });
+    useGetBookingByIdQuery({
+      query: booking.outingId || "",
+      id: booking.id || "",
+    });
   const [
     handleCheckout,
     {
@@ -85,7 +88,7 @@ const Page = () => {
   useSuccessHandler({
     isSuccess: isBookingParticipantSuccess,
     successFunction: () => {
-      handleCheckout({ query: booking.id, data: payload });
+      handleCheckout({ query: booking.id || "", data: payload });
     },
   });
   useSuccessHandler({
