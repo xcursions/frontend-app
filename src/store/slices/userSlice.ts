@@ -10,7 +10,12 @@ const userData =
   typeof window !== "undefined" && localStorage.getItem("xcursions-user");
 const userAuth =
   typeof window !== "undefined" && localStorage.getItem("xcursions-auth");
+const userBooking =
+  typeof window !== "undefined" && localStorage.getItem("xcursions-booking");
 const persistedUserData: IUser | null = userData ? JSON.parse(userData) : null;
+const persistedBookings: any | null = userBooking
+  ? JSON.parse(userBooking)
+  : null;
 const persistedToken: string | null = userToken
   ? localStorage.getItem("xcursions-token")
   : null;
@@ -22,10 +27,12 @@ const initialState: {
   user: IUser | null;
   token: typeof persistedToken | null;
   auth: typeof persistedAuth | null;
+  booking: any;
 } = {
   user: persistedUserData,
   token: persistedToken || null,
   auth: persistedAuth || null,
+  booking: persistedBookings || null,
 };
 
 const userSlice = createSlice({
@@ -39,6 +46,10 @@ const userSlice = createSlice({
     setUserAuthMethod(state, action: PayloadAction<string>) {
       localStorage.setItem("xcursions-auth", JSON.stringify(action.payload));
       state.auth = action.payload;
+    },
+    setUserBooking(state, action: PayloadAction<string>) {
+      localStorage.setItem("xcursions-booking", JSON.stringify(action.payload));
+      state.booking = action.payload;
     },
     // setUserToken(state, action: PayloadAction<string>) {
     //   localStorage.setItem("xcursions-token", JSON.stringify(action.payload));
@@ -62,6 +73,11 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUserData, setUserToken, setUserAuthMethod, logout } =
-  userSlice.actions;
+export const {
+  setUserData,
+  setUserToken,
+  setUserAuthMethod,
+  logout,
+  setUserBooking,
+} = userSlice.actions;
 export default userSlice.reducer;

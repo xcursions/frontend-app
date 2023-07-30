@@ -145,7 +145,10 @@ const Wallet = () => {
   };
   const handleLinkSubmit = () => {
     if (payload.amount.length > 0) {
-      initiateLinkDeposit({ amount: payload.amount });
+      initiateLinkDeposit({
+        amount: payload.amount,
+        callbackUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/user/wallet`,
+      });
     }
   };
   const handlePinSubmit = () => {

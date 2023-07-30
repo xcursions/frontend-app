@@ -98,6 +98,41 @@ export const userApi = createApi({
       }),
       invalidatesTags: ["User"],
     }),
+    createBooking: builder.mutation<any, { query: any; data: any }>({
+      query: ({ query, data }) => ({
+        url: `/booking/outing/${query}/bookings`,
+        method: "post",
+        data,
+      }),
+      invalidatesTags: ["UserInfo"],
+    }),
+    getBookingCost: builder.mutation<any, { query: any; data: any }>({
+      query: ({ query, data }) => ({
+        url: `/booking/outing/${query}/bookings/cost`,
+        method: "post",
+        data,
+      }),
+    }),
+    getBookingById: builder.query<any, { query: any; id: any }>({
+      query: ({ query, id }) => ({
+        url: `/booking/outing/${query}/bookings/${id}`,
+        method: "get",
+      }),
+    }),
+    handleCheckout: builder.mutation<any, any>({
+      query: ({ query, data }) => ({
+        url: `/checkout/bookings/${query}/checkout`,
+        method: "post",
+        data,
+      }),
+    }),
+    handleBookingParticipants: builder.mutation<any, any>({
+      query: ({ query, id, data }) => ({
+        url: `/booking/outing/${query}/bookings/${id}/participants/bulk`,
+        method: "post",
+        data,
+      }),
+    }),
     getUserProfile: builder.query<any, void>({
       query: () => ({
         url: "/user/profile",
@@ -122,7 +157,12 @@ export const {
   useUpdateUserProfileMutation,
   useGetUserProfileQuery,
   useGetWalletBalanceQuery,
+  useCreateBookingMutation,
   useGetTransactionsQuery,
+  useGetBookingCostMutation,
+  useGetBookingByIdQuery,
+  useHandleCheckoutMutation,
+  useHandleBookingParticipantsMutation,
   useInitiateLinkDepositMutation,
   useInitiateCardDepositMutation,
   useSubmitCardPinMutation,
