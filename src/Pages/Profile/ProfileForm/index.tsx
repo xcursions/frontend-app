@@ -9,6 +9,7 @@ import Button from "@/components/lib/Button/Button";
 import FullPageLoader from "@/components/lib/FullPageLoader";
 import Heading from "@/components/lib/Heading";
 import Input from "@/components/lib/Input";
+import Select from "@/components/lib/Select";
 import Text from "@/components/lib/Text";
 import useErrorHandler from "@/hooks/useErrorHandler";
 import useSuccessHandler from "@/hooks/useSuccessHandler";
@@ -36,6 +37,10 @@ const initialPasswordState = {
   newPassword: "",
   confirmPassword: "",
 };
+const gender = [
+  { value: "male", label: "Male" },
+  { value: "female", label: "Female" },
+];
 const ProfileForm = () => {
   const [profile, setProfile] = useState(initialState);
   const [password, setPassword] = useState(initialPasswordState);
@@ -127,6 +132,7 @@ const ProfileForm = () => {
       uploadImage(formData);
     }
   };
+  console.log(profile);
   return (
     <div className={styles.container}>
       <div className={styles.title}>
@@ -215,15 +221,28 @@ const ProfileForm = () => {
             placeholder="Enter City"
             label="City"
             name="city"
+            type="text"
             value={profile.city}
             onChange={handleChange}
           />
-          <Input
-            placeholder="Enter gender"
-            label="Sex"
-            name="gender"
+          <label className="my-1 font-dmSansRegular text-[14px] text-[#475467]">
+            Gender
+          </label>
+          <Select
+            placeholder={"Gender"}
             value={profile.gender}
-            onChange={handleChange}
+            onChange={(event) =>
+              setProfile({
+                ...profile,
+                gender: event.value,
+              })
+            }
+            options={gender.map((option) => ({
+              value: option.value,
+              label: option.label,
+            }))}
+            showArrow
+            className=" block w-full cursor-pointer  rounded-lg text-sm text-[#667084]"
           />
           <Button
             className="mt-5 w-full rounded-3xl bg-[#0A83FF]"
