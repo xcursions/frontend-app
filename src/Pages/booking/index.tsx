@@ -6,10 +6,27 @@ import React from "react";
 import Button from "@/components/lib/Button/Button";
 import Heading from "@/components/lib/Heading";
 import Text from "@/components/lib/Text";
+import { useGetBookingHistoryQuery } from "@/services/user";
 
 import styles from "./booking.module.scss";
+import { columns } from "./services/Colums";
+import { DataTable } from "./services/DataTable";
 
 const Booking = () => {
+  const { data: bookingHistory, isSuccess: bookingHistorySuccess } =
+    useGetBookingHistoryQuery(`?limit=6`);
+
+  const data =
+    bookingHistorySuccess &&
+    bookingHistory.result.map((res: any) => {
+      return {
+        id: res.id,
+        type: res.outing.type,
+        status: res.status,
+        createdAt: res.createdAt.split("T")[0],
+        bookingStatus: res.status,
+      };
+    });
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
@@ -84,6 +101,11 @@ const Booking = () => {
             <Text className="p-2 font-dmSansMedium text-[12px] text-[#667084] underline">
               view all
             </Text>
+          </div>
+        </div>
+        <div>
+          <div>
+            <DataTable columns={columns} data={data} />
           </div>
         </div>
       </div>

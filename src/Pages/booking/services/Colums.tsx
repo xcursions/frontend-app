@@ -7,7 +7,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 export type Payment = {
   id: string;
   status: string;
-  amount: string;
+  // amount: string;
   type: string;
   createdAt: any;
   bookingStatus: string;
@@ -20,15 +20,16 @@ export const columns: ColumnDef<Payment>[] = [
   },
   {
     accessorKey: "type",
+    header: "Type",
   },
   {
     accessorKey: "status",
     header: "Payment Status",
   },
-  {
-    accessorKey: "amount",
-    header: "Amount",
-  },
+  // {
+  //   accessorKey: "amount",
+  //   header: "Amount",
+  // },
   {
     accessorKey: "createdAt",
     header: "Date ",

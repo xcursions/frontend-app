@@ -33,6 +33,13 @@ export const userApi = createApi({
       }),
       providesTags: ["UserInfo"],
     }),
+    getBookingHistory: builder.query<any, any>({
+      query: (query) => ({
+        url: `/booking/bookings${query}`,
+        method: "get",
+      }),
+      providesTags: ["UserInfo"],
+    }),
     initiateLinkDeposit: builder.mutation<any, any>({
       query: (data) => ({
         url: "/fiat-deposit/deposits/link",
@@ -125,6 +132,7 @@ export const userApi = createApi({
         method: "post",
         data,
       }),
+      invalidatesTags: ["UserInfo"],
     }),
     handleBookingParticipants: builder.mutation<any, any>({
       query: ({ query, id, data }) => ({
@@ -132,6 +140,7 @@ export const userApi = createApi({
         method: "post",
         data,
       }),
+      invalidatesTags: ["UserInfo"],
     }),
     getUserProfile: builder.query<any, void>({
       query: () => ({
@@ -159,6 +168,7 @@ export const {
   useGetWalletBalanceQuery,
   useCreateBookingMutation,
   useGetTransactionsQuery,
+  useGetBookingHistoryQuery,
   useGetBookingCostMutation,
   useGetBookingByIdQuery,
   useHandleCheckoutMutation,
