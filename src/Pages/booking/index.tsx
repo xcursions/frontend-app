@@ -6,11 +6,11 @@ import React from "react";
 import Button from "@/components/lib/Button/Button";
 import Heading from "@/components/lib/Heading";
 import Text from "@/components/lib/Text";
+import { DataTable } from "@/components/ui/data-table";
 import { useGetBookingHistoryQuery } from "@/services/user";
 
 import styles from "./booking.module.scss";
 import { columns } from "./services/Colums";
-import { DataTable } from "./services/DataTable";
 
 const Booking = () => {
   const { data: bookingHistory, isSuccess: bookingHistorySuccess } =

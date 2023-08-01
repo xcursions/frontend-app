@@ -13,6 +13,7 @@ import Heading from "@/components/lib/Heading/Heading";
 import Input from "@/components/lib/Input/Input";
 import Select from "@/components/lib/Select/Select";
 import Text from "@/components/lib/Text/Text";
+import { DataTable } from "@/components/ui/data-table";
 import { useSuccessHandler } from "@/hooks";
 import {
   useGetAllOutingsQuery,
@@ -28,7 +29,6 @@ import {
 } from "@/services/user";
 
 import { columns } from "./services/Colums";
-import { DataTable } from "./services/DataTable";
 import styles from "./wallet.module.scss";
 
 const initialState = {
@@ -190,7 +190,7 @@ const Wallet = () => {
     transactionHistorySuccess &&
     transactionHistory.result.map((res: any) => {
       return {
-        amount: parseFloat(res.transaction.amount),
+        amount: res.transaction.amount,
         status: res.transaction.status,
         id: res.transaction.id,
         createdAt: res.transaction.createdAt.split("T")[0],
@@ -280,7 +280,7 @@ const Wallet = () => {
               view all
             </Text>
           </div>
-          <div>
+          <div className="mr-2">
             <DataTable columns={columns} data={data} />
           </div>
           <div className="mx-auto max-w-[200px] content-center items-center justify-center py-10">
