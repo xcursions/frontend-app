@@ -18,6 +18,12 @@ export const publicApi = createApi({
         method: "get",
       }),
     }),
+    getOutingLocaations: builder.query<any, any>({
+      query: () => ({
+        url: "/outing-destination/outings/location/locations",
+        method: "get",
+      }),
+    }),
     getOutingChargePlan: builder.query<any, any>({
       query: (query) => ({
         url: `/outing/outings/${query}/charge-plans`,
@@ -30,6 +36,7 @@ export const {
   useGetAllOutingsQuery,
   useSearchOutingsQuery,
   useGetOutingAddOnQuery,
+  useGetOutingLocaationsQuery,
   useLazySearchOutingsQuery,
   useGetOutingChargePlanQuery,
 } = publicApi;
