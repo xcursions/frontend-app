@@ -177,7 +177,10 @@ const Page = () => {
                           <Text className="font-dmSansMedium text-[14px]">
                             {isBookingSuccess && bookingData?.user?.email}
                           </Text>
-                          <Switch />
+                          <div className="flex items-center gap-1">
+                            <p>Sharing</p>
+                            <Switch />
+                          </div>
                         </div>
                       </div>
                       {count > 1 && (

@@ -41,10 +41,10 @@ const Footer = () => {
             </div>
             <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-6">
               <div>
-                <h2 className="mb-6 text-[16px] font-semibold uppercase text-white">
+                <p className="mb-6 font-dmSansRegular text-[16px] uppercase text-white">
                   Company
-                </h2>
-                <ul className="text-[14px] font-light text-gray-100">
+                </p>
+                <ul className="font-dmSansRegular text-[14px] text-gray-100">
                   <li className="mb-4">
                     <Link href="/trips" className="hover:underline">
                       Trips
@@ -68,10 +68,10 @@ const Footer = () => {
                 </ul>
               </div>
               <div>
-                <h2 className="mb-6 text-[16px] font-semibold uppercase text-white">
+                <p className="mb-6 font-dmSansRegular text-[16px] uppercase text-white">
                   Contact
-                </h2>
-                <ul className="text-[14px] font-light text-gray-100">
+                </p>
+                <ul className="font-dmSansRegular text-[14px] text-gray-100">
                   <li className="mb-4">
                     <Link href="/" className="hover:underline ">
                       Contact Us
@@ -90,10 +90,10 @@ const Footer = () => {
                 </ul>
               </div>
               <div>
-                <h2 className="mb-6 text-[16px] font-semibold uppercase text-white">
+                <p className="mb-6 font-dmSansRegular text-[16px] uppercase text-white">
                   More
-                </h2>
-                <ul className="text-[14px] font-light text-gray-100">
+                </p>
+                <ul className="font-dmSansRegular text-[14px] text-gray-100">
                   <li className="mb-4">
                     <Link href="/" className="hover:underline">
                       Privacy Policy
@@ -108,7 +108,7 @@ const Footer = () => {
               </div>
             </div>
           </div>
-          <div className="py-5 md:pl-[30%] lg:pl-[40%] ">
+          <div className="py-5 font-dmSansMedium md:pl-[30%] lg:pl-[40%] ">
             <span className=" text-[14px] text-gray-100 ">
               © 2023{" "}
               <Link href="/" className="hover:underline">
