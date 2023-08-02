@@ -1,14 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import type { FormEvent } from "react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FiFilter } from "react-icons/fi";
 
 import Input from "@/components/lib/Input";
 import { Pagination } from "@/components/lib/Pagination";
 import Select from "@/components/lib/Select/Select";
-import { useGetAllOutingsQuery } from "@/services/public";
+import useSuccessHandler from "@/hooks/useSuccessHandler";
+import {
+  useGetOutingLocationsQuery,
+  useLazyGetAllOutingsQuery,
+} from "@/services/public";
 
 import EventCard from "./EventCard/EventCard";
 import styles from "./SearchEvents.module.scss";
@@ -20,21 +23,18 @@ const initialState = {
   price: "",
   duration: "",
 };
-const optionLocation = [
-  { value: "Maldives", label: "Maldives" },
-  { value: "Santorini", label: "Santorini" },
-  { value: "San Francisco", label: "San Francisco" },
-  { value: "Bali", label: "Bali" },
-];
+
 const optionTrip = [
-  { value: "All Trip", label: "All Trip" },
-  { value: "Private Trip", label: "Private Trip" },
-  { value: "Group Trip", label: "Group Trip" },
+  { value: "private", label: "Private Trip" },
+  { value: "group", label: "Group Trip" },
 ];
 const optionPrice = [
-  { value: "100k-200k", label: "100k-200k" },
-  { value: "200k-300k", label: "200k-300k" },
-  { value: "400k-900k", label: "400k-900k" },
+  { value: "1000000", label: "under 1M" },
+  { value: "2000000", label: "under 2M" },
+  { value: "3000000", label: "under 3M" },
+  { value: "4000000", label: "under 4M" },
+  { value: "5000000", label: "under 5M" },
+  { value: "6000000", label: "under 6M" },
 ];
 const optionDuration = [
   { value: "All", label: "All" },
@@ -46,19 +46,34 @@ const optionDuration = [
 ];
 const SearchEvents = () => {
   const [payload, setPayload] = useState(initialState);
+  const { isSuccess: locationIsSuccess, data: locationData } =
+    useGetOutingLocationsQuery();
+  const [location, setLocation] = useState([]);
+  const [queryLocation, setQueryLocation] = useState("");
+  const [queryTripType, setQueryTripType] = useState("");
+  const [maxPrice, setMaxPrice]: any = useState();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const pageLimit = 8;
-  const { data, isSuccess } = useGetAllOutingsQuery(
-    `?type=event&limit=${pageLimit}&page=${currentPage}`
-  );
+  const [getOuting, { data, isSuccess }] = useLazyGetAllOutingsQuery();
   const [showFilter, setShowFilter] = useState(false);
 
-  const handleChange = (event: FormEvent<HTMLInputElement>) => {
-    setPayload({
-      ...payload,
-      [event.currentTarget.name]: event.currentTarget.value,
-    });
-  };
+  useSuccessHandler({
+    isSuccess: locationIsSuccess,
+    successFunction: () => {
+      setLocation(locationData?.outingDestination);
+    },
+
+    showToast: false,
+  });
+  useEffect(() => {
+    if (queryLocation || queryTripType || maxPrice) {
+      getOuting(
+        `?type=event&limit=${pageLimit}&page=${currentPage}&location=${queryLocation}&subType=${queryTripType}&maxPrice=${maxPrice}`
+      );
+    } else {
+      getOuting(`?type=event&limit=${pageLimit}&page=${currentPage}`);
+    }
+  }, [queryTripType, queryLocation, currentPage, maxPrice]);
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
@@ -72,7 +87,7 @@ const SearchEvents = () => {
                   name="search"
                   startIcon
                   value={payload.search}
-                  onChange={handleChange}
+                  onChange={() => {}}
                   id="simple-search"
                   className="block w-[280px] rounded-lg text-sm text-[#667084] focus:border-blue-500 focus:ring-blue-500 md:w-[350px] lg:w-[342px]"
                   placeholder="Search for trips, events"
@@ -109,14 +124,9 @@ const SearchEvents = () => {
             >
               <Select
                 placeholder={"Trip type"}
-                value={payload.trips}
+                value={queryTripType}
                 startIcon={"/assets/images/icons/plane.png"}
-                onChange={(event) =>
-                  setPayload({
-                    ...payload,
-                    trips: event.value,
-                  })
-                }
+                onChange={(event) => setQueryTripType(event.value)}
                 options={optionTrip.map((option) => ({
                   value: option.value,
                   label: option.label,
@@ -132,14 +142,9 @@ const SearchEvents = () => {
             >
               <Select
                 placeholder={"Price"}
-                value={payload.price}
+                value={maxPrice}
                 startIcon={"/assets/images/icons/dollar.png"}
-                onChange={(event) =>
-                  setPayload({
-                    ...payload,
-                    price: event.value,
-                  })
-                }
+                onChange={(event) => setMaxPrice(event.value)}
                 options={optionPrice.map((option) => ({
                   value: option.value,
                   label: option.label,
@@ -153,23 +158,20 @@ const SearchEvents = () => {
                 showFilter ? "block" : "hidden"
               } relative w-full lg:block`}
             >
-              <Select
-                placeholder={"Location"}
-                value={payload.location}
-                startIcon={"/assets/images/icons/map.png"}
-                onChange={(event) =>
-                  setPayload({
-                    ...payload,
-                    location: event.value,
-                  })
-                }
-                options={optionLocation.map((option) => ({
-                  value: option.value,
-                  label: option.label,
-                }))}
-                showArrow
-                className=" block w-full cursor-pointer  rounded-lg text-sm text-[#667084]"
-              />
+              {locationData && (
+                <Select
+                  placeholder={"Location"}
+                  value={queryLocation}
+                  startIcon={"/assets/images/icons/map.png"}
+                  onChange={(event) => setQueryLocation(event.value)}
+                  options={location.map((option) => ({
+                    value: option,
+                    label: option,
+                  }))}
+                  showArrow
+                  className=" block w-full cursor-pointer  rounded-lg text-sm text-[#667084]"
+                />
+              )}
             </div>
             <div
               className={`${
