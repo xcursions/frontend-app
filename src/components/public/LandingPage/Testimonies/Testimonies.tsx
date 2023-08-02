@@ -12,7 +12,7 @@ const Testimonies = () => {
         <Text className="items-start text-start font-dmSansRegular text-[12px] text-[#0A83FF]">
           TESTIMONIALS
         </Text>
-        <div className="flex justify-between pb-5">
+        <div className="flex max-w-[1238px] justify-between pb-5">
           <Text className=" max-w-[390px] items-start text-start font-dmSansBold text-[24px] leading-tight text-[#101828] lg:text-[36px]">
             What Our Customers are saying
           </Text>

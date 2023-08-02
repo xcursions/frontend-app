@@ -18,9 +18,12 @@ const TopDestinations = () => {
           >
             Book Your Next Trip In 3 Easy Steps
           </Heading>
-          <div className="">
-            <ol className="list-decimal">
-              <li className="py-3">
+          <div className="font-dmSansMedium">
+            <div className="flex items-start gap-3">
+              <p className="h-fit w-fit rounded-full bg-[#0A83FF] px-2 py-[2px] text-xs text-[#ffffff]">
+                1
+              </p>
+              <div className="">
                 <Text className="font-dmSansMedium text-[16px] text-[#101828]">
                   View Available Trips
                 </Text>
@@ -28,8 +31,13 @@ const TopDestinations = () => {
                   A tristique tincidunt quam eu vel. Sed lectus at mauris
                   aliquet pellentesque elementum dolor tincidunt in.
                 </Text>
-              </li>
-              <li className="py-3">
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <p className="h-fit w-fit rounded-full bg-[#0A83FF] px-2 py-[3px] text-xs text-[#ffffff]">
+                2
+              </p>
+              <div className="">
                 <Text className="font-dmSansMedium text-[16px] text-[#101828]">
                   Select and View Details
                 </Text>
@@ -37,8 +45,13 @@ const TopDestinations = () => {
                   A tristique tincidunt quam eu vel. Sed lectus at mauris
                   aliquet pellentesque elementum dolor tincidunt in.
                 </Text>
-              </li>
-              <li className="py-3">
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <p className="h-fit w-fit rounded-full bg-[#0A83FF] px-2 py-[3px] text-xs text-[#ffffff]">
+                3
+              </p>
+              <div className="">
                 <Text className="font-dmSansMedium text-[16px] text-[#101828]">
                   Make Payment
                 </Text>
@@ -46,8 +59,8 @@ const TopDestinations = () => {
                   A tristique tincidunt quam eu vel. Sed lectus at mauris
                   aliquet pellentesque elementum dolor tincidunt in.
                 </Text>
-              </li>
-            </ol>
+              </div>
+            </div>
           </div>
           <Button className="max-w-[174px] rounded-3xl bg-[#0A83FF] hover:bg-blue-400">
             Get Started Now
@@ -130,7 +143,7 @@ const TopDestinations = () => {
         </div>
       </div>
       {/* Gallery */}
-      <div className="relative grid grid-cols-2 gap-4 md:grid-cols-4">
+      <div className="relative grid grid-cols-2 gap-4 md:grid-cols-4 xl:mx-[50px]">
         <div className="absolute bottom-[45%] left-[40%]">
           <img
             src="/assets/images/gallery/text.png"

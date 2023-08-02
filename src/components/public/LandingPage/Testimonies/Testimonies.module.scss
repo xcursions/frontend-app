@@ -1,6 +1,6 @@
 .wrapper {
-    @apply w-full  bg-[#FFFFFF] overflow-x-hidden overflow-y-hidden  p-5;
+    @apply w-full  bg-[#FFFFFF] max-w-[1440px] p-5;
   }
   .container {
-    @apply relative mx-auto w-full
+    @apply relative mx-auto xl:mx-[50px];
   }
