@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { AiOutlineArrowLeft, AiOutlineClockCircle } from "react-icons/ai";
 import { BsFillArrowRightCircleFill } from "react-icons/bs";
@@ -21,35 +21,123 @@ import Text from "@/components/lib/Text/Text";
 import Footer from "@/components/public/Footer/Footer";
 import Navbar from "@/components/public/Navbar";
 import Subscription from "@/components/public/Subscription/Subscription";
-import { useAppSelector, useAuth } from "@/hooks";
+import {
+  useAppSelector,
+  useAuth,
+  useErrorHandler,
+  useSuccessHandler,
+} from "@/hooks";
 import { useGetAllOutingsQuery } from "@/services/public";
+import {
+  useGetBookingByIdQuery,
+  useHandleBookingParticipantsMutation,
+  useHandleCheckoutMutation,
+} from "@/services/user";
 
 import styles from "./page.module.scss";
 
 const Page = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const search = searchParams?.get("outing");
+  const [count, setCount] = useState(0);
+  const [data, setData] = useState([]);
   // @ts-ignore
-  const count = parseInt(searchParams?.get("count"), 10);
-  const [inputValues, setInputValues] = useState(
-    Array.from({ length: count && count - 1 }, () => "")
-  );
   const { user } = useAppSelector((state) => state.user);
+  const { booking } = useAppSelector((state) => state.user);
   const { isAuthenticated } = useAuth(true);
-  const { data, isSuccess } = useGetAllOutingsQuery(`/${search}`);
-
+  const { data: tripInfo, isSuccess } = useGetAllOutingsQuery(
+    `/${booking?.outingId || ""}`
+  );
+  const { data: bookingData, isSuccess: isBookingSuccess } =
+    useGetBookingByIdQuery({
+      query: booking?.outingId || "",
+      id: booking?.id || "",
+    });
+  const [
+    handleCheckout,
+    {
+      // data: checkoutData,
+      isSuccess: isCheckoutSuccess,
+      isError: isCheckoutError,
+      isLoading,
+      error: checkoutError,
+    },
+  ] = useHandleCheckoutMutation();
+  const [
+    handleBookingParticipants,
+    {
+      // data: bookingParticipantData,
+      isSuccess: isBookingParticipantSuccess,
+      isError: isBookingParticipantError,
+      isLoading: isBookingParticipantLoading,
+      error: bookingParticipantError,
+    },
+  ] = useHandleBookingParticipantsMutation();
+  const payload = {
+    paymentMethod: "instant",
+  };
+  useErrorHandler({
+    isError: isBookingParticipantError,
+    error: bookingParticipantError,
+  });
+  useErrorHandler({
+    isError: isCheckoutError,
+    error: checkoutError,
+  });
+  useSuccessHandler({
+    isSuccess: isBookingParticipantSuccess,
+    successFunction: () => {
+      handleCheckout({ query: booking?.id || "", data: payload });
+    },
+  });
+  useSuccessHandler({
+    isSuccess: isCheckoutSuccess,
+    successFunction: () => {
+      router.push("/user/wallet");
+    },
+    toastMessage: "Event Booked successfully!",
+  });
+  useEffect(() => {
+    if (isBookingSuccess) {
+      setCount(parseInt(bookingData?.ticketQuantity, 10));
+    }
+  }, [isBookingSuccess]);
   useEffect(() => {
     if (!user) {
       router.push("/login");
     }
   }, [user, router]);
-  const handleChange = (index: number, value: string) => {
-    const newInputValues = [...inputValues];
-    newInputValues[index] = value;
-    setInputValues(newInputValues);
+  useEffect(() => {
+    // Initialize data with the required number of objects based on the fetched count
+    setData(
+      // @ts-ignore
+      Array.from({ length: count - 1 }, () => ({
+        name: "",
+        email: "",
+        isSharing: true,
+        individualType: "adult",
+      }))
+    );
+  }, [count]);
+  // @ts-ignore
+  const handleInputChange = (index, field, value) => {
+    setData((prevData) => {
+      const newData = [...prevData];
+      // @ts-ignore
+      newData[index][field] = value;
+      return newData;
+    });
   };
-
+  const handleSubmit = () => {
+    if (data.length < 0) {
+      handleBookingParticipants({
+        query: booking?.outingId,
+        id: booking?.id,
+        data,
+      });
+    } else {
+      handleCheckout({ query: booking?.id, data: payload });
+    }
+  };
   return (
     <>
       {!isAuthenticated ? (
@@ -90,24 +178,53 @@ const Page = () => {
                           </Text>
                         )}
 
-                        <div className="grid-col-1 mr-3 grid gap-3 md:grid-cols-2">
-                          {inputValues.map((value, index) => (
-                            <Input
-                              label="Email Address"
-                              type="email"
+                        <div className="mr-3 grid grid-cols-1 gap-3">
+                          {data.map((item, index) => (
+                            <div
                               key={index}
-                              value={value}
-                              onChange={(e) =>
+                              className="grid w-full grid-cols-2 items-center gap-3 xl:gap-[32px]"
+                            >
+                              <Input
+                                type="text"
+                                label="Name"
+                                placeholder={`Name ${index + 1}`}
                                 // @ts-ignore
-                                handleChange(index, e.target.value)
-                              }
-                              placeholder={`Enter your Email Address`}
-                            />
+                                value={item.name}
+                                onChange={(e) =>
+                                  handleInputChange(
+                                    index,
+                                    "name",
+                                    // @ts-ignore
+                                    e.target.value
+                                  )
+                                }
+                              />
+                              <Input
+                                type="email"
+                                label="Email Address"
+                                placeholder={`Email ${index + 1}`}
+                                // @ts-ignore
+                                value={item.email}
+                                onChange={(e) =>
+                                  handleInputChange(
+                                    index,
+                                    "email",
+                                    // @ts-ignore
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </div>
                           ))}
                         </div>
-                        <Button className="my-5 mb-6 rounded-3xl">
+                        <Button
+                          className="my-5 mb-6 rounded-3xl"
+                          onClick={handleSubmit}
+                        >
                           Pay now
                         </Button>
+                        {isBookingParticipantLoading ||
+                          (isLoading && <FullPageLoader />)}
                       </div>
                     </div>
                   </div>
@@ -119,17 +236,18 @@ const Page = () => {
                         </Text>
                         <div className="mt-[32px] flex gap-3">
                           <Image
-                            src={data?.outingGallery[0]?.image}
-                            alt={data?.name}
-                            width={100}
-                            height={100}
+                            src={tripInfo?.outingGallery[0]?.image}
+                            alt={tripInfo?.name}
+                            width={80}
+                            height={80}
+                            className="h-[80px] w-[80px] rounded-xl "
                           />
                           <div>
                             <Text className="font-dmSansBold text-[18px] text-[#101828]">
-                              {data?.name}
+                              {tripInfo?.name}
                             </Text>
                             <Text className="font-dmSansBold text-[16px] text-[#0A83FF] ">
-                              ₦{parseInt(data?.price, 10).toLocaleString()}
+                              ₦{parseInt(tripInfo?.price, 10).toLocaleString()}
                             </Text>
                           </div>
                         </div>
@@ -141,19 +259,19 @@ const Page = () => {
                         </Text>
                         <Text className=" my-5 flex gap-3 font-dmSansRegular text-[14px] text-[#475467]">
                           <TbCalendar className=" text-xl text-[#475467]" />
-                          {isSuccess &&
+                          {isBookingSuccess &&
                             formatDatesRange(
-                              data?.outingDate[0]?.startDate,
-                              data?.outingDate[0]?.endDate
+                              bookingData?.bookingDate?.startDate,
+                              bookingData?.bookingDate?.endDate
                             )}
                         </Text>
                         <Text className="flex items-center gap-3">
                           <AiOutlineClockCircle />{" "}
-                          {isSuccess &&
+                          {isBookingSuccess &&
                             Math.floor(
                               formatWeeksRange(
-                                data?.outingDate[0]?.startDate,
-                                data?.outingDate[0]?.endDate
+                                bookingData?.bookingDate?.startDate,
+                                bookingData?.bookingDate?.endDate
                               )
                             )}{" "}
                           weeks
@@ -163,9 +281,10 @@ const Page = () => {
                           <Text className="text-[12px] text-[#601B16]">
                             Deadline for payment is{" "}
                             {isSuccess &&
+                              isBookingSuccess &&
                               SubtractDate(
-                                data?.outingDate[0]?.startDate,
-                                data?.deadlineGap
+                                bookingData?.bookingDate?.startDate,
+                                tripInfo?.deadlineGap
                               )}
                           </Text>
                         </div>
@@ -200,12 +319,7 @@ const Page = () => {
                             Total
                           </Text>
                           <span className="text-[18px] text-[#101828] ">
-                            ₦
-                            {isSuccess && data.price
-                              ? (
-                                  parseInt(data.price, 10) * count
-                                ).toLocaleString()
-                              : "Not available"}
+                            ₦{parseInt(bookingData?.cost, 10).toLocaleString()}
                           </span>
                         </div>
                       </div>

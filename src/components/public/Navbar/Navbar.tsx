@@ -90,22 +90,22 @@ const Navbar = ({ text, logo }: Props) => {
           >
             <ul className="items-center justify-center space-y-8 md:flex md:space-x-6 md:space-y-0">
               <li
-                className={`${textColor} hover:text-2xl  hover:underline focus:underline`}
+                className={`${textColor} hover:text-xl  hover:underline focus:underline`}
               >
                 <Link href="/trips">Trips</Link>
               </li>
               <li
-                className={`${textColor} hover:text-2xl hover:underline focus:underline`}
+                className={`${textColor} hover:text-xl hover:underline focus:underline`}
               >
                 <Link href="/blog">Blog</Link>
               </li>
               <li
-                className={`${textColor} hover:text-2xl  hover:underline focus:underline`}
+                className={`${textColor} hover:text-xl  hover:underline focus:underline`}
               >
-                <Link href="/">Contact Us</Link>
+                <Link href="/contact-us">Contact Us</Link>
               </li>
               <li
-                className={`${textColor} hover:text-2xl hover:underline focus:underline`}
+                className={`${textColor} hover:text-xl hover:underline focus:underline`}
               >
                 <Link href="/">About US</Link>
               </li>

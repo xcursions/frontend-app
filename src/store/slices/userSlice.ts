@@ -59,7 +59,7 @@ const userSlice = createSlice({
       state.token = action.payload;
       localStorage.setItem("xcursions-token", action.payload);
       Cookies.set("xcursions-token", action.payload, {
-        expires: 7,
+        expires: 1,
         sameSite: "strict",
       });
     },

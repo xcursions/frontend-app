@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import toaster from "react-hot-toast";
 import {
   AiFillApple,
@@ -24,6 +24,13 @@ import Heading from "@/components/lib/Heading/Heading";
 import MapComponent from "@/components/lib/MapComponent/MapComponent";
 import OutingGallery from "@/components/lib/OutingGallery/OutingGallery";
 import Text from "@/components/lib/Text/Text";
+import { useAppSelector, useErrorHandler, useSuccessHandler } from "@/hooks";
+import useAppDispatch from "@/hooks/useAppDispatch";
+import {
+  useCreateBookingMutation,
+  useGetBookingCostMutation,
+} from "@/services/user";
+import { setUserBooking } from "@/store/slices/userSlice";
 import type { OutingProps } from "@/types";
 
 import styles from "./EventDetails.module.scss";
@@ -32,14 +39,35 @@ type Props = {
   detailsData: OutingProps;
 };
 const initialState = {
-  count: 0,
-  id: "",
+  outingDateId: "",
+  numOfAdults: 1,
+  outingSubType: "group",
+  numOfChildren: 0,
+  numOfInfants: 0,
+  numOfPeopleSharing: 0,
+  // addonIds: [],
+  ticketQuantity: 0,
 };
 const EventDetails = ({ detailsData }: Props) => {
+  const dispatch = useAppDispatch();
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [galleryOpen, setGalleryOpen] = useState(false);
+  const { user } = useAppSelector((state) => state.user);
   const [payload, setPayload] = useState(initialState);
   const router = useRouter();
+  // const { data: chargePlanData, isSuccess: chargePlanSuccess } =
+  //   useGetOutingChargePlanQuery(detailsData.id);
+  const [
+    createBooking,
+    {
+      data: bookingData,
+      isSuccess: bookingSuccess,
+      isError: isBookingError,
+      error: bookingError,
+    },
+  ] = useCreateBookingMutation();
+  const [bookingCost, { data: bookingPrice, isSuccess: bookingPriceSuccess }] =
+    useGetBookingCostMutation();
   const handleOpen = () => {
     setGalleryOpen(true);
   };
@@ -69,6 +97,30 @@ const EventDetails = ({ detailsData }: Props) => {
       .writeText(linkToCopy)
       .then(() => toaster("Link copied to clipboard!"))
       .catch((err) => toaster("Failed to copy link:", err));
+  };
+  useEffect(() => {
+    setPayload({
+      ...payload,
+      outingDateId: detailsData.outingDate[0].id,
+    });
+  }, []);
+  useEffect(() => {
+    bookingCost({ query: detailsData.id, data: payload });
+  }, [payload]);
+  useErrorHandler({ isError: isBookingError, error: bookingError });
+  useSuccessHandler({
+    isSuccess: bookingSuccess,
+    successFunction: () => {
+      if (bookingData) {
+        dispatch(setUserBooking(bookingData));
+        router.push(`/checkout`);
+      }
+      return null;
+    },
+    toastMessage: "Proceed to CheckOut!",
+  });
+  const handleSubmit = () => {
+    createBooking({ query: detailsData.id, data: payload });
   };
   return (
     <div className={styles.wrapper}>
@@ -140,7 +192,9 @@ const EventDetails = ({ detailsData }: Props) => {
                     Price of Ticket
                   </Text>
                   <Text className="font-dmSansBold text-[16px] text-[#0A83FF]">
-                    ₦{parseInt(detailsData.price, 10).toLocaleString()}
+                    ₦
+                    {bookingPriceSuccess &&
+                      parseInt(bookingPrice, 10).toLocaleString()}
                   </Text>
                 </div>
                 <div className="my-5 mr-3 flex justify-between">
@@ -149,22 +203,28 @@ const EventDetails = ({ detailsData }: Props) => {
                   </Text>
                   <div className="flex items-center gap-3">
                     <button
-                      disabled={payload.count === 0}
+                      disabled={payload.ticketQuantity === 0}
                       onClick={() =>
                         setPayload({
                           ...payload,
-                          count: payload.count - 1,
+                          ticketQuantity: payload.ticketQuantity - 1,
                         })
                       }
                       className="cursor-pointer rounded-full bg-white text-2xl text-[#667084] shadow-md"
                     >
                       <AiOutlineMinus />
                     </button>
-                    <span className="text-[18px]"> {payload.count}</span>
+                    <span className="text-[18px]">
+                      {" "}
+                      {payload.ticketQuantity}
+                    </span>
                     <button
                       className="cursor-pointer rounded-full bg-white text-2xl text-[#667084] shadow-md"
                       onClick={() =>
-                        setPayload({ ...payload, count: payload.count + 1 })
+                        setPayload({
+                          ...payload,
+                          ticketQuantity: payload.ticketQuantity + 1,
+                        })
                       }
                     >
                       <AiOutlinePlus />
@@ -211,17 +271,21 @@ const EventDetails = ({ detailsData }: Props) => {
                   >
                     Add to Calendar
                   </Button>
-                  <Link
-                    href={`/checkout/?outing=${detailsData.id}&count=${payload.count}`}
-                    className="w-full"
-                  >
-                    <Button
-                      className="w-full rounded-3xl"
-                      disabled={payload.count === 0}
-                    >
-                      Get Ticket
-                    </Button>
-                  </Link>
+                  <div className="w-full ">
+                    {user ? (
+                      <Button
+                        className="w-full rounded-3xl"
+                        onClick={handleSubmit}
+                        disabled={payload.ticketQuantity === 0}
+                      >
+                        Proceed to Checkout
+                      </Button>
+                    ) : (
+                      <Button className="w-full rounded-3xl">
+                        <Link href={"/login"}>Please login to continue</Link>
+                      </Button>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
