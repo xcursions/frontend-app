@@ -208,13 +208,13 @@ const SearchEvents = () => {
             ? multipleOutingData?.result
                 .filter((outing: any) => outing.type === "event")
                 .map((post: any) => (
-                  <Link key={`${post.id}`} href={`/trips/${post.id}`}>
+                  <Link key={`${post.id}`} href={`/events/${post.id}`}>
                     <EventCard post={post} />
                   </Link>
                 ))
             : isSuccess &&
               data?.result.map((post: any) => (
-                <Link key={`${post.id}`} href={`/trips/${post.id}`}>
+                <Link key={`${post.id}`} href={`/events/${post.id}`}>
                   <EventCard post={post} />
                 </Link>
               ))}
