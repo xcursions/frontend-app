@@ -22,11 +22,11 @@ const Layout = ({ children }: any) => {
   }, []);
   const router = useRouter();
   const pathname = usePathname();
-  const { user } = useAppSelector((state) => state.user);
+  const { user, token } = useAppSelector((state) => state.user);
   const { isAuthenticated } = useAuth(true);
 
   useEffect(() => {
-    if (!user?.suspended && user?.profile?.id) {
+    if (!user?.suspended && user?.profile?.id && token) {
       router.push(`${pathname}`);
     } else {
       router.push("/login");

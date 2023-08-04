@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import type { ChangeEvent } from "react";
 import React, { useEffect, useState } from "react";
 import { FiFilter } from "react-icons/fi";
 
@@ -9,7 +10,10 @@ import { Pagination } from "@/components/lib/Pagination";
 import Select from "@/components/lib/Select/Select";
 import useSuccessHandler from "@/hooks/useSuccessHandler";
 import {
+  useGetOutingDurationsQuery,
   useGetOutingLocationsQuery,
+  useGetOutingPriceRangeQuery,
+  useGetOutingsByMultipleIdMutation,
   useLazyGetAllOutingsQuery,
 } from "@/services/public";
 
@@ -18,43 +22,31 @@ import styles from "./SearchEvents.module.scss";
 
 const initialState = {
   search: "",
-  location: "",
-  trips: "",
-  price: "",
-  duration: "",
 };
 
 const optionTrip = [
   { value: "private", label: "Private Trip" },
   { value: "group", label: "Group Trip" },
 ];
-const optionPrice = [
-  { value: "1000000", label: "under 1M" },
-  { value: "2000000", label: "under 2M" },
-  { value: "3000000", label: "under 3M" },
-  { value: "4000000", label: "under 4M" },
-  { value: "5000000", label: "under 5M" },
-  { value: "6000000", label: "under 6M" },
-];
-const optionDuration = [
-  { value: "All", label: "All" },
-  { value: "1 week", label: "1 week" },
-  { value: "2 weeks", label: "2 weeks" },
-  { value: "1 month", label: "1 month" },
-  { value: "2 month", label: "2 month" },
-  { value: "3 month", label: "3 month" },
-];
 const SearchEvents = () => {
   const [payload, setPayload] = useState(initialState);
   const { isSuccess: locationIsSuccess, data: locationData } =
     useGetOutingLocationsQuery();
+  const { isSuccess: durationIsSuccess, data: durationData } =
+    useGetOutingDurationsQuery();
+  const { isSuccess: priceRangeSuccess, data: priceRangeData } =
+    useGetOutingPriceRangeQuery();
   const [location, setLocation] = useState([]);
+  const [range, setRange] = useState([]);
   const [queryLocation, setQueryLocation] = useState("");
   const [queryTripType, setQueryTripType] = useState("");
-  const [maxPrice, setMaxPrice]: any = useState();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const pageLimit = 8;
   const [getOuting, { data, isSuccess }] = useLazyGetAllOutingsQuery();
+  const [
+    getMultipleOuting,
+    { data: multipleOutingData, isSuccess: isMultipleOutingSuccess },
+  ] = useGetOutingsByMultipleIdMutation();
   const [showFilter, setShowFilter] = useState(false);
 
   useSuccessHandler({
@@ -66,30 +58,37 @@ const SearchEvents = () => {
     showToast: false,
   });
   useEffect(() => {
-    if (queryLocation || queryTripType || maxPrice) {
+    if (range.length > 0) {
+      getMultipleOuting({ outingIds: range });
+    } else if (queryLocation || queryTripType || payload.search) {
       getOuting(
-        `?type=event&limit=${pageLimit}&page=${currentPage}&location=${queryLocation}&subType=${queryTripType}&maxPrice=${maxPrice}`
+        `?type=event&limit=${pageLimit}&page=${currentPage}&location=${queryLocation}&subType=${queryTripType}&search=${payload.search}`
       );
     } else {
       getOuting(`?type=event&limit=${pageLimit}&page=${currentPage}`);
     }
-  }, [queryTripType, queryLocation, currentPage, maxPrice]);
+  }, [queryTripType, queryLocation, currentPage, payload.search, range]);
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
         {/** Search field */}
         <div className="flex">
           <form className="grid grid-cols-1 items-center gap-10 lg:grid-cols-5 lg:gap-3">
-            <div className="flex w-full ">
+            <div className="flex w-full items-center ">
               <div className="relative w-full">
                 <Input
                   type="text"
                   name="search"
                   startIcon
                   value={payload.search}
-                  onChange={() => {}}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    setPayload({
+                      ...payload,
+                      search: e.target.value,
+                    })
+                  }
                   id="simple-search"
-                  className="block w-[280px] rounded-lg text-sm text-[#667084] focus:border-blue-500 focus:ring-blue-500 md:w-[350px] lg:w-[342px]"
+                  className="block w-[240px] rounded-lg text-sm text-[#667084] focus:border-blue-500 focus:ring-blue-500 md:w-[350px] lg:w-[342px]"
                   placeholder="Search for trips, events"
                   required
                 />
@@ -140,18 +139,23 @@ const SearchEvents = () => {
                 showFilter ? "block" : "hidden"
               } relative w-full lg:block`}
             >
-              <Select
-                placeholder={"Price"}
-                value={maxPrice}
-                startIcon={"/assets/images/icons/dollar.png"}
-                onChange={(event) => setMaxPrice(event.value)}
-                options={optionPrice.map((option) => ({
-                  value: option.value,
-                  label: option.label,
-                }))}
-                showArrow
-                className=" block w-full cursor-pointer  rounded-lg text-sm text-[#667084]"
-              />
+              {priceRangeSuccess && (
+                <Select
+                  placeholder={"Price"}
+                  value={""}
+                  startIcon={"/assets/images/icons/dollar.png"}
+                  // @ts-ignore
+                  onChange={(event) => setRange(event.value)}
+                  options={priceRangeData.map(
+                    (option: { outingIds: any; priceRange: any }) => ({
+                      value: option.outingIds,
+                      label: option.priceRange,
+                    })
+                  )}
+                  showArrow
+                  className=" block w-full cursor-pointer  rounded-lg text-sm text-[#667084]"
+                />
+              )}
             </div>
             <div
               className={`${
@@ -178,34 +182,42 @@ const SearchEvents = () => {
                 showFilter ? "block" : "hidden"
               } relative w-full lg:block`}
             >
-              <Select
-                placeholder={"Duration"}
-                value={payload.duration}
-                startIcon={"/assets/images/icons/calendar1.png"}
-                onChange={(event) =>
-                  setPayload({
-                    ...payload,
-                    duration: event.value,
-                  })
-                }
-                options={optionDuration.map((option) => ({
-                  value: option.value,
-                  label: option.label,
-                }))}
-                showArrow
-                className=" block w-full cursor-pointer  rounded-lg text-sm text-[#667084]"
-              />
+              {durationIsSuccess && (
+                <Select
+                  placeholder={"Duration"}
+                  value={""}
+                  startIcon={"/assets/images/icons/calendar1.png"}
+                  // @ts-ignore
+                  onChange={(event) => setRange(event.value)}
+                  options={durationData.map(
+                    (option: { outingIds: any; duration: any }) => ({
+                      value: option.outingIds,
+                      label: option.duration,
+                    })
+                  )}
+                  showArrow
+                  className=" block w-full cursor-pointer  rounded-lg text-sm text-[#667084]"
+                />
+              )}
             </div>
           </form>
         </div>
         {/* Trip Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-          {isSuccess &&
-            data.result.map((post: any) => (
-              <Link href={`/events/${post.id}`} key={`${post.id}`}>
-                <EventCard post={post} key={`${post.id}`} />
-              </Link>
-            ))}
+          {isMultipleOutingSuccess
+            ? multipleOutingData?.result
+                .filter((outing: any) => outing.type === "event")
+                .map((post: any) => (
+                  <Link key={`${post.id}`} href={`/trips/${post.id}`}>
+                    <EventCard post={post} />
+                  </Link>
+                ))
+            : isSuccess &&
+              data?.result.map((post: any) => (
+                <Link key={`${post.id}`} href={`/trips/${post.id}`}>
+                  <EventCard post={post} />
+                </Link>
+              ))}
         </div>
         {data && (
           <Pagination

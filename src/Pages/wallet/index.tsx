@@ -368,10 +368,7 @@ const Wallet = () => {
                     <span className="pl-5 text-[24px] text-[#FF860A]">
                       <TbCards />
                     </span>
-                    <p
-                      className="cursor-pointer text-[15px] text-[#475467]"
-                      onClick={toggleCardModal}
-                    >
+                    <p className="cursor-pointer text-[15px] text-[#475467]">
                       Pay with Card
                     </p>
                   </div>
@@ -384,9 +381,7 @@ const Wallet = () => {
                       className="pl-5"
                       alt="paystack"
                     />
-                    <p className="cursor-pointer" onClick={handleLinkSubmit}>
-                      Pay with Paystack
-                    </p>
+                    <p className="cursor-pointer">Pay with Paystack</p>
                   </div>
                   <Button
                     className="cursor-pointer rounded-3xl text-[14px]"

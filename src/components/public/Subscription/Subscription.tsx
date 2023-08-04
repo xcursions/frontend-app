@@ -17,7 +17,7 @@ const Subscription = () => {
             className="hidden max-h-[270px] rounded-2xl lg:block"
           />
           <div className="max-w-[550px] justify-center">
-            <Text className="font-dmSansBold text-[30px]">
+            <Text className="text-center font-dmSansBold text-[16px] font-bold md:text-start lg:text-[28px]">
               Subscribe to hear from us
             </Text>
             <Text className="py-3 text-[16px] text-[#475467]">

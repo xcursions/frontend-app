@@ -24,6 +24,25 @@ export const publicApi = createApi({
         method: "get",
       }),
     }),
+    getOutingDurations: builder.query<any, void>({
+      query: () => ({
+        url: "/outing-date/outings/duration/durations",
+        method: "get",
+      }),
+    }),
+    getOutingPriceRange: builder.query<any, void>({
+      query: () => ({
+        url: "/outing/outings/price/price-range",
+        method: "get",
+      }),
+    }),
+    getOutingsByMultipleId: builder.mutation<any, any>({
+      query: (data) => ({
+        url: "/outing/outings/specific-duration/get-multiple",
+        method: "post",
+        data,
+      }),
+    }),
     getOutingChargePlan: builder.query<any, any>({
       query: (query) => ({
         url: `/outing/outings/${query}/charge-plans`,
@@ -38,6 +57,9 @@ export const {
   useSearchOutingsQuery,
   useGetOutingAddOnQuery,
   useGetOutingLocationsQuery,
+  useGetOutingDurationsQuery,
+  useGetOutingPriceRangeQuery,
+  useGetOutingsByMultipleIdMutation,
   useLazySearchOutingsQuery,
   useGetOutingChargePlanQuery,
 } = publicApi;
