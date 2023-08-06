@@ -7,6 +7,7 @@ import type {
   ChangeEmailPayload,
   ChangePasswordPayload,
   ConfirmEmailOtpPayload,
+  ContactUsPayload,
   UpdateUserProfilePayload,
 } from "./payload";
 
@@ -149,6 +150,13 @@ export const userApi = createApi({
       }),
       providesTags: ["User"],
     }),
+    createContact: builder.mutation<any, ContactUsPayload>({
+      query: (data) => ({
+        url: "/contact/contacts/",
+        method: "post",
+        data,
+      }),
+    }),
     logout: builder.mutation<any, any>({
       query: () => ({ url: "/user/logout/", method: "post" }),
     }),
@@ -177,4 +185,5 @@ export const {
   useInitiateCardDepositMutation,
   useSubmitCardPinMutation,
   useSubmitCardOtpMutation,
+  useCreateContactMutation,
 } = userApi;

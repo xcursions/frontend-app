@@ -26,3 +26,8 @@ export type UpdateUserProfilePayload = {
   country?: string;
   dateOfBirth?: string;
 };
+export type ContactUsPayload = {
+  name: string;
+  email: string;
+  message: string;
+};
