@@ -118,6 +118,7 @@
 
     .container.active{
         display: block;
+        width: 290px;
     }
 
     .sidebar-close-btn{

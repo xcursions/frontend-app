@@ -12,6 +12,7 @@ import {
   useSearchOutingsQuery,
 } from "@/services/public";
 import {
+  useGetBookingHistoryQuery,
   useGetUserProfileQuery,
   useGetWalletBalanceQuery,
 } from "@/services/user";
@@ -48,6 +49,8 @@ export default function Dashboard() {
   });
   const { data: userProfile, isSuccess: userSuccess } =
     useGetUserProfileQuery();
+  const { data: outingData, isSuccess: outingSuccess } =
+    useGetBookingHistoryQuery("?limit=100");
   return (
     <>
       <div className="mt-[19px] max-w-[783px] border-2">
@@ -91,7 +94,19 @@ export default function Dashboard() {
               <div className="items-center text-center">
                 <p className="text-start text-[12px] text-[#FF9E3B]">Trips</p>
                 <p className="font-dmSansBold text-[20px] font-bold text-[#021A33]">
-                  50
+                  {outingSuccess && outingData.result.length > 0 ? (
+                    <div>
+                      {
+                        outingData.result.filter(
+                          (res: any) =>
+                            res.status === "successful" &&
+                            res.outing.type === "tour"
+                        ).length
+                      }
+                    </div>
+                  ) : (
+                    <div>0</div>
+                  )}
                 </p>
               </div>
             </div>
@@ -104,7 +119,19 @@ export default function Dashboard() {
               <div className="items-center text-center">
                 <p className="text-start text-[12px] text-[#9E3BFF]">Events</p>
                 <p className="font-dmSansBold text-[20px] font-bold text-[#021A33]">
-                  20
+                  {outingSuccess && outingData.result.length > 0 ? (
+                    <div>
+                      {
+                        outingData.result.filter(
+                          (res: any) =>
+                            res.status === "successful" &&
+                            res.outing.type === "event"
+                        ).length
+                      }
+                    </div>
+                  ) : (
+                    <div>0</div>
+                  )}
                 </p>
               </div>
             </div>
