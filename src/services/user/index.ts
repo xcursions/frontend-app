@@ -7,6 +7,7 @@ import type {
   ChangeEmailPayload,
   ChangePasswordPayload,
   ConfirmEmailOtpPayload,
+  ContactUsPayload,
   UpdateUserProfilePayload,
 } from "./payload";
 
@@ -134,6 +135,20 @@ export const userApi = createApi({
       }),
       invalidatesTags: ["UserInfo"],
     }),
+    getNotifications: builder.query<any, any>({
+      query: (query) => ({
+        url: `/notifications/notifications${query}`,
+        method: "get",
+      }),
+      providesTags: ["UserInfo"],
+    }),
+    markNotification: builder.mutation<any, any>({
+      query: (query) => ({
+        url: `/notifications/notifications/${query}/mark-read`,
+        method: "put",
+      }),
+      invalidatesTags: ["UserInfo"],
+    }),
     handleBookingParticipants: builder.mutation<any, any>({
       query: ({ query, id, data }) => ({
         url: `/booking/outing/${query}/bookings/${id}/participants/bulk`,
@@ -148,6 +163,13 @@ export const userApi = createApi({
         method: "get",
       }),
       providesTags: ["User"],
+    }),
+    createContact: builder.mutation<any, ContactUsPayload>({
+      query: (data) => ({
+        url: "/contact/contacts/",
+        method: "post",
+        data,
+      }),
     }),
     logout: builder.mutation<any, any>({
       query: () => ({ url: "/user/logout/", method: "post" }),
@@ -177,4 +199,7 @@ export const {
   useInitiateCardDepositMutation,
   useSubmitCardPinMutation,
   useSubmitCardOtpMutation,
+  useCreateContactMutation,
+  useGetNotificationsQuery,
+  useMarkNotificationMutation,
 } = userApi;
