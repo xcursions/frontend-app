@@ -1,12 +1,18 @@
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HiOutlineMenuAlt1 } from "react-icons/hi";
 import { IoNotificationsOutline } from "react-icons/io5";
 
+import Button from "@/components/lib/Button/Button";
 import FullPageLoader from "@/components/lib/FullPageLoader";
 import Input from "@/components/lib/Input/Input";
-import { useAppSelector, useLogoutUser } from "@/hooks";
-import { useGetUserProfileQuery } from "@/services/user";
+import TimeDifference from "@/components/lib/TimeDifference/TimeDifference";
+import { useAppSelector, useLogoutUser, useSuccessHandler } from "@/hooks";
+import {
+  useGetNotificationsQuery,
+  useGetUserProfileQuery,
+  useMarkNotificationMutation,
+} from "@/services/user";
 
 import { menuList } from "../../data";
 import DropdownMenu from "../DropdownMenu";
@@ -74,13 +80,33 @@ const NotificationsIcon = ({ onClick = () => {} }) => (
   </IconWrapper>
 );
 
-const NotificationList = ({ img = null, desc = "", datetime = "" }) => {
+const NotificationList = ({ img, desc, datetime, id }: any) => {
+  const [notificationId, setNotificationId] = useState("");
+  const [markRead, { isSuccess }] = useMarkNotificationMutation();
+  useSuccessHandler({
+    isSuccess,
+    showToast: true,
+    toastMessage: "Notification marked as read",
+  });
+  useEffect(() => {
+    if (notificationId) {
+      markRead(notificationId);
+    }
+  }, [notificationId]);
   return (
     <li>
-      {img && <img src={"/assets/images/icons/profile_avatar.png"} alt="" />}
-      <div className={styles["single-notification"]}>
-        <p>{desc}</p>
-        <p>{datetime}</p>
+      {img && (
+        <img src={img || "/assets/images/icons/profile_avatar.png"} alt="" />
+      )}
+      <div
+        className={styles["single-notification"]}
+        onClick={() => setNotificationId(id)}
+      >
+        <p className="text-[#98A2B3]">{desc}</p>
+        <div className="flex gap-3">
+          <p className="text-[#0A83FF] underline">Check Info</p>
+          <p className="text-[#98A2B3]">{datetime}</p>
+        </div>
       </div>
     </li>
   );
@@ -89,6 +115,8 @@ const NotificationList = ({ img = null, desc = "", datetime = "" }) => {
 const Header = ({ toggleSidebarMenu }: any) => {
   const { data, isSuccess } = useGetUserProfileQuery();
   const { auth } = useAppSelector((state) => state.user);
+  const { data: notificationData, isSuccess: notificationSuccess } =
+    useGetNotificationsQuery("?limit=50");
   return (
     <>
       <section className={styles.container}>
@@ -117,34 +145,48 @@ const Header = ({ toggleSidebarMenu }: any) => {
                 // @ts-ignore
                 CustomMenu={NotificationsIcon}
                 // @ts-ignore
-                count={4}
+                count={
+                  notificationData?.result.filter((res: any) => !res.isRead)
+                    .length
+                }
                 screenCenter={false}
               >
                 <div className={styles["notification-container"]}>
                   <div
                     className={`justify-sb flex ${styles["notification-header"]}`}
                   >
-                    <h3>Notifications</h3>
-                    <p style={{ color: "blue", fontWeight: "bold" }}>
-                      Mark all as Read
-                    </p>
+                    <h2 className="text-[18px] font-bold">Notifications</h2>
                   </div>
                   <div className={styles["notification-body"]}>
-                    <ul className={styles["notification-tabs"]}>
+                    {/* <ul className={styles["notification-tabs"]}>
                       <li className={styles.active}>All</li>
                       <li>Following</li>
                       <li>Archeive</li>
-                    </ul>
+                    </ul> */}
                     <ul className={styles["notification-tab"]}>
-                      {[0, 1, 2].map((notification, i) => (
-                        <NotificationList
-                          key={i}
-                          // @ts-ignore
-                          img={`https://cdn.pixabay.com/photo/2017/03/19/20/19/ball-2157465__340.png`}
-                          desc={"Jacob jone mwntion you in rewrite button tab"}
-                          datetime={"1:12pm"}
-                        />
-                      ))}
+                      {notificationSuccess &&
+                        notificationData.result
+                          .filter((res: { isRead: any }) => !res.isRead)
+                          .slice(0, 4)
+                          .map((notification: any) => (
+                            <NotificationList
+                              key={notification.id}
+                              // @ts-ignore
+                              img={data?.data?.avatarUrl}
+                              desc={notification.content}
+                              id={notification.id}
+                              datetime={
+                                <TimeDifference
+                                  createdAt={notification.createdAt}
+                                />
+                              }
+                            />
+                          ))}
+                    </ul>
+                    <ul>
+                      <Button className="mt-3 w-full rounded-3xl">
+                        view all
+                      </Button>
                     </ul>
                   </div>
                 </div>

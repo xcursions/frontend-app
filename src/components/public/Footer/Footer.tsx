@@ -78,7 +78,7 @@ const Footer = () => {
                     </Link>
                   </li>
                   <li className="mb-4">
-                    <Link href="/" className="hover:underline">
+                    <Link href="/about-us" className="hover:underline">
                       About Us
                     </Link>
                   </li>
@@ -95,7 +95,7 @@ const Footer = () => {
                 </p>
                 <ul className="font-dmSansRegular text-[14px] text-gray-100">
                   <li className="mb-4">
-                    <Link href="/" className="hover:underline">
+                    <Link href="/privacy-policy" className="hover:underline">
                       Privacy Policy
                     </Link>
                   </li>

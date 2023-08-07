@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 import { FiNavigation, FiPhoneCall } from "react-icons/fi";
 import { TbMailbox } from "react-icons/tb";
 
@@ -7,8 +10,31 @@ import Button from "@/components/lib/Button";
 import Input from "@/components/lib/Input";
 import Text from "@/components/lib/Text/Text";
 import TextArea from "@/components/lib/TextArea/TextArea";
+import { useAppSelector, useErrorHandler, useSuccessHandler } from "@/hooks";
+import { useCreateContactMutation } from "@/services/user";
+
+const initialState = {
+  name: "",
+  email: "",
+  message: "",
+};
 
 const Form = () => {
+  const [payload, setPayload] = useState(initialState);
+  const router = useRouter();
+  const { user } = useAppSelector((state) => state.user);
+  const [createContact, { isSuccess, isError, error }] =
+    useCreateContactMutation();
+
+  useErrorHandler({ isError, error });
+  useSuccessHandler({
+    isSuccess,
+    showToast: true,
+    toastMessage: "Message sent successfully",
+  });
+  const handleSubmit = () => {
+    createContact(payload);
+  };
   return (
     <div className="w-full px-5 py-[58px]">
       <div className="relative mx-auto max-w-[1241px]">
@@ -56,23 +82,53 @@ const Form = () => {
               </Text>
               <Input
                 label="Name"
+                value={payload.name}
+                required
                 placeholder="Enter your name here"
                 className="w-full"
+                onChange={(event) =>
+                  // @ts-ignore
+                  setPayload({ ...payload, name: event.target.value })
+                }
               />
               <Input
                 label="Email"
+                value={payload.email}
                 type="email"
+                required
                 placeholder="Enter your email here"
                 className="w-full"
+                onChange={(event) =>
+                  // @ts-ignore
+                  setPayload({ ...payload, email: event.target.value })
+                }
               />
               <TextArea
+                value={payload.message}
                 label="Message"
+                required
                 placeholder="We would love to hear from you"
                 className="h-[165px]"
+                onChange={(event) =>
+                  setPayload({ ...payload, message: event.target.value })
+                }
               />
-              <Button className="mt-[32px] w-full rounded-3xl">
-                Send Message
-              </Button>
+              {user && (
+                <Button
+                  className="mt-[32px] w-full rounded-3xl"
+                  onClick={handleSubmit}
+                >
+                  Send Message
+                </Button>
+              )}
+              {!user && (
+                <Button
+                  className="mt-[32px] w-full rounded-3xl"
+                  onClick={() => router.push("/login")}
+                >
+                  Please login to message
+                </Button>
+              )}
             </div>
           </div>
         </div>
