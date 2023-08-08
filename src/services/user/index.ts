@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { createApi } from "@reduxjs/toolkit/query/react";
 
 import axiosBaseQuery from "@/utils/api/baseQuery";
@@ -189,8 +191,10 @@ export const {
   useGetUserProfileQuery,
   useGetWalletBalanceQuery,
   useCreateBookingMutation,
+  useLazyGetTransactionsQuery,
   useGetTransactionsQuery,
   useGetBookingHistoryQuery,
+  useLazyGetBookingHistoryQuery,
   useGetBookingCostMutation,
   useGetBookingByIdQuery,
   useHandleCheckoutMutation,

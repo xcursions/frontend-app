@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 import Button from "@/components/lib/Button/Button";
@@ -98,9 +99,11 @@ const Booking = () => {
         <div className="mt-[48px] lg:ml-[40px] lg:mt-[40px]">
           <div className="flex justify-between pr-5">
             <Heading type="h3">Booking History</Heading>
-            <Text className="p-2 font-dmSansMedium text-[12px] text-[#667084] underline">
-              view all
-            </Text>
+            <Link href="/user/booking/history">
+              <Text className="p-2 font-dmSansMedium text-[12px] text-[#667084] underline">
+                view all
+              </Text>
+            </Link>
           </div>
         </div>
         <div>

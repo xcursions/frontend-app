@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 
 import FullPageLoader from "@/components/lib/FullPageLoader";
 import { useAppSelector, useAuth } from "@/hooks";
+import { useGetUserQuery } from "@/services/user";
 
 import CalendarComponent from "../Calendar/Calendar";
 import Header from "../Header";
@@ -24,14 +25,16 @@ const Layout = ({ children }: any) => {
   const pathname = usePathname();
   const { user, token } = useAppSelector((state) => state.user);
   const { isAuthenticated } = useAuth(true);
+  const { data, isSuccess } = useGetUserQuery();
 
+  const userExists = isSuccess && data?.data?.id;
   useEffect(() => {
-    if (!user?.suspended && user?.profile?.id && token) {
+    if (!user?.suspended && user?.profile?.id && token && userExists) {
       router.push(`${pathname}`);
     } else {
       router.push("/login");
     }
-  }, [user, router, pathname]);
+  }, [user, router, pathname, isSuccess, data]);
   return (
     <>
       {!isAuthenticated ? (
@@ -48,7 +51,9 @@ const Layout = ({ children }: any) => {
             showSidebarMenu={showSidebarMenu}
           />
           {pathname !== "/user/account" &&
-            pathname !== "/user/account/favourite" && <CalendarComponent />}
+            pathname !== "/user/account/favourite" &&
+            pathname !== "/user/wallet/history" &&
+            pathname !== "/user/booking/history" && <CalendarComponent />}
           <section className="content">{children}</section>
         </>
       )}

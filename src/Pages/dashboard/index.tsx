@@ -152,9 +152,11 @@ export default function Dashboard() {
                   Near Me
                 </Text>
               </div>
-              <Text className="p-2 font-dmSansMedium text-[12px] text-[#667084] underline">
-                view all
-              </Text>
+              <Link href="/trips">
+                <Text className="p-2 font-dmSansMedium text-[12px] text-[#667084] underline">
+                  view all
+                </Text>
+              </Link>
             </div>
             <div className="flex gap-5 md:hidden">
               <Text className="rounded-3xl bg-[#101828] p-2 px-4 font-dmSansRegular text-[12px] text-[#FFFFFF]">
@@ -187,9 +189,11 @@ export default function Dashboard() {
             <Text className="font-dmSansBold text-[18px] text-[#101828]">
               Events Around You
             </Text>
-            <Text className="p-2 font-dmSansMedium text-[12px] text-[#667084] underline">
-              view all
-            </Text>
+            <Link href="/events">
+              <Text className="p-2 font-dmSansMedium text-[12px] text-[#667084] underline">
+                view all
+              </Text>
+            </Link>
           </div>
           <div className="no-scrollbar flex max-w-[682px] overflow-x-auto scroll-smooth">
             <div
