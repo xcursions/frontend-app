@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import type { FormEvent } from "react";
 import { useEffect, useState } from "react";
 import { AiFillEye } from "react-icons/ai";
@@ -129,9 +130,9 @@ const Wallet = () => {
       fetchSingleTrip();
     }
 
-    return () => {
-      console.log("value not given");
-    };
+    // return () => {
+    //   console.log("value not given");
+    // };
   }, [payload.trip, singleTrip]);
   const formatedDate = (date: string) => {
     const dob = new Date(date);
@@ -276,9 +277,11 @@ const Wallet = () => {
         <div className="mt-[48px] lg:ml-[31px] lg:mt-[40px]">
           <div className="flex justify-between pr-5">
             <Heading type="h3">Transaction History</Heading>
-            <Text className="p-2 font-dmSansMedium text-[12px] text-[#667084] underline">
-              view all
-            </Text>
+            <Link href="/user/wallet/history">
+              <Text className="p-2 font-dmSansMedium text-[12px] text-[#667084] underline">
+                view all
+              </Text>
+            </Link>
           </div>
           <div className="mr-2">
             <DataTable columns={columns} data={data} />
