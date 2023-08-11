@@ -1,20 +1,41 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 
 import Button from "@/components/lib/Button";
 import Input from "@/components/lib/Input/Input";
 import Text from "@/components/lib/Text/Text";
+import { useErrorHandler, useSuccessHandler } from "@/hooks";
+import { useNewsletterSubscriptionMutation } from "@/services/user";
 
 import styles from "./Subscription.module.scss";
 
+const initialState = {
+  email: "",
+};
 const Subscription = () => {
+  const [payload, setPayload] = useState(initialState);
+  const [createNewsletter, { isSuccess, isError, error }] =
+    useNewsletterSubscriptionMutation();
+  useSuccessHandler({
+    isSuccess,
+    toastMessage: "subscribed successfully",
+  });
+  useErrorHandler({
+    isError,
+    error,
+  });
+  const handleSubmit = () => {
+    createNewsletter(payload);
+  };
   return (
     <div className={styles.wrapper}>
-      <div className="overflow-none mx-auto max-w-4xl rounded-3xl bg-[#ffffff] p-6 shadow-2xl">
+      <div className="overflow-none mx-auto max-w-[1016px] rounded-3xl bg-[#ffffff] p-6">
         <div className="flex max-h-[334px] gap-10">
           <img
             src="/assets/images/landing-page/hangout2.png"
             alt=""
-            className="hidden max-h-[270px] rounded-2xl lg:block"
+            className="hidden max-h-[270px] w-[350px] rounded-2xl lg:block"
           />
           <div className="max-w-[550px] justify-center">
             <Text className="text-center font-dmSansBold text-[16px] font-bold md:text-start lg:text-[28px]">
@@ -27,9 +48,23 @@ const Subscription = () => {
             <div className="flex flex-col gap-3 py-5 lg:flex-row">
               <Input
                 placeholder="Your Email address here"
-                className="max-w-[500px] lg:w-[370px]"
+                type="email"
+                className="lg:w-[352px]"
+                value={payload.email}
+                onChange={(event) =>
+                  setPayload({
+                    ...payload,
+                    // @ts-ignore
+                    email: event?.target.value,
+                  })
+                }
               />
-              <Button className="rounded-3xl bg-[#0A83FF]">Subscribe</Button>
+              <Button
+                className="rounded-3xl bg-[#0A83FF]"
+                onClick={handleSubmit}
+              >
+                Subscribe
+              </Button>
             </div>
           </div>
         </div>

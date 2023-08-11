@@ -13,6 +13,7 @@
   .top_image_container img {
     width: 100%;
     height: auto;
+    max-height: 471px;
     border-radius: 6px 6px 0 0;
     @apply rounded-3xl px-1
   }

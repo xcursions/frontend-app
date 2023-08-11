@@ -74,7 +74,7 @@ const TopDestinations = () => {
           />
         </div>
       </div>
-      <div>
+      <div className="mx-auto max-w-[1240px]">
         <div className="content-center justify-center pb-10 pt-[98px]">
           <Text className="items-center justify-center text-center font-dmSansRegular text-[12px] text-[#0A83FF]">
             OUR TRIPS
@@ -143,7 +143,7 @@ const TopDestinations = () => {
         </div>
       </div>
       {/* Gallery */}
-      <div className="relative grid grid-cols-2 gap-4 md:grid-cols-4 xl:mx-[50px]">
+      <div className="relative mx-auto grid max-w-[1240px] grid-cols-2 gap-4 md:grid-cols-4">
         <div className="absolute bottom-[45%] left-[40%]">
           <img
             src="/assets/images/gallery/text.png"

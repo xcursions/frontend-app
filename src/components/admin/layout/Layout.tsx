@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import FullPageLoader from "@/components/lib/FullPageLoader";
 import { useAppSelector, useAuth } from "@/hooks";
 
+// import { useGetUserQuery } from "@/services/user";
 import Header from "../Header/Header";
 import SidebarNavigation from "../SidebarNavigation/SidebarNavigation";
 
@@ -21,16 +22,24 @@ const Layout = ({ children }: any) => {
   }, []);
   const router = useRouter();
   const pathname = usePathname();
-  const { user } = useAppSelector((state) => state.user);
+  const { user, token } = useAppSelector((state) => state.user);
   const { isAuthenticated } = useAuth(true);
+  // const { data, isSuccess } = useGetUserQuery();
+
+  // const userExists = isSuccess && data?.data?.id;
 
   useEffect(() => {
-    if (!user?.suspended && user?.profile?.id && user?.role === "admin") {
+    if (
+      !user?.suspended &&
+      user?.profile?.id &&
+      token &&
+      user?.role === "admin"
+    ) {
       router.push(`${pathname}`);
     } else {
       router.push("/admin/login");
     }
-  }, [user, router, pathname]);
+  }, [user, router, token, pathname]);
   return (
     <>
       {!isAuthenticated ? (
