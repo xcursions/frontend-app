@@ -5,6 +5,7 @@ type OutingProps = {
   deadlineGap: number;
   deletedAt: string;
   createdAt: string;
+  liked: boolean;
   price: string;
   status: string;
   subType: string;

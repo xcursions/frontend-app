@@ -108,6 +108,21 @@ export const userApi = createApi({
       }),
       invalidatesTags: ["User"],
     }),
+    createOutingLike: builder.mutation<any, any>({
+      query: ({ query, data }) => ({
+        url: `/outing-likes/outings/${query}`,
+        method: "post",
+        data,
+      }),
+      invalidatesTags: ["UserInfo"],
+    }),
+    getOutingLike: builder.query<any, any>({
+      query: (query) => ({
+        url: `/outing-likes/outings${query}`,
+        method: "get",
+      }),
+      providesTags: ["UserInfo"],
+    }),
     createBooking: builder.mutation<any, { query: any; data: any }>({
       query: ({ query, data }) => ({
         url: `/booking/outing/${query}/bookings`,
@@ -173,6 +188,13 @@ export const userApi = createApi({
         data,
       }),
     }),
+    newsletterSubscription: builder.mutation<any, any>({
+      query: (data) => ({
+        url: "/newsletter/newsletters",
+        method: "post",
+        data,
+      }),
+    }),
     logout: builder.mutation<any, any>({
       query: () => ({ url: "/user/logout/", method: "post" }),
     }),
@@ -204,6 +226,9 @@ export const {
   useSubmitCardPinMutation,
   useSubmitCardOtpMutation,
   useCreateContactMutation,
+  useNewsletterSubscriptionMutation,
   useGetNotificationsQuery,
   useMarkNotificationMutation,
+  useCreateOutingLikeMutation,
+  useGetOutingLikeQuery,
 } = userApi;
