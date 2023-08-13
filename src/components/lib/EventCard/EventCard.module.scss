@@ -41,10 +41,10 @@
     @apply h-full w-full rounded-[20px] lg:h-[210px];
   }
   .imagetextbody {
-    @apply absolute bottom-0 flex justify-between items-end left-0 right-0 pb-2 pl-4 opacity-100;
+    @apply absolute bottom-0 flex items-center justify-between left-0 right-0 pb-2 pl-4 opacity-100;
   }
   .imageheading {
-    @apply font-dmSansMedium text-[18px] font-bold text-[#FFFFFF];
+    @apply font-dmSansMedium text-[18px] my-3 font-bold text-[#FFFFFF];
   }
   .imagetext {
     @apply font-dmSansRegular text-[10px] text-[#dad7d7] shadow-2xl sm:text-[16px];

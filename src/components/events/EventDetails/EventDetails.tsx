@@ -15,6 +15,7 @@ import { FaMicrosoft, FaRegClock } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { FiFacebook, FiInstagram, FiLink, FiTwitter } from "react-icons/fi";
 import { GrFavorite } from "react-icons/gr";
+import { MdFavorite } from "react-icons/md";
 import { TbCalendar } from "react-icons/tb";
 
 import Button from "@/components/lib/Button";
@@ -28,7 +29,9 @@ import { useAppSelector, useErrorHandler, useSuccessHandler } from "@/hooks";
 import useAppDispatch from "@/hooks/useAppDispatch";
 import {
   useCreateBookingMutation,
+  useCreateOutingLikeMutation,
   useGetBookingCostMutation,
+  useGetOutingLikeQuery,
 } from "@/services/user";
 import { setUserBooking } from "@/store/slices/userSlice";
 import type { OutingProps } from "@/types";
@@ -68,6 +71,11 @@ const EventDetails = ({ detailsData }: Props) => {
   ] = useCreateBookingMutation();
   const [bookingCost, { data: bookingPrice, isSuccess: bookingPriceSuccess }] =
     useGetBookingCostMutation();
+  const [
+    createLike,
+    { isSuccess: isLikeSuccess, isError: isLikeError, error: likeError },
+  ] = useCreateOutingLikeMutation();
+  const { data: likedData } = useGetOutingLikeQuery("?type=event");
   const handleOpen = () => {
     setGalleryOpen(true);
   };
@@ -119,6 +127,16 @@ const EventDetails = ({ detailsData }: Props) => {
     },
     toastMessage: "Proceed to CheckOut!",
   });
+  useErrorHandler({ isError: isLikeError, error: likeError });
+  useSuccessHandler({
+    isSuccess: isLikeSuccess,
+    toastMessage: "Outing has been added to your favorites",
+  });
+  const handleLike = () => {
+    if (user) {
+      createLike({ query: detailsData.id, data: { liked: true } });
+    }
+  };
   const handleSubmit = () => {
     createBooking({ query: detailsData.id, data: payload });
   };
@@ -156,7 +174,13 @@ const EventDetails = ({ detailsData }: Props) => {
                 className={styles.icon}
                 onClick={handleCopyLink}
               />
-              <GrFavorite className={styles.icon} />
+              {likedData?.result.some(
+                (res: any) => detailsData.id === res.outing.id
+              ) ? (
+                <MdFavorite className={`${styles.icon}`} />
+              ) : (
+                <GrFavorite className={styles.icon} onClick={handleLike} />
+              )}
             </div>
             <Heading
               type="h1"

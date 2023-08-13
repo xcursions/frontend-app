@@ -1,14 +1,19 @@
 "use client";
 
+import Link from "next/link";
 import React, { useState } from "react";
 
+import EventCard from "@/components/lib/EventCard/EventCard";
 import Heading from "@/components/lib/Heading";
 import Text from "@/components/lib/Text/Text";
+import TripCard from "@/components/lib/TripCard/TripCard";
+import { useGetOutingLikeQuery } from "@/services/user";
 
 import styles from "./FavouriteInfo.module.scss";
 
 const FavouriteInfo = () => {
   const [isTrip, setIsTrip] = useState(false);
+  const { data: likedData } = useGetOutingLikeQuery("");
   return (
     <div className={styles.container}>
       <div className={styles.title}>
@@ -35,15 +40,59 @@ const FavouriteInfo = () => {
             Events
           </p>
         </div>
-        <div className="mx-auto p-10 ">
+        <div className="mx-auto lg:p-10 ">
           {isTrip ? (
-            <Text className="my-20 font-dmSansBold text-[24px] ">
-              No Favourite Trips has been added yet
-            </Text>
+            <div className="no-scrollbar flex max-w-[702px] overflow-x-auto scroll-smooth">
+              <div
+                className=" grid gap-2"
+                style={{
+                  gridTemplateColumns: `repeat(${likedData?.result?.length}, 1fr)`,
+                }}
+              >
+                {isTrip &&
+                  likedData?.result
+                    ?.filter((res: any) => res.outing.type === "tour")
+                    ?.map((post: any) => (
+                      <Link
+                        href={`/trips/${post.outing.id}`}
+                        key={`${post.id}`}
+                      >
+                        <TripCard post={post.outing} liked={true} />
+                      </Link>
+                    ))}
+              </div>
+              {likedData?.result?.filter(
+                (res: any) => res.outing.type === "tour"
+              ).length === 0 && (
+                <Text className="my-20 font-dmSansBold text-[24px] ">
+                  No Favourite Trip has been added yet
+                </Text>
+              )}
+            </div>
           ) : (
-            <Text className="my-20 font-dmSansBold text-[24px] ">
-              No Favourite Events has been added yet
-            </Text>
+            <div className="no-scrollbar flex max-w-[702px] overflow-x-auto scroll-smooth">
+              <div
+                className="grid gap-2"
+                style={{
+                  gridTemplateColumns: `repeat(${likedData?.result?.length}, 1fr)`,
+                }}
+              >
+                {likedData?.result
+                  ?.filter((res: any) => res.outing.type === "event")
+                  ?.map((post: any) => (
+                    <Link href={`/events/${post.outing.id}`} key={`${post.id}`}>
+                      <EventCard post={post.outing} liked={true} />
+                    </Link>
+                  ))}
+              </div>
+              {likedData?.result?.filter(
+                (res: any) => res.outing.type === "event"
+              ).length === 0 && (
+                <Text className="my-20 font-dmSansBold text-[24px] ">
+                  No Favourite Event has been added yet
+                </Text>
+              )}
+            </div>
           )}
         </div>
       </div>

@@ -9,7 +9,7 @@ import SidebarNavigation from "./SidebarNavigation";
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const [sidebarMenuActive, setSidebarMenuActive] = useState(true);
 
-  const toggleSidebarMenu = () => setSidebarMenuActive(!sidebarMenuActive);
+  // const toggleSidebarMenu = () => setSidebarMenuActive(!sidebarMenuActive);
   // const showSidebarMenu = () => setSidebarMenuActive(true);
 
   useEffect(() => {
@@ -18,7 +18,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <SidebarNavigation
-        toggleSidebarMenu={toggleSidebarMenu}
+        // toggleSidebarMenu={toggleSidebarMenu}
         sidebarMenuActive={sidebarMenuActive}
       />
       <section className="content">{children}</section>

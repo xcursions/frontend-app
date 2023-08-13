@@ -1,5 +1,6 @@
 import React from "react";
-import { AiOutlineHeart } from "react-icons/ai";
+import { GrFavorite } from "react-icons/gr";
+import { MdFavorite } from "react-icons/md";
 
 import Text from "@/components/lib/Text/Text";
 
@@ -12,7 +13,7 @@ import styles from "./TripCard.module.scss";
 //     price: string;
 //   };
 // };
-const TripCard = ({ post }: any) => {
+const TripCard = ({ post, liked }: any) => {
   return (
     <div className={styles.card_container}>
       <div className={styles.card_image}>
@@ -22,7 +23,7 @@ const TripCard = ({ post }: any) => {
           alt={post.name}
         />
         <div className="absolute right-1 top-1 mr-2 mt-2 rounded-full bg-white p-2">
-          <AiOutlineHeart className="text-xl" />
+          {liked ? <MdFavorite /> : <GrFavorite />}
         </div>
         <div>
           <Text className="font-dmSansRegular text-[16px] font-normal text-[#1D2838]">

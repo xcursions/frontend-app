@@ -12,7 +12,7 @@ import HeaderSection from "@/ui-components/HeaderSection";
 import routes from "../routes";
 import styles from "./SidebarNavigation.module.scss";
 
-const SidebarNavigation = ({ sidebarMenuActive, toggleSidebarMenu }: any) => {
+const SidebarNavigation = ({ sidebarMenuActive }: any) => {
   const Pathname = usePathname();
 
   return (
@@ -21,12 +21,12 @@ const SidebarNavigation = ({ sidebarMenuActive, toggleSidebarMenu }: any) => {
         sidebarMenuActive ? styles["active"] : ""
       }`}
     >
-      <button
+      {/* <button
         className={styles["sidebar-close-btn"]}
         onClick={toggleSidebarMenu}
       >
         x
-      </button>
+      </button> */}
       <div className={styles["logo-container"]}>
         <HeaderSection
           heading={"Account"}
