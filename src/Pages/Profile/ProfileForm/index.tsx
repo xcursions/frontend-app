@@ -132,7 +132,6 @@ const ProfileForm = () => {
       uploadImage(formData);
     }
   };
-  console.log(profile);
   return (
     <div className={styles.container}>
       <div className={styles.title}>
