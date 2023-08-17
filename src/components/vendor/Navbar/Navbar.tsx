@@ -55,7 +55,7 @@ const Navbar = () => {
             >
               <Avatar
                 image={user?.profile?.avatarUrl || profileImage}
-                name={`${user?.first_name} ${user?.last_name}`}
+                // name={`${user?.first_name} ${user?.last_name}`}
                 className={styles.actions__img}
               />
               <MdArrowDropDown className={styles.actions__arrow} />
