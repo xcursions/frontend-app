@@ -166,6 +166,13 @@ export const userApi = createApi({
       }),
       invalidatesTags: ["UserInfo"],
     }),
+    getUpcomingSchedule: builder.query<any, void>({
+      query: () => ({
+        url: "/saving-plan/upcoming-outing-schedules",
+        method: "get",
+      }),
+      providesTags: ["UserInfo"],
+    }),
     handleBookingParticipants: builder.mutation<any, any>({
       query: ({ query, id, data }) => ({
         url: `/booking/outing/${query}/bookings/${id}/participants/bulk`,
@@ -229,6 +236,7 @@ export const {
   useNewsletterSubscriptionMutation,
   useGetNotificationsQuery,
   useMarkNotificationMutation,
+  useGetUpcomingScheduleQuery,
   useCreateOutingLikeMutation,
   useGetOutingLikeQuery,
 } = userApi;

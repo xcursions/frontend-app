@@ -39,7 +39,9 @@ function TimeDifference({ createdAt }: any) {
     return () => clearInterval(interval);
   }, [createdAt]);
 
-  return <span>{timeAgo}</span>;
+  return (
+    <span className="text-[14px] font-semibold text-[#667084]">{timeAgo}</span>
+  );
 }
 
 export default TimeDifference;

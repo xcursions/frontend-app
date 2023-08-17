@@ -84,16 +84,9 @@ export const columns: ColumnDef<Payment>[] = [
     accessorKey: "amount",
     header: () => <div className="text-lg font-semibold">Amount</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "NGN",
-      }).format(amount);
-
+      const amount = parseInt(row.getValue("amount"), 10).toLocaleString();
       return (
-        <div className="text-[14px] font-medium text-[#101828]">
-          {formatted}
-        </div>
+        <div className="text-[14px] font-medium text-[#101828]">₦{amount}</div>
       );
     },
   },

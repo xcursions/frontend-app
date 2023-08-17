@@ -15,3 +15,18 @@ export type CreateOutingDestinationPayload = {
   continent: string;
   location: string;
 };
+export type CreateOutingChargePlanPayload = {
+  title: string;
+  description: string;
+  currency: string;
+  cost: number;
+  adultMultiplier: number;
+  infantMultiplier: number;
+  childrenMultiplier: number;
+  petMultiplier: number;
+  quantity: number;
+  singleOccupancyAmount: number;
+  perPersonSharingAmount: number;
+  extraDurationCostPerDay: number;
+  initialPaymentPercent: number;
+};

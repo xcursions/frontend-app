@@ -5,13 +5,13 @@ import Button from "@/components/lib/Button/Button";
 import { formatDatesRange } from "@/components/lib/FormatWeekRange/FormatWeekRage";
 import Text from "@/components/lib/Text/Text";
 import { Calendar } from "@/components/ui/calendar";
-import { useGetBookingHistoryQuery } from "@/services/user";
+import { useGetUpcomingScheduleQuery } from "@/services/user";
 
 import styles from "./Calendar.module.scss";
 
 const CalendarComponent = () => {
   const [date, setDate] = React.useState<Date | undefined>(new Date());
-  const { data, isSuccess } = useGetBookingHistoryQuery("?limit=10");
+  const { data, isSuccess } = useGetUpcomingScheduleQuery();
   return (
     <div className={styles.container}>
       <Text className="pl-2 font-dmSansBold text-[18px] text-[#101828]">
