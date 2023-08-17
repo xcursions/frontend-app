@@ -1,0 +1,15 @@
+.container {
+    display: grid;
+    grid-template-columns: 66% 33%;
+    gap: 20px; 
+    @apply mt-[32px]
+}
+.card_left {
+    @apply flex w-auto max-w-[718px] flex-col gap-[24px]
+}
+.card_right {
+    @apply flex w-auto max-w-[345px] flex-col gap-[24px]
+}
+.card_body {
+    @apply w-full rounded-xl bg-[#ffffff]
+}

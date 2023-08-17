@@ -8,6 +8,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
+import Button from "@/components/lib/Button";
 import {
   Table,
   TableBody,
@@ -34,7 +35,7 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className="rounded-md border">
+    <div className=" border">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -77,7 +78,31 @@ export function DataTable<TData, TValue>({
           )}
         </TableBody>
       </Table>
-      <button onClick={() => table.nextPage()}>next page</button>
+      <div className="text-muted-foreground mx-3 flex-1 text-sm">
+        {table.getFilteredSelectedRowModel().rows.length} of{" "}
+        {table.getFilteredRowModel().rows.length} row(s) selected.
+      </div>
+      <div className="mx-5 mt-10 flex items-center justify-end gap-2">
+        <span className="flex items-center gap-1">
+          <div>Page</div>
+          <strong>
+            {table.getState().pagination.pageIndex + 1} of{" "}
+            {table.getPageCount()}
+          </strong>
+        </span>
+        <Button
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          Previous
+        </Button>
+        <Button
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+        >
+          Next
+        </Button>
+      </div>
     </div>
   );
 }
