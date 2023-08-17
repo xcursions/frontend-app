@@ -11,6 +11,9 @@ type OutingProps = {
   subType: string;
   type: string;
   updatedAt: string;
+  viewCount: number;
+  bookingCount: number;
+  showInLandingPage: boolean;
   outingDestination: OutingDestination;
   outingGallery: OutingGallery[];
   outingDate: OutingDate[];
