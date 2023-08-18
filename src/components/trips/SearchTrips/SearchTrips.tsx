@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import type { ChangeEvent } from "react";
 import React, { useEffect, useState } from "react";
 import { FiFilter } from "react-icons/fi";
@@ -29,6 +30,7 @@ const optionTrip = [
   { value: "group", label: "Group Trip" },
 ];
 const SearchTrips = () => {
+  const searchParams = useSearchParams();
   const [payload, setPayload] = useState(initialState);
   const { isSuccess: locationIsSuccess, data: locationData } =
     useGetOutingLocationsQuery();
@@ -68,6 +70,12 @@ const SearchTrips = () => {
       getOuting(`?type=tour&limit=${pageLimit}&page=${currentPage}`);
     }
   }, [queryTripType, queryLocation, currentPage, payload.search, range]);
+  const search = searchParams?.get("location");
+  useEffect(() => {
+    if (search) {
+      setQueryLocation(search);
+    }
+  }, []);
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
