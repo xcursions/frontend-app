@@ -1,13 +1,18 @@
+"use client";
+
+import Link from "next/link";
 import React from "react";
-import { AiOutlineHeart } from "react-icons/ai";
 
 import Button from "@/components/lib/Button/Button";
 import Heading from "@/components/lib/Heading/Heading";
 import Text from "@/components/lib/Text/Text";
+import TripCard from "@/components/trips/SearchTrips/TripCard/TripCard";
+import { useGetAllOutingsQuery } from "@/services/public";
 
 import styles from "./TopDestinations.module.scss";
 
 const TopDestinations = () => {
+  const { data, isSuccess } = useGetAllOutingsQuery("?type=tour");
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
@@ -75,7 +80,7 @@ const TopDestinations = () => {
         </div>
       </div>
       <div className="mx-auto max-w-[1240px]">
-        <div className="content-center justify-center pb-10 pt-[98px]">
+        <div className="content-center justify-center pt-[98px]">
           <Text className="items-center justify-center text-center font-dmSansRegular text-[12px] text-[#0A83FF]">
             OUR TRIPS
           </Text>
@@ -83,62 +88,27 @@ const TopDestinations = () => {
             Top Events and Hangouts
           </Text>
         </div>
-        <div className={styles.card_container}>
-          <div className={styles.card_image}>
-            <img
-              className={styles.pics}
-              src="/assets/images/landing-page/hangout1.png"
-              alt="santorini greece"
-            />
-            <div className="absolute right-1 top-1 rounded-full bg-white p-2">
-              <AiOutlineHeart className="text-xl" />
-            </div>
-            <div>
-              <Text>Bali, Indonesia</Text>
-              <Text className="text-[16px] text-[#0A83FF]">₦200,000</Text>
-            </div>
-          </div>
-          <div className={styles.card_image}>
-            <img
-              className={styles.pics}
-              src="/assets/images/landing-page/hangout2.png"
-              alt="Bali Indonesia"
-            />
-            <div className="absolute right-1 top-1 rounded-full bg-white p-2">
-              <AiOutlineHeart className="text-xl" />
-            </div>
-            <div>
-              <Text>Bali, Indonesia</Text>
-              <Text className="text-[16px] text-[#0A83FF]">₦200,000</Text>
-            </div>
-          </div>
-          <div className={styles.card_image}>
-            <img
-              className={styles.pics}
-              src="/assets/images/landing-page/hangout3.png"
-              alt="Bali Indonesia"
-            />
-            <div className="absolute right-1 top-1 rounded-full bg-white p-2">
-              <AiOutlineHeart className="text-xl" />
-            </div>
-            <div>
-              <Text>Bali, Indonesia</Text>
-              <Text className="text-[16px] text-[#0A83FF]">₦200,000</Text>
-            </div>
-          </div>
-          <div className={styles.card_image}>
-            <img
-              className={styles.pics}
-              src="/assets/images/landing-page/hangout4.png"
-              alt="Bali Indonesia"
-            />
-            <div className="absolute right-1 top-1 rounded-full bg-white p-2">
-              <AiOutlineHeart className="text-xl" />
-            </div>
-            <div>
-              <Text>Bali, Indonesia</Text>
-              <Text className="text-[16px] text-[#0A83FF]">₦200,000</Text>
-            </div>
+        <div className="no-scrollbar mb-[50px] flex max-w-[1240px] overflow-x-auto scroll-smooth">
+          <div
+            className="grid gap-2"
+            style={{
+              gridTemplateColumns: `repeat(${
+                data?.result?.filter(
+                  (res: { showInLandingPage: any }) => res.showInLandingPage
+                ).length
+              }, 1fr)`,
+            }}
+          >
+            {isSuccess &&
+              data?.result
+                .filter(
+                  (res: { showInLandingPage: any }) => res.showInLandingPage
+                )
+                .map((post: any) => (
+                  <Link key={`${post.id}`} href={`/trips/${post.id}`}>
+                    <TripCard post={post} />
+                  </Link>
+                ))}
           </div>
         </div>
       </div>
