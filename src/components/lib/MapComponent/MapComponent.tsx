@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import "leaflet/dist/leaflet.css";
 
 import L, { Icon } from "leaflet";
@@ -16,9 +15,9 @@ L.Icon.Default.mergeOptions({
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/images/marker-shadow.png",
 });
 
-const MapComponent = (events: any) => {
+const MapComponent = ({ events }: any) => {
   const defaultZoom = 7; // Default zoom level, adjust as needed
-  const [latitude, longitude] = events.events.location
+  const [latitude, longitude] = events.location
     .split(",")
     .map((coord: any) => parseFloat(coord.trim()));
   const defaultCenter = { lat: latitude, lng: longitude }; // Default center
@@ -40,7 +39,7 @@ const MapComponent = (events: any) => {
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       <Marker position={[latitude, longitude]}>
-        <Popup>{events.events.city}</Popup>
+        <Popup>{events.city}</Popup>
       </Marker>
     </MapContainer>
   );
