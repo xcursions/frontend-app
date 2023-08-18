@@ -21,7 +21,7 @@ const WhyChooseUs = () => {
               alt="luggage icon"
               width={60}
               height={60}
-              className="m-auto"
+              className="m-auto h-[60px] w-[60px]"
             />
             <div className={styles.text_container}>
               <Heading type="h3" className={styles.card_heading}>
@@ -38,7 +38,7 @@ const WhyChooseUs = () => {
               alt="luggage icon"
               width={60}
               height={60}
-              className="m-auto"
+              className="m-auto  h-[60px] w-[60px]"
             />
             <div className={styles.text_container}>
               <Heading type="h3" className={styles.card_heading}>
@@ -55,7 +55,7 @@ const WhyChooseUs = () => {
               alt="luggage icon"
               width={60}
               height={60}
-              className="m-auto"
+              className="m-auto h-[60px] w-[60px]"
             />
             <div className={styles.text_container}>
               <Heading type="h3" className={styles.card_heading}>
@@ -72,7 +72,7 @@ const WhyChooseUs = () => {
               alt="luggage icon"
               width={60}
               height={60}
-              className="m-auto"
+              className="m-auto h-[60px] w-[60px]"
             />
             <div className={styles.text_container}>
               <Heading type="h3" className={styles.card_heading}>
@@ -87,7 +87,7 @@ const WhyChooseUs = () => {
       </div>
       <div className=" bg-[#F9FAFB] py-5">
         <div className="mx-auto max-w-[1440px]">
-          <div className="content-center justify-center pb-10 pt-[98px]">
+          <div className="content-center justify-center pb-10 pt-[78px]">
             <Text className="items-center justify-center text-center font-dmSansRegular text-[12px] text-[#0A83FF]">
               OUR TRIPS
             </Text>
