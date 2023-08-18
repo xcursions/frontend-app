@@ -1,22 +1,19 @@
 "use client";
 
+import Link from "next/link";
 import React, { useState } from "react";
 import { BsSearch } from "react-icons/bs";
 
 import Heading from "@/components/lib/Heading/Heading";
 import Select from "@/components/lib/Select/Select";
+import useSuccessHandler from "@/hooks/useSuccessHandler";
+import { useGetOutingLocationsQuery } from "@/services/public";
 
 const initialState = {
   location: "",
   price: "",
   date: "",
 };
-const optionLocation = [
-  { value: "Maldives", label: "Maldives" },
-  { value: "Santorini", label: "Santorini" },
-  { value: "San Francisco", label: "San Francisco" },
-  { value: "Bali", label: "Bali" },
-];
 const optionPrice = [
   { value: "10000-20000", label: "10000-20000" },
   { value: "20000-30000", label: "20000-30000" },
@@ -31,6 +28,19 @@ const optionDate = [
 ];
 const Search = () => {
   const [payload, setPayload] = useState(initialState);
+  const [queryLocation, setQueryLocation] = useState("");
+  const [location, setLocation] = useState([]);
+  const { isSuccess: locationIsSuccess, data: locationData } =
+    useGetOutingLocationsQuery();
+
+  useSuccessHandler({
+    isSuccess: locationIsSuccess,
+    successFunction: () => {
+      setLocation(locationData?.outingDestination);
+    },
+
+    showToast: false,
+  });
   return (
     <div className=" absolute top-[60%] md:top-[80%]">
       <div className=" rounded-2xl bg-[#FFFFFF] p-5 shadow-lg">
@@ -43,24 +53,21 @@ const Search = () => {
           </Heading>
         </div>
         <div className="mx-auto flex flex-col items-center justify-center gap-5 py-4 text-start font-dmSansRegular text-base md:flex-row">
-          <Select
-            placeholder={"Select an Option"}
-            label="Location"
-            startIcon={"/assets/images/landing-page/map.png"}
-            value={payload.location}
-            onChange={(event) =>
-              setPayload({
-                ...payload,
-                location: event.value,
-              })
-            }
-            showArrow
-            options={optionLocation.map((option) => ({
-              value: option.value,
-              label: option.label,
-            }))}
-            className=" block w-[290px] cursor-pointer rounded-lg text-sm text-[#98A2B3] md:w-auto lg:w-[270px] xl:w-[300px]"
-          />
+          {locationData && (
+            <Select
+              placeholder={"Select an Option"}
+              label="Location"
+              startIcon={"/assets/images/landing-page/map.png"}
+              value={queryLocation}
+              onChange={(event) => setQueryLocation(event.value)}
+              options={location.map((option) => ({
+                value: option,
+                label: option,
+              }))}
+              showArrow
+              className=" block w-[290px] cursor-pointer rounded-lg text-sm text-[#98A2B3] md:w-auto lg:w-[270px] xl:w-[300px]"
+            />
+          )}
           <Select
             placeholder={"When are you going"}
             label="Date"
@@ -97,10 +104,12 @@ const Search = () => {
             showArrow
             className=" block w-[290px] cursor-pointer text-sm text-[#667084] md:w-auto lg:w-[270px] xl:w-[300px]"
           />
-          <button className="flex w-full justify-center gap-3 rounded-3xl bg-[#0A83FF] p-3 text-white lg:mt-4 lg:w-[80px] lg:p-5">
-            <BsSearch />
-            <span className="text-center md:hidden">Search</span>
-          </button>
+          <Link href={`/trips?location=${queryLocation}`}>
+            <button className="flex w-full items-center justify-center gap-3 rounded-[100px] bg-[#0A83FF] p-3 text-white md:h-[96px] md:w-[75px] lg:mt-4 lg:p-5">
+              <BsSearch className="text-xl" />
+              <span className="text-center md:hidden">Search</span>
+            </button>
+          </Link>
         </div>
       </div>
     </div>
