@@ -243,7 +243,9 @@ const TripDetails = ({ detailsData }: Props) => {
               <Text className="pb-3 font-dmSansMedium text-[24px] text-[#1D2838]">
                 Pickup City
               </Text>
-              <MapComponent events={detailsData.outingPickup} />
+              {detailsData?.outingPickup && (
+                <MapComponent events={detailsData?.outingPickup} />
+              )}
             </div>
           </div>
           <div className={styles.details}>
