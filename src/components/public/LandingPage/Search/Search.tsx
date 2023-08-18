@@ -59,7 +59,7 @@ const Search = () => {
               value: option.value,
               label: option.label,
             }))}
-            className=" block w-[290px] cursor-pointer  rounded-lg  text-sm text-[#667084] md:w-auto lg:w-[270px] xl:w-[300px]"
+            className=" block w-[290px] cursor-pointer rounded-lg text-sm text-[#98A2B3] md:w-auto lg:w-[270px] xl:w-[300px]"
           />
           <Select
             placeholder={"When are you going"}
@@ -79,16 +79,6 @@ const Search = () => {
             showArrow
             className=" block w-[290px] cursor-pointer text-sm text-[#667084] md:w-auto lg:w-[270px] xl:w-[300px]"
           />
-          {/* <Input
-            type="date"
-            label="Date"
-            name="date"
-            value={payload.date}
-            onChange={handleChange}
-            placeholder="When are you going"
-            className=" block w-[290px] cursor-pointer rounded-lg p-2.5 pl-10 text-sm text-[#667084] focus:border-blue-500
-            focus:ring-blue-500 md:w-auto lg:w-[270px] xl:w-[300px]"
-          /> */}
           <Select
             placeholder={"Select an Option"}
             label="Price"

@@ -69,19 +69,19 @@
     );
     opacity: 0.8;
   }
-  @media screen and (max-width: 1000px) {
-    .card_image {
-      flex-basis: calc(100% - 0px);
-    }
-  }
-  @media screen and (min-width: 1024px) {
-    .card_image:hover {
-      flex: 1.2;
-    }
-    .card_image:not(:hover) {
-      flex: 0.9;
-    }
-  }
+  // @media screen and (max-width: 1000px) {
+  //   .card_image {
+  //     flex-basis: calc(100% - 0px);
+  //   }
+  // }
+  // @media screen and (min-width: 1024px) {
+  //   .card_image:hover {
+  //     flex: 1.2;
+  //   }
+  //   .card_image:not(:hover) {
+  //     flex: 0.9;
+  //   }
+  // }
   .pics {
     max-height: 298px;
     @apply h-full w-full rounded-[20px] lg:h-[530px];

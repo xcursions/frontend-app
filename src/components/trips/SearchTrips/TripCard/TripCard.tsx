@@ -13,12 +13,18 @@ import styles from "./TripCard.module.scss";
 //   };
 // };
 const TripCard = ({ post }: any) => {
+  const featuredImage = post.outingGallery.find(
+    (item: { featured: any }) => item.featured
+  );
   return (
     <div className={styles.card_container}>
       <div className={styles.card_image}>
         <img
           className={styles.pics}
-          src={post.outingGallery?.[0]?.image}
+          src={
+            (featuredImage && featuredImage.image) ||
+            post.outingGallery?.[0]?.image
+          }
           alt={post.name}
         />
         <div className="absolute right-1 top-1 rounded-full bg-white p-2">
