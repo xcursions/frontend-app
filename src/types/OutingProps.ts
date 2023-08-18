@@ -17,7 +17,7 @@ type OutingProps = {
   outingDestination: OutingDestination;
   outingGallery: OutingGallery[];
   outingDate: OutingDate[];
-  outingPickup: OutingPickup[];
+  outingPickup: OutingPickup;
 };
 export default OutingProps;
 
