@@ -18,6 +18,7 @@ import { GrFavorite } from "react-icons/gr";
 import { MdFavorite } from "react-icons/md";
 import { TbCalendar } from "react-icons/tb";
 
+import Review from "@/components/admin/Review/Review";
 import Button from "@/components/lib/Button";
 import { formatDatesRange } from "@/components/lib/FormatWeekRange/FormatWeekRage";
 import GalleryViewer from "@/components/lib/GalleryViewer";
@@ -27,6 +28,7 @@ import OutingGallery from "@/components/lib/OutingGallery/OutingGallery";
 import Text from "@/components/lib/Text/Text";
 import { useAppSelector, useErrorHandler, useSuccessHandler } from "@/hooks";
 import useAppDispatch from "@/hooks/useAppDispatch";
+import { useGetReviewsQuery } from "@/services/admin";
 import {
   useCreateBookingMutation,
   useCreateOutingLikeMutation,
@@ -71,6 +73,9 @@ const EventDetails = ({ detailsData }: Props) => {
   ] = useCreateBookingMutation();
   const [bookingCost, { data: bookingPrice, isSuccess: bookingPriceSuccess }] =
     useGetBookingCostMutation();
+  const { data: reviewData, isSuccess: reviewSuccess } = useGetReviewsQuery(
+    detailsData.id
+  );
   const [
     createLike,
     { isSuccess: isLikeSuccess, isError: isLikeError, error: likeError },
@@ -86,21 +91,21 @@ const EventDetails = ({ detailsData }: Props) => {
     setIsCalendarOpen(!isCalendarOpen);
   };
   const shareOnTwitter = () => {
-    const linkToShare = window.location.href;
+    const linkToShare = window?.location.href;
     const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
       "Check out this link: "
     )}&url=${encodeURIComponent(linkToShare)}`;
     window.open(twitterUrl, "_blank");
   };
   const shareOnFacebook = () => {
-    const linkToShare = window.location.href;
+    const linkToShare = window?.location.href;
     const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
       linkToShare
     )}`;
     window.open(facebookUrl, "_blank");
   };
   const handleCopyLink = () => {
-    const linkToCopy = window.location.href;
+    const linkToCopy = window?.location.href;
     navigator.clipboard
       .writeText(linkToCopy)
       .then(() => toaster("Link copied to clipboard!"))
@@ -159,13 +164,24 @@ const EventDetails = ({ detailsData }: Props) => {
               <Text className="pb-3 font-dmSansMedium text-[24px] text-[#1D2838]">
                 Event Location
               </Text>
-              <MapComponent events={detailsData.outingDestination} />
+              {detailsData.outingDestination && (
+                <MapComponent events={detailsData.outingDestination} />
+              )}
+              {/* <MapComponent events={detailsData.outingDestination} /> */}
               <Text className="py-5 font-dmSansMedium text-[24px] text-[#1D2838]">
                 Top Reviews
               </Text>
-              <Text className="font-dmSansMediumItalic text-[18px] text-gray-400">
-                No Reviews yet
-              </Text>
+              <div className="mx-[-5px] mt-[25px] grid gap-[24px]">
+                {reviewSuccess && reviewData.result.length ? (
+                  reviewData.result.map((info: any) => (
+                    <Review key={info.id} detailsData={info} design={true} />
+                  ))
+                ) : (
+                  <Text className="ml-2 font-dmSansMediumItalic text-[18px] text-gray-400">
+                    No Reviews yet
+                  </Text>
+                )}
+              </div>
             </div>
           </div>
           <div className={styles.details}>
@@ -367,13 +383,23 @@ const EventDetails = ({ detailsData }: Props) => {
           <Text className="pb-3 font-dmSansMedium text-[24px] text-[#1D2838]">
             Event Location
           </Text>
-          <MapComponent events={detailsData.outingDestination} />
+          {detailsData.outingDestination && (
+            <MapComponent events={detailsData.outingDestination} />
+          )}
           <Text className="py-5 font-dmSansMedium text-[24px] text-[#1D2838]">
             Top Reviews
           </Text>
-          <Text className="font-dmSansMediumItalic text-[18px] text-gray-400">
-            No Reviews yet
-          </Text>
+          <div className="mx-[-5px] mt-[25px] grid gap-[24px]">
+            {reviewSuccess && reviewData.result.length ? (
+              reviewData.result.map((info: any) => (
+                <Review key={info.id} detailsData={info} design={true} />
+              ))
+            ) : (
+              <Text className="ml-2 font-dmSansMediumItalic text-[18px] text-gray-400">
+                No Reviews yet
+              </Text>
+            )}
+          </div>
         </div>
         <GalleryViewer
           galleryOpen={galleryOpen}

@@ -21,6 +21,7 @@ const MapComponent = ({ events }: any) => {
     events.location &&
     events.location.split(",").map((coord: any) => parseFloat(coord.trim()));
   const defaultCenter = { lat: latitude, lng: longitude }; // Default center
+  console.log(events);
   return (
     <MapContainer
       // @ts-ignore

@@ -18,6 +18,7 @@ import { MdFavorite } from "react-icons/md";
 import { RiErrorWarningLine } from "react-icons/ri";
 import { TbCalendar } from "react-icons/tb";
 
+import Review from "@/components/admin/Review/Review";
 import Button from "@/components/lib/Button";
 import {
   formatDatesRange,
@@ -35,6 +36,7 @@ import {
   useErrorHandler,
   useSuccessHandler,
 } from "@/hooks";
+import { useGetReviewsQuery } from "@/services/admin";
 import {
   useGetOutingAddOnQuery,
   useGetOutingChargePlanQuery,
@@ -87,6 +89,9 @@ const TripDetails = ({ detailsData }: Props) => {
   ] = useCreateBookingMutation();
   const [bookingCost, { data: bookingPrice, isSuccess: bookingPriceSuccess }] =
     useGetBookingCostMutation();
+  const { data: reviewData, isSuccess: reviewSuccess } = useGetReviewsQuery(
+    detailsData.id
+  );
   const [
     createLike,
     { isSuccess: isLikeSuccess, isError: isLikeError, error: likeError },
@@ -103,7 +108,7 @@ const TripDetails = ({ detailsData }: Props) => {
     setIsCalendarOpen(!isCalendarOpen);
   };
   const handleCopyLink = () => {
-    const linkToCopy = window.location.href;
+    const linkToCopy = window?.location.href;
     navigator.clipboard
       .writeText(linkToCopy)
       .then(() => toaster("Link copied to clipboard!"))
@@ -183,7 +188,7 @@ const TripDetails = ({ detailsData }: Props) => {
         </p>
         <div className={styles.card_container}>
           <div className={styles.image_container}>
-            {detailsData.outingGallery[0] && (
+            {detailsData.outingGallery.length && (
               <OutingGallery
                 coverImages={detailsData.outingGallery}
                 handleOpen={handleOpen}
@@ -237,14 +242,22 @@ const TripDetails = ({ detailsData }: Props) => {
               <Text className="py-5 font-dmSansMedium text-[24px] text-[#1D2838]">
                 Top Reviews
               </Text>
-              <Text className="font-dmSansMediumItalic text-[18px] text-gray-400">
-                No Reviews yet
-              </Text>
+              <div className="mx-[-5px] mt-[25px] grid gap-[24px]">
+                {reviewSuccess && reviewData.result.length ? (
+                  reviewData.result.map((info: any) => (
+                    <Review key={info.id} detailsData={info} design={true} />
+                  ))
+                ) : (
+                  <Text className="ml-2 font-dmSansMediumItalic text-[18px] text-gray-400">
+                    No Reviews yet
+                  </Text>
+                )}
+              </div>
               <Text className="pb-3 font-dmSansMedium text-[24px] text-[#1D2838]">
                 Pickup City
               </Text>
-              {detailsData?.outingPickup && (
-                <MapComponent events={detailsData?.outingPickup} />
+              {detailsData.outingPickup && (
+                <MapComponent events={detailsData.outingPickup} />
               )}
             </div>
           </div>
@@ -653,13 +666,24 @@ const TripDetails = ({ detailsData }: Props) => {
           <Text className="py-5 font-dmSansMedium text-[24px] text-[#1D2838]">
             Top Reviews
           </Text>
-          <Text className="font-dmSansMediumItalic text-[18px] text-gray-400">
-            No Reviews yet
-          </Text>
+          <div className="mx-[-5px] mt-[25px] grid gap-[24px]">
+            {reviewSuccess && reviewData.result.length ? (
+              reviewData.result.map((info: any) => (
+                <Review key={info.id} detailsData={info} design={true} />
+              ))
+            ) : (
+              <Text className="ml-2 font-dmSansMediumItalic text-[18px] text-gray-400">
+                No Reviews yet
+              </Text>
+            )}
+          </div>
+
           <Text className="pb-3 font-dmSansMedium text-[24px] text-[#1D2838]">
             Pickup City
           </Text>
-          <MapComponent events={detailsData.outingPickup} />
+          {detailsData.outingPickup && (
+            <MapComponent events={detailsData.outingPickup} />
+          )}
         </div>
         <GalleryViewer
           galleryOpen={galleryOpen}
