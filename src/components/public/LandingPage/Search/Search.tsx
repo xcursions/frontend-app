@@ -53,7 +53,7 @@ const Search = () => {
           </Heading>
         </div>
         <div className="mx-auto flex flex-col items-center justify-center gap-5 py-4 text-start font-dmSansRegular text-base md:flex-row">
-          {locationData && (
+          {locationIsSuccess && (
             <Select
               placeholder={"Select an Option"}
               label="Location"
