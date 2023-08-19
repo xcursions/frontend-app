@@ -705,7 +705,7 @@ const OutingDetails = ({ detailsData }: Props) => {
                 <div className="mx-[-5px] mt-[25px] grid gap-[24px]">
                   {reviewSuccess &&
                     reviewData.result.map((info) => (
-                      <Review key={info.id} detailsData={info} />
+                      <Review key={info.id} detailsData={info} design={false} />
                     ))}
                 </div>
               </div>
