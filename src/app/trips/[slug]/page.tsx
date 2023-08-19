@@ -5,7 +5,7 @@ import Footer from "@/components/public/Footer/Footer";
 import Navbar from "@/components/public/Navbar/Navbar";
 import Subscription from "@/components/public/Subscription/Subscription";
 import RelatedTrips from "@/components/trips/RelatedTrips";
-import TripDetails from "@/components/trips/TripDetails/TripDetails";
+// import TripDetails from "@/components/trips/TripDetails/TripDetails";
 // import { useSearchOutingsQuery } from "@/services/public";
 
 async function getOutingData(slug: string) {
@@ -29,7 +29,7 @@ const Event = ({ params }: { params: { slug: string } }) => {
     <main>
       <div className="bg-[#ffffff]">
         <Navbar text={"black"} logo={"black"} />
-        <TripDetails detailsData={data} />
+        {/* <TripDetails detailsData={data} /> */}
         <RelatedTrips />
         <Subscription />
         <Footer />
