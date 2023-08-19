@@ -243,8 +243,8 @@ const TripDetails = ({ detailsData }: Props) => {
               <Text className="pb-3 font-dmSansMedium text-[24px] text-[#1D2838]">
                 Pickup City
               </Text>
-              {detailsData?.outingDestination && (
-                <MapComponent events={detailsData?.outingDestination} />
+              {detailsData?.outingPickup && (
+                <MapComponent events={detailsData?.outingPickup} />
               )}
             </div>
           </div>
@@ -659,7 +659,9 @@ const TripDetails = ({ detailsData }: Props) => {
           <Text className="pb-3 font-dmSansMedium text-[24px] text-[#1D2838]">
             Pickup City
           </Text>
-          <MapComponent events={detailsData.outingPickup} />
+          {detailsData?.outingPickup && (
+            <MapComponent events={detailsData?.outingPickup} />
+          )}
         </div>
         <GalleryViewer
           galleryOpen={galleryOpen}

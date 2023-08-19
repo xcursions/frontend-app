@@ -370,7 +370,9 @@ const EventDetails = ({ detailsData }: Props) => {
           <Text className="pb-3 font-dmSansMedium text-[24px] text-[#1D2838]">
             Event Location
           </Text>
-          <MapComponent events={detailsData.outingDestination} />
+          {detailsData?.outingDestination && (
+            <MapComponent events={detailsData?.outingDestination} />
+          )}
           <Text className="py-5 font-dmSansMedium text-[24px] text-[#1D2838]">
             Top Reviews
           </Text>
