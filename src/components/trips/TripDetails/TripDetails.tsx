@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import toaster from "react-hot-toast";
@@ -172,7 +171,11 @@ const TripDetails = ({ detailsData }: Props) => {
     toastMessage: "Outing has been added to your favorites",
   });
   const handleSubmit = () => {
-    createBooking({ query: detailsData.id, data: payload });
+    if (!user) {
+      router.push("/login");
+    } else {
+      createBooking({ query: detailsData.id, data: payload });
+    }
   };
   const handleLike = () => {
     if (user) {
@@ -538,19 +541,13 @@ const TripDetails = ({ detailsData }: Props) => {
                   </Text>
                 </div>
                 <div className="my-5 mr-3 pb-3 ">
-                  {user ? (
-                    <Button
-                      className="w-full rounded-3xl"
-                      onClick={handleSubmit}
-                      disabled={goingWithYou === 0}
-                    >
-                      Proceed to Checkout
-                    </Button>
-                  ) : (
-                    <Button className="w-full rounded-3xl">
-                      <Link href={"/login"}>Please login to continue</Link>
-                    </Button>
-                  )}
+                  <Button
+                    className="w-full rounded-3xl"
+                    onClick={handleSubmit}
+                    disabled={goingWithYou === 0}
+                  >
+                    Proceed to Checkout
+                  </Button>
                 </div>
               </div>
             </div>
