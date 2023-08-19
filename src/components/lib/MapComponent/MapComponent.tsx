@@ -17,9 +17,9 @@ L.Icon.Default.mergeOptions({
 
 const MapComponent = ({ events }: any) => {
   const defaultZoom = 7; // Default zoom level, adjust as needed
-  const [latitude, longitude] = events.location
-    .split(",")
-    .map((coord: any) => parseFloat(coord.trim()));
+  const [latitude, longitude] =
+    events.location &&
+    events.location.split(",").map((coord: any) => parseFloat(coord.trim()));
   const defaultCenter = { lat: latitude, lng: longitude }; // Default center
   return (
     <MapContainer
