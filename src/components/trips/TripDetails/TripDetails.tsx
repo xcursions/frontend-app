@@ -25,7 +25,7 @@ import {
 } from "@/components/lib/FormatWeekRange/FormatWeekRage";
 import GalleryViewer from "@/components/lib/GalleryViewer";
 import Heading from "@/components/lib/Heading/Heading";
-// import MapComponent from "@/components/lib/MapComponent/MapComponent";
+import MapComponent from "@/components/lib/MapComponent/MapComponent";
 import OutingGallery from "@/components/lib/OutingGallery/OutingGallery";
 import { SubtractDate } from "@/components/lib/SubtractDate/SubtractDate";
 import Text from "@/components/lib/Text/Text";
@@ -258,7 +258,7 @@ const TripDetails = ({ detailsData }: Props) => {
               <Text className="pb-3 font-dmSansMedium text-[24px] text-[#1D2838]">
                 Pickup City
               </Text>
-              {/* <MapComponent events={detailsData.outingPickup} /> */}
+              <MapComponent events={detailsData.outingPickup} />
             </div>
           </div>
           <div className={styles.details}>
@@ -675,7 +675,7 @@ const TripDetails = ({ detailsData }: Props) => {
           <Text className="pb-3 font-dmSansMedium text-[24px] text-[#1D2838]">
             Pickup City
           </Text>
-          {/* <MapComponent events={detailsData.outingPickup} /> */}
+          <MapComponent events={detailsData.outingPickup} />
         </div>
         <GalleryViewer
           galleryOpen={galleryOpen}
