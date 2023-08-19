@@ -42,7 +42,7 @@
     "leaflet": "^1.9.4",
     "lucide-react": "^0.259.0",
     "moment": "^2.29.4",
-    "next": "^13.4.12",
+    "next": "^13.4.19",
     "next-redux-wrapper": "^8.1.0",
     "next-seo": "^6.0.0",
     "postcss": "8.4.24",
