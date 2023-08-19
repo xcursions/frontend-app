@@ -103,7 +103,7 @@ const TripDetails = ({ detailsData }: Props) => {
     setIsCalendarOpen(!isCalendarOpen);
   };
   const handleCopyLink = () => {
-    const linkToCopy = window.location.href;
+    const linkToCopy = window?.location.href;
     navigator.clipboard
       .writeText(linkToCopy)
       .then(() => toaster("Link copied to clipboard!"))
@@ -243,8 +243,8 @@ const TripDetails = ({ detailsData }: Props) => {
               <Text className="pb-3 font-dmSansMedium text-[24px] text-[#1D2838]">
                 Pickup City
               </Text>
-              {detailsData?.outingPickup && (
-                <MapComponent events={detailsData?.outingPickup} />
+              {detailsData?.outingDestination && (
+                <MapComponent events={detailsData?.outingDestination} />
               )}
             </div>
           </div>

@@ -170,7 +170,7 @@ const SearchTrips = () => {
                 showFilter ? "block" : "hidden"
               } relative w-full lg:block`}
             >
-              {locationData && (
+              {locationIsSuccess && (
                 <Select
                   placeholder={"Location"}
                   value={queryLocation}

@@ -86,21 +86,21 @@ const EventDetails = ({ detailsData }: Props) => {
     setIsCalendarOpen(!isCalendarOpen);
   };
   const shareOnTwitter = () => {
-    const linkToShare = window.location.href;
+    const linkToShare = window?.location.href;
     const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
       "Check out this link: "
     )}&url=${encodeURIComponent(linkToShare)}`;
     window.open(twitterUrl, "_blank");
   };
   const shareOnFacebook = () => {
-    const linkToShare = window.location.href;
+    const linkToShare = window?.location.href;
     const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
       linkToShare
     )}`;
     window.open(facebookUrl, "_blank");
   };
   const handleCopyLink = () => {
-    const linkToCopy = window.location.href;
+    const linkToCopy = window?.location.href;
     navigator.clipboard
       .writeText(linkToCopy)
       .then(() => toaster("Link copied to clipboard!"))
@@ -159,7 +159,10 @@ const EventDetails = ({ detailsData }: Props) => {
               <Text className="pb-3 font-dmSansMedium text-[24px] text-[#1D2838]">
                 Event Location
               </Text>
-              <MapComponent events={detailsData.outingDestination} />
+              {detailsData?.outingDestination && (
+                <MapComponent events={detailsData?.outingDestination} />
+              )}
+              {/* <MapComponent events={detailsData.outingDestination} /> */}
               <Text className="py-5 font-dmSansMedium text-[24px] text-[#1D2838]">
                 Top Reviews
               </Text>
