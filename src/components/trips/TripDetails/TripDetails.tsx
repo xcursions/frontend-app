@@ -26,7 +26,7 @@ import {
 } from "@/components/lib/FormatWeekRange/FormatWeekRage";
 import GalleryViewer from "@/components/lib/GalleryViewer";
 import Heading from "@/components/lib/Heading/Heading";
-import MapComponent from "@/components/lib/MapComponent/MapComponent";
+// import MapComponent from "@/components/lib/MapComponent/MapComponent";
 import OutingGallery from "@/components/lib/OutingGallery/OutingGallery";
 import { SubtractDate } from "@/components/lib/SubtractDate/SubtractDate";
 import Text from "@/components/lib/Text/Text";
@@ -179,6 +179,7 @@ const TripDetails = ({ detailsData }: Props) => {
       createLike({ query: detailsData.id, data: { liked: true } });
     }
   };
+  console.log(detailsData);
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
@@ -188,12 +189,10 @@ const TripDetails = ({ detailsData }: Props) => {
         </p>
         <div className={styles.card_container}>
           <div className={styles.image_container}>
-            {detailsData.outingGallery.length && (
-              <OutingGallery
-                coverImages={detailsData.outingGallery}
-                handleOpen={handleOpen}
-              />
-            )}
+            <OutingGallery
+              coverImages={detailsData.outingGallery}
+              handleOpen={handleOpen}
+            />
             <div className={styles.map}>
               <Text className="py-5 font-dmSansMedium text-[24px] text-[#1D2838]">
                 What is Included
@@ -256,9 +255,7 @@ const TripDetails = ({ detailsData }: Props) => {
               <Text className="pb-3 font-dmSansMedium text-[24px] text-[#1D2838]">
                 Pickup City
               </Text>
-              {detailsData.outingPickup && (
-                <MapComponent events={detailsData.outingPickup} />
-              )}
+              {/* <MapComponent events={detailsData.outingPickup} /> */}
             </div>
           </div>
           <div className={styles.details}>
@@ -681,9 +678,7 @@ const TripDetails = ({ detailsData }: Props) => {
           <Text className="pb-3 font-dmSansMedium text-[24px] text-[#1D2838]">
             Pickup City
           </Text>
-          {detailsData.outingPickup && (
-            <MapComponent events={detailsData.outingPickup} />
-          )}
+          {/* <MapComponent events={detailsData.outingPickup} /> */}
         </div>
         <GalleryViewer
           galleryOpen={galleryOpen}
