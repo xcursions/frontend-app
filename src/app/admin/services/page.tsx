@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 import Layout from "@/components/admin/layout/Layout";
 // import { columns } from "@/components/admin/services/Colums";
@@ -22,6 +23,7 @@ import useErrorHandler from "@/hooks/useErrorHandler";
 import useSuccessHandler from "@/hooks/useSuccessHandler";
 import {
   useCreateOutingMutation,
+  useDeleteOutingMutation,
   useLazyGetOutingsQuery,
 } from "@/services/admin";
 import type { OutingProps } from "@/types";
@@ -64,6 +66,8 @@ const Page = () => {
   ] = useCreateOutingMutation();
   const [getOuting, { data: outingData, isSuccess: outingSuccess }] =
     useLazyGetOutingsQuery();
+  const [deleteOuting, { isSuccess: deleteSuccess }] =
+    useDeleteOutingMutation();
   useErrorHandler({
     isError: isProfileError,
     error: profileError,
@@ -74,6 +78,10 @@ const Page = () => {
       router.push(`/admin/services/${outingsData.id}`);
     },
     toastMessage: "Outing Created successfully!",
+  });
+  useSuccessHandler({
+    isSuccess: deleteSuccess,
+    toastMessage: "Outing Deleted successfully!",
   });
   useEffect(() => {
     setPayload({ ...payload, type: outingType });
@@ -160,10 +168,8 @@ const Page = () => {
       cell: ({ row }) => {
         const value = row.original;
         return (
-          <div
-            className={`hidden text-[14px] font-medium text-[#101828] lg:block`}
-          >
-            {value.viewBy}
+          <div className={`text-[14px] font-medium text-[#101828]`}>
+            {value.viewBy} Users
           </div>
         );
       },
@@ -174,9 +180,7 @@ const Page = () => {
       cell: ({ row }) => {
         const value = row.original;
         return (
-          <div
-            className={`hidden text-[14px] font-medium text-[#101828] lg:block`}
-          >
+          <div className={` text-[14px] font-medium text-[#101828]`}>
             {value.createdAt}
           </div>
         );
@@ -188,15 +192,28 @@ const Page = () => {
       cell: ({ row }) => {
         const value = row.original;
         return (
-          <div
-            className={`hidden text-[14px] font-medium text-[#101828] lg:block`}
-          >
+          <div className={` text-[14px] font-medium text-[#101828]`}>
             {value.bookedBy}
           </div>
         );
       },
     },
+    {
+      id: "delete",
+      cell: ({ row }) => {
+        const value = row.original;
+        return (
+          <div
+            className={`cursor-pointer text-[20px] font-medium text-[#F04438]`}
+            onClick={() => deleteOuting(value.id)}
+          >
+            <RiDeleteBin6Line />
+          </div>
+        );
+      },
+    },
   ];
+
   return (
     <Layout>
       <div className="mx-[40px] mt-[40px]">

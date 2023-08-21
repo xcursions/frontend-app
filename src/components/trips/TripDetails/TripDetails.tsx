@@ -182,7 +182,6 @@ const TripDetails = ({ detailsData }: Props) => {
       createLike({ query: detailsData.id, data: { liked: true } });
     }
   };
-  console.log(detailsData);
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>

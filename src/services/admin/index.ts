@@ -29,6 +29,13 @@ export const adminApi = createApi({
       }),
       invalidatesTags: ["Admin"],
     }),
+    deleteOuting: builder.mutation<any, any>({
+      query: (query) => ({
+        url: `/outing/outings/${query}`,
+        method: "delete",
+      }),
+      invalidatesTags: ["Admin"],
+    }),
     createOutingImage: builder.mutation<any, { query: any; data: any }>({
       query: ({ query, data }) => ({
         url: `/outing/outings/${query}/outing-gallery/images`,
@@ -78,6 +85,13 @@ export const adminApi = createApi({
       }),
       invalidatesTags: ["Admin"],
     }),
+    deleteOutingAddon: builder.mutation<any, any>({
+      query: ({ query, id }) => ({
+        url: `/outing-addon/outings/${query}/outingAddons/${id}`,
+        method: "delete",
+      }),
+      invalidatesTags: ["Admin"],
+    }),
     getOutingAddons: builder.query<any, any>({
       query: (query) => ({
         url: `/outing-addon/outings/${query}`,
@@ -108,6 +122,13 @@ export const adminApi = createApi({
       }),
       providesTags: ["Admin"],
     }),
+    deleteReview: builder.mutation<any, any>({
+      query: ({ query, id }) => ({
+        url: `/outing-review/outings/${query}/reviews/${id}`,
+        method: "delete",
+      }),
+      invalidatesTags: ["Admin"],
+    }),
   }),
 });
 export const {
@@ -119,9 +140,12 @@ export const {
   useCreateOutingPickupMutation,
   useCreateChargePlanMutation,
   useCreateOutingAddonMutation,
+  useDeleteOutingAddonMutation,
   useGetOutingAddonsQuery,
   useCreateOutingAddonIconMutation,
   useCreateReviewMutation,
   useGetReviewsQuery,
   useUpdateOutingMutation,
+  useDeleteOutingMutation,
+  useDeleteReviewMutation,
 } = adminApi;
