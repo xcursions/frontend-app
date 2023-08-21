@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { AiOutlineArrowLeft, AiOutlineUpload } from "react-icons/ai";
+import { GiCancel } from "react-icons/gi";
 import { IoAdd } from "react-icons/io5";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { TbFileUpload } from "react-icons/tb";
@@ -29,8 +30,8 @@ import {
   useCreateOutingImageMutation,
   useCreateOutingPickupMutation,
   useCreateReviewMutation,
+  useDeleteOutingAddonMutation,
   useGetOutingAddonsQuery,
-  useGetOutingsQuery,
   useGetReviewsQuery,
   useUpdateOutingMutation,
 } from "@/services/admin";
@@ -124,11 +125,16 @@ const OutingDetails = ({ detailsData }: Props) => {
   };
   const [uploadImage, { isLoading, isError, error, isSuccess }] =
     useCreateOutingImageMutation();
-  const { data: outingData, isSuccess: outingSuccess } = useGetOutingsQuery(
-    `/${detailsData.id}`
-  );
   const { data: outingAddon, isSuccess: outingAddonSuccess } =
     useGetOutingAddonsQuery(id);
+  const [
+    deleteAddon,
+    {
+      isSuccess: deleteAddonSuccess,
+      isError: isDeleteAddonError,
+      error: deleteAddonError,
+    },
+  ] = useDeleteOutingAddonMutation();
   const [
     updateOuting,
     {
@@ -221,6 +227,10 @@ const OutingDetails = ({ detailsData }: Props) => {
     error,
   });
   useErrorHandler({
+    isError: isDeleteAddonError,
+    error: deleteAddonError,
+  });
+  useErrorHandler({
     isError: isUpdateOutingError,
     error: updateOutingError,
   });
@@ -239,6 +249,10 @@ const OutingDetails = ({ detailsData }: Props) => {
   useSuccessHandler({
     isSuccess,
     toastMessage: "Image uploaded successfully",
+  });
+  useSuccessHandler({
+    isSuccess: deleteAddonSuccess,
+    toastMessage: "Addon deleted successfully",
   });
   useSuccessHandler({
     isSuccess: updateOutingSuccess,
@@ -357,7 +371,7 @@ const OutingDetails = ({ detailsData }: Props) => {
             <div className="flex items-center gap-[20px]">
               <Image
                 src={
-                  outingData?.outingGallery.find((res) => res.featured === true)
+                  detailsData.outingGallery.find((res) => res.featured === true)
                     ?.image || "/assets/images/admin/featured_image.png"
                 }
                 width={78}
@@ -409,7 +423,7 @@ const OutingDetails = ({ detailsData }: Props) => {
                       <img
                         src={URL.createObjectURL(file)}
                         alt=""
-                        className="w-full rounded-xl"
+                        className="max-h-[350px] w-full rounded-xl"
                       />
                     </figure>
                   ) : (
@@ -611,7 +625,22 @@ const OutingDetails = ({ detailsData }: Props) => {
                           default: boolean;
                         },
                         index: React.Key | null | undefined
-                      ) => <Addon key={index} {...info} />
+                      ) => (
+                        <div key={info.id} className="relative">
+                          <div
+                            className="absolute right-0 top-0 cursor-pointer rounded-full bg-[#ffffff] p-2"
+                            onClick={() =>
+                              deleteAddon({
+                                query: detailsData.id,
+                                id: info.id,
+                              })
+                            }
+                          >
+                            <GiCancel className="text-[#98A2B3]" />
+                          </div>{" "}
+                          <Addon key={index} {...info} />
+                        </div>
+                      )
                     )}
                 </div>
               </div>
@@ -632,18 +661,17 @@ const OutingDetails = ({ detailsData }: Props) => {
                   </p>
                 </div>
                 <div className="mt-[25px] grid grid-cols-4 gap-3">
-                  {outingSuccess &&
-                    outingData?.outingGallery?.map((res) => (
-                      <div key={res.id}>
-                        <Image
-                          src={res.image}
-                          alt="uploaded image"
-                          width={155}
-                          height={140}
-                          className="h-[140px] w-[155px] rounded-md"
-                        />
-                      </div>
-                    ))}
+                  {detailsData.outingGallery?.map((res) => (
+                    <div key={res.id}>
+                      <Image
+                        src={res.image}
+                        alt="uploaded image"
+                        width={155}
+                        height={140}
+                        className="h-[140px] w-[155px] rounded-md"
+                      />
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
