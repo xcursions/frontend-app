@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import toaster from "react-hot-toast";
@@ -172,7 +171,11 @@ const TripDetails = ({ detailsData }: Props) => {
     toastMessage: "Outing has been added to your favorites",
   });
   const handleSubmit = () => {
-    createBooking({ query: detailsData.id, data: payload });
+    if (!user) {
+      router.push("/login");
+    } else {
+      createBooking({ query: detailsData.id, data: payload });
+    }
   };
   const handleLike = () => {
     if (user) {
@@ -188,12 +191,10 @@ const TripDetails = ({ detailsData }: Props) => {
         </p>
         <div className={styles.card_container}>
           <div className={styles.image_container}>
-            {detailsData.outingGallery.length && (
-              <OutingGallery
-                coverImages={detailsData.outingGallery}
-                handleOpen={handleOpen}
-              />
-            )}
+            <OutingGallery
+              coverImages={detailsData.outingGallery}
+              handleOpen={handleOpen}
+            />
             <div className={styles.map}>
               <Text className="py-5 font-dmSansMedium text-[24px] text-[#1D2838]">
                 What is Included
@@ -256,9 +257,7 @@ const TripDetails = ({ detailsData }: Props) => {
               <Text className="pb-3 font-dmSansMedium text-[24px] text-[#1D2838]">
                 Pickup City
               </Text>
-              {detailsData.outingPickup && (
-                <MapComponent events={detailsData.outingPickup} />
-              )}
+              <MapComponent events={detailsData.outingPickup} />
             </div>
           </div>
           <div className={styles.details}>
@@ -541,19 +540,13 @@ const TripDetails = ({ detailsData }: Props) => {
                   </Text>
                 </div>
                 <div className="my-5 mr-3 pb-3 ">
-                  {user ? (
-                    <Button
-                      className="w-full rounded-3xl"
-                      onClick={handleSubmit}
-                      disabled={goingWithYou === 0}
-                    >
-                      Proceed to Checkout
-                    </Button>
-                  ) : (
-                    <Button className="w-full rounded-3xl">
-                      <Link href={"/login"}>Please login to continue</Link>
-                    </Button>
-                  )}
+                  <Button
+                    className="w-full rounded-3xl"
+                    onClick={handleSubmit}
+                    disabled={goingWithYou === 0}
+                  >
+                    Proceed to Checkout
+                  </Button>
                 </div>
               </div>
             </div>
@@ -681,9 +674,7 @@ const TripDetails = ({ detailsData }: Props) => {
           <Text className="pb-3 font-dmSansMedium text-[24px] text-[#1D2838]">
             Pickup City
           </Text>
-          {detailsData.outingPickup && (
-            <MapComponent events={detailsData.outingPickup} />
-          )}
+          <MapComponent events={detailsData.outingPickup} />
         </div>
         <GalleryViewer
           galleryOpen={galleryOpen}

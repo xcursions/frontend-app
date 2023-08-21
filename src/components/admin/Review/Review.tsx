@@ -1,10 +1,13 @@
 import Image from "next/image";
 import React from "react";
+import { RiDeleteBinLine } from "react-icons/ri";
 
 import Heading from "@/components/lib/Heading/Heading";
 import Rating from "@/components/lib/Rating/Rating";
 import Text from "@/components/lib/Text/Text";
 import TimeDifference from "@/components/lib/TimeDifference/TimeDifference";
+import { useErrorHandler, useSuccessHandler } from "@/hooks";
+import { useDeleteReviewMutation } from "@/services/admin";
 import type IReview from "@/types/Review";
 
 interface Props {
@@ -12,6 +15,16 @@ interface Props {
   design?: boolean;
 }
 const Review = ({ detailsData, design }: Props) => {
+  const [deleteReview, { isSuccess, isError, error }] =
+    useDeleteReviewMutation();
+  useErrorHandler({
+    isError,
+    error,
+  });
+  useSuccessHandler({
+    isSuccess,
+    toastMessage: "Review deleted successfully",
+  });
   return (
     <div
       className={`${
@@ -45,8 +58,25 @@ const Review = ({ detailsData, design }: Props) => {
           {detailsData?.comment}
         </Text>
       </div>
-      <div className={`m-[16px] ${design && "text-end"}`}>
+      <div className={`m-[16px] flex justify-between ${design && "text-end"}`}>
         <TimeDifference createdAt={detailsData?.createdAt} />
+        {!design && (
+          <div className="flex items-center gap-3">
+            <span className="text-[14px] text-[#0A83FF]">Edit</span>
+            <span
+              className="flex cursor-pointer items-center gap-1 text-[14px] text-[#F04438]"
+              onClick={() =>
+                deleteReview({
+                  query: detailsData.outingId,
+                  id: detailsData.id,
+                })
+              }
+            >
+              <RiDeleteBinLine />
+              Delete
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,25 +1,29 @@
+"use client";
+
 import { notFound } from "next/navigation";
-import React, { use } from "react";
+import React from "react";
 
 import EventDetails from "@/components/events/EventDetails/EventDetails";
 import RelatedEvents from "@/components/events/RelatedEvents/RelatedEvents";
 import Footer from "@/components/public/Footer/Footer";
 import Navbar from "@/components/public/Navbar/Navbar";
 import Subscription from "@/components/public/Subscription/Subscription";
+import { useSearchOutingsQuery } from "@/services/public";
 
-async function getOutingData(slug: string) {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/outing/outings/${slug}`,
-    { cache: "default" }
-  );
-  if (!res.ok) return undefined;
-  const data = await res.json();
-  return data;
-}
+// async function getOutingData(slug: string) {
+//   const res = await fetch(
+//     `${process.env.NEXT_PUBLIC_BASE_URL}/outing/outings/${slug}`,
+//     { cache: "default" }
+//   );
+//   if (!res.ok) return undefined;
+//   const data = await res.json();
+//   return data;
+// }
 
 const Event = ({ params }: { params: { slug: string } }) => {
   const { slug } = params;
-  const data = use(getOutingData(slug));
+  // const data = use(getOutingData(slug));
+  const { data, isSuccess } = useSearchOutingsQuery(`/${slug}`);
   if (!data) {
     notFound();
   }
@@ -28,7 +32,7 @@ const Event = ({ params }: { params: { slug: string } }) => {
     <main>
       <div className="bg-[#ffffff]">
         <Navbar text={"black"} logo={"black"} />
-        <EventDetails detailsData={data} />
+        {isSuccess && <EventDetails detailsData={data} />}
         <RelatedEvents />
         <Subscription />
         <Footer />
