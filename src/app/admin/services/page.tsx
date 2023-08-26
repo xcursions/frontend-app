@@ -4,9 +4,11 @@
 
 import type { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
+import { FaCalendarAlt } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
 import Layout from "@/components/admin/layout/Layout";
@@ -23,10 +25,12 @@ import useErrorHandler from "@/hooks/useErrorHandler";
 import useSuccessHandler from "@/hooks/useSuccessHandler";
 import {
   useCreateOutingMutation,
+  useDeleteBlogMutation,
   useDeleteOutingMutation,
+  useGetBlogPostQuery,
   useLazyGetOutingsQuery,
 } from "@/services/admin";
-import type { OutingProps } from "@/types";
+import type { BlogProps, OutingProps } from "@/types";
 
 const initialState = {
   name: "",
@@ -49,8 +53,16 @@ export type Payment = {
   viewBy: number;
   image: string;
 };
+export type BlogPayment = {
+  title: string;
+  id: string;
+  viewBy: number;
+  createdAt: string;
+  image: string;
+};
 const Page = () => {
   const [newTrip, setNewTrip] = useState(false);
+  const [isBlog, setIsBlog] = useState(false);
   const [outingType, setOutingType] = useState("tour");
   const [payload, setPayload] = useState(initialState);
   const router = useRouter();
@@ -68,6 +80,10 @@ const Page = () => {
     useLazyGetOutingsQuery();
   const [deleteOuting, { isSuccess: deleteSuccess }] =
     useDeleteOutingMutation();
+  const [deleteBlog, { isSuccess: deleteBlogSuccess }] =
+    useDeleteBlogMutation();
+  const { data: blogDetails, isSuccess: blogSuccess } =
+    useGetBlogPostQuery("?limit=1000");
   useErrorHandler({
     isError: isProfileError,
     error: profileError,
@@ -82,6 +98,10 @@ const Page = () => {
   useSuccessHandler({
     isSuccess: deleteSuccess,
     toastMessage: "Outing Deleted successfully!",
+  });
+  useSuccessHandler({
+    isSuccess: deleteBlogSuccess,
+    toastMessage: "Blog Post Deleted",
   });
   useEffect(() => {
     setPayload({ ...payload, type: outingType });
@@ -106,6 +126,17 @@ const Page = () => {
         createdAt: res.createdAt.split("T")[0],
         bookedBy: res.bookingCount,
         image: res.outingGallery[0].image,
+      };
+    });
+  const blogData =
+    blogSuccess &&
+    blogDetails.result.map((res: BlogProps) => {
+      return {
+        title: res.title,
+        id: res.id,
+        viewBy: res.readTimeInMinute,
+        createdAt: res.createdAt.split("T")[0],
+        image: res.blogFeaturedImage?.image,
       };
     });
   const columns: ColumnDef<Payment>[] = [
@@ -213,6 +244,101 @@ const Page = () => {
       },
     },
   ];
+  const blogColumns: ColumnDef<BlogPayment>[] = [
+    {
+      id: "select",
+      header: ({ table }) => (
+        <Checkbox
+          checked={table.getIsAllPageRowsSelected()}
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
+    {
+      accessorKey: "image",
+      header: () => <div className="text-lg font-semibold">Image</div>,
+      cell: ({ row }) => {
+        const value = row.original;
+        return (
+          <div
+            className={`cursor-pointer items-center gap-3 text-[14px] font-medium text-[#101828]`}
+            onClick={() => router.push(`/admin/services/blog/${value.id}`)}
+          >
+            <Image
+              src={value.image || "/assets/images/trip/card3.png"}
+              alt={`${value.name}`}
+              width={50}
+              height={44}
+              className="h-[44px] w-[50px] rounded-2xl"
+            />
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "title",
+      header: () => <div className="text-lg font-semibold">Title</div>,
+      cell: ({ row }) => {
+        const value = row.original;
+        return (
+          <div
+            className={`cursor-pointer items-center gap-3 text-[14px] font-medium text-[#101828]`}
+            onClick={() => router.push(`/admin/services/blog/${value.id}`)}
+          >
+            <span>{value.title}</span>
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "createdAt",
+      header: () => <div className="text-lg font-semibold">Date Published</div>,
+      cell: ({ row }) => {
+        const value = row.original;
+        return (
+          <div className={` text-[14px] font-medium text-[#101828]`}>
+            {value.createdAt}
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "viewBy",
+      header: () => <div className="text-lg font-semibold">Minutes Read</div>,
+      cell: ({ row }) => {
+        const value = row.original;
+        return (
+          <div className={`text-[14px] font-medium text-[#101828]`}>
+            {value.viewBy} Minutes
+          </div>
+        );
+      },
+    },
+    {
+      id: "delete",
+      cell: ({ row }) => {
+        const value = row.original;
+        return (
+          <div
+            className={`cursor-pointer text-[20px] font-medium text-[#F04438]`}
+            onClick={() => deleteBlog(value.id)}
+          >
+            <RiDeleteBin6Line />
+          </div>
+        );
+      },
+    },
+  ];
 
   return (
     <Layout>
@@ -228,7 +354,10 @@ const Page = () => {
                   ? " border-b-2 border-[#0A83FF] px-3 pb-3 text-[#0A83FF]"
                   : ""
               }`}
-              onClick={() => setOutingType("tour")}
+              onClick={() => {
+                setIsBlog(false);
+                setOutingType("tour");
+              }}
             >
               Trip
             </p>
@@ -238,48 +367,79 @@ const Page = () => {
                   ? " border-b-2 border-[#0A83FF] px-3 pb-3 text-[#0A83FF]"
                   : ""
               }`}
-              onClick={() => setOutingType("event")}
+              onClick={() => {
+                setIsBlog(false);
+                setOutingType("event");
+              }}
             >
               Event
             </p>
             <p
               className={`cursor-pointer text-[16px] font-bold ${
-                outingType === "blog"
+                isBlog
                   ? " border-b-2 border-[#0A83FF] px-3 pb-3 text-[#0A83FF]"
                   : ""
               }`}
-              onClick={() => setOutingType("blog")}
+              onClick={() => {
+                setOutingType("");
+                setIsBlog(true);
+              }}
             >
               Blog
             </p>
           </div>
-          <div className="rounded-2xl bg-[#FFFFFF]">
-            <div className="mt-10 flex justify-between  px-[12px] pt-10">
-              <Heading type="h3">All Trips</Heading>
-              <div className="flex items-center gap-4">
-                <div className="flex gap-3 rounded-3xl border p-1 text-[12px]">
-                  <Text className="cursor-pointer rounded-3xl bg-[#EBF5FF] p-1 text-[#0A83FF]">
-                    Private Trip
-                  </Text>
-                  <Text className="cursor-pointer rounded-3xl p-1">
-                    Group Trip
-                  </Text>
+          {isBlog ? (
+            <div className="rounded-2xl bg-[#FFFFFF]">
+              <div className="mt-10 flex justify-between  px-[12px] pt-10">
+                <Heading type="h3">Blog</Heading>
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2 rounded-3xl border p-1 ">
+                    <FaCalendarAlt />
+                    <Text className="text-[12px] text-[#101828]">Date:</Text>
+                    <Text className="text-[12px] text-[#667084]">All Time</Text>
+                  </div>
+                  <Link href="/admin/services/blog/new-blog">
+                    <Button className="flex items-center gap-2 rounded-3xl text-[14px]">
+                      <AiOutlinePlus /> New Blog
+                    </Button>
+                  </Link>
                 </div>
-                <div>
-                  <Text>Date</Text>
-                </div>
-                <Button
-                  className="flex items-center gap-2 rounded-3xl text-[14px]"
-                  onClick={toggleModal}
-                >
-                  <AiOutlinePlus /> New Trip
-                </Button>
+              </div>
+              <div className="pt-6">
+                <DataTable columns={blogColumns} data={blogData} />
               </div>
             </div>
-            <div className="pt-6">
-              <DataTable columns={columns} data={data} />
+          ) : (
+            <div className="rounded-2xl bg-[#FFFFFF]">
+              <div className="mt-10 flex justify-between  px-[12px] pt-10">
+                <Heading type="h3">All Trips</Heading>
+                <div className="flex items-center gap-4">
+                  <div className="flex gap-3 rounded-3xl border p-1 text-[12px]">
+                    <Text className="cursor-pointer rounded-3xl bg-[#EBF5FF] p-1 text-[#0A83FF]">
+                      Private Trip
+                    </Text>
+                    <Text className="cursor-pointer rounded-3xl p-1">
+                      Group Trip
+                    </Text>
+                  </div>
+                  <div className="flex items-center gap-2 rounded-3xl border p-1 ">
+                    <FaCalendarAlt />
+                    <Text className="text-[12px] text-[#101828]">Date:</Text>
+                    <Text className="text-[12px] text-[#667084]">All Time</Text>
+                  </div>
+                  <Button
+                    className="flex items-center gap-2 rounded-3xl text-[14px]"
+                    onClick={toggleModal}
+                  >
+                    <AiOutlinePlus /> New Trip
+                  </Button>
+                </div>
+              </div>
+              <div className="pt-6">
+                <DataTable columns={columns} data={data} />
+              </div>
             </div>
-          </div>
+          )}
         </div>
         {newTrip && (
           <>

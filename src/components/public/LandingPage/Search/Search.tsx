@@ -47,7 +47,7 @@ const Search = () => {
         <div>
           <Heading
             type="h3"
-            className="items-center py-4 text-center text-[#101828]"
+            className="items-center py-4 text-center text-[18px] text-[#101828]"
           >
             Where are you going
           </Heading>
