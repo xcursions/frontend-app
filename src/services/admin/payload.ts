@@ -30,3 +30,12 @@ export type CreateOutingChargePlanPayload = {
   extraDurationCostPerDay: number;
   initialPaymentPercent: number;
 };
+export type CreateBlogTagsPayload = {
+  name: string;
+};
+export type CreateBlogPostPayload = {
+  title: string;
+  content: string;
+  featured: boolean;
+  categoryIds?: any[];
+};

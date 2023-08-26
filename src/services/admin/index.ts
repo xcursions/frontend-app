@@ -3,6 +3,8 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import axiosBaseQuery from "@/utils/api/baseQuery";
 
 import type {
+  CreateBlogPostPayload,
+  CreateBlogTagsPayload,
   CreateOutingChargePlanPayload,
   CreateOutingDestinationPayload,
   CreateOutingPayload,
@@ -32,6 +34,13 @@ export const adminApi = createApi({
     deleteOuting: builder.mutation<any, any>({
       query: (query) => ({
         url: `/outing/outings/${query}`,
+        method: "delete",
+      }),
+      invalidatesTags: ["Admin"],
+    }),
+    deleteBlog: builder.mutation<any, any>({
+      query: (query) => ({
+        url: `/blog/posts/${query}`,
         method: "delete",
       }),
       invalidatesTags: ["Admin"],
@@ -129,6 +138,63 @@ export const adminApi = createApi({
       }),
       invalidatesTags: ["Admin"],
     }),
+    createBlogTags: builder.mutation<any, CreateBlogTagsPayload>({
+      query: (data) => ({
+        url: "/blog/categories",
+        method: "post",
+        data,
+      }),
+      invalidatesTags: ["Admin"],
+    }),
+    getBlogTags: builder.query<any, void>({
+      query: () => ({
+        url: `/blog/categories?limit=100`,
+        method: "get",
+      }),
+      providesTags: ["Admin"],
+    }),
+    createBlogPost: builder.mutation<any, CreateBlogPostPayload>({
+      query: (data) => ({
+        url: "/blog/posts",
+        method: "post",
+        data,
+      }),
+      invalidatesTags: ["Admin"],
+    }),
+    updateBlogPost: builder.mutation<
+      any,
+      { query: string; data: CreateBlogPostPayload }
+    >({
+      query: ({ query, data }) => ({
+        url: `/blog/posts/${query}`,
+        method: "put",
+        data,
+      }),
+      invalidatesTags: ["Admin"],
+    }),
+    createBlogImage: builder.mutation<any, any>({
+      query: ({ query, data }) => ({
+        url: `/blog/posts/${query}/featured-images`,
+        method: "post",
+        data,
+      }),
+      invalidatesTags: ["Admin"],
+    }),
+    updateBlogImage: builder.mutation<any, any>({
+      query: ({ query, id, data }) => ({
+        url: `/blog/posts/${query}/featured-images/${id}`,
+        method: "put",
+        data,
+      }),
+      invalidatesTags: ["Admin"],
+    }),
+    getBlogPost: builder.query<any, any>({
+      query: (query) => ({
+        url: `/blog/posts${query}`,
+        method: "get",
+      }),
+      providesTags: ["Admin"],
+    }),
   }),
 });
 export const {
@@ -148,4 +214,12 @@ export const {
   useUpdateOutingMutation,
   useDeleteOutingMutation,
   useDeleteReviewMutation,
+  useCreateBlogTagsMutation,
+  useGetBlogTagsQuery,
+  useCreateBlogPostMutation,
+  useGetBlogPostQuery,
+  useCreateBlogImageMutation,
+  useDeleteBlogMutation,
+  useUpdateBlogPostMutation,
+  useUpdateBlogImageMutation,
 } = adminApi;
