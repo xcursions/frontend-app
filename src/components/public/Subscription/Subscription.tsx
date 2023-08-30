@@ -45,11 +45,11 @@ const Subscription = () => {
               Elementum porttitor diam pulvinar rutrum sed feugiat et nisl amet.
               Etiam non lo
             </Text>
-            <div className="flex flex-col gap-3 py-5 lg:flex-row">
+            <div className="flex flex-col items-center gap-3 py-5 lg:flex-row">
               <Input
                 placeholder="Your Email address here"
                 type="email"
-                className="lg:w-[352px]"
+                className="h-[46px] lg:w-[352px]"
                 value={payload.email}
                 onChange={(event) =>
                   setPayload({
@@ -60,7 +60,7 @@ const Subscription = () => {
                 }
               />
               <Button
-                className="rounded-3xl bg-[#0A83FF]"
+                className="h-[46px] w-[149px] rounded-[100px] bg-[#0A83FF]"
                 onClick={handleSubmit}
               >
                 Subscribe
