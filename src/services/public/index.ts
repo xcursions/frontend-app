@@ -49,6 +49,24 @@ export const publicApi = createApi({
         method: "get",
       }),
     }),
+    getFeaturedBlog: builder.query<any, void>({
+      query: () => ({
+        url: "/blog/posts?status=true",
+        method: "get",
+      }),
+    }),
+    getAllBlog: builder.query<any, any>({
+      query: (query) => ({
+        url: `/blog/posts${query}`,
+        method: "get",
+      }),
+    }),
+    getSingleBlog: builder.query<any, any>({
+      query: (query) => ({
+        url: `/blog/posts/${query}`,
+        method: "get",
+      }),
+    }),
   }),
 });
 export const {
@@ -62,4 +80,8 @@ export const {
   useGetOutingsByMultipleIdMutation,
   useLazySearchOutingsQuery,
   useGetOutingChargePlanQuery,
+  useGetFeaturedBlogQuery,
+  useGetAllBlogQuery,
+  useLazyGetAllBlogQuery,
+  useGetSingleBlogQuery,
 } = publicApi;

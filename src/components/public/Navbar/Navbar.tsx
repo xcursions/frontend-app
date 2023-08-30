@@ -130,6 +130,12 @@ const Navbar = ({ text, logo }: Props) => {
               <div className="mt-3 space-y-2 md:hidden">
                 <Link
                   href="/login"
+                  className={`${textColor} flex items-center px-4 py-2`}
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/login"
                   className="inline-block w-full rounded-3xl bg-white px-4 py-2 text-center text-gray-800 shadow"
                 >
                   Sign up
@@ -145,6 +151,12 @@ const Navbar = ({ text, logo }: Props) => {
           </div>
           <Link
             href="/login"
+            className={`${textColor} flex items-center px-4 py-2`}
+          >
+            Login
+          </Link>
+          <Link
+            href="/signup"
             className={`flex items-center rounded-full px-4 py-2 ${buttonColor} shadow`}
           >
             Sign up

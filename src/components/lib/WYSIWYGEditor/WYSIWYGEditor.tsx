@@ -29,13 +29,13 @@ const WYSIWYGEditor: FC<WYSIWYGEditorProps> = ({
         {label && <label className={styles.label}>{label} </label>}
         <div
           className={`${styles.container} ${
-            containerClass ||
-            "transition duration-1000 ease-in-out focus-within:h-[600px]"
+            containerClass || "transition duration-1000 ease-in-out"
           } ${error ? "border-red-500" : ""}`}
+          style={{ height: "400px", overflow: "auto" }}
         >
           <Editor
-            wrapperClassName={`demo-wrapper w-full bg-[#F9FAFB]`}
-            editorClassName="demo-editor w-full px-5 "
+            wrapperClassName={`demo-wrapper w-full bg-[#F9FAFB] text-[14px]`}
+            editorClassName="demo-editor w-full px-5 text-[14px] "
             toolbar={toolbar}
             onEditorStateChange={onEditorStateChange}
             handleReturn={(eventKey, editState) => {

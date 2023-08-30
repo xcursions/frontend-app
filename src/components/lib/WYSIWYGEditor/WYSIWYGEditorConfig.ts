@@ -14,7 +14,19 @@ export const customStyleMap = {
 };
 
 export const toolbar = {
-  options: ["inline", "textAlign", "list", "image", "link", "history"],
+  options: [
+    "inline",
+    "textAlign",
+    "list",
+    "blockType",
+    "image",
+    "link",
+    "history",
+  ],
+  blockType: {
+    inDropdown: false,
+    options: ["Normal", "H1", "H2", "H3", "H4", "H5", "H6"],
+  },
   inline: {
     inDropdown: false,
     options: ["bold", "italic", "underline", "strikethrough"],

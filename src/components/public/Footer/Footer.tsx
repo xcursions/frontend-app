@@ -20,19 +20,22 @@ const Footer = () => {
               </Link>
               <div className="mt-4 flex space-x-6 py-3 sm:mt-0 sm:justify-start">
                 <a
-                  href="#"
+                  href="https://www.facebook.com/Xcursions.ng/"
+                  target="_blank"
                   className="rounded-full bg-gray-700 p-2 text-gray-100"
                 >
                   <FiFacebook className="text-xl" />
                 </a>
                 <a
-                  href="#"
+                  href="https://instagram.com/xcursions.ng?igshid=YmMyMTA2M2Y="
+                  target="_blank"
                   className="rounded-full bg-gray-700 p-2 text-gray-100"
                 >
                   <BsInstagram className="text-xl" />
                 </a>
                 <a
-                  href="#"
+                  href="https://twitter.com/Xcursionsdotng?t=ya-KqSBDg45uY0Jx-FaZfw&s=09"
+                  target="_blank"
                   className="rounded-full bg-gray-700 p-2 text-gray-100"
                 >
                   <TbBrandTwitter className="text-xl" />
@@ -100,7 +103,7 @@ const Footer = () => {
                     </Link>
                   </li>
                   <li className="mb-4">
-                    <Link href="/" className="hover:underline">
+                    <Link href="/terms" className="hover:underline">
                       Terms and Conditions
                     </Link>
                   </li>
