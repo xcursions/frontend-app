@@ -24,10 +24,9 @@ const Event = ({ params }: { params: { slug: string } }) => {
   const { slug } = params;
   // const data = use(getOutingData(slug));
   const { data, isSuccess } = useSearchOutingsQuery(`/${slug}`);
-  if (!data) {
+  if (isSuccess && !data) {
     notFound();
   }
-
   return (
     <main>
       <div className="bg-[#ffffff]">

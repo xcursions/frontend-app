@@ -1,11 +1,11 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import FullPageLoader from "@/components/lib/FullPageLoader";
-import { useAppSelector, useAuth } from "@/hooks";
-import { useGetUserQuery } from "@/services/user";
+import { useAuth } from "@/hooks";
+import { useOnboardingChecker } from "@/hooks/useOnboardingChecker";
 
 import CalendarComponent from "../Calendar/Calendar";
 import Header from "../Header";
@@ -21,23 +21,27 @@ const Layout = ({ children }: any) => {
     // eslint-disable-next-line no-unneeded-ternary
     setSidebarMenuActive(window.innerWidth > 768 ? true : false);
   }, []);
-  const router = useRouter();
   const pathname = usePathname();
-  const { user, token } = useAppSelector((state) => state.user);
-  const { isAuthenticated } = useAuth(true);
-  const { data, isSuccess } = useGetUserQuery();
-
-  const userExists = isSuccess && data?.data?.id;
+  const [domLoading, setDomLoading] = useState<boolean>(true);
+  const { isAuthenticated, authData } = useAuth();
+  const onboardingCheck = useOnboardingChecker();
+  // useEffect(() => {
+  //   if (!user?.suspended && user?.profile?.id && token) {
+  //     router.push(`${pathname}`);
+  //   } else {
+  //     router.push("/login");
+  //   }
+  // }, [user, router, pathname]);
   useEffect(() => {
-    if (!user?.suspended && user?.profile?.id && token && userExists) {
-      router.push(`${pathname}`);
-    } else {
-      router.push("/login");
+    if (isAuthenticated) {
+      onboardingCheck(authData);
     }
-  }, [user, router, pathname, isSuccess, data]);
+    setDomLoading(false);
+    // return () => setDomLoading(false);
+  }, [isAuthenticated]);
   return (
     <>
-      {!isAuthenticated ? (
+      {domLoading || !isAuthenticated ? (
         <FullPageLoader />
       ) : (
         <>

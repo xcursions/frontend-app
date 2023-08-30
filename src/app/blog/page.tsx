@@ -1,12 +1,14 @@
 import React from "react";
 
-import Faq from "@/components/public/Faq/Faq";
+import Header from "@/components/blog/Header";
+import Navbar from "@/components/public/Navbar";
 
 const Blog = () => {
   return (
     <div>
       <div>
-        <Faq />
+        <Navbar text={"white"} logo={"white"} />
+        <Header />
       </div>
     </div>
   );

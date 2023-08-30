@@ -18,7 +18,7 @@ export const userApi = createApi({
   baseQuery: axiosBaseQuery(),
   tagTypes: ["User", "UserInfo"],
   endpoints: (builder) => ({
-    getUser: builder.query<any, void>({
+    getUser: builder.query<any, any>({
       query: () => ({ url: "/user", method: "get" }),
       providesTags: ["User"],
     }),

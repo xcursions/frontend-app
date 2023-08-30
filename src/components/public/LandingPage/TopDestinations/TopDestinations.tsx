@@ -12,7 +12,7 @@ import { useGetAllOutingsQuery } from "@/services/public";
 import styles from "./TopDestinations.module.scss";
 
 const TopDestinations = () => {
-  const { data, isSuccess } = useGetAllOutingsQuery("?type=tour");
+  const { data, isSuccess } = useGetAllOutingsQuery("?type=event");
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
@@ -79,39 +79,44 @@ const TopDestinations = () => {
           />
         </div>
       </div>
-      <div className="mx-auto max-w-[1240px]">
-        <div className="content-center justify-center pt-[98px]">
-          <Text className="items-center justify-center text-center font-dmSansRegular text-[12px] text-[#0A83FF]">
-            OUR TRIPS
-          </Text>
-          <Text className="items-center justify-center text-center font-dmSansBold text-[24px] text-[#101828] lg:text-[36px]">
-            Top Events and Hangouts
-          </Text>
-        </div>
-        <div className="no-scrollbar mb-[50px] flex max-w-[1240px] overflow-x-auto scroll-smooth">
-          <div
-            className="grid gap-2"
-            style={{
-              gridTemplateColumns: `repeat(${
-                data?.result?.filter(
-                  (res: { showInLandingPage: any }) => res.showInLandingPage
-                ).length
-              }, 1fr)`,
-            }}
-          >
-            {isSuccess &&
-              data?.result
-                .filter(
-                  (res: { showInLandingPage: any }) => res.showInLandingPage
-                )
-                .map((post: any) => (
-                  <Link key={`${post.id}`} href={`/trips/${post.id}`}>
-                    <TripCard post={post} />
-                  </Link>
-                ))}
+      {isSuccess &&
+        data?.result.filter(
+          (res: { showInLandingPage: any }) => res.showInLandingPage
+        ).length > 0 && (
+          <div className="mx-auto max-w-[1240px]">
+            <div className="content-center justify-center pt-[96px]">
+              <Text className="items-center justify-center text-center font-dmSansRegular text-[12px] text-[#0A83FF]">
+                TOP EVENTS
+              </Text>
+              <Text className="items-center justify-center text-center font-dmSansBold text-[24px] text-[#101828] lg:text-[36px]">
+                Top Events and Hangouts
+              </Text>
+            </div>
+            <div className="no-scrollbar mb-[50px] flex max-w-[1240px] overflow-x-auto scroll-smooth">
+              <div
+                className="grid gap-2"
+                style={{
+                  gridTemplateColumns: `repeat(${
+                    data?.result?.filter(
+                      (res: { showInLandingPage: any }) => res.showInLandingPage
+                    ).length
+                  }, 1fr)`,
+                }}
+              >
+                {isSuccess &&
+                  data?.result
+                    .filter(
+                      (res: { showInLandingPage: any }) => res.showInLandingPage
+                    )
+                    .map((post: any) => (
+                      <Link key={`${post.id}`} href={`/events/${post.id}`}>
+                        <TripCard post={post} />
+                      </Link>
+                    ))}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        )}
       {/* Gallery */}
       <div className="relative mx-auto grid max-w-[1240px] grid-cols-2 gap-4 md:grid-cols-4">
         <div className="absolute bottom-[45%] left-[40%]">

@@ -47,7 +47,7 @@ const Search = () => {
         <div>
           <Heading
             type="h3"
-            className="items-center py-4 text-center text-[#101828]"
+            className="items-center py-4 text-center text-[18px] text-[#101828]"
           >
             Where are you going
           </Heading>
@@ -105,7 +105,7 @@ const Search = () => {
             className=" block w-[290px] cursor-pointer text-sm text-[#667084] md:w-auto lg:w-[270px] xl:w-[300px]"
           />
           <Link href={`/trips?location=${queryLocation}`}>
-            <button className="flex w-full items-center justify-center gap-3 rounded-[100px] bg-[#0A83FF] p-3 text-white md:h-[96px] md:w-[75px] lg:mt-4 lg:p-5">
+            <button className="flex w-[300px] items-center justify-center gap-3 rounded-[100px] bg-[#0A83FF] p-3 text-white md:h-[96px] md:w-[75px] lg:mt-4 lg:p-5">
               <BsSearch className="text-xl" />
               <span className="text-center md:hidden">Search</span>
             </button>

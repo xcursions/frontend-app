@@ -13,17 +13,17 @@ const Testimonies = () => {
           TESTIMONIALS
         </Text>
         <div className="flex max-w-[1238px] justify-between pb-5">
-          <Text className=" max-w-[390px] items-start text-start font-dmSansBold text-[24px] leading-tight text-[#101828] lg:text-[36px]">
+          <Text className=" max-w-[410px] items-start text-start font-dmSansBold text-[24px] leading-tight text-[#101828] lg:text-[40px]">
             What Our Customers are saying
           </Text>
           <Button className=" mb-0 mr-6 max-h-[46px] max-w-lg rounded-3xl bg-[#0A83FF]">
             Get Started
           </Button>
         </div>
-        <div className="flex flex-wrap gap-3 xl:gap-6">
+        <div className="flex flex-wrap gap-[12px]">
           <a
             href="#"
-            className="flex  items-center rounded-lg border border-gray-200 bg-white shadow hover:bg-gray-100 lg:max-w-[48%] lg:flex-row"
+            className="flex  items-center rounded-lg bg-white shadow lg:max-w-[48%] lg:flex-row"
           >
             <div className="flex flex-col justify-between p-4 leading-normal">
               <img
@@ -49,7 +49,7 @@ const Testimonies = () => {
           </a>
           <a
             href="#"
-            className="flex  items-center rounded-lg border border-gray-200 bg-white shadow hover:bg-gray-100  lg:max-w-[48%] lg:flex-row"
+            className="flex  items-center rounded-lg bg-white shadow lg:max-w-[48%] lg:flex-row"
           >
             <img
               className="hidden h-96 w-full rounded-t-lg object-cover md:h-auto md:w-48 md:rounded-none md:rounded-l-lg lg:block"
@@ -75,7 +75,7 @@ const Testimonies = () => {
           </a>
           <a
             href="#"
-            className="flex  items-center rounded-lg border border-gray-200 bg-white shadow hover:bg-gray-100 lg:max-w-[48%] lg:flex-row"
+            className="flex  items-center rounded-lg bg-white shadow lg:max-w-[48%] lg:flex-row"
           >
             <img
               className="hidden h-96 w-full rounded-t-lg object-cover md:h-auto md:w-48 md:rounded-none md:rounded-l-lg lg:block"
@@ -101,7 +101,7 @@ const Testimonies = () => {
           </a>
           <a
             href="#"
-            className="flex  items-center rounded-lg border border-gray-200 bg-white shadow hover:bg-gray-100 lg:max-w-[48%] lg:flex-row"
+            className="flex  items-center rounded-lg bg-white shadow lg:max-w-[48%] lg:flex-row"
           >
             <div className="flex flex-col justify-between p-4 leading-normal">
               <img

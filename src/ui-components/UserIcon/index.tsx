@@ -7,7 +7,7 @@ import styles from "./UserIcon.module.scss";
 
 const profileImage = "/assets/images/icons/profile_avatar.png";
 const UserIcon = ({ onClick = () => {} }) => {
-  const { data, isSuccess } = useGetUserQuery();
+  const { data, isSuccess } = useGetUserQuery("");
   return (
     <div onClick={onClick} className={styles.container}>
       <Image

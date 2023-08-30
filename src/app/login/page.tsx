@@ -4,14 +4,20 @@ import { GoogleLogin } from "@react-oauth/google";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Button from "@/components/lib/Button/Button";
 import Heading from "@/components/lib/Heading/Heading";
 import Input from "@/components/lib/Input/Input";
 import Text from "@/components/lib/Text/Text";
 import Navbar from "@/components/public/Navbar";
-import { useAppDispatch, useErrorHandler, useSuccessHandler } from "@/hooks";
+import {
+  useAppDispatch,
+  useAuth,
+  useErrorHandler,
+  useSuccessHandler,
+} from "@/hooks";
+import { useOnboardingChecker } from "@/hooks/useOnboardingChecker";
 import { useGoogleLoginMutation, useLoginMutation } from "@/services/auth";
 import {
   setUserAuthMethod,
@@ -27,6 +33,8 @@ const initialState = {
 };
 const Login = () => {
   const dispatch = useAppDispatch();
+  const { isAuthenticated, authData } = useAuth();
+  const onboardingCheck = useOnboardingChecker();
   const [payload, setPayload] = useState(initialState);
   const [errors, setErrors] = useState(initialState);
   const router = useRouter();
@@ -70,6 +78,13 @@ const Login = () => {
       setErrors(validationErrors);
     }
   };
+  useEffect(() => {
+    if (isAuthenticated) {
+      onboardingCheck(authData);
+    }
+    router.push("/user/dashboard");
+    // return () => setDomLoading(false);
+  }, [isAuthenticated]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPayload({ ...payload, [event.target.name]: event.target.value });

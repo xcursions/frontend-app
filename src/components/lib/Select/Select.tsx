@@ -40,14 +40,14 @@ const Select: FC<SelectProps> = ({
             arrowClosed={
               <MdKeyboardArrowDown
                 className={`text-xl ${
-                  showArrow ? "opacity-100" : "opacity-0"
+                  showArrow ? "cursor-pointer opacity-100" : "opacity-0"
                 } `}
               />
             }
             arrowOpen={
               <MdKeyboardArrowUp
                 className={`text-xl ${
-                  showArrow ? "opacity-100" : "opacity-0"
+                  showArrow ? "cursor-pointer opacity-100" : "opacity-0"
                 } `}
               />
             }

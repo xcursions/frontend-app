@@ -6,6 +6,7 @@ import type { IUser } from "@/types";
 import { useEffect, useState } from "react";
 import useAppSelector from "./useAppSelector";
 import { useLogoutUser } from "./useLogoutUser";
+import useUserData from "./useUserData";
 
 const useAuth = (noAuth?: boolean | undefined) => {
   const [isAuthenticating, setIsAuthenticating] = useState<boolean>(true);
@@ -17,17 +18,18 @@ const useAuth = (noAuth?: boolean | undefined) => {
 
   useEffect(() => {
     (async () => {
-      if (!isAuthenticating && user && token) {
+      if (user && token) {
         setAuthData(user);
-      } else if ((!user || !token) && !isAuthenticating && !noAuth) {
-        endUserSession("log");
+      } else if ((!user || !token) && !noAuth) {
+        endUserSession();
       }
     })();
     setIsAuthenticating(false);
     // return () => setIsAuthenticating(false);
-  }, [isAuthenticating]);
+  }, [isAuthenticating, user]);
 
   const isAuthenticated = !!token && !!authData;
+  useUserData({ skip: !isAuthenticated });
 
   return {
     isAuthenticated,
