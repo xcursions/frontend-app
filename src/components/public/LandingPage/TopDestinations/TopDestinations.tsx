@@ -67,9 +67,11 @@ const TopDestinations = () => {
               </div>
             </div>
           </div>
-          <Button className="max-w-[174px] rounded-3xl bg-[#0A83FF] hover:bg-blue-400">
-            Get Started Now
-          </Button>
+          <Link href="/trips">
+            <Button className="max-w-[174px] rounded-3xl bg-[#0A83FF] hover:bg-blue-400">
+              Book Now
+            </Button>
+          </Link>
         </div>
         <div className={styles.imagecontainer}>
           <img

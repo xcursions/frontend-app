@@ -46,7 +46,7 @@ const ProfileForm = () => {
   const [password, setPassword] = useState(initialPasswordState);
   const [file, setFile] = useState<File | null>(null);
   const { data } = useGetUserProfileQuery();
-  const [uploadImage, { isLoading, isError, error }] =
+  const [uploadImage, { isLoading, isError, error, isSuccess }] =
     useUpdateUserPictureMutation();
   const [
     uploadProfile,
@@ -92,6 +92,13 @@ const ProfileForm = () => {
       setPassword(initialPasswordState);
     },
     toastMessage: "Password Changed successfully!",
+  });
+  useSuccessHandler({
+    isSuccess,
+    successFunction: () => {
+      setFile(null);
+    },
+    toastMessage: "Profile Picture changed",
   });
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -286,11 +293,23 @@ const ProfileForm = () => {
             />
             <Button
               className="mt-5 w-full rounded-3xl bg-[#0A83FF]"
-              disabled={password.newPassword !== password.confirmPassword}
+              disabled={
+                password.newPassword !== password.confirmPassword ||
+                !password.oldPassword
+              }
               onClick={handlePasswordSubmit}
             >
               Update Password
             </Button>
+            <p
+              className={`${
+                password.confirmPassword === password.newPassword
+                  ? "text-green-400"
+                  : "text-red-500"
+              }`}
+            >
+              Confirm password must match
+            </p>
             {isPasswordLoading && <FullPageLoader />}
           </div>
         </div>

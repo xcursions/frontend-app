@@ -2,10 +2,12 @@
     @apply p-10 bg-[#ffffff]
 }
 .title {
-    @apply border rounded-2xl text-[18px] hidden lg:block
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    @apply border  text-[18px] hidden lg:block
 }
 .wrapper {
-    @apply flex flex-col lg:flex-row mx-auto w-full gap-10 py-3 lg:justify-around bg-[#ffffff] lg:border rounded-2xl;
+    @apply flex flex-col lg:flex-row mx-auto w-full gap-10 py-3 lg:justify-around bg-[#ffffff] lg:border;
 }
 .profileCard {
     @apply flex pt-5

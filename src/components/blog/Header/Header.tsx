@@ -107,7 +107,7 @@ const Header = () => {
           )}
         </div>
       </div>
-      <div className=" mx-[5%] mt-[90px] xl:mx-[8%]">
+      <div className=" mx-[5%] mb-[50px] mt-[90px] xl:mx-[8%]">
         <div className={styles.card_container}>
           {blogData.map((res) => (
             <div key={res.id} className="cursor-pointer">

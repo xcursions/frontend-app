@@ -49,7 +49,7 @@ const Search = () => {
             type="h3"
             className="items-center py-4 text-center text-[18px] text-[#101828]"
           >
-            Where are you going
+            Where Are You Going?
           </Heading>
         </div>
         <div className="mx-auto flex flex-col items-center justify-center gap-5 py-4 text-start font-dmSansRegular text-base md:flex-row">
@@ -69,7 +69,7 @@ const Search = () => {
             />
           )}
           <Select
-            placeholder={"When are you going"}
+            placeholder={"When Are You Going?"}
             label="Date"
             value={payload.date}
             startIcon={"/assets/images/landing-page/calendar.png"}
