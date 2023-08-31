@@ -41,9 +41,17 @@ const Login = () => {
 
   const [login, { isLoading, isError, isSuccess, data, error }] =
     useLoginMutation();
-  const [googleLogin, { isSuccess: googleSuccess, data: googleData }] =
-    useGoogleLoginMutation();
+  const [
+    googleLogin,
+    {
+      isSuccess: googleSuccess,
+      data: googleData,
+      isError: isGoogleError,
+      error: googleError,
+    },
+  ] = useGoogleLoginMutation();
   useErrorHandler({ isError, error });
+  useErrorHandler({ isError: isGoogleError, error: googleError });
   useSuccessHandler({
     isSuccess,
     successFunction: () => {

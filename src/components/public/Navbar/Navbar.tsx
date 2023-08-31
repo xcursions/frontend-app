@@ -123,7 +123,7 @@ const Navbar = ({ text, logo }: Props) => {
                     : ""
                 }`}
               >
-                <Link href="/about-us">About US</Link>
+                <Link href="/about-us">About Us</Link>
               </li>
             </ul>
             {navbar && (

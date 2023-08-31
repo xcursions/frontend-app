@@ -1,7 +1,11 @@
+// @ts-nocheck
+
 "use client";
 
+import { addDays } from "date-fns";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import type { DateRange } from "react-day-picker";
 import toaster from "react-hot-toast";
 import {
   AiOutlineArrowLeft,
@@ -29,6 +33,7 @@ import MapComponent from "@/components/lib/MapComponent/MapComponent";
 import OutingGallery from "@/components/lib/OutingGallery/OutingGallery";
 import { SubtractDate } from "@/components/lib/SubtractDate/SubtractDate";
 import Text from "@/components/lib/Text/Text";
+import { DatePickerWithRange } from "@/components/ui/dateRangePicker";
 import {
   useAppDispatch,
   useAppSelector,
@@ -63,10 +68,16 @@ const initialState = {
   outingSubType: "",
   numOfPeopleSharing: 0,
   addonIds: [],
+  startDate: "",
+  endDate: "",
 };
 const TripDetails = ({ detailsData }: Props) => {
   const dispatch = useAppDispatch();
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [date, setDate] = React.useState<DateRange | undefined>({
+    from: new Date(),
+    to: addDays(new Date(), 7),
+  });
   const [selectedItems, setSelectedItems] = useState<any[]>([]);
   const [selectedTrip, setSelectedTrip] = useState("group");
   const { user } = useAppSelector((state) => state.user);
@@ -144,12 +155,29 @@ const TripDetails = ({ detailsData }: Props) => {
   const { numOfInfants } = payload || 0;
   const goingWithYou = numOfAdults + numOfChildren + numOfInfants;
   useEffect(() => {
-    setPayload({
-      ...payload,
-      outingDateId: detailsData.outingDate[0].id,
-      outingSubType: selectedTrip,
-    });
-  }, [selectedTrip]);
+    // setPayload({
+    //   ...payload,
+    //   outingDateId: detailsData.outingDate[0].id,
+    //   outingSubType: selectedTrip,
+    // });
+    if (selectedTrip === "private") {
+      setPayload({
+        ...payload,
+        outingDateId: undefined,
+        startDate: date?.from,
+        endDate: date?.to,
+        outingSubType: selectedTrip,
+      });
+    } else {
+      setPayload({
+        ...payload,
+        startDate: undefined,
+        endDate: undefined,
+        outingDateId: detailsData.outingDate[0].id,
+        outingSubType: selectedTrip,
+      });
+    }
+  }, [selectedTrip, date]);
   useEffect(() => {
     bookingCost({ query: detailsData.id, data: payload });
   }, [payload]);
@@ -308,33 +336,56 @@ const TripDetails = ({ detailsData }: Props) => {
                     Group Trip
                   </div>
                 </div>
-                <Text className="mb-3 mt-[30px] flex items-center gap-3 font-dmSansRegular text-[14px] text-[#101828]">
-                  <TbCalendar className=" text-xl" />
-                  {formatDatesRange(
-                    detailsData.outingDate[0].startDate,
-                    detailsData.outingDate[0].endDate
-                  )}
-                </Text>
-                <Text className="flex items-center gap-3 font-dmSansRegular text-[14px] text-[#101828]">
-                  <FaRegClock className=" text-xl" />
-                  {Math.floor(
-                    formatWeeksRange(
-                      detailsData?.outingDate[0]?.startDate,
-                      detailsData?.outingDate[0]?.endDate
-                    )
-                  )}{" "}
-                  weeks
-                </Text>
-                <div className="mr-3 mt-7 flex items-center gap-3 rounded-3xl bg-[#FFECEB] py-2">
-                  <RiErrorWarningLine className="ml-3 text-[#F04438]" />{" "}
-                  <Text className="text-[12px] text-[#601B16]">
-                    Deadline for payment is{" "}
-                    {SubtractDate(
-                      detailsData?.outingDate[0]?.startDate,
-                      detailsData?.deadlineGap
+                {selectedTrip === "private" ? (
+                  <div className="mb-3 mt-[30px]">
+                    <DatePickerWithRange date={date} setDate={setDate} />
+                  </div>
+                ) : (
+                  <Text className="mb-3 mt-[30px] flex items-center gap-3 font-dmSansRegular text-[14px] text-[#101828]">
+                    <TbCalendar className=" text-xl" />
+                    {formatDatesRange(
+                      detailsData.outingDate[0].startDate,
+                      detailsData.outingDate[0].endDate
                     )}
                   </Text>
-                </div>
+                )}
+                {selectedTrip === "private" ? (
+                  <Text className="flex items-center gap-3 font-dmSansRegular text-[14px] text-[#101828]">
+                    <FaRegClock className=" text-xl" />
+                    {Math.floor(formatWeeksRange(date?.from, date?.to))} weeks
+                  </Text>
+                ) : (
+                  <Text className="flex items-center gap-3 font-dmSansRegular text-[14px] text-[#101828]">
+                    <FaRegClock className=" text-xl" />
+                    {Math.floor(
+                      formatWeeksRange(
+                        detailsData?.outingDate[0]?.startDate,
+                        detailsData?.outingDate[0]?.endDate
+                      )
+                    )}{" "}
+                    weeks
+                  </Text>
+                )}
+                {selectedTrip === "private" ? (
+                  <div className="mr-3 mt-7 flex items-center gap-3 rounded-3xl bg-[#FFECEB] py-2">
+                    <RiErrorWarningLine className="ml-3 text-[#F04438]" />{" "}
+                    <Text className="text-[12px] text-[#601B16]">
+                      Deadline for payment is{" "}
+                      {SubtractDate(date?.from, detailsData?.deadlineGap)}
+                    </Text>
+                  </div>
+                ) : (
+                  <div className="mr-3 mt-7 flex items-center gap-3 rounded-3xl bg-[#FFECEB] py-2">
+                    <RiErrorWarningLine className="ml-3 text-[#F04438]" />{" "}
+                    <Text className="text-[12px] text-[#601B16]">
+                      Deadline for payment is{" "}
+                      {SubtractDate(
+                        detailsData?.outingDate[0]?.startDate,
+                        detailsData?.deadlineGap
+                      )}
+                    </Text>
+                  </div>
+                )}
                 <Text className="mt-[24px] text-[14px]  text-[#101828]">
                   Price
                 </Text>
@@ -370,7 +421,7 @@ const TripDetails = ({ detailsData }: Props) => {
                   <hr className="border-t-1 grow border-[#E4E7EC]" />
                 </div>
                 <Text className="font-dmSansBold text-[18px]">
-                  Going with you ({goingWithYou})
+                  Going ({goingWithYou})
                 </Text>
                 <div className="my-5 mr-3 flex justify-between">
                   <Text className="font-dmSansRegular text-[14px] text-[#667084]">

@@ -67,6 +67,12 @@ export const publicApi = createApi({
         method: "get",
       }),
     }),
+    getRelatedBlogByCategory: builder.query<any, any>({
+      query: (query) => ({
+        url: `/blog/categories/${query}/posts/recommended`,
+        method: "get",
+      }),
+    }),
   }),
 });
 export const {
@@ -84,4 +90,5 @@ export const {
   useGetAllBlogQuery,
   useLazyGetAllBlogQuery,
   useGetSingleBlogQuery,
+  useGetRelatedBlogByCategoryQuery,
 } = publicApi;

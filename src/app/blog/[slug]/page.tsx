@@ -17,7 +17,7 @@ const Blog = ({ params }: { params: { slug: string } }) => {
   }
   return (
     <div>
-      <div>
+      <div className="bg-[#F9FAFB]">
         <Navbar text={"white"} logo={"white"} />
         {isSuccess && <BlogDetails detailsData={data} />}
         <Subscription />

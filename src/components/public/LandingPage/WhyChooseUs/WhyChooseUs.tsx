@@ -13,12 +13,11 @@ import styles from "./WhyChooseUs.module.scss";
 
 const WhyChooseUs = () => {
   const { data, isSuccess } = useGetAllOutingsQuery("?type=tour");
-  console.log(data);
   return (
     <section className={styles.wrapper}>
       <div className={styles.container}>
         <div>
-          <Heading className={styles.heading}>Why Choose us</Heading>
+          <Heading className={styles.heading}>Why Choose Us</Heading>
         </div>
         <div className={styles.card_container}>
           <div className={styles.card}>
@@ -114,7 +113,7 @@ const WhyChooseUs = () => {
                 )
                 .slice(0, 3)
                 .map((post: any) => (
-                  <Link key={`${post.id}`} href={`/events/${post.id}`}>
+                  <Link key={`${post.id}`} href={`/trips/${post.id}`}>
                     <div className={styles.card_image}>
                       <img
                         className={styles.pics}
