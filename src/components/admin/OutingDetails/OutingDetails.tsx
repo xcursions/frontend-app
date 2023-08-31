@@ -343,9 +343,6 @@ const OutingDetails = ({ detailsData }: Props) => {
   });
   useSuccessHandler({
     isSuccess: chargePlanSuccess,
-    successFunction: () => {
-      setChargePlanPayload(chargePlanState);
-    },
     toastMessage: "Charge Plan Created successfully",
   });
   useErrorHandler({
@@ -358,9 +355,6 @@ const OutingDetails = ({ detailsData }: Props) => {
   });
   useSuccessHandler({
     isSuccess: destinationSuccess,
-    successFunction: () => {
-      setDestinationPayload(initialDestinationState);
-    },
     toastMessage: "Destination Created successfully!",
   });
   useSuccessHandler({
@@ -383,9 +377,6 @@ const OutingDetails = ({ detailsData }: Props) => {
   });
   useSuccessHandler({
     isSuccess: pickupSuccess,
-    successFunction: () => {
-      setPickupPayload(initialDestinationState);
-    },
     toastMessage: "Pickup Created successfully!",
   });
   const handleDestinationSubmit = () => {
