@@ -21,6 +21,7 @@ import Button from "@/components/lib/Button/Button";
 import Input from "@/components/lib/Input/Input";
 import MultiSelect from "@/components/lib/MultiSelect";
 import type { Option } from "@/components/lib/MultiSelect/MultiSelectConfig";
+import TextArea from "@/components/lib/TextArea/TextArea";
 import WYSIWYGEditor from "@/components/lib/WYSIWYGEditor/WYSIWYGEditor";
 import { useErrorHandler, useSuccessHandler } from "@/hooks";
 import {
@@ -34,6 +35,7 @@ import styles from "./blog.module.scss";
 
 const initialState = {
   title: "",
+  bio: "",
   featured: false,
   categoryIds: [""],
 };
@@ -168,6 +170,7 @@ const Page = () => {
             />
             <div>
               <MultiSelect
+                label="Tag"
                 options={tagData?.result.map((res: { id: any; name: any }) => ({
                   value: res.id,
                   label: res.name,
@@ -176,6 +179,15 @@ const Page = () => {
                 onChange={(event) => setTag(event)}
               />
               <p className="text-[12px] text-[#475467]">Suggested Tags: </p>
+            </div>
+            <div>
+              <TextArea
+                label="About Author"
+                value={payload.bio}
+                onChange={(e) =>
+                  setPayload({ ...payload, bio: e.target.value })
+                }
+              />
             </div>
           </div>
           <div>

@@ -31,6 +31,9 @@ import {
   useCreateOutingPickupMutation,
   useCreateReviewMutation,
   useDeleteOutingAddonMutation,
+  useDeleteOutingFeaturedImageMutation,
+  useDeleteOutingGalleryImageMutation,
+  useGetChargePlanQuery,
   useGetOutingAddonsQuery,
   useGetReviewsQuery,
   useUpdateOutingMutation,
@@ -95,8 +98,27 @@ const OutingDetails = ({ detailsData }: Props) => {
   useEffect(() => {
     setId(detailsData.id);
     setChargePlanPayload({ ...chargePlanPayload, title: detailsData.name });
+    if (detailsData.outingPickup) {
+      setPickupPayload({
+        ...pickupPayload,
+        city: detailsData?.outingPickup?.city,
+        state: detailsData?.outingPickup?.state,
+        country: detailsData?.outingPickup?.country,
+        continent: detailsData.outingPickup?.continent,
+        location: detailsData?.outingPickup?.location,
+      });
+    }
+    if (detailsData.outingDestination) {
+      setDestinationPayload({
+        ...destinationPayload,
+        city: detailsData?.outingDestination?.city,
+        state: detailsData?.outingDestination?.state,
+        country: detailsData?.outingDestination?.country,
+        continent: detailsData?.outingDestination?.continent,
+        location: detailsData?.outingDestination?.location,
+      });
+    }
   }, []);
-
   const StarRating = () => {
     const handleStarClick = (value) => {
       setReviewPayload({ ...reviewPayload, rating: value });
@@ -127,6 +149,8 @@ const OutingDetails = ({ detailsData }: Props) => {
     useCreateOutingImageMutation();
   const { data: outingAddon, isSuccess: outingAddonSuccess } =
     useGetOutingAddonsQuery(id);
+  const { data: chargePlanData, isSuccess: getChargePlanDataSuccess } =
+    useGetChargePlanQuery(id);
   const [
     deleteAddon,
     {
@@ -135,6 +159,22 @@ const OutingDetails = ({ detailsData }: Props) => {
       error: deleteAddonError,
     },
   ] = useDeleteOutingAddonMutation();
+  const [
+    deleteOutingImage,
+    {
+      isSuccess: deleteOutingImageSuccess,
+      isError: isDeleteOutingImageError,
+      error: deleteOutingImageError,
+    },
+  ] = useDeleteOutingGalleryImageMutation();
+  const [
+    deleteFeaturedImage,
+    {
+      isSuccess: deleteFeaturedImageSuccess,
+      isError: isDeleteFeaturedImageError,
+      error: deleteFeaturedImageError,
+    },
+  ] = useDeleteOutingFeaturedImageMutation();
   const [
     updateOuting,
     {
@@ -231,6 +271,14 @@ const OutingDetails = ({ detailsData }: Props) => {
     error: deleteAddonError,
   });
   useErrorHandler({
+    isError: isDeleteOutingImageError,
+    error: deleteOutingImageError,
+  });
+  useErrorHandler({
+    isError: isDeleteFeaturedImageError,
+    error: deleteFeaturedImageError,
+  });
+  useErrorHandler({
     isError: isUpdateOutingError,
     error: updateOutingError,
   });
@@ -255,6 +303,14 @@ const OutingDetails = ({ detailsData }: Props) => {
     toastMessage: "Addon deleted successfully",
   });
   useSuccessHandler({
+    isSuccess: deleteOutingImageSuccess,
+    toastMessage: "Image deleted successfully",
+  });
+  useSuccessHandler({
+    isSuccess: deleteFeaturedImageSuccess,
+    toastMessage: "Cover Image Deleted Successfully",
+  });
+  useSuccessHandler({
     isSuccess: updateOutingSuccess,
     toastMessage: "Update successful",
   });
@@ -266,10 +322,27 @@ const OutingDetails = ({ detailsData }: Props) => {
     toastMessage: "Testimonial created successfully",
   });
   useSuccessHandler({
-    isSuccess: chargePlanSuccess,
+    isSuccess: getChargePlanDataSuccess,
     successFunction: () => {
-      setChargePlanPayload(chargePlanState);
+      setChargePlanPayload({
+        ...chargePlanPayload,
+        cost: Math.floor(chargePlanData.cost),
+        extraDurationCostPerDay: Math.floor(
+          chargePlanData.extraDurationCostPerDay
+        ),
+        perPersonSharingAmount: Math.floor(
+          chargePlanData.perPersonSharingAmount
+        ),
+        singleOccupancyAmount: Math.floor(chargePlanData.singleOccupancyAmount),
+        infantMultiplier: chargePlanData.infantMultiplier,
+        childrenMultiplier: chargePlanData.childrenMultiplier,
+        initialPaymentPercent: chargePlanData.initialPaymentPercent,
+      });
     },
+    showToast: false,
+  });
+  useSuccessHandler({
+    isSuccess: chargePlanSuccess,
     toastMessage: "Charge Plan Created successfully",
   });
   useErrorHandler({
@@ -282,9 +355,6 @@ const OutingDetails = ({ detailsData }: Props) => {
   });
   useSuccessHandler({
     isSuccess: destinationSuccess,
-    successFunction: () => {
-      setDestinationPayload(initialDestinationState);
-    },
     toastMessage: "Destination Created successfully!",
   });
   useSuccessHandler({
@@ -307,9 +377,6 @@ const OutingDetails = ({ detailsData }: Props) => {
   });
   useSuccessHandler({
     isSuccess: pickupSuccess,
-    successFunction: () => {
-      setPickupPayload(initialDestinationState);
-    },
     toastMessage: "Pickup Created successfully!",
   });
   const handleDestinationSubmit = () => {
@@ -385,6 +452,7 @@ const OutingDetails = ({ detailsData }: Props) => {
               <Button
                 variant="outline"
                 className="flex max-h-[40px] items-center gap-3 rounded-3xl text-[14px]"
+                onClick={() => deleteFeaturedImage(id)}
               >
                 <RiDeleteBinLine className="text-xl" />
                 Delete
@@ -662,7 +730,18 @@ const OutingDetails = ({ detailsData }: Props) => {
                 </div>
                 <div className="mt-[25px] grid grid-cols-4 gap-3">
                   {detailsData.outingGallery?.map((res) => (
-                    <div key={res.id}>
+                    <div key={res.id} className="relative">
+                      <div
+                        className="absolute right-[45%] top-[45%] cursor-pointer rounded-full bg-[#ffffff] p-2"
+                        onClick={() =>
+                          deleteOutingImage({
+                            query: id,
+                            id: res.id,
+                          })
+                        }
+                      >
+                        <RiDeleteBinLine className="text-[#F04438]" />
+                      </div>
                       <Image
                         src={res.image}
                         alt="uploaded image"

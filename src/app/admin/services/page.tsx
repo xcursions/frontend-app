@@ -42,6 +42,7 @@ const initialState = {
   startDate: "",
   endDate: "",
   deadlineGap: "",
+  defaultOutingDurationInDays: "",
 };
 export type Payment = {
   id: string;
@@ -447,7 +448,7 @@ const Page = () => {
               className="fixed inset-0 z-[31] bg-[#021A3366] opacity-75"
               onClick={toggleModal}
             ></div>
-            <div className="fixed inset-x-0 top-[70px] z-[32] flex items-center justify-center overflow-auto lg:left-[510px] lg:w-[420px]">
+            <div className="fixed inset-x-0 top-[70px] z-[32] flex items-center justify-center overflow-auto lg:left-[500px] lg:w-[450px]">
               <div className="w-full rounded-3xl bg-white p-5 shadow-lg">
                 <div className="flex justify-between">
                   <Heading type="h3">New Trip</Heading>
@@ -491,14 +492,31 @@ const Page = () => {
                       setPayload({ ...payload, name: event.target.value })
                     }
                   />
-                  <Input
-                    label="Price"
-                    placeholder="Enter the Outing price"
-                    value={payload.price}
-                    onChange={(event) =>
-                      setPayload({ ...payload, price: event.target.value })
-                    }
-                  />
+                  <div className="flex w-full gap-2">
+                    <Input
+                      label="Price"
+                      type="number"
+                      placeholder="Enter the Outing price"
+                      value={payload.price}
+                      onChange={(event) =>
+                        setPayload({ ...payload, price: event.target.value })
+                      }
+                      className="w-[195px]"
+                    />
+                    <Input
+                      label="Default Duration"
+                      type="number"
+                      placeholder="Default Outing Duration in Days"
+                      value={payload.defaultOutingDurationInDays}
+                      onChange={(event) =>
+                        setPayload({
+                          ...payload,
+                          defaultOutingDurationInDays: event.target.value,
+                        })
+                      }
+                      className="w-[205px]"
+                    />
+                  </div>
                   <TextArea
                     label="Descriptions"
                     placeholder="your placeholder here"
@@ -511,26 +529,34 @@ const Page = () => {
                       })
                     }
                   />
-                  <Input
-                    label="Start Date"
-                    placeholder="Select start date"
-                    type="date"
-                    value={payload.startDate}
-                    onChange={(event) =>
-                      setPayload({ ...payload, startDate: event.target.value })
-                    }
-                  />
-                  <Input
-                    label="End Date"
-                    placeholder="Select end date"
-                    value={payload.endDate}
-                    type="date"
-                    onChange={(event) =>
-                      setPayload({ ...payload, endDate: event.target.value })
-                    }
-                  />
+                  <div className="flex gap-2">
+                    <Input
+                      label="Start Date"
+                      placeholder="Select start date"
+                      type="date"
+                      value={payload.startDate}
+                      onChange={(event) =>
+                        setPayload({
+                          ...payload,
+                          startDate: event.target.value,
+                        })
+                      }
+                      className="w-[200px]"
+                    />
+                    <Input
+                      label="End Date"
+                      placeholder="Select end date"
+                      value={payload.endDate}
+                      type="date"
+                      onChange={(event) =>
+                        setPayload({ ...payload, endDate: event.target.value })
+                      }
+                      className="w-[200px]"
+                    />
+                  </div>
                   <Input
                     placeholder="Enter payment limit in days"
+                    type="number"
                     label="Payment Deadline"
                     value={payload.deadlineGap}
                     onChange={(event) =>

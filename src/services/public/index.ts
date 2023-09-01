@@ -56,14 +56,20 @@ export const publicApi = createApi({
       }),
     }),
     getAllBlog: builder.query<any, any>({
-      query: (query) => ({
-        url: `/blog/posts${query}`,
+      query: ({ pageLimit, currentPage, search }) => ({
+        url: `/blog/posts?limit=${pageLimit}&page=${currentPage}&search=${search}`,
         method: "get",
       }),
     }),
     getSingleBlog: builder.query<any, any>({
       query: (query) => ({
         url: `/blog/posts/${query}`,
+        method: "get",
+      }),
+    }),
+    getRelatedBlogByCategory: builder.query<any, any>({
+      query: (query) => ({
+        url: `/blog/categories/${query}/posts/recommended`,
         method: "get",
       }),
     }),
@@ -82,6 +88,6 @@ export const {
   useGetOutingChargePlanQuery,
   useGetFeaturedBlogQuery,
   useGetAllBlogQuery,
-  useLazyGetAllBlogQuery,
   useGetSingleBlogQuery,
+  useGetRelatedBlogByCategoryQuery,
 } = publicApi;

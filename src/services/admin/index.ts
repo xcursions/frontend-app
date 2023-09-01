@@ -86,6 +86,12 @@ export const adminApi = createApi({
       }),
       invalidatesTags: ["Admin"],
     }),
+    getChargePlan: builder.query<any, any>({
+      query: (query) => ({
+        url: `/outing/outings/${query}/charge-plans`,
+        method: "get",
+      }),
+    }),
     createOutingAddon: builder.mutation<any, any>({
       query: ({ query, data }) => ({
         url: `/outing-addon/outings/${query}`,
@@ -134,6 +140,20 @@ export const adminApi = createApi({
     deleteReview: builder.mutation<any, any>({
       query: ({ query, id }) => ({
         url: `/outing-review/outings/${query}/reviews/${id}`,
+        method: "delete",
+      }),
+      invalidatesTags: ["Admin"],
+    }),
+    deleteOutingGalleryImage: builder.mutation<any, any>({
+      query: ({ query, id }) => ({
+        url: `/outing/outings/${query}/outing-gallery/${id}`,
+        method: "delete",
+      }),
+      invalidatesTags: ["Admin"],
+    }),
+    deleteOutingFeaturedImage: builder.mutation<any, any>({
+      query: (query) => ({
+        url: `/outing/outings/${query}/outing-gallery/remove/featured-image`,
         method: "delete",
       }),
       invalidatesTags: ["Admin"],
@@ -222,4 +242,7 @@ export const {
   useDeleteBlogMutation,
   useUpdateBlogPostMutation,
   useUpdateBlogImageMutation,
+  useGetChargePlanQuery,
+  useDeleteOutingFeaturedImageMutation,
+  useDeleteOutingGalleryImageMutation,
 } = adminApi;
