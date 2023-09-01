@@ -1,17 +1,17 @@
 .wrapper {
-    @apply w-full items-start bg-[#FFFFFF] justify-start overflow-x-hidden overflow-y-hidden  px-5 py-10;
+    @apply w-full items-start bg-[#FFFFFF] justify-start overflow-x-hidden overflow-y-hidden;
   }
   .container {
-    @apply relative top-[43vw] pt-8 pb-16 md:top-[8vw] lg:top-0 lg:mt-[60px] mx-auto flex w-full max-w-[1112px] flex-col gap-[24px];
+    @apply relative my-[90px] mx-auto flex w-full max-w-[1112px] flex-col gap-[24px];
   }
   .heading {
-    @apply text-center items-center pt-5 text-[24px] md:font-[30px] font-bold lg:text-[36px]
+    @apply text-center items-center text-[24px] md:font-[30px] font-bold lg:text-[36px]
   }
   .card_container {
     display: flex;
     flex-wrap: wrap;
-    gap: 4.9px;
-    @apply mx-auto pb-6;
+    gap: 24px;
+    @apply mx-auto mt-[30px];
   }
   .card {
     position: relative;

@@ -42,17 +42,17 @@ const Search = () => {
     showToast: false,
   });
   return (
-    <div className=" absolute top-[60%] md:top-[80%]">
-      <div className=" rounded-2xl bg-[#FFFFFF] p-5 shadow-lg">
+    <div className="relative z-10">
+      <div className=" max-w-[1109px] rounded-2xl bg-[#FFFFFF] p-5 shadow-lg lg:max-h-[230px]">
         <div>
           <Heading
             type="h3"
-            className="items-center py-4 text-center text-[18px] text-[#101828]"
+            className="mt-3 items-center text-center text-[18px] text-[#101828]"
           >
             Where Are You Going?
           </Heading>
         </div>
-        <div className="mx-auto flex flex-col items-center justify-center gap-5 py-4 text-start font-dmSansRegular text-base md:flex-row">
+        <div className="mx-[24px] my-2 flex flex-col items-center justify-center gap-5 text-start font-dmSansRegular text-base md:flex-row lg:mx-[40px]">
           {locationIsSuccess && (
             <Select
               placeholder={"Select an Option"}

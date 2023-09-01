@@ -2,15 +2,16 @@
     @apply w-full  bg-[#FFFFFF] overflow-x-hidden overflow-y-hidden  p-5;
   }
   .container {
-      @apply flex gap-10 flex-col-reverse lg:flex-row justify-around items-start mx-auto p-2 lg:p-10
+      @apply flex gap-10 flex-col-reverse md:flex-row justify-around items-start mx-auto p-2 lg:p-10
     }
     .textcontainer {
-        max-width: 380px;
-        @apply flex flex-col gap-6
+        // max-width: 440px;
+        @apply flex flex-col gap-[40px] w-full md:max-w-[440px];
     }
     .imagecontainer {
-      max-height: 541px;
-      max-width: 452px;
+      // max-height: 541px;
+      // max-width: 452px;
+      @apply w-full md:max-w-[452px];
   }
   .card_container {
     display: flex;

@@ -3,7 +3,7 @@
 }
 
 .container {
-  @apply relative flex w-full items-center overflow-hidden rounded-md border 
+  @apply relative flex w-full items-center overflow-hidden rounded-2xl border 
   border-gray-300 bg-gray-100 focus-within:border-primary-main;
 }
 

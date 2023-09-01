@@ -8,13 +8,10 @@ const Header = () => {
     <div className={styles.header_wrapper}>
       <div className={`${styles.header}`}>
         <div className={styles.header_content__wrap}>
-          <h2 className={styles.lead_header_txt}>
-            Travel, enjoy and live a new and full life
-          </h2>
+          <h1 className={styles.lead_header_txt}>A Better Way To Travel</h1>
           <p className={styles.lead_sub_txt}>
-            Built Wicket longer admire do barton vanity itself do in it.
-            Preferred to sportsmen it engrossed listening. Park gate sell they
-            west hard for the.
+            Find your dream holiday destinations, get great hotel deals, and
+            save for your next travel, all in one space.
           </p>
         </div>
         <Search />

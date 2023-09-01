@@ -56,8 +56,8 @@ export const publicApi = createApi({
       }),
     }),
     getAllBlog: builder.query<any, any>({
-      query: (query) => ({
-        url: `/blog/posts${query}`,
+      query: ({ pageLimit, currentPage, search }) => ({
+        url: `/blog/posts?limit=${pageLimit}&page=${currentPage}&search=${search}`,
         method: "get",
       }),
     }),
@@ -88,7 +88,6 @@ export const {
   useGetOutingChargePlanQuery,
   useGetFeaturedBlogQuery,
   useGetAllBlogQuery,
-  useLazyGetAllBlogQuery,
   useGetSingleBlogQuery,
   useGetRelatedBlogByCategoryQuery,
 } = publicApi;

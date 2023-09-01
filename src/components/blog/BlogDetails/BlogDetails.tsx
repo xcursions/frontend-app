@@ -56,31 +56,32 @@ const BlogDetails = ({ detailsData }: Props) => {
         dangerouslySetInnerHTML={{ __html: detailsData.content }}
         className={styles.text_content}
       />
-      <div className="mx-auto mt-[50px] max-w-[820px] rounded-[28px] bg-[#FFFFFF]">
+      <div className="mx-[24px] mt-[50px] max-w-[820px] rounded-[28px] bg-[#FFFFFF] lg:mx-auto">
         <div className="flex gap-5 p-[24px] lg:px-[60px] lg:py-[40px]">
           <Image
             width={100}
             height={100}
-            src={"/assets/images/icons/profile_avatar.png"}
+            src={
+              detailsData.author.profile.avatarUrl ||
+              "/assets/images/icons/profile_avatar.png"
+            }
             alt="author"
-            className="h-[40px] w-[40px] lg:h-[100px] lg:w-[100px]"
+            className="h-[40px] w-[40px] rounded-full lg:h-[100px] lg:w-[100px]"
           />
-          <div>
+          <div className="">
             <p className="text-[16px] text-[#0A83FF]">About Author</p>
+            <p className="text-[14px] text-[#667084]">{detailsData?.bio}</p>
           </div>
         </div>
       </div>
-      <div className="mx-auto mb-[30px] mt-[100px] max-w-[1140px]">
+      <div className="mx-[24px] mb-[30px] mt-[100px] max-w-[1140px] lg:mx-auto">
         <Heading type="h3" className="text-center">
           Related Articles
         </Heading>
-        <div className="flex flex-wrap gap-[35px]">
+        <div className="grid grid-cols-1 gap-[35px] md:grid-cols-2 lg:ml-2 lg:grid-cols-3">
           {isSuccess &&
-            data.posts.map((res: BlogProps) => (
-              <div
-                key={res.id}
-                className="mt-[50px] max-w-[350px] cursor-pointer"
-              >
+            data.posts.slice(0, 3).map((res: BlogProps) => (
+              <div key={res.id} className="mt-[50px] cursor-pointer">
                 <Link href={`/blog/${res.id}`}>
                   <Image
                     width={348}
