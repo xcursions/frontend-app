@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import Button from "@/components/lib/Button/Button";
 import { formatedDate } from "@/components/lib/FormatWeekRange/FormatWeekRage";
@@ -11,10 +11,7 @@ import Input from "@/components/lib/Input/Input";
 import { Pagination } from "@/components/lib/Pagination";
 import Text from "@/components/lib/Text/Text";
 import { useSuccessHandler } from "@/hooks";
-import {
-  useGetFeaturedBlogQuery,
-  useLazyGetAllBlogQuery,
-} from "@/services/public";
+import { useGetAllBlogQuery, useGetFeaturedBlogQuery } from "@/services/public";
 import type BlogProps from "@/types/BlogProps";
 
 import styles from "./Header.module.scss";
@@ -22,12 +19,17 @@ import styles from "./Header.module.scss";
 const Header = () => {
   const [featuredPost, setFeaturedPost] = useState<BlogProps>();
   const [blogData, setBlogData] = useState<BlogProps[]>([]);
+  const [payload, setPayload] = useState("");
+  const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const pageLimit = 9;
   const { data: featuredBlog, isSuccess: isFeaturedSuccess } =
     useGetFeaturedBlogQuery();
-  const [getAllBlog, { data: blogDetails, isSuccess: blogSuccess }] =
-    useLazyGetAllBlogQuery();
+  const { data: blogDetails, isSuccess: blogSuccess } = useGetAllBlogQuery({
+    pageLimit,
+    currentPage,
+    search,
+  });
   useSuccessHandler({
     isSuccess: isFeaturedSuccess,
     showToast: false,
@@ -40,15 +42,16 @@ const Header = () => {
   useSuccessHandler({
     isSuccess: blogSuccess,
     showToast: false,
+    dependencies: [blogDetails],
     successFunction: () => {
       if (blogDetails.result.length > 0) {
         setBlogData(blogDetails.result);
       }
     },
   });
-  useEffect(() => {
-    getAllBlog(`?limit=${pageLimit}&page=${currentPage}`);
-  }, [currentPage]);
+  const handleSearch = () => {
+    setSearch(payload);
+  };
   return (
     <>
       <div className={styles.header_wrapper}>
@@ -63,8 +66,17 @@ const Header = () => {
               condimentum. Amet vulputate facilisi eget convallis id adipiscing.
             </Text>
             <div className={styles.header_input__container}>
-              <Input placeholder="search for topics" className={styles.input} />
-              <Button className={styles.button}>Search</Button>
+              <Input
+                placeholder="search for topics"
+                value={payload}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setPayload(e.target.value)
+                }
+                className={styles.input}
+              />
+              <Button className={styles.button} onClick={handleSearch}>
+                Search
+              </Button>
             </div>
           </div>
         </div>

@@ -11,6 +11,7 @@ type BlogProps = {
   id: string;
   readTimeInMinute: number;
   title: string;
+  bio: string;
 };
 export default BlogProps;
 type User = {
@@ -21,6 +22,7 @@ type User = {
   id: string;
   role: string;
   suspended: boolean;
+  profile: UserProfile;
   updatedAt: string;
 };
 type BlogGallery = {
@@ -45,4 +47,23 @@ type BlogPostCategory = {
   updatedAt: string;
   deletedAt: string;
   createdAt: string;
+};
+type UserProfile = {
+  id: string;
+  userId: string;
+  fullName: string;
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  middleName: string;
+  avatarUrl: string;
+  dateOfBirth: string;
+  gender: string;
+  address: string;
+  state: string;
+  city: string;
+  country: string;
+  username: string;
+  createdAt: string;
+  updatedAt: string;
 };

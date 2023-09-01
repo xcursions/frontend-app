@@ -22,6 +22,7 @@ import Button from "@/components/lib/Button/Button";
 import Input from "@/components/lib/Input/Input";
 import MultiSelect from "@/components/lib/MultiSelect";
 import type { Option } from "@/components/lib/MultiSelect/MultiSelectConfig";
+import TextArea from "@/components/lib/TextArea";
 import WYSIWYGEditor from "@/components/lib/WYSIWYGEditor/WYSIWYGEditor";
 import { Switch } from "@/components/ui/switch";
 import { useErrorHandler, useSuccessHandler } from "@/hooks";
@@ -38,6 +39,7 @@ import styles from "./blog.module.scss";
 const initialState = {
   title: "",
   featured: false,
+  bio: "",
   categoryIds: [""],
 };
 const setEditorWithData = (
@@ -91,6 +93,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
         ...payload,
         title: detailsData?.title,
         featured: detailsData?.featured,
+        bio: detailsData?.bio,
       });
       setEditorWithData(setArticle, detailsData?.content);
       //   setMultiInputData(
@@ -234,6 +237,15 @@ const Page = ({ params }: { params: { slug: string } }) => {
                 onChange={(event) => setTag(event)}
               />
               <p className="text-[12px] text-[#475467]">Suggested Tags: </p>
+              <div>
+                <TextArea
+                  label="About Author"
+                  value={payload.bio}
+                  onChange={(e) =>
+                    setPayload({ ...payload, bio: e.target.value })
+                  }
+                />
+              </div>
               <div className="mx-[20px] pt-[24px]">
                 <h2>Set Post as Featured Post</h2>
                 <div className="mt-2 ">

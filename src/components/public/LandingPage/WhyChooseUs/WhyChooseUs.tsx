@@ -89,6 +89,11 @@ const WhyChooseUs = () => {
             </div>
           </div>
         </div>
+        <div className="mx-auto mt-[40px]">
+          <Link href="/signup">
+            <Button className="rounded-3xl">Get Started Now</Button>
+          </Link>
+        </div>
       </div>
       <div className=" bg-[#F9FAFB] py-5">
         <div className="mx-auto max-w-[1440px]">
@@ -136,54 +141,6 @@ const WhyChooseUs = () => {
                     </div>
                   </Link>
                 ))}
-            {/* <div className={styles.card_image}>
-              <img
-                className={styles.pics}
-                src="/assets/images/landing-page/santorini.png"
-                alt="santorini greece"
-              />
-              <div className={styles.imagetextbody}>
-                <div>
-                  <Text className={styles.imageheading}>Santorini, Greece</Text>
-                  <Text className={styles.imagetext}>Indonesia</Text>
-                </div>
-                <Button className="mx-2 rounded-2xl bg-white text-[#0A83FF]">
-                  See Offer
-                </Button>
-              </div>
-            </div> */}
-            {/* <div className={styles.card_image}>
-              <img
-                className={styles.pics}
-                src="/assets/images/landing-page/bali_waterfall.png"
-                alt="Bali Indonesia"
-              />
-              <div className={styles.imagetextbody}>
-                <div>
-                  <Text className={styles.imageheading}>Bali, Indonesia</Text>
-                  <Text className={styles.imagetext}>Indonesia</Text>
-                </div>
-                <Button className="mx-2 rounded-2xl bg-white text-[#0A83FF]">
-                  See Offer
-                </Button>
-              </div>
-            </div> */}
-            {/* <div className={styles.card_image}>
-              <img
-                className={styles.pics}
-                src="/assets/images/landing-page/bali_river.png"
-                alt="Bali Indonesia"
-              />
-              <div className={styles.imagetextbody}>
-                <div>
-                  <Text className={styles.imageheading}>Bali, Indonesia</Text>
-                  <Text className={styles.imagetext}>Indonesia</Text>
-                </div>
-                <Button className="mx-2 rounded-2xl bg-white text-[#0A83FF]">
-                  See Offer
-                </Button>
-              </div>
-            </div> */}
           </div>
         </div>
       </div>

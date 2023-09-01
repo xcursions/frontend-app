@@ -18,10 +18,10 @@ const TopDestinations = () => {
       <div className={styles.container}>
         <div className={styles.textcontainer}>
           <Heading
-            className="max-w-[340px] font-dmSansMedium text-[36px] text-[#101828]"
+            className=" font-dmSansMedium text-[36px] text-[#101828]"
             type="h3"
           >
-            Book Your Next Trip In 3 Easy Steps
+            Book Your Next Adventure in 3 Easy Steps
           </Heading>
           <div className="font-dmSansMedium">
             <div className="flex items-start gap-3">
@@ -30,39 +30,37 @@ const TopDestinations = () => {
               </p>
               <div className="">
                 <Text className="font-dmSansMedium text-[16px] text-[#101828]">
-                  View Available Trips
+                  Discover
                 </Text>
                 <Text className="font-dmSansRegular text-[14px] text-[#667084]">
-                  A tristique tincidunt quam eu vel. Sed lectus at mauris
-                  aliquet pellentesque elementum dolor tincidunt in.
+                  Explore our diverse range of thrilling trips.
                 </Text>
               </div>
             </div>
-            <div className="flex items-start gap-3">
+            <div className="mt-[24px] flex items-start gap-3">
               <p className="h-fit w-fit rounded-full bg-[#0A83FF] px-2 py-[3px] text-xs text-[#ffffff]">
                 2
               </p>
               <div className="">
                 <Text className="font-dmSansMedium text-[16px] text-[#101828]">
-                  Select and View Details
+                  Select
                 </Text>
                 <Text className="font-dmSansRegular text-[14px] text-[#667084]">
-                  A tristique tincidunt quam eu vel. Sed lectus at mauris
-                  aliquet pellentesque elementum dolor tincidunt in.
+                  Choose your desired adventure and explore the details.
                 </Text>
               </div>
             </div>
-            <div className="flex items-start gap-3">
+            <div className="mt-[24px] flex items-start gap-3">
               <p className="h-fit w-fit rounded-full bg-[#0A83FF] px-2 py-[3px] text-xs text-[#ffffff]">
                 3
               </p>
               <div className="">
                 <Text className="font-dmSansMedium text-[16px] text-[#101828]">
-                  Make Payment
+                  Reserve
                 </Text>
                 <Text className="font-dmSansRegular text-[14px] text-[#667084]">
-                  A tristique tincidunt quam eu vel. Sed lectus at mauris
-                  aliquet pellentesque elementum dolor tincidunt in.
+                  Secure your spot quickly and easily for an unforgettable
+                  experience.
                 </Text>
               </div>
             </div>
