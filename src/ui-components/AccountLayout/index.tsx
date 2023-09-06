@@ -13,7 +13,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   // const showSidebarMenu = () => setSidebarMenuActive(true);
 
   useEffect(() => {
-    setSidebarMenuActive(window.innerWidth > 768 ? true : false);
+    setSidebarMenuActive(window.innerWidth > 1023 ? true : false);
   }, []);
   return (
     <>
@@ -21,7 +21,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         // toggleSidebarMenu={toggleSidebarMenu}
         sidebarMenuActive={sidebarMenuActive}
       />
-      <section className="content">{children}</section>
+      <section className={sidebarMenuActive ? "content" : "left-0 w-full"}>
+        {children}
+      </section>
     </>
   );
 };

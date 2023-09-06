@@ -91,6 +91,28 @@ ul li{
     left: 0;
   }
 }
+.popoverStyle {
+  z-index: 2 !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #FFF;
+  padding: 10px;
+  border-radius: 14px;
+  color: #101828;
+  font-size: 14px;
+  max-width: 350px;
+  @apply shadow-md;
+  h3 {
+    font-weight: 700;
+  }
+  img {
+    height: 140px;
+    width: auto;
+    max-width: 330px;
+    border-radius: 8px;
+  }
+}
 
 /* @media (prefers-color-scheme: dark) {
   html {

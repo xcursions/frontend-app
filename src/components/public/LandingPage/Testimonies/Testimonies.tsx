@@ -1,6 +1,5 @@
 import React from "react";
 
-import Button from "@/components/lib/Button/Button";
 import Text from "@/components/lib/Text/Text";
 
 import styles from "./Testimonies.module.scss";
@@ -16,9 +15,6 @@ const Testimonies = () => {
           <Text className=" max-w-[410px] items-start text-start font-dmSansBold text-[24px] leading-tight text-[#101828] lg:text-[40px]">
             What Our Customers are saying
           </Text>
-          <Button className=" mb-0 mr-6 max-h-[46px] max-w-lg rounded-3xl bg-[#0A83FF]">
-            Get Started
-          </Button>
         </div>
         <div className="flex flex-wrap gap-[12px]">
           <a

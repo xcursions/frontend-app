@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import type { FormEvent } from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AiFillEye } from "react-icons/ai";
-import { BsCalendarX } from "react-icons/bs";
+// import { BsCalendarX } from "react-icons/bs";
 import { FaPlus } from "react-icons/fa";
 import { SlOptions } from "react-icons/sl";
 import { TbBuildingBank, TbCards } from "react-icons/tb";
@@ -12,14 +12,11 @@ import { TbBuildingBank, TbCards } from "react-icons/tb";
 import Button from "@/components/lib/Button/Button";
 import Heading from "@/components/lib/Heading/Heading";
 import Input from "@/components/lib/Input/Input";
-import Select from "@/components/lib/Select/Select";
+// import Select from "@/components/lib/Select/Select";
 import Text from "@/components/lib/Text/Text";
 import { DataTable } from "@/components/ui/data-table";
 import { useSuccessHandler } from "@/hooks";
-import {
-  useGetAllOutingsQuery,
-  useLazySearchOutingsQuery,
-} from "@/services/public";
+// import { useGetAllOutingsQuery } from "@/services/public";
 import {
   useGetTransactionsQuery,
   useGetWalletBalanceQuery,
@@ -34,7 +31,7 @@ import styles from "./wallet.module.scss";
 
 const initialState = {
   trip: "",
-  amount: "",
+  amount: 0,
   nameOnCard: "",
   cardNumber: "",
   expiryMonth: "",
@@ -51,10 +48,10 @@ const Wallet = () => {
   const [isPin, setIsPin] = useState(false);
   const [isOtp, setIsOtp] = useState(false);
   const [payload, setPayload] = useState(initialState);
-  const [trips, setTrips] = useState([]);
-  const { data: tripsList, isSuccess } = useGetAllOutingsQuery("?limit=50");
-  const [singleTrip, { data: singleTripData, isSuccess: isSingleSuccess }] =
-    useLazySearchOutingsQuery();
+  // const [trips, setTrips] = useState([]);
+  // const { data: tripsList, isSuccess } = useGetAllOutingsQuery("?limit=50");
+  // const [singleTrip, { data: singleTripData, isSuccess: isSingleSuccess }] =
+  //   useLazySearchOutingsQuery();
   const { data: walletBalance, isSuccess: walletBallanceSuccess } =
     useGetWalletBalanceQuery();
   const { data: transactionHistory, isSuccess: transactionHistorySuccess } =
@@ -71,13 +68,13 @@ const Wallet = () => {
   ] = useSubmitCardPinMutation();
   const [submitOtp, { isSuccess: otpSuccess, isLoading: otpLoading }] =
     useSubmitCardOtpMutation();
-  useSuccessHandler({
-    isSuccess,
-    showToast: false,
-    successFunction: () => {
-      setTrips(tripsList.result);
-    },
-  });
+  // useSuccessHandler({
+  //   isSuccess,
+  //   showToast: false,
+  //   successFunction: () => {
+  //     setTrips(tripsList.result);
+  //   },
+  // });
   useSuccessHandler({
     isSuccess: linkSuccess,
     showToast: true,
@@ -121,31 +118,31 @@ const Wallet = () => {
     setIsCard(!isCard);
     setIsOpen(!isOpen);
   };
-  useEffect(() => {
-    const fetchSingleTrip = async () => {
-      await singleTrip(`/${payload.trip}`);
-    };
+  // useEffect(() => {
+  //   const fetchSingleTrip = async () => {
+  //     await singleTrip(`/${payload.trip}`);
+  //   };
 
-    if (payload.trip.length > 0) {
-      fetchSingleTrip();
-    }
+  //   if (payload.trip.length > 0) {
+  //     fetchSingleTrip();
+  //   }
 
-    // return () => {
-    //   console.log("value not given");
-    // };
-  }, [payload.trip, singleTrip]);
-  const formatedDate = (date: string) => {
-    const dob = new Date(date);
-    const dobArr = dob.toDateString().split(" ");
-    return `${dobArr[1]} ${dobArr[2]}`;
-  };
-  const formatedDate2 = (date: string) => {
-    const dob = new Date(date);
-    const dobArr = dob.toDateString().split(" ");
-    return `${dobArr[1]} ${dobArr[2]}`;
-  };
+  //   // return () => {
+  //   //   console.log("value not given");
+  //   // };
+  // }, [payload.trip, singleTrip]);
+  // const formatedDate = (date: string) => {
+  //   const dob = new Date(date);
+  //   const dobArr = dob.toDateString().split(" ");
+  //   return `${dobArr[1]} ${dobArr[2]}`;
+  // };
+  // const formatedDate2 = (date: string) => {
+  //   const dob = new Date(date);
+  //   const dobArr = dob.toDateString().split(" ");
+  //   return `${dobArr[1]} ${dobArr[2]}`;
+  // };
   const handleLinkSubmit = () => {
-    if (payload.amount.length > 0) {
+    if (payload.amount > 0) {
       initiateLinkDeposit({
         amount: payload.amount,
         callbackUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/user/wallet`,
@@ -163,7 +160,7 @@ const Wallet = () => {
     }
   };
   const handleCardSubmit = () => {
-    if (payload.amount.length > 0) {
+    if (payload.amount > 0) {
       initiateCardDeposit({
         amount: payload.amount,
         nameOnCard: payload.nameOnCard,
@@ -315,13 +312,17 @@ const Wallet = () => {
                 </div>
                 <Input
                   label="Amount"
+                  type="number"
                   value={payload.amount}
                   onChange={(e: FormEvent<HTMLInputElement>) =>
-                    setPayload({ ...payload, amount: e.currentTarget.value })
+                    setPayload({
+                      ...payload,
+                      amount: parseFloat(e.currentTarget.value),
+                    })
                   }
                   placeholder="Enter Amount Here"
                 />
-                {trips && (
+                {/* {trips && (
                   <Select
                     label="Trips"
                     onChange={(event) =>
@@ -338,8 +339,8 @@ const Wallet = () => {
                     }))}
                     showArrow
                   />
-                )}
-                {isSingleSuccess && payload.trip.length > 1 && (
+                )} */}
+                {/* {isSingleSuccess && payload.trip.length > 1 && (
                   <div className="px-2 py-4">
                     <div className="flex gap-3 rounded-xl bg-[#F9FAFB]">
                       <img
@@ -362,7 +363,7 @@ const Wallet = () => {
                       </div>
                     </div>
                   </div>
-                )}
+                )} */}
                 <div className="flex flex-col gap-5 py-5">
                   <div
                     className="flex h-[56px] cursor-pointer items-center gap-4 rounded-2xl bg-[#FFF5EB]"
@@ -388,7 +389,7 @@ const Wallet = () => {
                   </div>
                   <Button
                     className="cursor-pointer rounded-3xl text-[14px]"
-                    disabled={payload.amount.length < 1}
+                    disabled={payload.amount <= 0 || !payload.amount}
                     onClick={handleLinkSubmit}
                   >
                     Continue

@@ -1,3 +1,5 @@
+/* eslint-disable import/no-extraneous-dependencies */
+
 "use client";
 
 import { GoogleLogin } from "@react-oauth/google";
@@ -5,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { LoginSocialFacebook } from "reactjs-social-login";
 
 import Button from "@/components/lib/Button/Button";
 import Heading from "@/components/lib/Heading/Heading";
@@ -147,21 +150,26 @@ const Signup = () => {
                   size="large"
                 />
               </div>
-              <button
-                onClick={() => {}}
-                className="focus:shadow-outline mt-4 flex h-12 items-center
+              <LoginSocialFacebook
+                appId={`${process.env.NEXT_PUBLIC_FACEBOOK_CLIENT_ID}`}
+                onResolve={(response) => console.log(response)}
+                onReject={(er) => console.log(er)}
+              >
+                <button
+                  className="focus:shadow-outline mt-4 flex h-10 items-center
                  justify-center gap-3 rounded-3xl border-2 border-[#1877F2]
                   bg-[#1877F2] px-6 font-dmSansMedium text-[14px] text-[#FFFFFF]
                    transition-colors duration-300 hover:bg-[#1877f4dd]"
-              >
-                <Image
-                  src="/assets/images/icons/facebook.png"
-                  width={20}
-                  height={20}
-                  alt="Google signin buttton"
-                />
-                <span>Login with Facebook</span>
-              </button>
+                >
+                  <Image
+                    src="/assets/images/icons/facebook.png"
+                    width={20}
+                    height={20}
+                    alt="Google signin buttton"
+                  />
+                  <span>Login with Facebook</span>
+                </button>
+              </LoginSocialFacebook>
             </div>
             <div className="my-3 flex items-center justify-center">
               <hr className="grow border-t-2 border-black" />
