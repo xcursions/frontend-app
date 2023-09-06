@@ -1,0 +1,11 @@
+.container {
+    @apply p-10
+}
+.title {
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    @apply border  text-[18px] hidden lg:block
+}
+.wrapper {
+    @apply mx-auto w-full pt-[35px] pl-[24px] lg:pl-[46px] bg-[#ffffff] lg:border;
+}

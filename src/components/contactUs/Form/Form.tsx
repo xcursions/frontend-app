@@ -56,7 +56,7 @@ const Form = () => {
                 <TbMailbox className="text-[#0A83FF]" />
               </div>
               <Text className="text-[16px] text-[#000000] lg:text-[20px]">
-                Info@excursion.com
+                xcursionsng@gmail.com
               </Text>
             </div>
             <div className="flex items-center gap-3 pt-3">
@@ -64,9 +64,20 @@ const Form = () => {
                 <FiNavigation className="text-[#0A83FF]" />
               </div>
               <Text className="font-dmSansRegular text-[16px] font-normal text-[#000000] lg:text-[20px]">
-                4517 Washington Ave. Manchester, Kentucky 39495
+                No 13 LK ANGA, along Total Gospel Road, Peter Odili, Port
+                Harcourt
               </Text>
             </div>
+            <div className="flex items-center gap-3 pt-3">
+              <div className="rounded-full bg-[#EBF5FF] p-3">
+                <FiNavigation className="text-[#0A83FF]" />
+              </div>
+              <Text className="font-dmSansRegular text-[16px] font-normal text-[#000000] lg:text-[20px]">
+                His Glory Plaza, Suite 206 Ademola Adetokunbo Crescent Wuse 2
+                Abuja
+              </Text>
+            </div>
+
             <Image
               src="/assets/images/contact/contact_man.png"
               alt="man"

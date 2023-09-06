@@ -16,13 +16,13 @@ const page = () => {
         {/* <Map /> */}
         <div
           style={{
-            backgroundImage: "url('/assets/images/contact/contact_map.png')",
+            backgroundImage: "url('/assets/images/contact/contact_map.jpeg')",
           }}
         >
           <img
-            src="/assets/images/contact/contact_map.png"
+            src="/assets/images/contact/contact_map.jpeg"
             alt="map"
-            className="relative w-screen"
+            className="relative mt-10 max-h-[550px] w-screen"
           />
           <Subscription />
         </div>
