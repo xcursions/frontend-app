@@ -46,7 +46,7 @@ const Page = () => {
   );
   const [id, setId] = useState("1205df20-4fdb-4f3c-8438-f70217fd8a86");
   const [file, setFile] = useState<File | null>(null);
-  const [uploadImage, { isLoading, isError, error, data }] =
+  const [uploadImage, { isLoading, isError, error }] =
     useCreateOutingImageMutation();
   const [
     uploadDestination,
@@ -164,7 +164,6 @@ const Page = () => {
   const handlePickupSubmit = () => {
     uploadPickup({ query: id, data: outingDestination });
   };
-  console.log(data);
   return (
     <Layout>
       <div className={styles.container}>

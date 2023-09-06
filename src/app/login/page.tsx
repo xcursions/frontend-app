@@ -5,8 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { LoginSocialFacebook } from "reactjs-social-login";
 
+// import { LoginSocialFacebook } from "reactjs-social-login";
 import Button from "@/components/lib/Button/Button";
 import Heading from "@/components/lib/Heading/Heading";
 import Input from "@/components/lib/Input/Input";
@@ -136,15 +136,13 @@ const Login = () => {
             <Text className="text-center text-[14px] text-[#667084]">
               Get Access to your account
             </Text>
-            <div className="my-5 flex flex-col gap-3 lg:flex-row">
+            <div className="my-5 flex flex-col items-center gap-3 lg:flex-row">
               <div className=" mt-5">
                 <GoogleLogin
                   onSuccess={(credentialResponse) =>
                     googleLogin({ idToken: credentialResponse?.credential })
                   }
-                  onError={() => {
-                    console.log("Login Failed");
-                  }}
+                  onError={() => {}}
                   // @ts-ignore
                   scope="openid https://www.googleapis.com/auth/userinfo.email"
                   type="standard"
@@ -153,26 +151,26 @@ const Login = () => {
                   size="large"
                 />
               </div>
-              <LoginSocialFacebook
+              {/* <LoginSocialFacebook
                 appId={`${process.env.NEXT_PUBLIC_FACEBOOK_CLIENT_ID}`}
                 onResolve={(response) => console.log(response)}
                 onReject={(er) => console.log(er)}
-              >
-                <button
-                  className="focus:shadow-outline mt-4 flex h-10 items-center
+              > */}
+              <button
+                className="focus:shadow-outline mt-4 flex h-10 items-center
                  justify-center gap-3 rounded-3xl border-2 border-[#1877F2]
                   bg-[#1877F2] px-6 font-dmSansMedium text-[14px] text-[#FFFFFF]
                    transition-colors duration-300 hover:bg-[#1877f4dd]"
-                >
-                  <Image
-                    src="/assets/images/icons/facebook.png"
-                    width={20}
-                    height={20}
-                    alt="Google signin buttton"
-                  />
-                  <span>Login with Facebook</span>
-                </button>
-              </LoginSocialFacebook>
+              >
+                <Image
+                  src="/assets/images/icons/facebook.png"
+                  width={20}
+                  height={20}
+                  alt="Google signin buttton"
+                />
+                <span>Login with Facebook</span>
+              </button>
+              {/* </LoginSocialFacebook> */}
             </div>
             <div className="my-5 flex items-center justify-center">
               <hr className="border-t-1 grow border-black" />
