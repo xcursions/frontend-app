@@ -26,8 +26,9 @@ const ScheduleInfo = () => {
           start: res.bookingDate.startDate,
           extendedProps: {
             description: res.outing.description,
-            image: res.outing.outingGallery,
+            image: res.outing.outingGallery[0].image,
             updatedAt: res.updatedAt,
+            endDate: res.bookingDate.endDate,
           },
           end: "",
           backgroundColor: "#FFF5EB",
@@ -63,8 +64,11 @@ const ScheduleInfo = () => {
               content: `${formatDatesRange(
                 // @ts-ignore
                 info.event.start,
-                info.event.end
-              )} <br /> <br /> <img src=${"/assets/images/user/schedule.png"} alt="outing" /> <br /> <p>${
+                info.event.extendedProps.endDate
+              )} <br /> <br /> <img src=${
+                info.event.extendedProps.image ||
+                "/assets/images/user/schedule.png"
+              } alt="outing" /> <br /> <p>${
                 info.event.extendedProps.description
               }</p> <br /> <hr /> <br /> last updated ${formatedDate(
                 info.event.extendedProps.updatedAt

@@ -13,6 +13,7 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import { TbFileUpload } from "react-icons/tb";
 
 import Button from "@/components/lib/Button/Button";
+import { formatDatesRange } from "@/components/lib/FormatWeekRange/FormatWeekRage";
 import Heading from "@/components/lib/Heading/Heading";
 import Input from "@/components/lib/Input/Input";
 import Text from "@/components/lib/Text/Text";
@@ -26,11 +27,13 @@ import {
   useCreateChargePlanMutation,
   useCreateOutingAddonIconMutation,
   useCreateOutingAddonMutation,
+  useCreateOutingDateMutation,
   useCreateOutingDestinationMutation,
   useCreateOutingImageMutation,
   useCreateOutingPickupMutation,
   useCreateReviewMutation,
   useDeleteOutingAddonMutation,
+  useDeleteOutingDateMutation,
   useDeleteOutingFeaturedImageMutation,
   useDeleteOutingGalleryImageMutation,
   useGetChargePlanQuery,
@@ -77,12 +80,17 @@ const initialReviewState = {
   comment: "",
   rating: 0,
 };
+const outingDateState = {
+  startDate: "",
+  endDate: "",
+};
 const OutingDetails = ({ detailsData }: Props) => {
   const [chargePlanPayload, setChargePlanPayload] = useState(chargePlanState);
   const [showInLandingPage, setShowInLandingPage] = useState(
     detailsData.showInLandingPage
   );
   const [isOpen, setIsOpen] = useState(false);
+  const [isDateOpen, setIsDateOpen] = useState(false);
   const [isAddOnOpen, setIsAddOnOpen] = useState(false);
   const [isReviewOpen, setIsReviewOpen] = useState(false);
   const [id, setId] = useState("");
@@ -90,6 +98,7 @@ const OutingDetails = ({ detailsData }: Props) => {
   const [pickupPayload, setPickupPayload] = useState(initialDestinationState);
   const [addonPayload, setAddonPayload] = useState(initialAddonState);
   const [reviewPayload, setReviewPayload] = useState(initialReviewState);
+  const [datePayload, setDatePayload] = useState(outingDateState);
   const [destinationPayload, setDestinationPayload] = useState(
     initialDestinationState
   );
@@ -147,6 +156,15 @@ const OutingDetails = ({ detailsData }: Props) => {
   };
   const [uploadImage, { isLoading, isError, error, isSuccess }] =
     useCreateOutingImageMutation();
+  const [
+    createDate,
+    {
+      isLoading: dateloading,
+      isError: isDateError,
+      error: dateError,
+      isSuccess: dateSuccess,
+    },
+  ] = useCreateOutingDateMutation();
   const { data: outingAddon, isSuccess: outingAddonSuccess } =
     useGetOutingAddonsQuery(id);
   const { data: chargePlanData, isSuccess: getChargePlanDataSuccess } =
@@ -167,6 +185,15 @@ const OutingDetails = ({ detailsData }: Props) => {
       error: deleteOutingImageError,
     },
   ] = useDeleteOutingGalleryImageMutation();
+  const [
+    deleteOutingDate,
+    {
+      isSuccess: deleteOutingDateSuccess,
+      isError: isDeleteOutingDateError,
+      error: deleteOutingDateError,
+      isLoading: deleteDateLoading,
+    },
+  ] = useDeleteOutingDateMutation();
   const [
     deleteFeaturedImage,
     {
@@ -267,12 +294,20 @@ const OutingDetails = ({ detailsData }: Props) => {
     error,
   });
   useErrorHandler({
+    isError: isDateError,
+    error: dateError,
+  });
+  useErrorHandler({
     isError: isDeleteAddonError,
     error: deleteAddonError,
   });
   useErrorHandler({
     isError: isDeleteOutingImageError,
     error: deleteOutingImageError,
+  });
+  useErrorHandler({
+    isError: isDeleteOutingDateError,
+    error: deleteOutingDateError,
   });
   useErrorHandler({
     isError: isDeleteFeaturedImageError,
@@ -299,12 +334,20 @@ const OutingDetails = ({ detailsData }: Props) => {
     toastMessage: "Image uploaded successfully",
   });
   useSuccessHandler({
+    isSuccess: dateSuccess,
+    toastMessage: "Outing Date Created successfully",
+  });
+  useSuccessHandler({
     isSuccess: deleteAddonSuccess,
     toastMessage: "Addon deleted successfully",
   });
   useSuccessHandler({
     isSuccess: deleteOutingImageSuccess,
     toastMessage: "Image deleted successfully",
+  });
+  useSuccessHandler({
+    isSuccess: deleteOutingDateSuccess,
+    toastMessage: "Date deleted successfully",
   });
   useSuccessHandler({
     isSuccess: deleteFeaturedImageSuccess,
@@ -393,6 +436,9 @@ const OutingDetails = ({ detailsData }: Props) => {
   };
   const toggleAddonModal = () => {
     setIsAddOnOpen(!isAddOnOpen);
+  };
+  const toggleDateModal = () => {
+    setIsDateOpen(!isDateOpen);
   };
   const toggleReviewModal = () => {
     setIsReviewOpen(!isReviewOpen);
@@ -540,179 +586,181 @@ const OutingDetails = ({ detailsData }: Props) => {
                 </Text>
               </div>
             </div>
-            <div className={styles.card_body}>
-              <div className="mx-[25px] py-[32px]">
-                <div className="flex items-center justify-between">
-                  <Heading type="h3">Flight Itenaries</Heading>
-                  <p
-                    className="flex cursor-pointer items-center gap-1 text-[14px] font-normal text-[#0A83FF] underline"
-                    onClick={toggleAddonModal}
-                  >
-                    <IoAdd className="text-2xl" />
-                    Add Itineary
-                  </p>
-                </div>
-                {isAddOnOpen && (
-                  <>
-                    <div
-                      className="fixed inset-0 z-[31] bg-[#021A3366] opacity-75"
+            {detailsData.type === "tour" && (
+              <div className={styles.card_body}>
+                <div className="mx-[25px] py-[32px]">
+                  <div className="flex items-center justify-between">
+                    <Heading type="h3">Flight Itenaries</Heading>
+                    <p
+                      className="flex cursor-pointer items-center gap-1 text-[14px] font-normal text-[#0A83FF] underline"
                       onClick={toggleAddonModal}
-                    ></div>
-                    <div className="fixed inset-x-0 top-[70px] z-[32] flex items-center justify-center overflow-auto lg:left-[510px] lg:w-[420px]">
-                      <div className="w-full rounded-3xl bg-white p-5 shadow-lg">
-                        <div className="flex justify-between">
-                          <Heading type="h3">Flight Itinerary</Heading>
-                          <p
-                            className="cursor-pointer font-dmSansBold text-[16px] text-[#98A2B3]"
-                            onClick={toggleAddonModal}
-                          >
-                            X
-                          </p>
-                        </div>
-                        <div className="mt-[20px] flex gap-5">
-                          <p
-                            className={`cursor-pointer rounded-md border px-2 py-1 font-dmSansRegular text-[14px] ${
-                              addonPayload.default === true
-                                ? "  bg-[#000000] text-[#ffffff]"
-                                : ""
-                            }`}
-                            onClick={() =>
-                              setAddonPayload({
-                                ...addonPayload,
-                                default: true,
-                              })
-                            }
-                          >
-                            Default Itinerary
-                          </p>
-                          <p
-                            className={`cursor-pointer rounded-md border px-2 py-1 font-dmSansRegular text-[14px] ${
-                              addonPayload.default === false
-                                ? "  bg-[#000000] text-[#ffffff]"
-                                : ""
-                            }`}
-                            onClick={() =>
-                              setAddonPayload({
-                                ...addonPayload,
-                                default: false,
-                              })
-                            }
-                          >
-                            Addons
-                          </p>
-                        </div>
-                        <div className="my-[10px]">
-                          <Input
-                            label="Name"
-                            placeholder="Enter addon name"
-                            value={addonPayload.name}
-                            onChange={(e) =>
-                              setAddonPayload({
-                                ...addonPayload,
-                                name: e.target.value,
-                              })
-                            }
-                          />
-                          <Input
-                            label="Description"
-                            placeholder="Enter addon description"
-                            value={addonPayload.description}
-                            onChange={(e) =>
-                              setAddonPayload({
-                                ...addonPayload,
-                                description: e.target.value,
-                              })
-                            }
-                          />
-                          {addonPayload.default === false && (
+                    >
+                      <IoAdd className="text-2xl" />
+                      Add Itineary
+                    </p>
+                  </div>
+                  {isAddOnOpen && (
+                    <>
+                      <div
+                        className="fixed inset-0 z-[31] bg-[#021A3366] opacity-75"
+                        onClick={toggleAddonModal}
+                      ></div>
+                      <div className="fixed inset-x-0 top-[70px] z-[32] flex items-center justify-center overflow-auto lg:left-[510px] lg:w-[420px]">
+                        <div className="w-full rounded-3xl bg-white p-5 shadow-lg">
+                          <div className="flex justify-between">
+                            <Heading type="h3">Flight Itinerary</Heading>
+                            <p
+                              className="cursor-pointer font-dmSansBold text-[16px] text-[#98A2B3]"
+                              onClick={toggleAddonModal}
+                            >
+                              X
+                            </p>
+                          </div>
+                          <div className="mt-[20px] flex gap-5">
+                            <p
+                              className={`cursor-pointer rounded-md border px-2 py-1 font-dmSansRegular text-[14px] ${
+                                addonPayload.default === true
+                                  ? "  bg-[#000000] text-[#ffffff]"
+                                  : ""
+                              }`}
+                              onClick={() =>
+                                setAddonPayload({
+                                  ...addonPayload,
+                                  default: true,
+                                })
+                              }
+                            >
+                              Default Itinerary
+                            </p>
+                            <p
+                              className={`cursor-pointer rounded-md border px-2 py-1 font-dmSansRegular text-[14px] ${
+                                addonPayload.default === false
+                                  ? "  bg-[#000000] text-[#ffffff]"
+                                  : ""
+                              }`}
+                              onClick={() =>
+                                setAddonPayload({
+                                  ...addonPayload,
+                                  default: false,
+                                })
+                              }
+                            >
+                              Addons
+                            </p>
+                          </div>
+                          <div className="my-[10px]">
                             <Input
-                              label="Cost"
-                              placeholder="Enter adddon price"
-                              value={addonPayload.cost}
+                              label="Name"
+                              placeholder="Enter addon name"
+                              value={addonPayload.name}
                               onChange={(e) =>
                                 setAddonPayload({
                                   ...addonPayload,
-                                  cost: e.target.value,
+                                  name: e.target.value,
                                 })
                               }
                             />
-                          )}
-                          {file ? (
-                            <figure className="mt-[20px]">
-                              <img
-                                src={URL.createObjectURL(file)}
-                                alt=""
-                                className="mx-auto max-h-[90px] w-full max-w-[90px] rounded-xl"
+                            <Input
+                              label="Description"
+                              placeholder="Enter addon description"
+                              value={addonPayload.description}
+                              onChange={(e) =>
+                                setAddonPayload({
+                                  ...addonPayload,
+                                  description: e.target.value,
+                                })
+                              }
+                            />
+                            {addonPayload.default === false && (
+                              <Input
+                                label="Cost"
+                                placeholder="Enter adddon price"
+                                value={addonPayload.cost}
+                                onChange={(e) =>
+                                  setAddonPayload({
+                                    ...addonPayload,
+                                    cost: e.target.value,
+                                  })
+                                }
                               />
-                            </figure>
-                          ) : (
-                            <div className="mt-[20px]" {...getRootProps()}>
-                              <input
-                                {...getInputProps()}
-                                accept="image/*"
-                                multiple={false}
-                              />
+                            )}
+                            {file ? (
+                              <figure className="mt-[20px]">
+                                <img
+                                  src={URL.createObjectURL(file)}
+                                  alt=""
+                                  className="mx-auto max-h-[90px] w-full max-w-[90px] rounded-xl"
+                                />
+                              </figure>
+                            ) : (
+                              <div className="mt-[20px]" {...getRootProps()}>
+                                <input
+                                  {...getInputProps()}
+                                  accept="image/*"
+                                  multiple={false}
+                                />
 
-                              <TbFileUpload className="cursor-pointer text-3xl" />
+                                <TbFileUpload className="cursor-pointer text-3xl" />
 
-                              {isDragActive ? (
-                                <Text className="font-dmSansBold">
-                                  Drop your image here!
-                                </Text>
-                              ) : (
-                                <>
-                                  <Text className="cursor-pointer text-[10px] font-light">
-                                    We recommend an image of at least 200x200.
-                                    Supports jpg, png and gif
+                                {isDragActive ? (
+                                  <Text className="font-dmSansBold">
+                                    Drop your image here!
                                   </Text>
-                                </>
-                              )}
-                            </div>
-                          )}
-                          <Button
-                            className="my-4 w-full rounded-3xl"
-                            loading={addonLoading}
-                            onClick={handleAddonSubmit}
-                          >
-                            Add Itinerary
-                          </Button>
+                                ) : (
+                                  <>
+                                    <Text className="cursor-pointer text-[10px] font-light">
+                                      We recommend an image of at least 200x200.
+                                      Supports jpg, png and gif
+                                    </Text>
+                                  </>
+                                )}
+                              </div>
+                            )}
+                            <Button
+                              className="my-4 w-full rounded-3xl"
+                              loading={addonLoading}
+                              onClick={handleAddonSubmit}
+                            >
+                              Add Itinerary
+                            </Button>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </>
-                )}
-                <div className="mx-[-5px] mt-[25px] grid grid-cols-3 gap-2">
-                  {outingAddonSuccess &&
-                    outingAddon.map(
-                      (
-                        info: React.JSX.IntrinsicAttributes & {
-                          name: string;
-                          description: string;
-                          icon: string;
-                          cost: string;
-                          default: boolean;
-                        },
-                        index: React.Key | null | undefined
-                      ) => (
-                        <div key={info.id} className="relative">
-                          <div
-                            className="absolute right-0 top-0 cursor-pointer rounded-full bg-[#ffffff] p-2"
-                            onClick={() =>
-                              deleteAddon({
-                                query: detailsData.id,
-                                id: info.id,
-                              })
-                            }
-                          >
-                            <GiCancel className="text-[#98A2B3]" />
-                          </div>{" "}
-                          <Addon key={index} {...info} />
-                        </div>
-                      )
-                    )}
+                    </>
+                  )}
+                  <div className="mx-[-5px] mt-[25px] grid grid-cols-3 gap-2">
+                    {outingAddonSuccess &&
+                      outingAddon.map(
+                        (
+                          info: React.JSX.IntrinsicAttributes & {
+                            name: string;
+                            description: string;
+                            icon: string;
+                            cost: string;
+                            default: boolean;
+                          },
+                          index: React.Key | null | undefined
+                        ) => (
+                          <div key={info.id} className="relative">
+                            <div
+                              className="absolute right-0 top-0 cursor-pointer rounded-full bg-[#ffffff] p-2"
+                              onClick={() =>
+                                deleteAddon({
+                                  query: detailsData.id,
+                                  id: info.id,
+                                })
+                              }
+                            >
+                              <GiCancel className="text-[#98A2B3]" />
+                            </div>{" "}
+                            <Addon key={index} {...info} />
+                          </div>
+                        )
+                      )}
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
             <div className={styles.card_body}>
               <div className="mx-[32px] py-[32px]">
                 <div className="flex items-center justify-between">
@@ -1060,6 +1108,102 @@ const OutingDetails = ({ detailsData }: Props) => {
                 </div>
               </div>
             </div>
+            {detailsData.type === "tour" && (
+              <div className={styles.card_body}>
+                <div className="mx-[20px] py-[24px]">
+                  <div className="flex items-center justify-between">
+                    <Heading type="h3">Outing Dates</Heading>
+                    <p
+                      className="flex cursor-pointer items-center gap-1 text-[14px] font-normal text-[#0A83FF] underline"
+                      onClick={toggleDateModal}
+                    >
+                      <IoAdd className="text-2xl" />
+                      Add
+                    </p>
+                  </div>
+                  {isDateOpen && (
+                    <>
+                      <div
+                        className="fixed inset-0 z-[31] bg-[#021A3366] opacity-75"
+                        onClick={toggleDateModal}
+                      ></div>
+                      <div className="fixed inset-x-0 top-[70px] z-[32] flex items-center justify-center overflow-auto lg:left-[500px] lg:w-[450px]">
+                        <div className="w-full rounded-3xl bg-white p-5 shadow-lg">
+                          <div className="flex justify-between">
+                            <Heading type="h3">New Outing Date</Heading>
+                            <p
+                              className="cursor-pointer font-dmSansBold text-[16px] text-[#98A2B3]"
+                              onClick={toggleDateModal}
+                            >
+                              X
+                            </p>
+                          </div>
+                          <div>
+                            <Input
+                              label="Start Date"
+                              placeholder="Select start date"
+                              type="date"
+                              value={datePayload.startDate}
+                              onChange={(event) =>
+                                setDatePayload({
+                                  ...datePayload,
+                                  startDate: event.target.value,
+                                })
+                              }
+                              className="w-[200px]"
+                            />
+                            <Input
+                              label="End Date"
+                              placeholder="Select end date"
+                              value={datePayload.endDate}
+                              type="date"
+                              onChange={(event) =>
+                                setDatePayload({
+                                  ...datePayload,
+                                  endDate: event.target.value,
+                                })
+                              }
+                              className="w-[200px]"
+                            />
+                            <Button
+                              className="my-3 w-full rounded-3xl"
+                              disabled={
+                                !datePayload.startDate || !datePayload.endDate
+                              }
+                              onClick={() => {
+                                createDate({ query: id, data: datePayload });
+                              }}
+                              loading={dateloading}
+                            >
+                              Create Date
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                  <div className="mt-2">
+                    {detailsData.outingDate.map((res) => (
+                      <div
+                        key={res.id}
+                        className="my-2 flex items-center justify-between rounded-md bg-[#ffffff] p-2 shadow-md"
+                      >
+                        {formatDatesRange(res.startDate, res.endDate)}
+                        <Button
+                          variant="outline"
+                          className="flex max-h-[40px] items-center gap-3 rounded-3xl text-[14px]"
+                          onClick={() => deleteOutingDate(res.id)}
+                          loading={deleteDateLoading}
+                        >
+                          <RiDeleteBinLine className="text-xl" />
+                          Delete
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -96,7 +96,7 @@ const NotificationList = ({ img, desc, datetime, id }: any) => {
   return (
     <li>
       {img && (
-        <img src={img || "/assets/images/icons/profile_avatar.png"} alt="" />
+        <img src={img || "/assets/images/icons/profile_avatar.jpeg"} alt="" />
       )}
       <div
         className={styles["single-notification"]}

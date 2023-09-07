@@ -215,6 +215,21 @@ export const adminApi = createApi({
       }),
       providesTags: ["Admin"],
     }),
+    createOutingDate: builder.mutation<any, any>({
+      query: ({ query, data }) => ({
+        url: `/outing-date/outings/${query}`,
+        method: "post",
+        data,
+      }),
+      invalidatesTags: ["Admin"],
+    }),
+    deleteOutingDate: builder.mutation<any, any>({
+      query: (query) => ({
+        url: `/outing-date/${query}`,
+        method: "delete",
+      }),
+      invalidatesTags: ["Admin"],
+    }),
   }),
 });
 export const {
@@ -245,4 +260,6 @@ export const {
   useGetChargePlanQuery,
   useDeleteOutingFeaturedImageMutation,
   useDeleteOutingGalleryImageMutation,
+  useCreateOutingDateMutation,
+  useDeleteOutingDateMutation,
 } = adminApi;

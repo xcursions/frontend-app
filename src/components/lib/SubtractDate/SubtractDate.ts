@@ -48,7 +48,7 @@ export const SubtractDate = (
 ) => {
   const startDate = new Date(startDateString);
   startDate.setDate(startDate.getDate() - deadline);
-  const newDate = startDate.toISOString();
+  const newDate = startDate;
   const result = formatDate(newDate);
   return result;
 };

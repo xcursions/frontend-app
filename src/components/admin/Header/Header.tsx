@@ -87,7 +87,7 @@ const NotificationsIcon = ({ onClick = () => {} }) => (
 const NotificationList = ({ img = null, desc = "", datetime = "" }) => {
   return (
     <li>
-      {img && <img src={"/assets/images/icons/profile_avatar.png"} alt="" />}
+      {img && <img src={"/assets/images/icons/profile_avatar.jpeg"} alt="" />}
       <div className={styles["single-notification"]}>
         <p>{desc}</p>
         <p>{datetime}</p>

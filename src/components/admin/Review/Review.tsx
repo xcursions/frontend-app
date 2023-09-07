@@ -36,7 +36,7 @@ const Review = ({ detailsData, design }: Props) => {
           <Image
             src={
               detailsData?.user?.profile?.avatarUrl ||
-              "/assets/images/icons/profile_avatar.png"
+              "/assets/images/icons/profile_avatar.jpeg"
             }
             width={50}
             height={50}

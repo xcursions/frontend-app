@@ -22,7 +22,7 @@ import {
 
 import styles from "./Profile.module.scss";
 
-const profileImage = "/assets/images/icons/profile_avatar.png";
+const profileImage = "/assets/images/icons/profile_avatar.jpeg";
 
 const initialState = {
   fullName: "",

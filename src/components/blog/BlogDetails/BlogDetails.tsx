@@ -63,7 +63,7 @@ const BlogDetails = ({ detailsData }: Props) => {
             height={100}
             src={
               detailsData.author.profile.avatarUrl ||
-              "/assets/images/icons/profile_avatar.png"
+              "/assets/images/icons/profile_avatar.jpeg"
             }
             alt="author"
             className="h-[40px] w-[40px] rounded-full lg:h-[100px] lg:w-[100px]"
