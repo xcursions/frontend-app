@@ -192,7 +192,7 @@ export const userApi = createApi({
     }),
     getUpcomingSchedule: builder.query<any, void>({
       query: () => ({
-        url: "/saving-plan/upcoming-outing-schedules",
+        url: "/saving-plan/upcoming-outing-schedules?limit=20",
         method: "get",
       }),
       providesTags: ["UserInfo"],

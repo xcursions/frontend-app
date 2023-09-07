@@ -33,7 +33,8 @@ const faqData = [
     id: 6,
     question: `What's the difference between "per person sharing" and "single occupancy"?`,
     answer: `"Per person sharing" refers to the cost of accommodation when two or more individuals share accommodation during a trip. The price is divided among the Co-travelers who will be staying together. This option is great for couples, friends, or families traveling together. <br /> 
-    "Single occupancy" pertains to the cost when a co-traveler occupies a room or accommodation alone. Since the cost is not divided among multiple occupants, it is typically higher than the 'per person sharing' rate. This option offers greater privacy and is suitable for those who prefer to have their own space. Make sure to review the pricing details on the trip page to understand the cost implications of each accommodation type.`,
+    "Single occupancy" pertains to the cost when a co-traveler occupies a room or accommodation alone. Since the cost is not divided among multiple occupants, it is typically higher than the 'per person sharing' rate. This option offers greater privacy and is suitable for those who prefer to have their own space. Make sure to review the pricing details on the trip page to understand the cost implications of each accommodation type.
+    <br /> Make sure to review the pricing details on the trip page to understand the cost implications of each accommodation type.`,
   },
 ];
 export default faqData;
