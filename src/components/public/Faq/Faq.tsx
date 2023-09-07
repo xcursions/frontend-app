@@ -15,7 +15,7 @@ const Faq = () => {
             FAQS
           </Text>
           <Text className="items-center justify-center text-center font-dmSansBold text-[24px] text-[#101828] lg:text-[36px]">
-            Frequently Asked Questions
+            You’ve Got Questions? We Have Answers
           </Text>
         </div>
         <React.Fragment>

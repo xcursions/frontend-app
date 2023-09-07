@@ -100,9 +100,6 @@ const Page = () => {
   });
   useSuccessHandler({
     isSuccess: isBookingParticipantSuccess,
-    // successFunction: () => {
-    //   handleCheckout({ query: booking?.id || "", data: payload });
-    // },
   });
   useSuccessHandler({
     isSuccess: isCheckoutSuccess,

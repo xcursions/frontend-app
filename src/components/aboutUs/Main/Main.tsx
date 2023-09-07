@@ -2,6 +2,7 @@ import Image from "next/image";
 import React from "react";
 
 import Button from "@/components/lib/Button/Button";
+import Heading from "@/components/lib/Heading/Heading";
 import Text from "@/components/lib/Text/Text";
 
 const Main = () => {
@@ -13,22 +14,59 @@ const Main = () => {
             <Text className="max-w-[410px] font-dmSansBold text-[24px] font-bold text-[#101828] lg:text-[36px]">
               A little About{" "}
               <span className="rounded text-[#0A83FF] shadow-md">Xcursion</span>{" "}
-              & what you are doing
+              & what we are doing
             </Text>
           </div>
           <div>
+            <Heading type="h1" className="text-[24px] text-[#101828]">
+              The Xcursions Story
+            </Heading>
             <Text className="text-[16px] font-normal text-[#667084]">
-              Suspendisse enim elit consequat volutpat. Lectus vitae eget
-              aliquet egestas dis. Sem nunc at enim dui in felis in vel. Ut
-              purus gravida mattis sit mi donec. Odio eleifend nisi congue
-              egestas. Nisl sollicitudin dictum cras sit consequat velit amet.
-              Risus quis purus tempor aliquet pharetra turpis. In lacinia
-              imperdiet urna mauris. Nibh et ipsum sed eget tortor et
-              ullamcorper non scelerisque. Natoque molestie integer posuere
-              molestie in id sagittis facilisis. Adipiscing in tortor sem cras
-              ultrices nunc id. Volutpat sed mauris fames diam pulvinar arcu
-              elit. Urna imperdiet dui aenean augue elementum fermentum.
-              Elementum luctus sed sit massa risus orci.
+              Xcursions was born from a shared love for adventure, culture, and
+              the profound impact travel can have on individuals and
+              communities. At Xcursions, we&lsquo;re more than just a travel and
+              tour company; we&lsquo;re your dedicated companion on the journey
+              of a lifetime. As passionate travelers ourselves, we understand
+              the thrill of exploring new horizons, the joy of discovering new
+              cities, and the importance of creating memories that last a
+              lifetime. Our mission is simple: to provide you with exceptional
+              travel experiences that inspire and enrich your life.
+            </Text>
+            <Heading type="h3" className="text-[24px] text-[#101828]">
+              What We Believe In
+            </Heading>
+            <Text className="text-[16px] font-normal text-[#667084]">
+              <span className="font-dmSansBold  text-[#101828]">
+                Experiences Over Destinations:
+              </span>{" "}
+              We believe that the true beauty of travel lies in the experiences
+              it offers. We curate journeys that immerse you in the local
+              culture, history, and beauty of each destination.
+            </Text>
+            <Text className="text-[16px] font-normal text-[#667084]">
+              <span className="font-dmSansBold text-[#101828]">
+                Sustainability and Responsibility:
+              </span>{" "}
+              As travelers, we understand our responsibility to protect the
+              planet and support the communities we visit. We are committed to
+              sustainable and ethical tourism practices that leave a positive
+              impact on the places we explore.
+            </Text>
+            <Text className="text-[16px] font-normal text-[#667084]">
+              <span className="font-dmSansBold text-[#101828]">
+                Personalization:
+              </span>{" "}
+              Your journey should reflect your unique interests and desires.
+              That&apos;s why we tailor every trip to your preferences, ensuring
+              that you get the most out of your adventure.
+            </Text>
+            <Text className="text-[16px] font-normal text-[#667084]">
+              <span className="font-dmSansBold text-[#101828]">
+                Excellence in Service:
+              </span>{" "}
+              We take pride in providing exceptional customer service. From the
+              moment you inquire about a trip to the day you return home,
+              we&apos;re here to assist you every step of the way.
             </Text>
             <div className="mt-[32px] flex gap-3">
               <Image

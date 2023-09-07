@@ -42,10 +42,10 @@
     @apply text-start lg:text-center py-3
   }
   .card_heading {
-    @apply text-[14px] lg:text-[19px] font-bold
+    @apply text-[14px] lg:text-[18px] font-bold leading-snug;
   }
   .card_text {
-    @apply text-[14px] lg:text-[16px];
+    @apply text-[12px] lg:text-[15px] text-start leading-tight text-[#667084];
   }
   .card_image {
     position: relative;

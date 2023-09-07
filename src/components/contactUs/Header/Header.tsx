@@ -25,7 +25,9 @@ const Header = () => {
             Contact Us
           </Heading>
           <Text className="mx-auto max-w-[345px] text-center text-white">
-            Adventure awaits - take a trip and create unforgettable memories!
+            Get in Touch <br /> It All Starts with a Hello!
+            <br /> Reach our Team <br /> Have a question? Need assistance? We’re
+            Here to Help
           </Text>
         </div>
       </div>

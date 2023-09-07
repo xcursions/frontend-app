@@ -17,6 +17,9 @@ const UpcomingPaymentCard = ({ detailsData }: Props) => {
     (parseFloat(detailsData.amountSaved) * 100) /
     (parseFloat(detailsData.amountSaved) +
       parseFloat(detailsData.remainingAmountToBeCharged));
+  const amountDue =
+    parseFloat(detailsData.remainingAmountToBeCharged) /
+    detailsData.remainingTrials;
   return (
     <div className={styles.container}>
       <div className="m-[12px]">
@@ -33,11 +36,7 @@ const UpcomingPaymentCard = ({ detailsData }: Props) => {
             <Text className="mt-[10px] text-[12px] text-[#475467]">
               Amount Due:{" "}
               <span className={styles.title}>
-                ₦
-                {parseInt(
-                  detailsData.remainingAmountToBeCharged,
-                  10
-                ).toLocaleString()}
+                ₦{amountDue.toLocaleString()}
               </span>
             </Text>
             <Text className="mt-[10px] text-[12px] text-[#475467]">
