@@ -39,11 +39,11 @@ const Subscription = () => {
           />
           <div className="max-w-[550px] justify-center">
             <Text className="text-center font-dmSansBold text-[16px] font-bold md:text-start lg:text-[28px]">
-              Subscribe to hear from us
+              Subscribe to Our Newsletter
             </Text>
             <Text className="py-3 text-[16px] text-[#475467]">
-              Elementum porttitor diam pulvinar rutrum sed feugiat et nisl amet.
-              Etiam non lo
+              Join our community of Co-travelers and be the first to hear about
+              upcoming tours, latest travel gist, and travel opportunities
             </Text>
             <div className="flex flex-col items-center gap-3 py-5 lg:flex-row">
               <Input
@@ -63,7 +63,7 @@ const Subscription = () => {
                 className="h-[46px] w-[149px] rounded-[100px] bg-[#0A83FF]"
                 onClick={handleSubmit}
               >
-                Subscribe
+                Subscribe for free
               </Button>
             </div>
           </div>

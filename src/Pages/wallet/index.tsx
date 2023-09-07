@@ -177,10 +177,10 @@ const Wallet = () => {
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
-        <Heading className="pl-2 pt-[40px] font-dmSansBold text-[24px] text-[#101828] lg:pl-[31px]">
+        <Heading className="pl-3 pt-[40px] font-dmSansBold text-[24px] text-[#101828] lg:pl-[31px]">
           Wallet
         </Heading>
-        <Text className="pl-2 text-[14px] text-[#667084] lg:pl-[31px] lg:text-[16px]">
+        <Text className="pl-3 text-[14px] text-[#667084] lg:pl-[31px] lg:text-[16px]">
           Welcome back to your dashboard
         </Text>
         <div className={styles.card_container}>
@@ -232,14 +232,14 @@ const Wallet = () => {
           </div> */}
         </div>
         <div className="mt-[48px] lg:ml-[31px] lg:mt-[40px]">
-          <div className="flex justify-between pr-5">
+          <div className="flex justify-between px-5">
             <Heading type="h3">Upcoming Payment</Heading>
             <Text className="p-2 font-dmSansMedium text-[12px] text-[#667084] underline">
               view all
             </Text>
           </div>
           {upcomingPaymentSuccess && upcomingPayment.result.length > 0 ? (
-            <div className="grid-col lg:grid-row mx-auto grid gap-[24px]">
+            <div className=" mx-auto flex flex-col gap-[24px] px-3 lg:flex-row">
               {upcomingPayment.result.slice(0, 2).map((res: any) => (
                 <div className="my-[24px]" key={res.id}>
                   <UpcomingPaymentCard detailsData={res} />
@@ -262,7 +262,7 @@ const Wallet = () => {
           )}
         </div>
         <div className="mt-[48px] lg:ml-[31px] lg:mt-[40px]">
-          <div className="flex justify-between pr-5">
+          <div className="flex justify-between px-5">
             <Heading type="h3">Transaction History</Heading>
             <Link href="/user/wallet/history">
               <Text className="p-2 font-dmSansMedium text-[12px] text-[#667084] underline">
@@ -270,7 +270,7 @@ const Wallet = () => {
               </Text>
             </Link>
           </div>
-          <div className="mr-2">
+          <div className="mr-2 px-3">
             <DataTable columns={columns} data={data} />
           </div>
           <div className="mx-auto max-w-[200px] content-center items-center justify-center py-10">

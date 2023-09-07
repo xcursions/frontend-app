@@ -25,7 +25,7 @@ const Header = () => {
             Events
           </Heading>
           <Text className="mx-auto max-w-[345px] text-center text-white">
-            Adventure awaits - take a trip and create unforgettable memories!
+            Your Adventure Begins Here!
           </Text>
         </div>
       </div>
