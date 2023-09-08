@@ -11,11 +11,11 @@ const Faq = () => {
     <div className={styles.wrapper}>
       <div className={styles.container}>
         <div className="content-center justify-center pb-[20px] pt-[58px]">
-          <Text className="items-center justify-center text-center font-dmSansRegular text-[12px] text-[#0A83FF]">
+          {/* <Text className="items-center justify-center text-center font-dmSansRegular text-[12px] text-[#0A83FF]">
             FAQS
-          </Text>
+          </Text> */}
           <Text className="items-center justify-center text-center font-dmSansBold text-[24px] text-[#101828] lg:text-[36px]">
-            You’ve Got Questions? We Have Answers
+            You’ve Got Questions? <br /> We Have Answers
           </Text>
         </div>
         <React.Fragment>

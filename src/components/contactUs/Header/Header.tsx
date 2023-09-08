@@ -22,12 +22,10 @@ const Header = () => {
             type="h2"
             className="text-center text-[35px] text-white lg:text-[56px]"
           >
-            Contact Us
+            Get in Touch
           </Heading>
           <Text className="mx-auto max-w-[345px] text-center text-white">
-            Get in Touch <br /> It All Starts with a Hello!
-            <br /> Reach our Team <br /> Have a question? Need assistance? We’re
-            Here to Help
+            It All Starts with a Hello!
           </Text>
         </div>
       </div>
