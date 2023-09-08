@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { useAppSelector } from '@/hooks';
 import styles from './UserIcon.module.css';
 
-const profileImage = '/assets/images/icons/profile_avatar.png';
+const profileImage = '/assets/images/icons/profile_avatar.jpeg';
 const UserIcon = ({ onClick = () => {} }) => {
   const { user } = useAppSelector((state) => state.user);
   return (

@@ -2,24 +2,20 @@
 
 import Link from "next/link";
 import type { FormEvent } from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AiFillEye } from "react-icons/ai";
-import { BsCalendarX } from "react-icons/bs";
 import { FaPlus } from "react-icons/fa";
 import { SlOptions } from "react-icons/sl";
-import { TbBuildingBank, TbCards } from "react-icons/tb";
+// import { TbBuildingBank, TbCards } from "react-icons/tb";
+import { TbCards } from "react-icons/tb";
 
 import Button from "@/components/lib/Button/Button";
 import Heading from "@/components/lib/Heading/Heading";
 import Input from "@/components/lib/Input/Input";
-import Select from "@/components/lib/Select/Select";
 import Text from "@/components/lib/Text/Text";
+import UpcomingPaymentCard from "@/components/lib/UpcomingPaymentCard/UpcomingPaymentCard";
 import { DataTable } from "@/components/ui/data-table";
 import { useSuccessHandler } from "@/hooks";
-import {
-  useGetAllOutingsQuery,
-  useLazySearchOutingsQuery,
-} from "@/services/public";
 import {
   useGetTransactionsQuery,
   useGetWalletBalanceQuery,
@@ -28,13 +24,14 @@ import {
   useSubmitCardOtpMutation,
   useSubmitCardPinMutation,
 } from "@/services/user";
+import { useGetUpcomingPaymentQuery } from "@/services/user/savingPlan";
 
 import { columns } from "./services/Colums";
 import styles from "./wallet.module.scss";
 
 const initialState = {
   trip: "",
-  amount: "",
+  amount: 0,
   nameOnCard: "",
   cardNumber: "",
   expiryMonth: "",
@@ -47,16 +44,18 @@ const initialState = {
 
 const Wallet = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [paymentChannel, setPaymentChannel] = useState<"link" | "card" | "">(
+    ""
+  );
   const [isCard, setIsCard] = useState(false);
   const [isPin, setIsPin] = useState(false);
   const [isOtp, setIsOtp] = useState(false);
   const [payload, setPayload] = useState(initialState);
-  const [trips, setTrips] = useState([]);
-  const { data: tripsList, isSuccess } = useGetAllOutingsQuery("?limit=50");
-  const [singleTrip, { data: singleTripData, isSuccess: isSingleSuccess }] =
-    useLazySearchOutingsQuery();
+
   const { data: walletBalance, isSuccess: walletBallanceSuccess } =
     useGetWalletBalanceQuery();
+  const { data: upcomingPayment, isSuccess: upcomingPaymentSuccess } =
+    useGetUpcomingPaymentQuery();
   const { data: transactionHistory, isSuccess: transactionHistorySuccess } =
     useGetTransactionsQuery("?limit=5");
   const [initiateLinkDeposit, { data: linkDeposit, isSuccess: linkSuccess }] =
@@ -71,13 +70,7 @@ const Wallet = () => {
   ] = useSubmitCardPinMutation();
   const [submitOtp, { isSuccess: otpSuccess, isLoading: otpLoading }] =
     useSubmitCardOtpMutation();
-  useSuccessHandler({
-    isSuccess,
-    showToast: false,
-    successFunction: () => {
-      setTrips(tripsList.result);
-    },
-  });
+
   useSuccessHandler({
     isSuccess: linkSuccess,
     showToast: true,
@@ -121,31 +114,8 @@ const Wallet = () => {
     setIsCard(!isCard);
     setIsOpen(!isOpen);
   };
-  useEffect(() => {
-    const fetchSingleTrip = async () => {
-      await singleTrip(`/${payload.trip}`);
-    };
-
-    if (payload.trip.length > 0) {
-      fetchSingleTrip();
-    }
-
-    // return () => {
-    //   console.log("value not given");
-    // };
-  }, [payload.trip, singleTrip]);
-  const formatedDate = (date: string) => {
-    const dob = new Date(date);
-    const dobArr = dob.toDateString().split(" ");
-    return `${dobArr[1]} ${dobArr[2]}`;
-  };
-  const formatedDate2 = (date: string) => {
-    const dob = new Date(date);
-    const dobArr = dob.toDateString().split(" ");
-    return `${dobArr[1]} ${dobArr[2]}`;
-  };
   const handleLinkSubmit = () => {
-    if (payload.amount.length > 0) {
+    if (payload.amount > 0) {
       initiateLinkDeposit({
         amount: payload.amount,
         callbackUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/user/wallet`,
@@ -163,7 +133,7 @@ const Wallet = () => {
     }
   };
   const handleCardSubmit = () => {
-    if (payload.amount.length > 0) {
+    if (payload.amount > 0) {
       initiateCardDeposit({
         amount: payload.amount,
         nameOnCard: payload.nameOnCard,
@@ -197,13 +167,20 @@ const Wallet = () => {
         createdAt: res.transaction.createdAt.split("T")[0],
       };
     });
+  const handleSubmitChecker = () => {
+    if (paymentChannel === "link") {
+      handleLinkSubmit();
+    } else if (paymentChannel === "card") {
+      toggleCardModal();
+    }
+  };
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
-        <Heading className="pl-2 pt-[40px] font-dmSansBold text-[24px] text-[#101828] lg:pl-[31px]">
+        <Heading className="pl-3 pt-[40px] font-dmSansBold text-[24px] text-[#101828] lg:pl-[31px]">
           Wallet
         </Heading>
-        <Text className="pl-2 text-[14px] text-[#667084] lg:pl-[31px] lg:text-[16px]">
+        <Text className="pl-3 text-[14px] text-[#667084] lg:pl-[31px] lg:text-[16px]">
           Welcome back to your dashboard
         </Text>
         <div className={styles.card_container}>
@@ -236,7 +213,7 @@ const Wallet = () => {
               </div>
             </div>
           </div>
-          <div className="w-[345px] rounded-3xl border bg-[#FFFFFF] shadow-xl lg:w-[286px]">
+          {/* <div className="w-[345px] rounded-3xl border bg-[#FFFFFF] shadow-xl lg:w-[286px]">
             <div className=" my-[36px] pl-[40px] lg:pl-0">
               <div className="mb-3 max-h-[50px] max-w-[50px] rounded-2xl bg-[#CEE6FF] p-3 text-[28px] text-[#0A83FF] shadow-lg lg:mx-auto">
                 <TbBuildingBank />
@@ -252,30 +229,40 @@ const Wallet = () => {
                 </span>
               </Text>
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="mt-[48px] lg:ml-[31px] lg:mt-[40px]">
-          <div className="flex justify-between pr-5">
+          <div className="flex justify-between px-5">
             <Heading type="h3">Upcoming Payment</Heading>
             <Text className="p-2 font-dmSansMedium text-[12px] text-[#667084] underline">
               view all
             </Text>
           </div>
-          <div className="mx-auto max-w-[200px] content-center items-center justify-center py-10">
-            <div className="mx-auto content-center items-center justify-items-center">
-              <img
-                src="/assets/images/dashboard/Illustration.png"
-                alt="book a trip"
-                className="mx-auto h-[100px] w-[124px]"
-              />
-              <Text className="mx-auto mb-5 mt-7 text-center text-[12px]">
-                Sorry you don’t have any schedule at the moment
-              </Text>
+          {upcomingPaymentSuccess && upcomingPayment.result.length > 0 ? (
+            <div className=" mx-auto flex flex-col gap-[24px] px-3 lg:flex-row">
+              {upcomingPayment.result.slice(0, 2).map((res: any) => (
+                <div className="my-[24px]" key={res.id}>
+                  <UpcomingPaymentCard detailsData={res} />
+                </div>
+              ))}
             </div>
-          </div>
+          ) : (
+            <div className="mx-auto max-w-[200px] content-center items-center justify-center py-10">
+              <div className="mx-auto content-center items-center justify-items-center">
+                <img
+                  src="/assets/images/dashboard/Illustration.png"
+                  alt="book a trip"
+                  className="mx-auto h-[100px] w-[124px]"
+                />
+                <Text className="mx-auto mb-5 mt-7 text-center text-[12px]">
+                  Sorry you don’t have any schedule at the moment
+                </Text>
+              </div>
+            </div>
+          )}
         </div>
         <div className="mt-[48px] lg:ml-[31px] lg:mt-[40px]">
-          <div className="flex justify-between pr-5">
+          <div className="flex justify-between px-5">
             <Heading type="h3">Transaction History</Heading>
             <Link href="/user/wallet/history">
               <Text className="p-2 font-dmSansMedium text-[12px] text-[#667084] underline">
@@ -283,7 +270,7 @@ const Wallet = () => {
               </Text>
             </Link>
           </div>
-          <div className="mr-2">
+          <div className="mr-2 px-3">
             <DataTable columns={columns} data={data} />
           </div>
           <div className="mx-auto max-w-[200px] content-center items-center justify-center py-10">
@@ -315,58 +302,25 @@ const Wallet = () => {
                 </div>
                 <Input
                   label="Amount"
+                  type="number"
                   value={payload.amount}
                   onChange={(e: FormEvent<HTMLInputElement>) =>
-                    setPayload({ ...payload, amount: e.currentTarget.value })
+                    setPayload({
+                      ...payload,
+                      amount: parseFloat(e.currentTarget.value),
+                    })
                   }
                   placeholder="Enter Amount Here"
                 />
-                {trips && (
-                  <Select
-                    label="Trips"
-                    onChange={(event) =>
-                      setPayload({
-                        ...payload,
-                        trip: event.value,
-                      })
-                    }
-                    placeholder="Select Trip"
-                    value={payload.trip}
-                    options={trips.map((option: any) => ({
-                      value: option?.id,
-                      label: option?.name,
-                    }))}
-                    showArrow
-                  />
-                )}
-                {isSingleSuccess && payload.trip.length > 1 && (
-                  <div className="px-2 py-4">
-                    <div className="flex gap-3 rounded-xl bg-[#F9FAFB]">
-                      <img
-                        src={
-                          singleTripData?.outingGallery?.[0]?.image ||
-                          "/assets/images/icons/luggage1.png"
-                        }
-                        className="h-[65px] w-[65px] rounded-2xl"
-                        alt={singleTripData.name}
-                      />
-                      <div>
-                        <Heading type="h3">{singleTripData.name}</Heading>
-                        <Text className="flex items-center gap-3 text-[12px] text-[#475467]">
-                          <BsCalendarX className="text-[14px] text-[#0A83FF]" />
-                          {formatedDate(
-                            singleTripData.outingDate[0].startDate
-                          )}{" "}
-                          -{formatedDate2(singleTripData.outingDate[0].endDate)}
-                        </Text>
-                      </div>
-                    </div>
-                  </div>
-                )}
+                <span className="text-[12px] text-[#F04438]">
+                  Minimum Amount ₦1000
+                </span>
                 <div className="flex flex-col gap-5 py-5">
                   <div
-                    className="flex h-[56px] cursor-pointer items-center gap-4 rounded-2xl bg-[#FFF5EB]"
-                    onClick={toggleCardModal}
+                    className={`${
+                      paymentChannel === "card" && "border shadow-lg"
+                    } flex h-[56px] cursor-pointer items-center gap-4 rounded-2xl bg-[#FFF5EB]`}
+                    onClick={() => setPaymentChannel("card")}
                   >
                     <span className="pl-5 text-[24px] text-[#FF860A]">
                       <TbCards />
@@ -376,8 +330,10 @@ const Wallet = () => {
                     </p>
                   </div>
                   <div
-                    className="flex h-[56px] cursor-pointer items-center gap-4 rounded-2xl bg-[#00C3F71A]"
-                    onClick={handleLinkSubmit}
+                    className={`${
+                      paymentChannel === "link" && "border shadow-lg"
+                    } flex h-[56px] cursor-pointer items-center gap-4 rounded-2xl bg-[#00C3F71A]`}
+                    onClick={() => setPaymentChannel("link")}
                   >
                     <img
                       src="/assets/images/icons/paystack.png"
@@ -388,8 +344,10 @@ const Wallet = () => {
                   </div>
                   <Button
                     className="cursor-pointer rounded-3xl text-[14px]"
-                    disabled={payload.amount.length < 1}
-                    onClick={handleLinkSubmit}
+                    disabled={
+                      payload.amount <= 0 || !payload.amount || !paymentChannel
+                    }
+                    onClick={handleSubmitChecker}
                   >
                     Continue
                   </Button>

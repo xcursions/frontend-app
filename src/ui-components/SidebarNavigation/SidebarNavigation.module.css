@@ -8,7 +8,7 @@
     border-right: 1px solid #c4c4c4;
     /* border-right: 1px solid rgb(220, 218, 218); */
 
-    z-index: 1;
+    z-index: 10;
 }
 
 
@@ -105,9 +105,13 @@
     display: none;
 }
 
-@media screen and (max-width: 360px) {
+@media screen and (max-width: 362px) {
     .container{
         display: none;
+    }
+    .container.active{
+        display: block;
+        width: 270px;
     }
 }
 

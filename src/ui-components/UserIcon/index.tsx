@@ -5,7 +5,7 @@ import { useGetUserQuery } from "@/services/user";
 
 import styles from "./UserIcon.module.scss";
 
-const profileImage = "/assets/images/icons/profile_avatar.png";
+const profileImage = "/assets/images/icons/profile_avatar.jpeg";
 const UserIcon = ({ onClick = () => {} }) => {
   const { data, isSuccess } = useGetUserQuery("");
   return (

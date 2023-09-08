@@ -1,0 +1,17 @@
+.container {
+    @apply w-[346px] rounded-[16px] border border-[#E4E7EC] bg-[#FFF];
+}
+.top {
+    @apply flex gap-[16px] items-center;
+}
+.image {
+    @apply h-[110px] w-[101px] rounded-[8px];
+}
+.title {
+    font-weight: 700;
+    font-size: 14px;
+    @apply text-[#101828] font-dmSansBold;
+}
+.progress {
+    @apply my-[15px] flex items-center gap-3;
+}

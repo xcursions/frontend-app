@@ -31,6 +31,7 @@ import GalleryViewer from "@/components/lib/GalleryViewer";
 import Heading from "@/components/lib/Heading/Heading";
 import MapComponent from "@/components/lib/MapComponent/MapComponent";
 import OutingGallery from "@/components/lib/OutingGallery/OutingGallery";
+import Select from "@/components/lib/Select/Select";
 import { SubtractDate } from "@/components/lib/SubtractDate/SubtractDate";
 import Text from "@/components/lib/Text/Text";
 import { DatePickerWithRange } from "@/components/ui/dateRangePicker";
@@ -62,7 +63,7 @@ type Props = {
 };
 const initialState = {
   outingDateId: "",
-  numOfAdults: 0,
+  numOfAdults: 1,
   numOfChildren: 0,
   numOfInfants: 0,
   outingSubType: "",
@@ -79,7 +80,9 @@ const TripDetails = ({ detailsData }: Props) => {
     to: addDays(new Date(), 7),
   });
   const [selectedItems, setSelectedItems] = useState<any[]>([]);
-  const [selectedTrip, setSelectedTrip] = useState("group");
+  const [selectedTrip, setSelectedTrip] = useState<"private" | "group">(
+    "group"
+  );
   const { user } = useAppSelector((state) => state.user);
   const [galleryOpen, setGalleryOpen] = useState(false);
   const [payload, setPayload] = useState(initialState);
@@ -173,7 +176,7 @@ const TripDetails = ({ detailsData }: Props) => {
         ...payload,
         startDate: undefined,
         endDate: undefined,
-        outingDateId: detailsData.outingDate[0].id,
+        // outingDateId: detailsData.outingDate[0].id,
         outingSubType: selectedTrip,
       });
     }
@@ -339,15 +342,35 @@ const TripDetails = ({ detailsData }: Props) => {
                 {selectedTrip === "private" ? (
                   <div className="mb-3 mt-[30px]">
                     <DatePickerWithRange date={date} setDate={setDate} />
+                    <p className="text-[10px] text-[#F04438]">
+                      Please select Duration of your trip
+                    </p>
                   </div>
                 ) : (
-                  <Text className="mb-3 mt-[30px] flex items-center gap-3 font-dmSansRegular text-[14px] text-[#101828]">
-                    <TbCalendar className=" text-xl" />
-                    {formatDatesRange(
-                      detailsData.outingDate[0].startDate,
-                      detailsData.outingDate[0].endDate
+                  <>
+                    <div className="mb-3 mt-[30px] flex cursor-pointer items-center gap-3 text-[14px] text-[#101828]">
+                      <TbCalendar className=" text-xl" />
+                      <Select
+                        placeholder={"Select Date"}
+                        options={detailsData.outingDate.map((option) => ({
+                          value: option.id,
+                          label: formatDatesRange(
+                            option.startDate,
+                            option.endDate
+                          ),
+                        }))}
+                        onChange={(event) =>
+                          setPayload({ ...payload, outingDateId: event.value })
+                        }
+                        className="w-[250px] lg:w-[300px]"
+                      />
+                    </div>
+                    {!payload.outingDateId && (
+                      <p className="mb-3 text-[10px] text-[#F04438]">
+                        Please select Date of your trip
+                      </p>
                     )}
-                  </Text>
+                  </>
                 )}
                 {selectedTrip === "private" ? (
                   <Text className="flex items-center gap-3 font-dmSansRegular text-[14px] text-[#101828]">
@@ -594,7 +617,10 @@ const TripDetails = ({ detailsData }: Props) => {
                   <Button
                     className="w-full rounded-3xl"
                     onClick={handleSubmit}
-                    disabled={goingWithYou === 0}
+                    disabled={
+                      goingWithYou === 0 ||
+                      (selectedTrip === "group" && !payload.outingDateId)
+                    }
                   >
                     Proceed to Checkout
                   </Button>

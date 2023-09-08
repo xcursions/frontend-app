@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 "use client";
 
 import Image from "next/image";
@@ -5,8 +7,9 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { AiOutlineArrowLeft, AiOutlineClockCircle } from "react-icons/ai";
 import { BsFillArrowRightCircleFill, BsLightningCharge } from "react-icons/bs";
+import { FaTimes } from "react-icons/fa";
 import { MdOutlineFlightTakeoff } from "react-icons/md";
-import { TbCalendar, TbClock } from "react-icons/tb";
+import { TbCalendar, TbCards, TbClock } from "react-icons/tb";
 
 import Button from "@/components/lib/Button";
 import {
@@ -34,6 +37,7 @@ import {
   useHandleBookingParticipantsMutation,
   useHandleCheckoutMutation,
 } from "@/services/user";
+import { useGetSavingPlanSummaryMutation } from "@/services/user/savingPlan";
 
 import styles from "../page.module.scss";
 
@@ -41,7 +45,14 @@ const Page = () => {
   const router = useRouter();
   const [count, setCount] = useState(0);
   const [data, setData] = useState([]);
-  const [plan, setPlan] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [plan, setPlan] = useState<"instant" | "saving-plan" | "">("");
+  const [paymentFrequency, setPaymentFrequency] = useState<
+    "weekly" | "daily" | "monthly" | ""
+  >("");
+  const [paymentChannel, setPaymentChannel] = useState<
+    "wallet" | "paystack" | ""
+  >("");
   const { user } = useAppSelector((state) => state.user);
   const { booking } = useAppSelector((state) => state.user);
   const { isAuthenticated } = useAuth(true);
@@ -56,13 +67,17 @@ const Page = () => {
   const [
     handleCheckout,
     {
-      // data: checkoutData,
+      data: checkoutData,
       isSuccess: isCheckoutSuccess,
       isError: isCheckoutError,
       isLoading,
       error: checkoutError,
     },
   ] = useHandleCheckoutMutation();
+  const [
+    getSavingPlanSummary,
+    { data: savingPlanSummary, isSuccess: savingPlanSummarySuccess },
+  ] = useGetSavingPlanSummaryMutation();
   const [
     handleBookingParticipants,
     {
@@ -74,9 +89,6 @@ const Page = () => {
     },
   ] = useHandleBookingParticipantsMutation();
 
-  const payload = {
-    paymentMethod: plan,
-  };
   useErrorHandler({
     isError: isBookingParticipantError,
     error: bookingParticipantError,
@@ -87,14 +99,15 @@ const Page = () => {
   });
   useSuccessHandler({
     isSuccess: isBookingParticipantSuccess,
-    successFunction: () => {
-      handleCheckout({ query: booking?.id || "", data: payload });
-    },
   });
   useSuccessHandler({
     isSuccess: isCheckoutSuccess,
     successFunction: () => {
-      router.push("/user/wallet");
+      if (checkoutData?.depositLink) {
+        window.open(checkoutData?.depositLink, "_blank");
+      } else {
+        router.push("/user/booking");
+      }
     },
     toastMessage: "Trip Booked successfully!",
   });
@@ -131,6 +144,7 @@ const Page = () => {
       return newData;
     });
   };
+
   const handleToggleChange = (index: number) => {
     setData((prevData) => {
       const newData = [...prevData];
@@ -139,16 +153,78 @@ const Page = () => {
       return newData;
     });
   };
-  const handleSubmit = () => {
-    if (data.length > 0) {
+
+  useEffect(() => {
+    if (paymentFrequency) {
+      getSavingPlanSummary({
+        query: booking?.id,
+        data: { periodicPaymentType: paymentFrequency },
+      });
+    }
+  }, [paymentFrequency]);
+
+  const handleInstantSubmit = () => {
+    if (paymentChannel === "wallet" && plan === "instant") {
+      handleCheckout({
+        query: booking?.id,
+        data: { paymentMethod: plan, channel: paymentChannel },
+      });
+    } else if (paymentChannel === "paystack" && plan === "instant") {
+      handleCheckout({
+        query: booking?.id,
+        data: {
+          paymentMethod: plan,
+          channel: paymentChannel,
+          callbackUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/user/booking`,
+        },
+      });
+    }
+  };
+
+  const handleSavingSubmit = () => {
+    if (paymentChannel === "wallet" && plan === "saving-plan") {
+      handleCheckout({
+        query: booking?.id,
+        data: {
+          paymentMethod: plan,
+          channel: paymentChannel,
+          periodicPaymentType: paymentFrequency,
+        },
+      });
+    } else if (paymentChannel === "paystack" && plan === "saving-plan") {
+      handleCheckout({
+        query: booking?.id,
+        data: {
+          paymentMethod: plan,
+          channel: paymentChannel,
+          callbackUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/user/booking`,
+          periodicPaymentType: paymentFrequency,
+        },
+      });
+    }
+  };
+
+  const handleBookingParticipantsSubmit = () => {
+    if (data?.length > 0) {
       handleBookingParticipants({
         query: booking?.outingId,
         id: booking?.id,
         data,
       });
-    } else {
-      handleCheckout({ query: booking?.id, data: payload });
     }
+  };
+
+  const handleSubmitChecker = () => {
+    if (plan === "instant") {
+      handleBookingParticipantsSubmit();
+      handleInstantSubmit();
+    } else if (plan === "saving-plan") {
+      handleBookingParticipantsSubmit();
+      handleSavingSubmit();
+    }
+  };
+  const toggleModal = () => {
+    setIsOpen(!isOpen);
   };
   return (
     <>
@@ -262,6 +338,11 @@ const Page = () => {
                               </select> */}
                             </div>
                           ))}
+                          {count > 1 && (
+                            <p className="text-[10px] text-[#F04438]">
+                              Please enter details of people going on the trip
+                            </p>
+                          )}
                         </div>
                         <div className="my-5 mr-2 items-center justify-center">
                           <hr className="border-t-1 grow border-[#E4E7EC]" />
@@ -310,28 +391,137 @@ const Page = () => {
                                   Create a Trip savings Plan
                                 </Text>
                                 <Text className=" mt-[16px] text-[12px]">
-                                  Never be late again! Pay on time with Instant
-                                  Payment
+                                  Never be late again! Pay in installment with
+                                  Saving Payment Plan
                                 </Text>
                               </div>
                             </div>
                           </div>
                         </div>
-                        <Button
-                          className="my-5 mb-6 rounded-3xl"
-                          disabled={plan.length === 0}
-                          onClick={handleSubmit}
-                        >
-                          Pay now
-                        </Button>
+                        {plan === "saving-plan" && (
+                          <div className="flex gap-3">
+                            <div className="mt-[32px]">
+                              <Text className="font-dmSansRegular text-[14px] text-[#475467]">
+                                Payment Frequency
+                              </Text>
+                              <div className="flex gap-2">
+                                <div
+                                  onClick={() => setPaymentFrequency("daily")}
+                                  className={`flex-1 rounded-3xl px-3 py-2 text-center text-[14px] ${
+                                    paymentFrequency === "daily"
+                                      ? "bg-black text-white"
+                                      : "bg-gray-200 text-[#667084]"
+                                  } cursor-pointer`}
+                                >
+                                  Daily
+                                </div>
+                                <div
+                                  onClick={() => setPaymentFrequency("weekly")}
+                                  className={`ml-[-15px] flex-1 rounded-3xl px-3 py-2 text-center text-[14px] ${
+                                    paymentFrequency === "weekly"
+                                      ? "bg-black text-white"
+                                      : "bg-gray-200 text-[#667084]"
+                                  } cursor-pointer`}
+                                >
+                                  Weekly
+                                </div>
+                                <div
+                                  onClick={() => setPaymentFrequency("monthly")}
+                                  className={`ml-[-15px] flex-1 rounded-3xl px-3 py-2 text-center text-[14px] ${
+                                    paymentFrequency === "monthly"
+                                      ? "bg-black text-white"
+                                      : "bg-gray-200 text-[#667084]"
+                                  } cursor-pointer`}
+                                >
+                                  Monthly
+                                </div>
+                              </div>
+                              <p className="mt-[24px] text-[12px] text-[#F04438]">
+                                You must complete payment before the payment
+                                deadline
+                              </p>
+                            </div>
+                            <div className="my-[32px] w-[295px] rounded-2xl bg-[#F9FAFB] p-3 md:w-[324px]">
+                              <Text className="font-dmSansRegular text-[14px] text-[#667084]">
+                                First Payment
+                              </Text>
+                              <Text className="font-dmSansBold text-[30px] text-[#101828]">
+                                ₦
+                                {savingPlanSummarySuccess &&
+                                  savingPlanSummary?.initialPaymentAmount}
+                              </Text>
+                              {savingPlanSummarySuccess && (
+                                <p className="text-[14px] text-[#667084]">
+                                  {savingPlanSummary?.initialPaymentAmount !==
+                                    undefined &&
+                                  savingPlanSummary?.remainingAmount !==
+                                    undefined
+                                    ? `${(
+                                        (parseFloat(
+                                          savingPlanSummary.initialPaymentAmount
+                                        ) /
+                                          (parseFloat(
+                                            savingPlanSummary.initialPaymentAmount
+                                          ) +
+                                            parseFloat(
+                                              savingPlanSummary.remainingAmount
+                                            ))) *
+                                        100
+                                      ).toFixed(1)}% of your travel Fee`
+                                    : "Percentage calculation not possible"}
+                                </p>
+                              )}
+                              <div className="my-[32px] rounded-xl bg-[#FFF] p-3">
+                                <Text className="font-dmSansRegular text-[14px] text-[#667084]">
+                                  Other Payment
+                                </Text>
+                                <Text className="font-dmSansBold text-[30px] text-[#101828]">
+                                  ₦
+                                  {savingPlanSummarySuccess &&
+                                    savingPlanSummary?.paymentPerBillingCycle}
+                                  <span className="text-[12px] text-[#667084]">
+                                    /{savingPlanSummary?.periodicPaymentType}
+                                  </span>
+                                </Text>
+                              </div>
+                              <Button
+                                className="w-full rounded-3xl"
+                                onClick={toggleModal}
+                                disabled={
+                                  !paymentFrequency ||
+                                  (count > 1 && !data[0].name)
+                                }
+                              >
+                                Pay Now
+                              </Button>
+                            </div>
+                          </div>
+                        )}
+                        {plan !== "saving-plan" && (
+                          <Button
+                            className="my-5 mb-6 rounded-3xl"
+                            disabled={
+                              plan !== "instant" || (count > 1 && !data[0].name)
+                            }
+                            onClick={toggleModal}
+                          >
+                            Pay Now
+                          </Button>
+                        )}
                         {isBookingParticipantLoading ||
                           (isLoading && <FullPageLoader />)}
                       </div>
                     </div>
                   </div>
-                  <div className="flex flex-col gap-4">
+                  <div className={styles.right_container}>
                     <div className="mx-auto max-w-[427px] rounded-2xl bg-[#ffffff] shadow-md md:mx-0">
                       <div className="ml-[30px] mt-[40px]">
+                        <p
+                          className={`${styles.back} mb-3 md:hidden`}
+                          onClick={router.back}
+                        >
+                          <AiOutlineArrowLeft /> Back
+                        </p>
                         <Text className="font-dmSansBold text-[16px]">
                           Event Summary
                         </Text>
@@ -459,6 +649,63 @@ const Page = () => {
                   </div>
                 </div>
               </div>
+              {isOpen && (
+                <>
+                  <div
+                    className="fixed inset-0 z-[31] bg-[#021A3366] opacity-75"
+                    onClick={toggleModal}
+                  ></div>
+                  <div className="fixed inset-0 z-[32] flex w-[326px] items-center justify-center lg:left-[510px] lg:w-[418px]">
+                    <div className="w-full rounded-3xl bg-white p-5 shadow-lg">
+                      <div className="flex justify-between">
+                        <Heading
+                          type="h3"
+                          className="text-[18px] text-[#101828]"
+                        >
+                          Select Payment Method
+                        </Heading>
+                        <p
+                          className="cursor-pointer font-dmSansBold text-[16px] text-[#98A2B3]"
+                          onClick={toggleModal}
+                        >
+                          <FaTimes />
+                        </p>
+                      </div>
+                      <div className="flex flex-col gap-5 py-5">
+                        <div
+                          className="flex h-[56px] cursor-pointer items-center gap-4 rounded-2xl bg-[#FFF5EB]"
+                          onClick={() => setPaymentChannel("wallet")}
+                        >
+                          <span className="pl-5 text-[24px] text-[#FF860A]">
+                            <TbCards />
+                          </span>
+                          <p className="cursor-pointer text-[15px] text-[#475467]">
+                            Pay with Wallet
+                          </p>
+                        </div>
+                        <div
+                          className="flex h-[56px] cursor-pointer items-center gap-4 rounded-2xl bg-[#00C3F71A]"
+                          onClick={() => setPaymentChannel("paystack")}
+                        >
+                          <img
+                            src="/assets/images/icons/paystack.png"
+                            className="pl-5"
+                            alt="paystack"
+                          />
+                          <p className="cursor-pointer">Pay with Paystack</p>
+                        </div>
+                        <Button
+                          className="cursor-pointer rounded-3xl text-[14px]"
+                          disabled={!paymentChannel}
+                          onClick={handleSubmitChecker}
+                        >
+                          Continue
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
             <Subscription />
             <Footer />

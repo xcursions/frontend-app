@@ -5,7 +5,7 @@
     @apply mx-auto
 }
 .card_container {
-  @apply flex flex-col gap-[25px] lg:flex-row;
+  @apply flex flex-col gap-[25px] px-3 lg:flex-row mt-[24px] lg:mt-[32px];
 }
 .horizontal_div {
     // width: 100%;

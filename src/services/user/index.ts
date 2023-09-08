@@ -10,6 +10,8 @@ import type {
   ChangePasswordPayload,
   ConfirmEmailOtpPayload,
   ContactUsPayload,
+  CreatePaymentCardPayload,
+  InitiateCardDepositPayload,
   UpdateUserProfilePayload,
 } from "./payload";
 
@@ -51,11 +53,33 @@ export const userApi = createApi({
       }),
       invalidatesTags: ["UserInfo"],
     }),
-    initiateCardDeposit: builder.mutation<any, any>({
+    initiateCardDeposit: builder.mutation<any, InitiateCardDepositPayload>({
       query: (data) => ({
         url: "/fiat-deposit/deposits/card",
         method: "post",
         data,
+      }),
+      invalidatesTags: ["UserInfo"],
+    }),
+    createPaymentCard: builder.mutation<any, CreatePaymentCardPayload>({
+      query: (data) => ({
+        url: "/payment-cards/cards",
+        method: "post",
+        data,
+      }),
+      invalidatesTags: ["UserInfo"],
+    }),
+    getPaymentCards: builder.query<any, void>({
+      query: () => ({
+        url: "/payment-cards/cards",
+        method: "get",
+      }),
+      providesTags: ["UserInfo"],
+    }),
+    deletePaymentCards: builder.mutation<any, any>({
+      query: (query) => ({
+        url: `/payment-cards/cards/${query}`,
+        method: "delete",
       }),
       invalidatesTags: ["UserInfo"],
     }),
@@ -168,7 +192,7 @@ export const userApi = createApi({
     }),
     getUpcomingSchedule: builder.query<any, void>({
       query: () => ({
-        url: "/saving-plan/upcoming-outing-schedules",
+        url: "/saving-plan/upcoming-outing-schedules?limit=20",
         method: "get",
       }),
       providesTags: ["UserInfo"],
@@ -239,4 +263,7 @@ export const {
   useGetUpcomingScheduleQuery,
   useCreateOutingLikeMutation,
   useGetOutingLikeQuery,
+  useCreatePaymentCardMutation,
+  useGetPaymentCardsQuery,
+  useDeletePaymentCardsMutation,
 } = userApi;

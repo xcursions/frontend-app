@@ -31,3 +31,18 @@ export type ContactUsPayload = {
   email: string;
   message: string;
 };
+export type InitiateCardDepositPayload = {
+  amount: number;
+  nameOnCard: string;
+  cardNumber: string;
+  expiryMonth: string;
+  expiryYear: string;
+  cvv: string;
+};
+export type CreatePaymentCardPayload = {
+  nameOnCard: string;
+  cardNumber: string;
+  expiryMonth: string;
+  expiryYear: string;
+  cvv: string;
+};

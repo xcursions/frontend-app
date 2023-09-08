@@ -24,16 +24,18 @@ const WhyChooseUs = () => {
             <Image
               src="/assets/images/icons/luggage1.png"
               alt="luggage icon"
-              width={60}
-              height={60}
-              className="m-auto h-[60px] w-[60px]"
+              width={100}
+              height={100}
+              className="m-auto h-[72px] w-[72px] lg:h-[100px] lg:w-[100px]"
             />
             <div className={styles.text_container}>
               <Heading type="h3" className={styles.card_heading}>
-                Best Offers
+                Save & Travel On The Go
               </Heading>
               <Text className={styles.card_text}>
-                Inform you about all best offers for all destination
+                Automate your savings & reach your travel goals faster with our
+                “pay small small“ plan. No Charges. No Penalties. Absolutely
+                Free
               </Text>
             </div>
           </div>
@@ -41,16 +43,18 @@ const WhyChooseUs = () => {
             <Image
               src="/assets/images/icons/calendar.png"
               alt="luggage icon"
-              width={60}
-              height={60}
-              className="m-auto  h-[60px] w-[60px]"
+              width={100}
+              height={100}
+              className="m-auto h-[72px] w-[72px] lg:h-[100px] lg:w-[100px]"
             />
             <div className={styles.text_container}>
               <Heading type="h3" className={styles.card_heading}>
-                Best Time
+                Access Vacation Options in One Click
               </Heading>
               <Text className={styles.card_text}>
-                Inform you about all best offers for all destination
+                With our wide range of budget-friendly vacation deals, you will
+                be exploring the world without breaking the bank. No stress.
+                Just maximum enjoyment!
               </Text>
             </div>
           </div>
@@ -58,16 +62,18 @@ const WhyChooseUs = () => {
             <Image
               src="/assets/images/icons/airplane.png"
               alt="luggage icon"
-              width={60}
-              height={60}
-              className="m-auto h-[60px] w-[60px]"
+              width={100}
+              height={100}
+              className="m-auto h-[72px] w-[72px] lg:h-[100px] lg:w-[100px]"
             />
             <div className={styles.text_container}>
               <Heading type="h3" className={styles.card_heading}>
-                Best Flight
+                Book Hotels Across the Globe
               </Heading>
               <Text className={styles.card_text}>
-                Inform you about all best offers for all destination
+                Hotel booking hassles are old news here. From hotels to short
+                lets, to apartments for all your vacations. We&apos;ve got you
+                covered!
               </Text>
             </div>
           </div>
@@ -75,16 +81,18 @@ const WhyChooseUs = () => {
             <Image
               src="/assets/images/icons/location.png"
               alt="luggage icon"
-              width={60}
-              height={60}
-              className="m-auto h-[60px] w-[60px]"
+              width={100}
+              height={100}
+              className="m-auto h-[72px] w-[72px] lg:h-[100px] lg:w-[100px]"
             />
             <div className={styles.text_container}>
               <Heading type="h3" className={styles.card_heading}>
                 Best Locations
               </Heading>
               <Text className={styles.card_text}>
-                Inform you about all best offers for all destination
+                Hotel booking hassles are old news here. From hotels to short
+                lets, to apartments for all your vacations. We&apos;ve got you
+                covered!
               </Text>
             </div>
           </div>
