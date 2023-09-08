@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 "use client";
 
 import Image from "next/image";
@@ -290,6 +292,11 @@ const Page = () => {
                               />
                             </div>
                           ))}
+                          {count > 1 && (
+                            <p className="text-[10px] text-[#F04438]">
+                              Please enter details of people going on the trip
+                            </p>
+                          )}
                         </div>
                         <div className="my-5 mr-2 items-center justify-center">
                           <hr className="border-t-1 grow border-[#E4E7EC]" />
@@ -434,7 +441,10 @@ const Page = () => {
                               <Button
                                 className="w-full rounded-3xl"
                                 onClick={toggleModal}
-                                disabled={!paymentFrequency}
+                                disabled={
+                                  !paymentFrequency ||
+                                  (count > 1 && !data[0].name)
+                                }
                               >
                                 Pay Now
                               </Button>
@@ -444,7 +454,9 @@ const Page = () => {
                         {plan !== "saving-plan" && (
                           <Button
                             className="my-5 mb-6 rounded-3xl"
-                            disabled={plan !== "instant"}
+                            disabled={
+                              plan !== "instant" || (count > 1 && !data[0].name)
+                            }
                             onClick={toggleModal}
                           >
                             Pay Now

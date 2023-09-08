@@ -41,7 +41,7 @@ const Form = () => {
         <div className="flex flex-col gap-[40px] lg:flex-row lg:gap-[80px]">
           <div className="max-h-[600px]">
             <Text className="font-dmSansBold text-[16px] font-bold text-[#101828] lg:text-[24px] ">
-              Contact Details
+              Reach Our Team
             </Text>
             <div className="flex items-center gap-3 pt-3">
               <div className="rounded-full bg-[#EBF5FF] p-3">
@@ -88,8 +88,9 @@ const Form = () => {
           </div>
           <div className="max-h-[600px] w-full rounded-md border bg-[#FFFFFF] shadow-md lg:w-[491px]">
             <div className="m-[24px]  lg:m-[32px]">
-              <Text className=" font-dmSansBold text-[16px] font-bold text-[#101828] lg:text-[24px] ">
-                Send Us a Message
+              <Text className=" font-dmSansBold text-[14px] font-bold text-[#101828] lg:text-[20px] ">
+                Need assistance?
+                <br /> We’re Here to Help
               </Text>
               <Input
                 label="Name"

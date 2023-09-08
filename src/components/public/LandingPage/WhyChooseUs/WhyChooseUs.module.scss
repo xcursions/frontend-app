@@ -18,6 +18,7 @@
     flex-basis: calc(23% - 8px);
     margin: 4px;
     transition: flex 0.5s ease;
+    max-height: 330px;
     @apply bg-[#FFFFFF] flex flex-row lg:flex-col gap-5 rounded-xl shadow-md p-5 items-center text-center justify-center
   }
   .card::before {
@@ -36,6 +37,7 @@
   @media screen and (max-width: 450px) {
     .card {
       flex-basis: calc(100% - 0px);
+      max-height: 150px;
     }
   }
   .text_container {
@@ -45,7 +47,7 @@
     @apply text-[14px] lg:text-[18px] font-bold leading-snug;
   }
   .card_text {
-    @apply text-[12px] lg:text-[15px] text-start leading-tight text-[#667084];
+    @apply text-[12px] lg:text-[15px] text-justify leading-tight text-[#667084];
   }
   .card_image {
     position: relative;

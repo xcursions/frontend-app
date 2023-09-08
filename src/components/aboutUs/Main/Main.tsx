@@ -12,16 +12,15 @@ const Main = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:px-[59px]">
           <div className="">
             <Text className="max-w-[410px] font-dmSansBold text-[24px] font-bold text-[#101828] lg:text-[36px]">
-              A little About{" "}
-              <span className="rounded text-[#0A83FF] shadow-md">Xcursion</span>{" "}
-              & what we are doing
+              The{" "}
+              <span className="rounded text-[#0A83FF] shadow-md">
+                Xcursions
+              </span>{" "}
+              Story
             </Text>
           </div>
           <div>
-            <Heading type="h1" className="text-[24px] text-[#101828]">
-              The Xcursions Story
-            </Heading>
-            <Text className="text-[16px] font-normal text-[#667084]">
+            <Text className="my-5 text-justify text-[16px] font-normal text-[#667084]">
               Xcursions was born from a shared love for adventure, culture, and
               the profound impact travel can have on individuals and
               communities. At Xcursions, we&lsquo;re more than just a travel and
@@ -32,10 +31,10 @@ const Main = () => {
               lifetime. Our mission is simple: to provide you with exceptional
               travel experiences that inspire and enrich your life.
             </Text>
-            <Heading type="h3" className="text-[24px] text-[#101828]">
+            <Heading type="h3" className="my-3 text-[24px] text-[#101828]">
               What We Believe In
             </Heading>
-            <Text className="text-[16px] font-normal text-[#667084]">
+            <Text className="my-3 text-justify text-[16px] font-normal text-[#667084]">
               <span className="font-dmSansBold  text-[#101828]">
                 Experiences Over Destinations:
               </span>{" "}
@@ -43,7 +42,7 @@ const Main = () => {
               it offers. We curate journeys that immerse you in the local
               culture, history, and beauty of each destination.
             </Text>
-            <Text className="text-[16px] font-normal text-[#667084]">
+            <Text className="my-3 text-justify text-[16px] font-normal text-[#667084]">
               <span className="font-dmSansBold text-[#101828]">
                 Sustainability and Responsibility:
               </span>{" "}
@@ -52,7 +51,7 @@ const Main = () => {
               sustainable and ethical tourism practices that leave a positive
               impact on the places we explore.
             </Text>
-            <Text className="text-[16px] font-normal text-[#667084]">
+            <Text className="my-3 text-justify text-[16px] font-normal text-[#667084]">
               <span className="font-dmSansBold text-[#101828]">
                 Personalization:
               </span>{" "}
@@ -60,7 +59,7 @@ const Main = () => {
               That&apos;s why we tailor every trip to your preferences, ensuring
               that you get the most out of your adventure.
             </Text>
-            <Text className="text-[16px] font-normal text-[#667084]">
+            <Text className="my-3 text-justify text-[16px] font-normal text-[#667084]">
               <span className="font-dmSansBold text-[#101828]">
                 Excellence in Service:
               </span>{" "}
