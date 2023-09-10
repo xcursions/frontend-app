@@ -45,4 +45,5 @@ export type CreatePaymentCardPayload = {
   expiryMonth: string;
   expiryYear: string;
   cvv: string;
+  default: boolean;
 };

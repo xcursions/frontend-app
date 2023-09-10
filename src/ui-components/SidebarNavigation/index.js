@@ -45,11 +45,12 @@ const SidebarNavigation = ({ sidebarMenuActive, toggleSidebarMenu }) => {
         {/* <button onClick={toggleSidebarMenu}>close</button> */}
         <li className={styles['footer-item']}>
           <Image
-            width={400}
-            height={500}
+            width={250}
+            height={241}
             src="/assets/images/Ad.png"
             alt="advert"
             className="mx-auto mb-3 max-h-[241px]"
+            priority={false}
           />
         </li>
       </ul>

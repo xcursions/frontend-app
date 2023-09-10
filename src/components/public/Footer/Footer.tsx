@@ -63,11 +63,6 @@ const Footer = () => {
                       Events
                     </Link>
                   </li>
-                  <li>
-                    <Link href="/" className="hover:underline">
-                      Company
-                    </Link>
-                  </li>
                 </ul>
               </div>
               <div>
@@ -86,7 +81,7 @@ const Footer = () => {
                     </Link>
                   </li>
                   <li className="mb-4">
-                    <Link href="/" className="hover:underline">
+                    <Link href="/#faq" className="hover:underline">
                       Faq
                     </Link>
                   </li>

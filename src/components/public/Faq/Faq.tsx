@@ -8,7 +8,7 @@ import PostData from "./PostData";
 
 const Faq = () => {
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper} id="faq">
       <div className={styles.container}>
         <div className="content-center justify-center pb-[20px] pt-[58px]">
           {/* <Text className="items-center justify-center text-center font-dmSansRegular text-[12px] text-[#0A83FF]">

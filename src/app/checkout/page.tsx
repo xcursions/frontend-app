@@ -590,7 +590,9 @@ const Page = () => {
                       </div>
                       <div className="flex flex-col gap-5 py-5">
                         <div
-                          className="flex h-[56px] cursor-pointer items-center gap-4 rounded-2xl bg-[#FFF5EB]"
+                          className={`${
+                            paymentChannel === "wallet" && "border shadow-lg"
+                          } flex h-[56px] cursor-pointer items-center gap-4 rounded-2xl bg-[#FFF5EB]`}
                           onClick={() => setPaymentChannel("wallet")}
                         >
                           <span className="pl-5 text-[24px] text-[#FF860A]">
@@ -601,7 +603,9 @@ const Page = () => {
                           </p>
                         </div>
                         <div
-                          className="flex h-[56px] cursor-pointer items-center gap-4 rounded-2xl bg-[#00C3F71A]"
+                          className={`${
+                            paymentChannel === "paystack" && "border shadow-lg"
+                          } flex h-[56px] cursor-pointer items-center gap-4 rounded-2xl bg-[#00C3F71A]`}
                           onClick={() => setPaymentChannel("paystack")}
                         >
                           <img

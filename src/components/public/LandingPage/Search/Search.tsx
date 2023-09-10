@@ -71,6 +71,7 @@ const Search = () => {
           <Select
             placeholder={"When Are You Going?"}
             label="Date"
+            disabled={true}
             value={payload.date}
             startIcon={"/assets/images/landing-page/calendar.png"}
             onChange={(event) =>

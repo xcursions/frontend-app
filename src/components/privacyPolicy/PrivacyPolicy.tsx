@@ -8,7 +8,7 @@ const PrivacyPolicy = () => {
     <div className="w-full px-5 pt-[100px] md:pt-[130px] lg:pt-[180px]">
       <div className="relative mx-auto max-w-[608px]">
         <Heading type="h1" className="text-[30px] lg:text-[36px]">
-          Privacy & Terms
+          Terms & Conditions
         </Heading>
         <div className="my-5">
           <Heading type="h3" className="my-5 text-[18px]">
