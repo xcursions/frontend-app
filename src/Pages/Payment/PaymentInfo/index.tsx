@@ -11,6 +11,8 @@ import Input from "@/components/lib/Input";
 import { useErrorHandler, useSuccessHandler } from "@/hooks";
 import {
   useCreatePaymentCardMutation,
+  useCreatePaymentCardOtpMutation,
+  useCreatePaymentCardPinMutation,
   useDeletePaymentCardsMutation,
   useGetPaymentCardsQuery,
 } from "@/services/user";
@@ -23,6 +25,10 @@ const initialState = {
   expiryMonth: "",
   expiryYear: "",
   cvv: "",
+  otp: "",
+  pin: "",
+  reference: "",
+  default: true,
 };
 type Card = {
   id: string;
@@ -31,11 +37,19 @@ type Card = {
 };
 const PaymentInfo = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isPin, setIsPin] = useState(false);
+  const [isOtp, setIsOtp] = useState(false);
   const [payload, setPayload] = useState(initialState);
   const { data: paymentCards, isSuccess: paymentCardsSuccess } =
     useGetPaymentCardsQuery();
-  const [AddCard, { isSuccess, isError, error, isLoading }] =
+  const [AddCard, { isSuccess, isError, error, isLoading, data }] =
     useCreatePaymentCardMutation();
+  const [
+    submitPin,
+    { data: pinData, isLoading: pinLoading, isSuccess: pinSuccess },
+  ] = useCreatePaymentCardPinMutation();
+  const [submitOtp, { isSuccess: otpSuccess, isLoading: otpLoading }] =
+    useCreatePaymentCardOtpMutation();
   const [
     deleteCard,
     { isSuccess: deleteSuccess, isError: isDeleteError, error: deleteError },
@@ -52,9 +66,29 @@ const PaymentInfo = () => {
   useSuccessHandler({
     isSuccess,
     successFunction: () => {
-      setPayload(initialState);
+      setIsPin(true);
+      setIsOpen(false);
+      setPayload({ ...payload, reference: data?.initialReference });
     },
     toastMessage: "Card added successfully",
+  });
+  useSuccessHandler({
+    isSuccess: pinSuccess,
+    showToast: true,
+    successFunction: () => {
+      setIsPin(false);
+      setIsOtp(true);
+      setPayload({ ...payload, reference: pinData.transaction.reference });
+    },
+    toastMessage: "Please enter Otp",
+  });
+  useSuccessHandler({
+    isSuccess: otpSuccess,
+    showToast: true,
+    successFunction: () => {
+      setIsOtp(false);
+    },
+    toastMessage: "Deposit Completed Successfully",
   });
   useSuccessHandler({
     isSuccess: deleteSuccess,
@@ -77,7 +111,24 @@ const PaymentInfo = () => {
     });
   };
   const handleCardSubmit = () => {
-    AddCard(payload);
+    AddCard({
+      nameOnCard: payload.nameOnCard,
+      cardNumber: payload.cardNumber,
+      expiryMonth: payload.expiryMonth,
+      expiryYear: payload.expiryYear,
+      cvv: payload.cvv,
+      default: payload.default,
+    });
+  };
+  const handlePinSubmit = () => {
+    if (payload.pin.length > 0) {
+      submitPin({ pin: payload.pin, reference: payload.reference });
+    }
+  };
+  const handleOtpSubmit = () => {
+    if (payload.otp.length > 0) {
+      submitOtp({ otp: payload.otp, reference: payload.reference });
+    }
   };
   return (
     <div className={styles.container}>
@@ -208,6 +259,78 @@ const PaymentInfo = () => {
                 loading={isLoading}
               >
                 Add Card
+              </Button>
+            </div>
+          </div>
+        </>
+      )}
+      {isPin && (
+        <>
+          <div className="fixed inset-0 z-[31] bg-[#021A3366] opacity-75"></div>
+          <div className="fixed inset-0 z-[32] flex w-[326px] items-center justify-center lg:left-[510px] lg:w-[418px]">
+            <div className="w-full rounded-3xl bg-white p-5 shadow-lg">
+              <div className="flex justify-between">
+                <Heading type="h3">Enter Pin</Heading>
+                <p
+                  className="cursor-pointer font-dmSansBold text-[16px] text-[#98A2B3]"
+                  onClick={() => setIsPin(false)}
+                >
+                  X
+                </p>
+              </div>
+              <Input
+                label="Card Pin"
+                placeholder="Enter Card Pin"
+                value={payload.pin}
+                onChange={(e: FormEvent<HTMLInputElement>) =>
+                  setPayload({
+                    ...payload,
+                    pin: e.currentTarget.value,
+                  })
+                }
+              />
+              <Button
+                className="my-3 w-full cursor-pointer rounded-3xl text-[14px]"
+                onClick={handlePinSubmit}
+                loading={pinLoading}
+              >
+                Submit Pin
+              </Button>
+            </div>
+          </div>
+        </>
+      )}
+      {isOtp && (
+        <>
+          <div className="fixed inset-0 z-[31] bg-[#021A3366] opacity-75"></div>
+          <div className="fixed inset-0 z-[32] flex w-[326px] items-center justify-center lg:left-[510px] lg:w-[418px]">
+            <div className="w-full rounded-3xl bg-white p-5 shadow-lg">
+              <div className="flex justify-between">
+                <Heading type="h3">Enter Otp</Heading>
+                <p
+                  className="cursor-pointer font-dmSansBold text-[16px] text-[#98A2B3]"
+                  onClick={() => setIsOtp(false)}
+                >
+                  X
+                </p>
+              </div>
+              <Input
+                label="Otp"
+                placeholder="Enter Otp"
+                value={payload.otp}
+                onChange={(e: FormEvent<HTMLInputElement>) =>
+                  setPayload({
+                    ...payload,
+                    otp: e.currentTarget.value,
+                  })
+                }
+              />
+              <Button
+                className="my-3 w-full cursor-pointer rounded-3xl text-[14px]"
+                onClick={handleOtpSubmit}
+                loading={otpLoading}
+              >
+                Submit Otp
               </Button>
             </div>
           </div>

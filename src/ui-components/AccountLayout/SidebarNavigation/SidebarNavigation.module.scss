@@ -8,7 +8,7 @@
     // /* border-right: 1px solid rgb(220, 218, 218); */
 
     // z-index: 1;
-    @apply w-full lg:w-[280px] lg:fixed shadow-md overflow-x-hidden
+    @apply w-full lg:w-[280px] lg:fixed shadow-md
 }
 
 
@@ -26,7 +26,7 @@
 
 .sidebar-container{
     padding: 0 20px;
-    @apply flex flex-row lg:flex-col max-w-[370px] w-full bg-white lg:bg-inherit shadow-md lg:shadow-none rounded-xl lg:rounded-none mx-2
+    @apply grid grid-cols-3 lg:grid-cols-1 max-w-[370px] w-full bg-white lg:bg-inherit shadow-md lg:shadow-none rounded-xl lg:rounded-none mx-2
 }
 
 .sidebar-menu-item{
