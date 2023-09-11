@@ -234,9 +234,11 @@ const Wallet = () => {
         <div className="mt-[48px] lg:ml-[31px] lg:mt-[40px]">
           <div className="flex justify-between px-5">
             <Heading type="h3">Upcoming Payment</Heading>
-            <Text className="p-2 font-dmSansMedium text-[12px] text-[#667084] underline">
-              view all
-            </Text>
+            <Link href="/user/wallet/saving-plan">
+              <Text className="p-2 font-dmSansMedium text-[12px] text-[#667084] underline">
+                view all
+              </Text>
+            </Link>
           </div>
           {upcomingPaymentSuccess && upcomingPayment.result.length > 0 ? (
             <div className=" mx-auto flex flex-col gap-[24px] px-3 lg:flex-row">

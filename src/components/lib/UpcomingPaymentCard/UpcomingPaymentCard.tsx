@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import React from "react";
 
@@ -10,9 +12,10 @@ import styles from "./UpcomingPaymentCard.module.scss";
 
 type Props = {
   detailsData: UpcomingPaymentProps;
+  view?: boolean;
 };
 
-const UpcomingPaymentCard = ({ detailsData }: Props) => {
+const UpcomingPaymentCard = ({ detailsData, view }: Props) => {
   const percentagePaid =
     (parseFloat(detailsData.amountSaved) * 100) /
     (parseFloat(detailsData.amountSaved) +
@@ -21,15 +24,15 @@ const UpcomingPaymentCard = ({ detailsData }: Props) => {
     parseFloat(detailsData.remainingAmountToBeCharged) /
     detailsData.remainingTrials;
   return (
-    <div className={styles.container}>
+    <div className={view ? `${styles.container1}` : `${styles.container}`}>
       <div className="m-[12px]">
-        <div className={styles.top}>
+        <div className={view ? `${styles.top1}` : `${styles.top}`}>
           <Image
             src={detailsData.outing.outingGallery[0].image}
             alt={detailsData.outing.name}
             width={101}
             height={110}
-            className={styles.image}
+            className={view ? `${styles.image1}` : `${styles.image}`}
           />
           <div>
             <Text className={styles.title}>{detailsData.outing.name}</Text>
