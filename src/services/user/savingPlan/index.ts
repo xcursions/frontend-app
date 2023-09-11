@@ -17,7 +17,7 @@ export const savingPlanApi = createApi({
     }),
     getUpcomingPayment: builder.query<any, void>({
       query: (data) => ({
-        url: "/saving-plan/upcoming-payments",
+        url: "/saving-plan/upcoming-payments?limit=20",
         method: "get",
         data,
       }),
