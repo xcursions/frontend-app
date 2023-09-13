@@ -185,8 +185,9 @@ const ProfileForm = () => {
             )}
 
             <Button
-              className="mt-5 rounded-2xl bg-gray-300 text-[14px] text-[#667084]"
+              className="mt-5 rounded-2xl text-[14px]"
               onClick={handleUploadImage}
+              disabled={!file}
               loading={isLoading}
             >
               Upload

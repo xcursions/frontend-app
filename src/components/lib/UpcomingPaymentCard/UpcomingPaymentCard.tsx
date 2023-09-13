@@ -39,7 +39,7 @@ const UpcomingPaymentCard = ({ detailsData, view }: Props) => {
             <Text className="mt-[10px] text-[12px] text-[#475467]">
               Amount Due:{" "}
               <span className={styles.title}>
-                ₦{amountDue.toLocaleString()}
+                ₦{Math.ceil(amountDue).toLocaleString()}
               </span>
             </Text>
             <Text className="mt-[10px] text-[12px] text-[#475467]">
@@ -53,7 +53,7 @@ const UpcomingPaymentCard = ({ detailsData, view }: Props) => {
         <div className={styles.progress}>
           <Progress value={percentagePaid} className="w-[100%]" />
           <span className="font-dmSansBold text-[12px] text-[#667084]">
-            {percentagePaid}%
+            {Math.ceil(percentagePaid)}%
           </span>
         </div>
       </div>

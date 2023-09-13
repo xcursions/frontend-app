@@ -134,6 +134,7 @@ const Header = ({ toggleSidebarMenu }: any) => {
               <Input
                 placeholder="Search for product here"
                 className="w-[330px]"
+                disabled
               />
             </li>
           </ul>

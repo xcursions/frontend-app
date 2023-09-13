@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 import Button from "@/components/lib/Button/Button";
@@ -98,7 +99,11 @@ const Main = () => {
                   purus gravida mattis sit mi donec.
                 </Text>
               </div>
-              <Button className="w-full rounded-3xl md:w-auto">Join Us</Button>
+              <Link href="https://forms.gle/rcq3TDPLjBAs5iRe9" target="_blank">
+                <Button className="w-full rounded-3xl md:w-auto">
+                  Join Us
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

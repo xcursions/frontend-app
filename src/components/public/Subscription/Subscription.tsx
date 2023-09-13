@@ -47,7 +47,7 @@ const Subscription = () => {
             </Text>
             <div className="flex flex-col items-center gap-3 py-5 lg:flex-row">
               <Input
-                placeholder="Your Email address here"
+                placeholder="Your email address here"
                 type="email"
                 className="h-[46px] lg:w-[352px]"
                 value={payload.email}
