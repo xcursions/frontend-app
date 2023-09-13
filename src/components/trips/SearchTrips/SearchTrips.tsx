@@ -33,7 +33,7 @@ const SearchTrips = () => {
   const searchParams = useSearchParams();
   const [payload, setPayload] = useState(initialState);
   const { isSuccess: locationIsSuccess, data: locationData } =
-    useGetOutingLocationsQuery();
+    useGetOutingLocationsQuery("tour");
   const { isSuccess: durationIsSuccess, data: durationData } =
     useGetOutingDurationsQuery();
   const { isSuccess: priceRangeSuccess, data: priceRangeData } =
@@ -59,6 +59,16 @@ const SearchTrips = () => {
 
     showToast: false,
   });
+  useSuccessHandler({
+    isSuccess: isMultipleOutingSuccess,
+    successFunction: () => {
+      setRange([]);
+    },
+
+    showToast: false,
+  });
+  const search = searchParams?.get("location") || "";
+  const searchPrice = searchParams?.get("maxPrice") || "";
   useEffect(() => {
     if (range.length > 0) {
       getMultipleOuting({ outingIds: range });
@@ -67,15 +77,16 @@ const SearchTrips = () => {
         `?type=tour&limit=${pageLimit}&page=${currentPage}&location=${queryLocation}&subType=${queryTripType}&search=${payload.search}`
       );
     } else {
-      getOuting(`?type=tour&limit=${pageLimit}&page=${currentPage}`);
+      getOuting(
+        `?type=tour&limit=${pageLimit}&page=${currentPage}&maxPrice=${searchPrice}&location=${search}`
+      );
     }
   }, [queryTripType, queryLocation, currentPage, payload.search, range]);
-  const search = searchParams?.get("location");
-  useEffect(() => {
-    if (search) {
-      setQueryLocation(search);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (search) {
+  //     setQueryLocation(search);
+  //   }
+  // }, []);
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
