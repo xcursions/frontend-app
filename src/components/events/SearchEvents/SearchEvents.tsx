@@ -31,7 +31,7 @@ const optionTrip = [
 const SearchEvents = () => {
   const [payload, setPayload] = useState(initialState);
   const { isSuccess: locationIsSuccess, data: locationData } =
-    useGetOutingLocationsQuery();
+    useGetOutingLocationsQuery("event");
   const { isSuccess: durationIsSuccess, data: durationData } =
     useGetOutingDurationsQuery();
   const { isSuccess: priceRangeSuccess, data: priceRangeData } =
