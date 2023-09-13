@@ -6,7 +6,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+// import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,29 +23,29 @@ export type Payment = {
   status: string;
   amount: string;
   createdAt: any;
-  paymentChannel: string;
+  nature: string;
 };
 
 export const columns: ColumnDef<Payment>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
+  // {
+  //   id: "select",
+  //   header: ({ table }) => (
+  //     <Checkbox
+  //       checked={table.getIsAllPageRowsSelected()}
+  //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+  //       aria-label="Select all"
+  //     />
+  //   ),
+  //   cell: ({ row }) => (
+  //     <Checkbox
+  //       checked={row.getIsSelected()}
+  //       onCheckedChange={(value) => row.toggleSelected(!!value)}
+  //       aria-label="Select row"
+  //     />
+  //   ),
+  //   enableSorting: false,
+  //   enableHiding: false,
+  // },
   {
     accessorKey: "id",
     header: () => (
@@ -56,7 +56,7 @@ export const columns: ColumnDef<Payment>[] = [
     cell: ({ row }) => {
       const id = row.getValue("id");
       return (
-        <div className="hidden max-w-[90px] truncate text-[14px] font-medium text-[#101828] lg:block">
+        <div className="hidden max-w-[170px] truncate text-[14px] font-medium text-[#101828] lg:block">
           {id}
         </div>
       );
@@ -75,7 +75,7 @@ export const columns: ColumnDef<Payment>[] = [
               : "bg-[#FFECEB] text-[#F04438]"
           }`}
         >
-          .{status}
+          {status}
         </div>
       );
     },
@@ -85,8 +85,31 @@ export const columns: ColumnDef<Payment>[] = [
     header: () => <div className="text-lg font-semibold">Amount</div>,
     cell: ({ row }) => {
       const amount = parseInt(row.getValue("amount"), 10).toLocaleString();
+      const nature = row.getValue("nature");
       return (
-        <div className="text-[14px] font-medium text-[#101828]">₦{amount}</div>
+        <div className="text-[14px] font-medium text-[#101828]">
+          {nature === "credit" ? "+" : "-"}₦{amount}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "nature",
+    header: () => (
+      <div className="hidden text-lg font-semibold lg:block">Type</div>
+    ),
+    cell: ({ row }) => {
+      const payment = row.getValue("nature");
+      return (
+        <div
+          className={`hidden w-fit rounded-3xl px-3 py-1 text-center text-[14px] font-medium lg:block ${
+            payment === "credit"
+              ? "bg-[#E6FAF0] text-[#12B76A]"
+              : "bg-[#FFECEB] text-[#F04438]"
+          }`}
+        >
+          {payment}
+        </div>
       );
     },
   },
@@ -102,28 +125,6 @@ export const columns: ColumnDef<Payment>[] = [
           className={`hidden text-[14px] font-medium text-[#101828] lg:block`}
         >
           {status}
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "paymentChannel",
-    header: () => (
-      <div className="hidden text-lg font-semibold lg:block">
-        Payment Method
-      </div>
-    ),
-    cell: ({ row }) => {
-      const payment = row.getValue("paymentChannel");
-      return (
-        <div
-          className={`hidden w-fit rounded-3xl px-3 py-1 text-center text-[14px] font-medium lg:block ${
-            payment === "card"
-              ? "bg-[#EBF5FF] text-[#0A83FF]"
-              : "bg-[#F5EBFF] text-[#860AFF]"
-          }`}
-        >
-          .{payment}
         </div>
       );
     },

@@ -33,7 +33,7 @@ export const userApi = createApi({
     }),
     getTransactions: builder.query<any, any>({
       query: (query) => ({
-        url: `/fiat-deposit/deposits${query}`,
+        url: `/transaction/transactions${query}`,
         method: "get",
       }),
       providesTags: ["UserInfo"],
@@ -61,9 +61,41 @@ export const userApi = createApi({
       }),
       invalidatesTags: ["UserInfo"],
     }),
+    submitCardPin: builder.mutation<any, any>({
+      query: (data) => ({
+        url: "/fiat-deposit/deposits/card/submit-pin",
+        method: "post",
+        data,
+      }),
+      invalidatesTags: ["UserInfo"],
+    }),
+    submitCardOtp: builder.mutation<any, any>({
+      query: (data) => ({
+        url: "/fiat-deposit/deposits/card/submit-otp",
+        method: "post",
+        data,
+      }),
+      invalidatesTags: ["UserInfo"],
+    }),
     createPaymentCard: builder.mutation<any, CreatePaymentCardPayload>({
       query: (data) => ({
         url: "/payment-cards/cards",
+        method: "post",
+        data,
+      }),
+      invalidatesTags: ["UserInfo"],
+    }),
+    createPaymentCardPin: builder.mutation<any, any>({
+      query: (data) => ({
+        url: "/payment-cards/deposits/card/submit-pin",
+        method: "post",
+        data,
+      }),
+      invalidatesTags: ["UserInfo"],
+    }),
+    createPaymentCardOtp: builder.mutation<any, any>({
+      query: (data) => ({
+        url: "/payment-cards/deposits/card/submit-otp",
         method: "post",
         data,
       }),
@@ -80,22 +112,6 @@ export const userApi = createApi({
       query: (query) => ({
         url: `/payment-cards/cards/${query}`,
         method: "delete",
-      }),
-      invalidatesTags: ["UserInfo"],
-    }),
-    submitCardPin: builder.mutation<any, any>({
-      query: (data) => ({
-        url: "/fiat-deposit/deposits/card/submit-pin",
-        method: "post",
-        data,
-      }),
-      invalidatesTags: ["UserInfo"],
-    }),
-    submitCardOtp: builder.mutation<any, any>({
-      query: (data) => ({
-        url: "/fiat-deposit/deposits/card/submit-otp",
-        method: "post",
-        data,
       }),
       invalidatesTags: ["UserInfo"],
     }),
@@ -266,4 +282,6 @@ export const {
   useCreatePaymentCardMutation,
   useGetPaymentCardsQuery,
   useDeletePaymentCardsMutation,
+  useCreatePaymentCardOtpMutation,
+  useCreatePaymentCardPinMutation,
 } = userApi;

@@ -25,6 +25,7 @@ import {
   useSubmitCardPinMutation,
 } from "@/services/user";
 import { useGetUpcomingPaymentQuery } from "@/services/user/savingPlan";
+import type TransactionProps from "@/types/TransactionProps";
 
 import { columns } from "./services/Colums";
 import styles from "./wallet.module.scss";
@@ -114,6 +115,7 @@ const Wallet = () => {
     setIsCard(!isCard);
     setIsOpen(!isOpen);
   };
+
   const handleLinkSubmit = () => {
     if (payload.amount > 0) {
       initiateLinkDeposit({
@@ -122,16 +124,19 @@ const Wallet = () => {
       });
     }
   };
+
   const handlePinSubmit = () => {
     if (payload.pin.length > 0) {
       submitPin({ pin: payload.pin, reference: payload.reference });
     }
   };
+
   const handleOtpSubmit = () => {
     if (payload.otp.length > 0) {
       submitOtp({ otp: payload.otp, reference: payload.reference });
     }
   };
+
   const handleCardSubmit = () => {
     if (payload.amount > 0) {
       initiateCardDeposit({
@@ -144,6 +149,7 @@ const Wallet = () => {
       });
     }
   };
+
   const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedDate = event.target.value;
     const dateObj = new Date(selectedDate);
@@ -159,12 +165,13 @@ const Wallet = () => {
   };
   const data =
     transactionHistorySuccess &&
-    transactionHistory.result.map((res: any) => {
+    transactionHistory.result.map((res: TransactionProps) => {
       return {
-        amount: res.transaction.amount,
-        status: res.transaction.status,
-        id: res.transaction.id,
-        createdAt: res.transaction.createdAt.split("T")[0],
+        amount: res.amount,
+        status: res.status,
+        id: res.id,
+        createdAt: res.createdAt.split("T")[0],
+        nature: res.nature,
       };
     });
   const handleSubmitChecker = () => {
@@ -234,9 +241,11 @@ const Wallet = () => {
         <div className="mt-[48px] lg:ml-[31px] lg:mt-[40px]">
           <div className="flex justify-between px-5">
             <Heading type="h3">Upcoming Payment</Heading>
-            <Text className="p-2 font-dmSansMedium text-[12px] text-[#667084] underline">
-              view all
-            </Text>
+            <Link href="/user/wallet/saving-plan">
+              <Text className="p-2 font-dmSansMedium text-[12px] text-[#667084] underline">
+                view all
+              </Text>
+            </Link>
           </div>
           {upcomingPaymentSuccess && upcomingPayment.result.length > 0 ? (
             <div className=" mx-auto flex flex-col gap-[24px] px-3 lg:flex-row">

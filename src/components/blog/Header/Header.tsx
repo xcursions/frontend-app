@@ -58,12 +58,10 @@ const Header = () => {
         <div className={`${styles.header}`}>
           <div className={styles.header_content__wrap}>
             <Heading type="h1" className={styles.lead_header_txt}>
-              Resources & How our customers do
+              Xcursions Travel Chronicles
             </Heading>
             <Text className={styles.lead_sub_txt}>
-              Vitae blandit elit eget porttitor malesuada dignissim porttitor.
-              Nulla consectetur pretium sodales ullamcorper neque id
-              condimentum. Amet vulputate facilisi eget convallis id adipiscing.
+              Embark on epic journeys through our blog and fuel your wanderlust.
             </Text>
             <div className={styles.header_input__container}>
               <Input

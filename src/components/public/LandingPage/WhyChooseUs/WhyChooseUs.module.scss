@@ -8,46 +8,26 @@
     @apply text-center items-center text-[24px] md:font-[30px] font-bold lg:text-[36px]
   }
   .card_container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 24px;
-    @apply mx-auto mt-[30px];
+    @apply mx-auto mt-[30px] p-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4;
   }
   .card {
-    position: relative;
-    flex-basis: calc(23% - 8px);
     margin: 4px;
-    transition: flex 0.5s ease;
-    max-height: 330px;
-    @apply bg-[#FFFFFF] flex flex-row lg:flex-col gap-5 rounded-xl shadow-md p-5 items-center text-center justify-center
+    // max-height: 330px;
+    @apply bg-[#FFFFFF] h-[150px] lg:h-[330px] flex flex-row lg:flex-col gap-5 rounded-xl shadow-md p-5 items-center text-center justify-center;
   }
-  .card::before {
-    position: absolute;
-    border-radius: 20px;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
-  @media screen and (min-width: 451px) and (max-width: 1022px) {
-    .card {
-      flex-basis: calc(50% - 20px);
-    }
-  }
-  @media screen and (max-width: 450px) {
-    .card {
-      flex-basis: calc(100% - 0px);
-      max-height: 150px;
-    }
-  }
+  // @media screen and (max-width: 450px) {
+  //   .card {
+  //     max-height: 150px;
+  //   }
+  // }
   .text_container {
-    @apply text-start lg:text-center py-3
+    @apply text-start lg:h-[70%] lg:text-center py-3
   }
   .card_heading {
-    @apply text-[14px] lg:text-[18px] font-bold leading-snug;
+    @apply text-[14px] lg:text-[18px] font-bold font-dmSansBold leading-snug;
   }
   .card_text {
-    @apply text-[12px] lg:text-[15px] text-justify leading-tight text-[#667084];
+    @apply text-[12px] lg:text-[15px] text-justify font-dmSansRegular leading-tight text-[#667084];
   }
   .card_image {
     position: relative;

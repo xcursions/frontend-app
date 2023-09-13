@@ -60,6 +60,7 @@ const Layout = ({ children }: any) => {
             pathname !== "/user/account/payment" &&
             pathname !== "/user/account/chat" &&
             pathname !== "/user/wallet/history" &&
+            pathname !== "/user/wallet/saving-plan" &&
             pathname !== "/user/booking/history" && <CalendarComponent />}
           <section className="content">{children}</section>
         </>

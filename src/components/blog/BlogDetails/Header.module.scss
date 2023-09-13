@@ -138,4 +138,8 @@
   max-width: 820px;
   color: #344054;
   @apply lg:text-[16px] mx-[24px] lg:mx-auto mt-[40px];
+  a {
+    color: blue; /* Set your desired link color */
+    text-decoration: underline;
+}
 }

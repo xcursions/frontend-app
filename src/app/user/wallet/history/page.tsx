@@ -7,6 +7,7 @@ import { AiOutlineArrowLeft } from "react-icons/ai";
 import { Pagination } from "@/components/lib/Pagination";
 import { DataTable } from "@/components/ui/data-table";
 import { useLazyGetTransactionsQuery } from "@/services/user";
+import type TransactionProps from "@/types/TransactionProps";
 import Layout from "@/ui-components/layout";
 
 import { columns } from "./services/Colums";
@@ -21,15 +22,16 @@ const History = () => {
   ] = useLazyGetTransactionsQuery();
   const data =
     transactionHistorySuccess &&
-    transactionHistory.result.map((res: any) => {
+    transactionHistory.result.map((res: TransactionProps) => {
       return {
-        amount: res.transaction.amount,
-        status: res.transaction.status,
-        id: res.transaction.id,
-        createdAt: res.transaction.createdAt.split("T")[0],
-        paymentChannel: res.paymentChannel,
+        amount: res.amount,
+        status: res.status,
+        id: res.id,
+        createdAt: res.createdAt.split("T")[0],
+        nature: res.nature,
       };
     });
+
   useEffect(() => {
     transactionQuery(`?limit=${pageLimit}&page=${currentPage}`);
   }, [currentPage, pageLimit]);

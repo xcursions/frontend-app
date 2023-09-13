@@ -18,9 +18,9 @@ export const publicApi = createApi({
         method: "get",
       }),
     }),
-    getOutingLocations: builder.query<any, void>({
-      query: () => ({
-        url: "/outing-destination/outings/location/locations",
+    getOutingLocations: builder.query<any, any>({
+      query: (query) => ({
+        url: `/outing-destination/outings/location/locations?type=${query}`,
         method: "get",
       }),
     }),

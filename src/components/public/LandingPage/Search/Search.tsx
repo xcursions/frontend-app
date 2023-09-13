@@ -15,10 +15,10 @@ const initialState = {
   date: "",
 };
 const optionPrice = [
-  { value: "10000-20000", label: "10000-20000" },
-  { value: "20000-30000", label: "20000-30000" },
-  { value: "30000-40000", label: "30000-40000" },
-  { value: "50000 and above", label: "50000 and above" },
+  { value: "300000", label: "Under 300k" },
+  { value: "500000", label: "Under 500k" },
+  { value: "1000000", label: "Under 1M" },
+  { value: "15000000", label: "1M and above" },
 ];
 const optionDate = [
   { value: "383884", label: "August" },
@@ -31,7 +31,7 @@ const Search = () => {
   const [queryLocation, setQueryLocation] = useState("");
   const [location, setLocation] = useState([]);
   const { isSuccess: locationIsSuccess, data: locationData } =
-    useGetOutingLocationsQuery();
+    useGetOutingLocationsQuery("tour");
 
   useSuccessHandler({
     isSuccess: locationIsSuccess,
@@ -71,6 +71,7 @@ const Search = () => {
           <Select
             placeholder={"When Are You Going?"}
             label="Date"
+            disabled={true}
             value={payload.date}
             startIcon={"/assets/images/landing-page/calendar.png"}
             onChange={(event) =>
@@ -104,7 +105,9 @@ const Search = () => {
             showArrow
             className=" block w-[290px] cursor-pointer text-sm text-[#667084] md:w-auto lg:w-[270px] xl:w-[300px]"
           />
-          <Link href={`/trips?location=${queryLocation}`}>
+          <Link
+            href={`/trips?location=${queryLocation}&maxPrice=${payload.price}`}
+          >
             <button className="flex w-[300px] items-center justify-center gap-3 rounded-[100px] bg-[#0A83FF] p-3 text-white md:h-[96px] md:w-[75px] lg:mt-4 lg:p-5">
               <BsSearch className="text-xl" />
               <span className="text-center md:hidden">Search</span>

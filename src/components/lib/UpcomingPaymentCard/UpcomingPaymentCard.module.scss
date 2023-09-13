@@ -1,11 +1,20 @@
 .container {
     @apply w-[346px] rounded-[16px] border border-[#E4E7EC] bg-[#FFF];
 }
+.container1 {
+    @apply w-[346px] md:w-[254px] rounded-[16px] border border-[#E4E7EC] bg-[#FFF];
+}
 .top {
     @apply flex gap-[16px] items-center;
 }
+.top1 {
+    @apply flex flex-row md:flex-col gap-[16px] items-center lg:items-start;
+}
 .image {
     @apply h-[110px] w-[101px] rounded-[8px];
+}
+.image1 {
+    @apply h-[110px] w-[101px] md:w-[230px] md:h-[170px] rounded-[8px];
 }
 .title {
     font-weight: 700;

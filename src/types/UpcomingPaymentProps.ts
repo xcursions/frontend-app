@@ -41,4 +41,13 @@ type BookingProps = {
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;
+  bookingDate: {
+    startDate: string;
+    endDate: string;
+    id: string;
+    bookingId: string;
+    createdAt: string;
+    updatedAt: string;
+    deletedAt: string | null;
+  };
 };

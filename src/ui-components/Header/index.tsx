@@ -102,10 +102,10 @@ const NotificationList = ({ img, desc, datetime, id }: any) => {
         className={styles["single-notification"]}
         onClick={() => setNotificationId(id)}
       >
-        <p className="text-[#98A2B3]">{desc}</p>
+        <p className="text-[12px] text-[#98A2B3]">{desc}</p>
         <div className="flex gap-3">
-          <p className="text-[#0A83FF] underline">Check Info</p>
-          <p className="text-[#98A2B3]">{datetime}</p>
+          <p className="text-[12px] text-[#0A83FF] underline">Mark as read</p>
+          <p className="text-[12px] text-[#98A2B3]">{datetime}</p>
         </div>
       </div>
     </li>
@@ -134,6 +134,7 @@ const Header = ({ toggleSidebarMenu }: any) => {
               <Input
                 placeholder="Search for product here"
                 className="w-[330px]"
+                disabled
               />
             </li>
           </ul>
