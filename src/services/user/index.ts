@@ -33,7 +33,7 @@ export const userApi = createApi({
     }),
     getTransactions: builder.query<any, any>({
       query: (query) => ({
-        url: `/fiat-deposit/deposits${query}`,
+        url: `/transaction/transactions${query}`,
         method: "get",
       }),
       providesTags: ["UserInfo"],

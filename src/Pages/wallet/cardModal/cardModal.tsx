@@ -51,7 +51,7 @@ export function CardModal({ cardDetails, onClose }: Props) {
           <div className=" mt-0 items-center text-center">
             <Text className="text-[12px] text-[#98A2B3]">Total Amount</Text>
             <Text className="font-dmSansBold text-[24px] text-[#101828]">
-              ₦{totalAmount}
+              ₦{totalAmount.toLocaleString()}
             </Text>
           </div>
 
@@ -82,7 +82,10 @@ export function CardModal({ cardDetails, onClose }: Props) {
             </div>
           </div>
           <Text className="mt-[10px] rounded-xl bg-[#FFECEB] p-2 text-[12px] text-[#475467]">
-            Next Payment: <span className=" font-dmSansBold">₦{amountDue}</span>
+            Next Payment:{" "}
+            <span className=" font-dmSansBold">
+              ₦{Math.ceil(amountDue).toLocaleString()}
+            </span>
             <span className="rounded-3xl  p-3 text-[#F04438]">
               {formatedDate(cardDetails.nextChargeDate)}
             </span>
@@ -99,14 +102,14 @@ export function CardModal({ cardDetails, onClose }: Props) {
                 />
               ))}
             </div>
-            <div className="flex justify-between">
+            <div className="mt-2 flex justify-between">
               <Text className="font-dmSansBold text-[18px] text-[#101828]">
                 {cardDetails.outing.name}
               </Text>
               <Text className="text-[13px]  text-[#475467]">
                 {formatDatesRange(
-                  cardDetails.outing.outingDate[0].startDate,
-                  cardDetails.outing.outingDate[0].endDate
+                  cardDetails.booking?.bookingDate.startDate,
+                  cardDetails.booking?.bookingDate.endDate
                 )}
               </Text>
             </div>

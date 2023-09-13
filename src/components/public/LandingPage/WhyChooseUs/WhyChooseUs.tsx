@@ -22,20 +22,19 @@ const WhyChooseUs = () => {
         <div className={styles.card_container}>
           <div className={styles.card}>
             <Image
-              src="/assets/images/icons/luggage1.png"
+              src="/assets/images/icons/luggage.png"
               alt="luggage icon"
               width={100}
               height={100}
-              className="m-auto h-[72px] w-[72px] lg:h-[100px] lg:w-[100px]"
+              className="w-[72px] lg:h-[30%] lg:w-[100px]"
             />
             <div className={styles.text_container}>
-              <Heading type="h3" className={styles.card_heading}>
+              <Text className={styles.card_heading}>
                 Save & Travel On The Go
-              </Heading>
+              </Text>
               <Text className={styles.card_text}>
                 Automate your savings & reach your travel goals faster with our
-                “pay small small“ plan. No Charges. No Penalties. Absolutely
-                Free
+                “pay small small“ plan.
               </Text>
             </div>
           </div>
@@ -45,16 +44,15 @@ const WhyChooseUs = () => {
               alt="luggage icon"
               width={100}
               height={100}
-              className="m-auto h-[72px] w-[72px] lg:h-[100px] lg:w-[100px]"
+              className="w-[72px] lg:h-[30%] lg:w-[100px]"
             />
             <div className={styles.text_container}>
-              <Heading type="h3" className={styles.card_heading}>
+              <Text className={styles.card_heading}>
                 Access Vacation Options in One Click
-              </Heading>
+              </Text>
               <Text className={styles.card_text}>
                 With our wide range of budget-friendly vacation deals, you will
-                be exploring the world without breaking the bank. No stress.
-                Just maximum enjoyment!
+                be exploring the world without breaking the bank.
               </Text>
             </div>
           </div>
@@ -64,12 +62,12 @@ const WhyChooseUs = () => {
               alt="luggage icon"
               width={100}
               height={100}
-              className="m-auto h-[72px] w-[72px] lg:h-[100px] lg:w-[100px]"
+              className="w-[72px] lg:h-[30%] lg:w-[100px]"
             />
             <div className={styles.text_container}>
-              <Heading type="h3" className={styles.card_heading}>
+              <Text className={styles.card_heading}>
                 Book Hotels Across the Globe
-              </Heading>
+              </Text>
               <Text className={styles.card_text}>
                 Hotel booking hassles are old news here. From hotels to short
                 lets, to apartments for all your vacations. We&apos;ve got you
@@ -83,16 +81,16 @@ const WhyChooseUs = () => {
               alt="luggage icon"
               width={100}
               height={100}
-              className="m-auto h-[72px] w-[72px] lg:h-[100px] lg:w-[100px]"
+              className="w-[72px] lg:h-[30%] lg:w-[100px]"
             />
             <div className={styles.text_container}>
-              <Heading type="h3" className={styles.card_heading}>
-                Best Locations
-              </Heading>
+              <Text className={styles.card_heading}>
+                Visa Application Guidance
+              </Text>
               <Text className={styles.card_text}>
-                Hotel booking hassles are old news here. From hotels to short
-                lets, to apartments for all your vacations. We&apos;ve got you
-                covered!
+                Streamline your visa application process, ensure accuracy, and
+                maximize your chances of approval with our professional
+                guidance.
               </Text>
             </div>
           </div>

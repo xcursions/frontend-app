@@ -6,7 +6,7 @@ import Text from "../lib/Text/Text";
 const PrivacyPolicy = () => {
   return (
     <div className="w-full px-5 pt-[100px] md:pt-[130px] lg:pt-[180px]">
-      <div className="relative mx-auto max-w-[608px]">
+      <div className="relative mx-auto max-w-[900px]">
         <Heading type="h1" className="text-[30px] lg:text-[36px]">
           Terms & Conditions
         </Heading>
@@ -14,7 +14,7 @@ const PrivacyPolicy = () => {
           <Heading type="h3" className="my-5 text-[18px]">
             Travel Experiences
           </Heading>
-          <Text className="text-[14px] text-[#667084]">
+          <Text className="text-justify text-[14px] text-[#667084]">
             All experiences are not inclusive of local flights. Xcursions trips
             cover accommodation, full transportation only, and in most cases
             selected tours. Where applicable, some meals will be covered and
@@ -28,8 +28,9 @@ const PrivacyPolicy = () => {
             customized tour, all travelers are expected to travel and come back
             on the dates assigned to them, failure to do this would attract
             extra charges and a penalty fee.
-            <br /> Refunds
             <br />
+            <br />
+            <span className=" font-dmSansBold text-base">Refunds</span>
             <br /> All trips are priced in Naira or USD. All payments are
             non-refundable. However, they can be transferred to another trip of
             your choice in special cases. This payment goes directly towards the
@@ -48,7 +49,9 @@ const PrivacyPolicy = () => {
             value) towards a future trip with Xcursions. For any cancellations
             with a trip date less than 30 days, the cancellation fee is equal to
             the full booking value.
-            <br /> Payment Plan <br />
+            <br />
+            <br />
+            <span className=" font-dmSansBold text-base">Payment Plan</span>
             <br />
             At Xcursions, we want to make travel accessible to all and this is
             why we have payment plans in place so you can make convenient
@@ -61,7 +64,7 @@ const PrivacyPolicy = () => {
           <Heading type="h3" className="my-5 text-[18px]">
             COVID-19 Policy
           </Heading>{" "}
-          <Text className="text-[14px] text-[#667084]">
+          <Text className="text-justify text-[14px] text-[#667084]">
             The safety of all our travelers is paramount. At Xcursions, we
             continue to monitor the situation of every country on our
             destination list and inform travelers of any changes. If a country
@@ -78,7 +81,7 @@ const PrivacyPolicy = () => {
           <Heading type="h3" className="my-5 text-[18px]">
             Itinerary Changes
           </Heading>
-          <Text className="text-[14px] text-[#667084]">
+          <Text className="text-justify text-[14px] text-[#667084]">
             {" "}
             While we hope to always fulfill every carefully curated activity on
             our trips, sometimes it is necessary for us to make changes in the
