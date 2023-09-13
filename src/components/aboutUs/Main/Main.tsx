@@ -90,13 +90,11 @@ const Main = () => {
           <div className="mx-auto mt-[59px] max-w-[1014px] rounded-xl border p-5 shadow-md lg:mt-[100px] lg:p-[40px]">
             <div className="flex flex-col items-center gap-3 md:flex-row md:justify-between">
               <div>
-                <Text className="text-[24px] font-bold">
-                  You have something unique
-                </Text>
+                <Text className="text-[24px] font-bold">Careers</Text>
                 <Text className="max-w-[610px] text-[14px] text-[#667084]">
-                  Suspendisse enim elit consequat volutpat. Lectus vitae eget
-                  aliquet egestas dis. Sem nunc at enim dui in felis in vel. Ut
-                  purus gravida mattis sit mi donec.
+                  While we do not have any current job openings, we&apos;re
+                  excited about the possibility of having you on board in the
+                  future.
                 </Text>
               </div>
               <Link href="https://forms.gle/rcq3TDPLjBAs5iRe9" target="_blank">
