@@ -2,6 +2,8 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 
 import axiosBaseQuery from "@/utils/api/baseQuery";
 
+import type { GetOutingByContinentPaylod } from "./payload";
+
 export const publicApi = createApi({
   reducerPath: "publicApi",
   baseQuery: axiosBaseQuery(),
@@ -21,6 +23,58 @@ export const publicApi = createApi({
     getOutingLocations: builder.query<any, any>({
       query: (query) => ({
         url: `/outing-destination/outings/location/locations?type=${query}`,
+        method: "get",
+      }),
+    }),
+    fetchAllOutings: builder.query<any, GetOutingByContinentPaylod>({
+      query: ({
+        minPrice,
+        maxPrice,
+        subType,
+        type,
+        month,
+        location,
+        search,
+        limit,
+        page,
+      }) => ({
+        url: `/outing/outings?type=${type || ""}&minPrice=${
+          minPrice || ""
+        }&maxPrice=${maxPrice || ""}&subType=${subType || ""}&month=${
+          month || ""
+        }&location=${location || ""}&search=${search || ""}&limit=${
+          limit || ""
+        }&page=${page || ""}`,
+        method: "get",
+      }),
+    }),
+    getOutingByContinents: builder.query<any, GetOutingByContinentPaylod>({
+      query: ({ minPrice, maxPrice, subType, type, month, location }) => ({
+        url: `/outing/outings/continents?type=${type || ""}&minPrice=${
+          minPrice || ""
+        }&maxPrice=${maxPrice || ""}&subType=${subType || ""}&month=${
+          month || ""
+        }&location=${location || ""}`,
+        method: "get",
+      }),
+    }),
+    getOutingByMonths: builder.query<any, GetOutingByContinentPaylod>({
+      query: ({ minPrice, maxPrice, subType, type, month, location }) => ({
+        url: `/outing/outings/months?type=${type || ""}&minPrice=${
+          minPrice || ""
+        }&maxPrice=${maxPrice || ""}&subType=${subType || ""}&month=${
+          month || ""
+        }&location=${location || ""}`,
+        method: "get",
+      }),
+    }),
+    getOutingByType: builder.query<any, GetOutingByContinentPaylod>({
+      query: ({ minPrice, maxPrice, subType, type, month, location }) => ({
+        url: `/outing/outings/types?type=${type || ""}&minPrice=${
+          minPrice || ""
+        }&maxPrice=${maxPrice || ""}&subType=${subType || ""}&month=${
+          month || ""
+        }&location=${location || ""}`,
         method: "get",
       }),
     }),
@@ -90,4 +144,8 @@ export const {
   useGetAllBlogQuery,
   useGetSingleBlogQuery,
   useGetRelatedBlogByCategoryQuery,
+  useGetOutingByContinentsQuery,
+  useGetOutingByMonthsQuery,
+  useGetOutingByTypeQuery,
+  useFetchAllOutingsQuery,
 } = publicApi;

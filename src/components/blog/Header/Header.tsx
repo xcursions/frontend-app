@@ -57,6 +57,9 @@ const Header = () => {
       <div className={styles.header_wrapper}>
         <div className={`${styles.header}`}>
           <div className={styles.header_content__wrap}>
+            <Heading type="h2" className={styles.lead_title_txt}>
+              Blog
+            </Heading>
             <Heading type="h1" className={styles.lead_header_txt}>
               Xcursions Travel Chronicles
             </Heading>
