@@ -27,10 +27,10 @@ const Testimonies = () => {
                 alt=""
                 className="max-w-[20px] lg:absolute lg:top-3"
               />
-              <Text className="mb-2 text-[14px] font-bold tracking-tight text-[#344054] md:text-[18px] ">
+              <p className="mb-2 font-dmSansRegular text-[14px] font-light tracking-tight text-[#344054] md:text-[16px] ">
                 Lebanon was absolutely amazing, i enjoyed my stay. Thank you
                 Xcursions
-              </Text>
+              </p>
               <Text className=" text-[18px] font-normal text-[#101828] lg:absolute lg:bottom-3">
                 Blessing
               </Text>
@@ -56,7 +56,7 @@ const Testimonies = () => {
                 alt=""
                 className="max-w-[20px] lg:absolute lg:top-3"
               />
-              <Text className="mb-2 text-[14px] font-bold tracking-tight text-[#344054] md:text-[18px] ">
+              <Text className="mb-2 font-dmSansRegular text-[14px] font-light tracking-tight text-[#344054] md:text-[16px] ">
                 Obudu was a sight to behold, and I loved the merch (bag, bottle
                 and socks). Also loved the fact that refreshments were available
                 during the trip. It was an amazing trip generally.
@@ -81,7 +81,7 @@ const Testimonies = () => {
                 alt=""
                 className="max-w-[20px] lg:absolute lg:top-3"
               />
-              <Text className="mb-2 text-[14px] font-bold tracking-tight text-[#344054] md:text-[18px] ">
+              <Text className="mb-2 font-dmSansRegular text-[14px] font-light tracking-tight text-[#344054] md:text-[16px] ">
                 Thank you Xcursions. I just touch down Abuja. I appreciate you
                 all for the wonderful experience in Kenya. So happy to have met
                 everyone i met on the trip. Gracias guys! The time was worth
@@ -102,7 +102,7 @@ const Testimonies = () => {
                 alt=""
                 className="max-w-[20px] lg:absolute lg:top-3"
               />
-              <Text className="mb-2 text-[14px] font-bold tracking-tight text-[#344054] md:text-[18px] ">
+              <Text className="mb-2 font-dmSansRegular text-[14px] font-light tracking-tight text-[#344054] md:text-[16px] ">
                 Hey Xcursions, I wanted to take a moment to say a huge thank you
                 for the incredible service and unforgettable experience. You
                 guys went above and beyond to make my trip absolutely amazing. I

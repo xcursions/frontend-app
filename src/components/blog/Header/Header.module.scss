@@ -36,15 +36,27 @@
       z-index: 1;
       color: #ffffff;
       @apply top-[-5vh];
-  
+
+      .lead_title_txt {
+        font-size: 14px;
+        background-color: #860AFF;
+        font-weight: 500;
+        width: 60px;
+        height: 28px;
+        margin-top: 158px;
+        text-align: center;
+        border-radius: 8px;
+        @apply mx-auto py-1
+      }
       .lead_header_txt {
         @apply font-dmSansBold;
         font-weight: 700;
         font-size: clamp(24px, 5.8vw, 40px);
-        margin-top: 163px;
+        // margin-top: 163px;
         line-height: 130%;
         text-align: center;
         max-width: 707px;
+        margin: 2% auto;
         position: relative;
       }
       .lead_sub_txt {

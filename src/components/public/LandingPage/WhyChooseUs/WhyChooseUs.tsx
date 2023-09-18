@@ -22,16 +22,16 @@ const WhyChooseUs = () => {
         <div className={styles.card_container}>
           <div className={styles.card}>
             <Image
-              src="/assets/images/icons/luggage.png"
+              src="/assets/images/icons/luggage1.png"
               alt="luggage icon"
               width={100}
               height={100}
               className="w-[72px] lg:h-[30%] lg:w-[100px]"
             />
             <div className={styles.text_container}>
-              <Text className={styles.card_heading}>
+              <Heading type="h3" className={styles.card_heading}>
                 Save & Travel On The Go
-              </Text>
+              </Heading>
               <Text className={styles.card_text}>
                 Automate your savings & reach your travel goals faster with our
                 “pay small small“ plan.
@@ -47,9 +47,9 @@ const WhyChooseUs = () => {
               className="w-[72px] lg:h-[30%] lg:w-[100px]"
             />
             <div className={styles.text_container}>
-              <Text className={styles.card_heading}>
+              <Heading type="h3" className={styles.card_heading}>
                 Access Vacation Options in One Click
-              </Text>
+              </Heading>
               <Text className={styles.card_text}>
                 With our wide range of budget-friendly vacation deals, you will
                 be exploring the world without breaking the bank.
@@ -65,9 +65,9 @@ const WhyChooseUs = () => {
               className="w-[72px] lg:h-[30%] lg:w-[100px]"
             />
             <div className={styles.text_container}>
-              <Text className={styles.card_heading}>
+              <Heading type="h3" className={styles.card_heading}>
                 Book Hotels Across the Globe
-              </Text>
+              </Heading>
               <Text className={styles.card_text}>
                 Hotel booking hassles are old news here. From hotels to short
                 lets, to apartments for all your vacations. We&apos;ve got you
@@ -84,9 +84,9 @@ const WhyChooseUs = () => {
               className="w-[72px] lg:h-[30%] lg:w-[100px]"
             />
             <div className={styles.text_container}>
-              <Text className={styles.card_heading}>
+              <Heading type="h3" className={styles.card_heading}>
                 Visa Application Guidance
-              </Text>
+              </Heading>
               <Text className={styles.card_text}>
                 Streamline your visa application process, ensure accuracy, and
                 maximize your chances of approval with our professional
