@@ -12,6 +12,9 @@
     align-items: center;
     justify-content: center;
     // padding: 30px;
+    @media screen and (min-width: 1020px) {
+      max-height: 90vh;
+    }
   
     &::before {
       position: absolute;
@@ -20,7 +23,7 @@
       width: 100%;
       top: 0;
       left: 0;
-      height: 83%;
+      height: 90%;
       background: url('/assets/images/landing-page/Landing_page_Header.png');
       background-size: cover;
       // background-color: #ffffff;
@@ -37,7 +40,7 @@
       width: 100%;
       bottom: 0;
       left: 0;
-      height: 17%;
+      height: 10%;
       background-size: cover;
       background-color: #ffffff;
     }
