@@ -5,9 +5,14 @@ import { IoNotificationsOutline } from "react-icons/io5";
 
 import Button from "@/components/lib/Button/Button";
 import FullPageLoader from "@/components/lib/FullPageLoader";
-import Input from "@/components/lib/Input/Input";
+// import Input from "@/components/lib/Input/Input";
 import TimeDifference from "@/components/lib/TimeDifference/TimeDifference";
-import { useAppSelector, useLogoutUser, useSuccessHandler } from "@/hooks";
+import {
+  useAppSelector,
+  useErrorHandler,
+  useLogoutUser,
+  useSuccessHandler,
+} from "@/hooks";
 import {
   useGetNotificationsQuery,
   useGetUserProfileQuery,
@@ -113,10 +118,11 @@ const NotificationList = ({ img, desc, datetime, id }: any) => {
 };
 
 const Header = ({ toggleSidebarMenu }: any) => {
-  const { data, isSuccess } = useGetUserProfileQuery();
+  const { data, isSuccess, isError, error } = useGetUserProfileQuery();
   const { auth } = useAppSelector((state) => state.user);
   const { data: notificationData, isSuccess: notificationSuccess } =
     useGetNotificationsQuery("?limit=50");
+  useErrorHandler({ isError, error });
   return (
     <>
       <section className={styles.container}>
@@ -130,13 +136,13 @@ const Header = ({ toggleSidebarMenu }: any) => {
                 <HiOutlineMenuAlt1 />
               </button>
             </li>
-            <li>
+            {/* <li>
               <Input
                 placeholder="Search for product here"
                 className="w-[330px]"
                 disabled
               />
-            </li>
+            </li> */}
           </ul>
         </div>
         <div className={styles["right-items"]}>

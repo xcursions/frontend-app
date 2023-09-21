@@ -6,7 +6,7 @@ import { useState } from "react";
 import EventCard from "@/components/lib/EventCard/EventCard";
 import Text from "@/components/lib/Text/Text";
 import TripCard from "@/components/lib/TripCard/TripCard";
-import { useAppSelector, useSuccessHandler } from "@/hooks";
+import { useAppSelector, useErrorHandler, useSuccessHandler } from "@/hooks";
 import {
   useGetAllOutingsQuery,
   useSearchOutingsQuery,
@@ -47,10 +47,25 @@ export default function Dashboard() {
       }
     },
   });
-  const { data: userProfile, isSuccess: userSuccess } =
-    useGetUserProfileQuery();
-  const { data: outingData, isSuccess: outingSuccess } =
-    useGetBookingHistoryQuery("?limit=100");
+  const {
+    data: userProfile,
+    isSuccess: userSuccess,
+    isError: isUserError,
+    error: userError,
+  } = useGetUserProfileQuery();
+  const {
+    data: outingData,
+    isSuccess: outingSuccess,
+    isError: isOutingError,
+    error: outingError,
+  } = useGetBookingHistoryQuery("?limit=100");
+
+  useErrorHandler({
+    isError: isOutingError,
+    error: outingError,
+    showToast: false,
+  });
+  useErrorHandler({ isError: isUserError, error: userError, showToast: false });
   return (
     <>
       <div className="mt-[19px] max-w-[783px] border-2">
@@ -141,7 +156,7 @@ export default function Dashboard() {
               <Text className="font-dmSansBold text-[18px] text-[#101828]">
                 Available Trips
               </Text>
-              <div className="hidden gap-5 md:flex">
+              {/* <div className="hidden gap-5 md:flex">
                 <Text className="rounded-3xl bg-[#101828] p-2 px-4 font-dmSansRegular text-[12px] text-[#FFFFFF]">
                   Most Popular
                 </Text>
@@ -151,7 +166,7 @@ export default function Dashboard() {
                 <Text className="p-2 font-dmSansRegular text-[12px] text-[#475467]">
                   Near Me
                 </Text>
-              </div>
+              </div> */}
               <Link href="/trips">
                 <Text className="p-2 font-dmSansMedium text-[12px] text-[#667084] underline">
                   view all
