@@ -38,7 +38,7 @@ const useErrorHandler = ({
 
   useEffect(() => {
     if (isError) {
-      if (error?.data?.error_code === 143) {
+      if (error?.data?.meta?.statusCode === 499) {
         dispatch(logout());
         router.push("/login");
       }
