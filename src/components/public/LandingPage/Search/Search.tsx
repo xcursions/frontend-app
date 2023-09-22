@@ -165,7 +165,9 @@ const Search = () => {
               options={type.map(
                 (option: { type: string; totalOuting: number }) => ({
                   value: option.type,
-                  label: `${option.type} (${option.totalOuting})`,
+                  label: `${
+                    option.type === "private" ? "personalize" : option.type
+                  } (${option.totalOuting})`,
                 })
               )}
               showArrow
