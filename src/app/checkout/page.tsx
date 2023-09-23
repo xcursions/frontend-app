@@ -225,7 +225,7 @@ const Page = () => {
             <div className={styles.wrapper}>
               <div className={styles.container}>
                 <div className={styles.card_container}>
-                  <div className="mx-auto max-w-[818px] rounded-2xl bg-[#ffffff] shadow-md md:mx-0">
+                  <div className="mx-auto w-full max-w-[818px] rounded-2xl bg-[#ffffff] shadow-md md:mx-0">
                     <div className="ml-[12px] mr-2 mt-[40px] md:ml-[31px]">
                       <p className={styles.back} onClick={router.back}>
                         <AiOutlineArrowLeft /> Back
@@ -353,7 +353,7 @@ const Page = () => {
                           </div>
                         </div>
                         {plan === "saving-plan" && (
-                          <div className="flex gap-3">
+                          <div className="flex flex-col-reverse gap-3 md:flex-row">
                             <div className="mt-[32px]">
                               <Text className="font-dmSansRegular text-[14px] text-[#475467]">
                                 Payment Frequency
@@ -468,7 +468,7 @@ const Page = () => {
                     </div>
                   </div>
                   <div className="flex flex-col gap-4">
-                    <div className="mx-auto max-w-[427px] rounded-2xl bg-[#ffffff] shadow-md md:mx-0">
+                    <div className="mx-auto w-full max-w-[427px] rounded-2xl bg-[#ffffff] shadow-md md:mx-0">
                       <div className="ml-[30px] mt-[40px]">
                         <Text className="font-dmSansBold text-[16px]">
                           Event Summary
@@ -529,7 +529,7 @@ const Page = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="mx-auto max-w-[427px] rounded-2xl bg-[#ffffff] shadow-md md:mx-0">
+                    <div className="mx-auto w-full max-w-[427px] rounded-2xl bg-[#ffffff] shadow-md md:mx-0">
                       <div className="ml-[30px] mt-[40px]">
                         <Text className="font-dmSansBold text-[16px]">
                           Payment

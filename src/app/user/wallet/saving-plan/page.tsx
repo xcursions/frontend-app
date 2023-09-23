@@ -27,8 +27,8 @@ const SavingPlan = () => {
   return (
     <div className="overflow-x-hidden bg-[#ffffff]">
       <Layout>
-        <div className="xl:mx-[20px]">
-          <div className="mb-[32px] mt-[44px] flex items-center gap-3 font-dmSansBold text-[24px] font-bold">
+        <div className="mx-[20px] lg:mx-[5px] xl:mx-[20px]">
+          <div className="mb-[32px] mt-[30px] flex items-center gap-3 font-dmSansBold text-[24px] font-bold">
             <p onClick={router.back} className="cursor-pointer">
               <AiOutlineArrowLeft />
             </p>

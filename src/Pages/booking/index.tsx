@@ -70,9 +70,11 @@ const Booking = () => {
                 <Text className="my-5 text-center font-dmSansMedium text-[18px] text-[#101828]">
                   Trips
                 </Text>
-                <Button className="mb-5 rounded-3xl bg-black">
-                  Check Our Trips
-                </Button>
+                <Link href="/trips">
+                  <Button className="mb-5 rounded-3xl bg-black">
+                    Check Our Trips
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>

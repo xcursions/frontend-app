@@ -96,6 +96,7 @@ export const validateForgotPasswordInputs = ({ email }: { email: string }) => {
     errors,
   };
 };
+
 export const validateVerifyForgotPasswordInputs = ({
   otpCode,
   newPassword,
@@ -120,6 +121,25 @@ export const validateVerifyForgotPasswordInputs = ({
   if (otpCode.length !== 6) errors.otpCode = "OTP must be only 6 characters";
   if (newPassword !== confirmPassword)
     errors.confirmPassword = "confirm password must match the password";
+
+  return {
+    valid: isValid(errors),
+    errors,
+  };
+};
+
+export const validateVerifyForgotPasswordOtpInputs = ({
+  otpCode,
+}: {
+  otpCode: string;
+}) => {
+  const errors = {
+    otpCode: "",
+    email: "",
+  };
+
+  if (isEmpty(otpCode)) errors.otpCode = "OTP cannot be empty";
+  if (otpCode.length !== 6) errors.otpCode = "OTP must be only 6 characters";
 
   return {
     valid: isValid(errors),

@@ -9,6 +9,7 @@ import type {
   LoginPayload,
   RegisterPayload,
   ResendOTPPayload,
+  VerifyForgotPasswordOTPPayload,
   VerifyOTPPayload,
 } from "./payload";
 
@@ -31,6 +32,16 @@ export const authApi = createApi({
     forgotPassword: builder.mutation<any, ForgotPasswordPayload>({
       query: (data) => ({
         url: "/auth/login/forgot-password",
+        method: "post",
+        data,
+      }),
+    }),
+    verifyForgotPasswordOtp: builder.mutation<
+      any,
+      VerifyForgotPasswordOTPPayload
+    >({
+      query: (data) => ({
+        url: "/auth/login/forgot-password/otp-verification",
         method: "post",
         data,
       }),
@@ -65,6 +76,7 @@ export const {
   useVerifyOTPMutation,
   useResendOTPMutation,
   useVerifyForgotPasswordMutation,
+  useVerifyForgotPasswordOtpMutation,
   useGoogleLoginMutation,
   useGoogleSignupMutation,
   useForgotPasswordMutation,
