@@ -41,7 +41,7 @@ const EventCard = ({ post, liked }: any) => {
             )}
           </div>
           <Button className="mx-2 my-3 rounded-2xl bg-white text-[#0A83FF]">
-            {`₦${Math.floor(post?.price)}`}
+            {`₦${Math.floor(post?.price).toLocaleString()}`}
           </Button>
         </div>
       </div>

@@ -207,6 +207,7 @@ const Signup = () => {
               <Input
                 label="Password"
                 name="password"
+                type="password"
                 placeholder="Enter Password"
                 value={payload.password}
                 error={!isEmpty(errors.password)}

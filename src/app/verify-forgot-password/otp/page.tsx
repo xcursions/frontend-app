@@ -6,74 +6,74 @@ import React, { useEffect, useState } from "react";
 
 import Button from "@/components/lib/Button/Button";
 import Heading from "@/components/lib/Heading/Heading";
-import Input from "@/components/lib/Input/Input";
-// import OtpInput from "@/components/lib/OtpInput/OtpInput";
+// import Input from "@/components/lib/Input/Input";
+import OtpInput from "@/components/lib/OtpInput/OtpInput";
 import Text from "@/components/lib/Text/Text";
 import Navbar from "@/components/public/Navbar";
-import { useAppSelector, useErrorHandler, useSuccessHandler } from "@/hooks";
-import { useVerifyForgotPasswordMutation } from "@/services/auth";
 import {
-  selectedUserId,
-  selectUserOtpCode,
-  selectUserOtpId,
-} from "@/store/selector/user.selector";
-import { validateVerifyForgotPasswordInputs } from "@/utils/validators";
-import { isEmpty } from "@/utils/validators/helpers";
+  useAppDispatch,
+  useAppSelector,
+  useErrorHandler,
+  useSuccessHandler,
+} from "@/hooks";
+import { useVerifyForgotPasswordOtpMutation } from "@/services/auth";
+import { selectUserEmail } from "@/store/selector/user.selector";
+import { setUserData } from "@/store/slices/userSlice";
+import { validateVerifyForgotPasswordOtpInputs } from "@/utils/validators";
+// import { isEmpty } from "@/utils/validators/helpers";
 
 const initialState = {
-  userId: "",
-  otpId: "",
+  email: "",
   otpCode: "",
-  newPassword: "",
-  confirmPassword: "",
 };
 const ForgotPassword = () => {
-  const userId = useAppSelector(selectedUserId);
-  const userOtp = useAppSelector(selectUserOtpId);
-  const otpCode = useAppSelector(selectUserOtpCode);
+  const dispatch = useAppDispatch();
+  const userEmail = useAppSelector(selectUserEmail);
   const [payload, setPayload] = useState(initialState);
   const [errors, setErrors] = useState(initialState);
   const router = useRouter();
 
-  const [login, { isLoading, isError, isSuccess, error }] =
-    useVerifyForgotPasswordMutation();
+  const [login, { isLoading, isError, isSuccess, error, data }] =
+    useVerifyForgotPasswordOtpMutation();
   useErrorHandler({ isError, error });
   useSuccessHandler({
     isSuccess,
     showToast: false,
     successFunction: () => {
-      router.push("/login");
+      if (data) {
+        dispatch(setUserData({ ...data, otpCode: payload.otpCode }));
+        router.push("/verify-forgot-password");
+      }
       return null;
     },
-    toastMessage: "Password changed successful!",
+    toastMessage: "Otp Verified",
   });
   const handleSubmit = () => {
     setErrors(initialState);
 
     const { valid, errors: validationErrors } =
-      validateVerifyForgotPasswordInputs(payload);
+      validateVerifyForgotPasswordOtpInputs(payload);
 
     if (valid) {
       login(payload);
     } else {
+      console.log(errors);
       setErrors(validationErrors);
     }
   };
   useEffect(() => {
-    if (userId && userOtp && otpCode) {
+    if (userEmail) {
       setPayload((prevPayload) => ({
         ...prevPayload,
         // eslint-disable-next-line object-shorthand
-        userId: userId,
-        otpId: userOtp,
-        otpCode,
+        email: userEmail,
       }));
     }
   }, []);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPayload({ ...payload, [event.target.name]: event.target.value });
-  };
+  //   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //     setPayload({ ...payload, [event.target.name]: event.target.value });
+  //   };
   return (
     <div className="w-full  overflow-hidden bg-[#FFFFFF]">
       <div className="flex">
@@ -113,7 +113,7 @@ const ForgotPassword = () => {
               A verification code has been sent to your email
             </Text>
             <div className="flex w-[342px] flex-col gap-4 md:w-[402px]">
-              {/* <OtpInput
+              <OtpInput
                 value={payload.otpCode}
                 valueLength={6}
                 onChange={(value: string) =>
@@ -122,26 +122,6 @@ const ForgotPassword = () => {
                     otpCode: value,
                   }))
                 }
-              /> */}
-              <Input
-                label="Password"
-                name="newPassword"
-                placeholder="Enter Password"
-                type="password"
-                value={payload.newPassword}
-                error={!isEmpty(errors.newPassword)}
-                helperText={errors.newPassword}
-                onChange={handleChange}
-              />
-              <Input
-                label="Confirm Password"
-                placeholder="*******"
-                type="password"
-                name="confirmPassword"
-                value={payload.confirmPassword}
-                error={!isEmpty(errors.confirmPassword)}
-                helperText={errors.confirmPassword}
-                onChange={handleChange}
               />
               <Button
                 onClick={handleSubmit}

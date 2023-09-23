@@ -23,6 +23,10 @@ export type ForgotPasswordPayload = {
   email: string;
 };
 
+export type VerifyForgotPasswordOTPPayload = {
+  email: string;
+  otpCode: string;
+};
 export type ForgotPasswordOTPPayload = {
   userId: string;
   otpId: string;

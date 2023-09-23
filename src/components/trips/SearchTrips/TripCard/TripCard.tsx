@@ -34,7 +34,7 @@ const TripCard = ({ post }: any) => {
           <Text>{post.name}</Text>
           <Text className="text-[16px] text-[#0A83FF]">{`₦${Math.floor(
             post.price
-          )}`}</Text>
+          ).toLocaleString()}`}</Text>
         </div>
       </div>
     </div>

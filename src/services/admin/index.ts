@@ -86,6 +86,17 @@ export const adminApi = createApi({
       }),
       invalidatesTags: ["Admin"],
     }),
+    updateChargePlan: builder.mutation<
+      any,
+      { query: string; data: CreateOutingChargePlanPayload }
+    >({
+      query: ({ query, data }) => ({
+        url: `/outing/outings/charge-plans/${query}`,
+        method: "put",
+        data,
+      }),
+      invalidatesTags: ["Admin"],
+    }),
     getChargePlan: builder.query<any, any>({
       query: (query) => ({
         url: `/outing/outings/${query}/charge-plans`,
@@ -240,6 +251,7 @@ export const {
   useCreateOutingDestinationMutation,
   useCreateOutingPickupMutation,
   useCreateChargePlanMutation,
+  useUpdateChargePlanMutation,
   useCreateOutingAddonMutation,
   useDeleteOutingAddonMutation,
   useGetOutingAddonsQuery,

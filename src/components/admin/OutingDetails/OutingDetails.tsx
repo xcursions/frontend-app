@@ -16,6 +16,7 @@ import Button from "@/components/lib/Button/Button";
 import { formatDatesRange } from "@/components/lib/FormatWeekRange/FormatWeekRage";
 import Heading from "@/components/lib/Heading/Heading";
 import Input from "@/components/lib/Input/Input";
+import Select from "@/components/lib/Select";
 import Text from "@/components/lib/Text/Text";
 import TextArea from "@/components/lib/TextArea/TextArea";
 import Addon from "@/components/trips/Addon/Addon";
@@ -39,6 +40,7 @@ import {
   useGetChargePlanQuery,
   useGetOutingAddonsQuery,
   useGetReviewsQuery,
+  useUpdateChargePlanMutation,
   useUpdateOutingMutation,
 } from "@/services/admin";
 import type { OutingProps } from "@/types";
@@ -84,6 +86,17 @@ const outingDateState = {
   startDate: "",
   endDate: "",
 };
+
+const continent = [
+  { value: "Africa", label: "Africa" },
+  { value: "Asia", label: "Asia" },
+  { value: "Antarctica", label: "Antarctica" },
+  { value: "Australia", label: "Australia" },
+  { value: "Europe", label: "Europe" },
+  { value: "North America", label: "North America" },
+  { value: "South America", label: "South America" },
+];
+
 const OutingDetails = ({ detailsData }: Props) => {
   const [chargePlanPayload, setChargePlanPayload] = useState(chargePlanState);
   const [showInLandingPage, setShowInLandingPage] = useState(
@@ -111,7 +124,6 @@ const OutingDetails = ({ detailsData }: Props) => {
       setPickupPayload({
         ...pickupPayload,
         city: detailsData?.outingPickup?.city,
-        state: detailsData?.outingPickup?.state,
         country: detailsData?.outingPickup?.country,
         continent: detailsData.outingPickup?.continent,
         location: detailsData?.outingPickup?.location,
@@ -121,7 +133,6 @@ const OutingDetails = ({ detailsData }: Props) => {
       setDestinationPayload({
         ...destinationPayload,
         city: detailsData?.outingDestination?.city,
-        state: detailsData?.outingDestination?.state,
         country: detailsData?.outingDestination?.country,
         continent: detailsData?.outingDestination?.continent,
         location: detailsData?.outingDestination?.location,
@@ -238,6 +249,15 @@ const OutingDetails = ({ detailsData }: Props) => {
     },
   ] = useCreateChargePlanMutation();
   const [
+    updateChargePlan,
+    {
+      isLoading: updateChargePlanLoading,
+      isSuccess: updateChargePlanSuccess,
+      isError: isUpdateChargePlanError,
+      error: updateChargePlanError,
+    },
+  ] = useUpdateChargePlanMutation();
+  const [
     createAddon,
     {
       data: addonData,
@@ -329,6 +349,10 @@ const OutingDetails = ({ detailsData }: Props) => {
     isError: isChargePlanError,
     error: chargePlanError,
   });
+  useErrorHandler({
+    isError: isUpdateChargePlanError,
+    error: updateChargePlanError,
+  });
   useSuccessHandler({
     isSuccess,
     toastMessage: "Image uploaded successfully",
@@ -388,6 +412,10 @@ const OutingDetails = ({ detailsData }: Props) => {
     isSuccess: chargePlanSuccess,
     toastMessage: "Charge Plan Created successfully",
   });
+  useSuccessHandler({
+    isSuccess: updateChargePlanSuccess,
+    toastMessage: "Charge Plan Updated successfully",
+  });
   useErrorHandler({
     isError: isDestinationError,
     error: destinationError,
@@ -429,7 +457,11 @@ const OutingDetails = ({ detailsData }: Props) => {
     uploadPickup({ query: id, data: pickupPayload });
   };
   const handleChargePlanSubmit = () => {
-    createChargePlan({ query: id, data: chargePlanPayload });
+    if (getChargePlanDataSuccess && chargePlanData) {
+      updateChargePlan({ query: chargePlanData.id, data: chargePlanPayload });
+    } else {
+      createChargePlan({ query: id, data: chargePlanPayload });
+    }
   };
   const toggleModal = () => {
     setIsOpen(!isOpen);
@@ -878,17 +910,21 @@ const OutingDetails = ({ detailsData }: Props) => {
                     setPickupPayload({ ...pickupPayload, city: e.target.value })
                   }
                 />
-                <Input
+                <Select
                   label="Pickup Continent"
-                  placeholder="Enter pickup Continent"
+                  placeholder="Select Pickup Continent"
                   className="w-full"
                   value={pickupPayload.continent}
-                  onChange={(e) =>
+                  onChange={(event) =>
                     setPickupPayload({
                       ...pickupPayload,
-                      continent: e.target.value,
+                      continent: event.value,
                     })
                   }
+                  options={continent.map((options) => ({
+                    value: options.value,
+                    label: options.label,
+                  }))}
                 />
                 <Input
                   label="Pickup Country"
@@ -935,16 +971,21 @@ const OutingDetails = ({ detailsData }: Props) => {
                     })
                   }
                 />
-                <Input
+                <Select
                   label="Destination Continent"
-                  placeholder="Enter Destination Continent"
+                  placeholder="Select Destination Continent"
+                  className="w-full"
                   value={destinationPayload.continent}
-                  onChange={(e) =>
+                  onChange={(event) =>
                     setDestinationPayload({
                       ...destinationPayload,
-                      continent: e.target.value,
+                      continent: event.value,
                     })
                   }
+                  options={continent.map((options) => ({
+                    value: options.value,
+                    label: options.label,
+                  }))}
                 />
                 <Input
                   label="Destination Country"
@@ -1090,9 +1131,9 @@ const OutingDetails = ({ detailsData }: Props) => {
                 <Button
                   className="my-3 w-full rounded-3xl"
                   onClick={handleChargePlanSubmit}
-                  loading={chargePlanLoading}
+                  loading={chargePlanLoading || updateChargePlanLoading}
                 >
-                  Create Charge Plan
+                  {getChargePlanDataSuccess ? "Update" : "Create"} Charge Plan
                 </Button>
               </div>
             </div>

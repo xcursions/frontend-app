@@ -9,6 +9,14 @@ export const selectUserOtpId = createSelector(
   selectUser,
   (user) => user?.otpId
 );
+export const selectUserEmail = createSelector(
+  selectUser,
+  (user) => user?.email
+);
+export const selectUserOtpCode = createSelector(
+  selectUser,
+  (user) => user?.otpCode
+);
 export const selectedUserId = createSelector(
   selectUser,
   (user) => user?.userId || user?.id
