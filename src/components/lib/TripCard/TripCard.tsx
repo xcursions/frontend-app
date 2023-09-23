@@ -30,7 +30,7 @@ const TripCard = ({ post, liked }: any) => {
             {post.name}
           </Text>
           <Text className="font-dmSansBold text-[16px] text-[#101828]">
-            {`₦${Math.floor(post.price)}`}
+            {`₦${Math.floor(post.price).toLocaleString()}`}
           </Text>
         </div>
       </div>

@@ -2,6 +2,7 @@ type IUser = {
   id: string;
   userId?: string;
   otpId?: string;
+  otpCode?: string;
   emailVerified: boolean;
   suspended: boolean;
   role: string;

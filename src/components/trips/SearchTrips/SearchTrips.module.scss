@@ -2,7 +2,7 @@
     @apply w-full px-5 py-5
 }
 .container {
-    @apply max-w-[1241px] mx-auto relative;
+    @apply max-w-[1241px] min-h-[400px] mx-auto relative;
   }
   .input_span {
     @apply absolute inset-y-0 left-0 pl-3 flex items-center text-[12px] text-[#667084];

@@ -32,8 +32,8 @@ const ForgotPassword = () => {
     showToast: false,
     successFunction: () => {
       if (data?.data) {
-        dispatch(setUserData(data?.data));
-        router.push("/verify-forgot-password");
+        dispatch(setUserData({ ...data?.data, email: payload.email }));
+        router.push("/verify-forgot-password/otp");
       }
       return null;
     },

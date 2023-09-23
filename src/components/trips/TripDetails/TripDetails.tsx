@@ -326,7 +326,7 @@ const TripDetails = ({ detailsData }: Props) => {
                         : "bg-gray-200 text-[#667084]"
                     } cursor-pointer`}
                   >
-                    Private Trip
+                    Pesonalized Trip
                   </div>
                   <div
                     onClick={() => handleSelect("group")}
