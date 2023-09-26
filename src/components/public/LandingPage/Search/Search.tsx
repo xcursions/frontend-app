@@ -159,7 +159,7 @@ const Search = () => {
             <Select
               placeholder={"Select Type"}
               label="Trip Type"
-              startIcon={"/assets/images/landing-page/map.png"}
+              startIcon={"/assets/images/icons/plane.png"}
               value={queryType}
               onChange={(event) => setQueryType(event.value)}
               options={type.map(
