@@ -128,7 +128,7 @@ const ForgotPassword = () => {
                 loading={isLoading}
                 className="w-full rounded-3xl bg-[#0A83FF] text-[16px]"
               >
-                Verify
+                Verify Code
               </Button>
             </div>
             <Text className="my-3 text-center text-[14px] text-[#667084]">
