@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 import Button from "@/components/lib/Button/Button";
@@ -33,18 +32,17 @@ const ForgotPassword = () => {
   const otpCode = useAppSelector(selectUserOtpCode);
   const [payload, setPayload] = useState(initialState);
   const [errors, setErrors] = useState(initialState);
-  const router = useRouter();
 
   const [login, { isLoading, isError, isSuccess, error }] =
     useVerifyForgotPasswordMutation();
   useErrorHandler({ isError, error });
   useSuccessHandler({
     isSuccess,
-    showToast: false,
-    successFunction: () => {
-      router.push("/login");
-      return null;
-    },
+    showToast: true,
+    // successFunction: () => {
+    //   router.push("/login");
+    //   return null;
+    // },
     toastMessage: "Password changed successful!",
   });
   const handleSubmit = () => {
@@ -103,17 +101,46 @@ const ForgotPassword = () => {
         </div>
         <div className="m-auto mt-16 content-center items-center justify-center lg:mt-auto">
           <div className="m-auto mt-8 items-center justify-center px-3 lg:mt-4">
-            <Heading
-              type="h1"
-              className="m-auto text-center font-dmSansBold text-[24px]"
-            >
-              Verify your account
-            </Heading>
-            <Text className="text-center text-[14px] text-[#667084]">
-              A verification code has been sent to your email
-            </Text>
-            <div className="flex w-[342px] flex-col gap-4 md:w-[402px]">
-              {/* <OtpInput
+            <img
+              src="/assets/images/PASSPORT.png"
+              alt="login image"
+              className="mx-auto h-[120px] w-[90px] items-center pb-3"
+            />
+            {isSuccess ? (
+              <div className="flex w-[342px] flex-col gap-4 md:w-[402px]">
+                <Heading
+                  type="h1"
+                  className="m-auto text-center font-dmSansBold text-[24px]"
+                >
+                  Reset Password Sucessfully
+                </Heading>
+                <Text className="text-center text-[14px] text-[#667084]">
+                  Account created successfully! Login with your email and
+                  password. Keep your login details secure. Thank you for
+                  choosing us!
+                </Text>
+                <Link href="/login">
+                  <Button className="w-full rounded-3xl">
+                    Proceed to login
+                  </Button>
+                </Link>
+              </div>
+            ) : (
+              <div>
+                <Heading
+                  type="h1"
+                  className="m-auto text-center font-dmSansBold text-[24px]"
+                >
+                  Reset password
+                </Heading>
+                <Text className="text-center text-[14px] text-[#667084]">
+                  Securely reset your password in just a few clicks!
+                </Text>
+              </div>
+            )}
+            {!isSuccess && (
+              <div className="flex w-[342px] flex-col gap-4 md:w-[402px]">
+                {/* <OtpInput
                 value={payload.otpCode}
                 valueLength={6}
                 onChange={(value: string) =>
@@ -123,40 +150,41 @@ const ForgotPassword = () => {
                   }))
                 }
               /> */}
-              <Input
-                label="Password"
-                name="newPassword"
-                placeholder="Enter Password"
-                type="password"
-                value={payload.newPassword}
-                error={!isEmpty(errors.newPassword)}
-                helperText={errors.newPassword}
-                onChange={handleChange}
-              />
-              <Input
-                label="Confirm Password"
-                placeholder="*******"
-                type="password"
-                name="confirmPassword"
-                value={payload.confirmPassword}
-                error={!isEmpty(errors.confirmPassword)}
-                helperText={errors.confirmPassword}
-                onChange={handleChange}
-              />
-              <Button
-                onClick={handleSubmit}
-                loading={isLoading}
-                className="w-full rounded-3xl bg-[#0A83FF] text-[16px]"
-              >
-                Verify
-              </Button>
-            </div>
-            <Text className="my-3 text-center text-[14px] text-[#667084]">
+                <Input
+                  label="Password"
+                  name="newPassword"
+                  placeholder="Enter Password"
+                  type="password"
+                  value={payload.newPassword}
+                  error={!isEmpty(errors.newPassword)}
+                  helperText={errors.newPassword}
+                  onChange={handleChange}
+                />
+                <Input
+                  label="Confirm Password"
+                  placeholder="*******"
+                  type="password"
+                  name="confirmPassword"
+                  value={payload.confirmPassword}
+                  error={!isEmpty(errors.confirmPassword)}
+                  helperText={errors.confirmPassword}
+                  onChange={handleChange}
+                />
+                <Button
+                  onClick={handleSubmit}
+                  loading={isLoading}
+                  className="w-full rounded-3xl bg-[#0A83FF] text-[16px]"
+                >
+                  Save Password
+                </Button>
+              </div>
+            )}
+            {/* <Text className="my-3 text-center text-[14px] text-[#667084]">
               Dont have an account yet.
               <Link href="/signup">
                 <span className="text-[#0A83FF]">Create account</span>
               </Link>
-            </Text>
+            </Text> */}
           </div>
         </div>
       </div>
