@@ -121,7 +121,7 @@ const Page = () => {
     outingData.result.map((res: OutingProps) => {
       return {
         trip: res.name,
-        amount: res.price,
+        amount: res.outingChargePlan?.singleOccupancyAmount || "no price set",
         id: res.id,
         viewBy: res.viewCount,
         createdAt: res.createdAt.split("T")[0],

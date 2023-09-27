@@ -3,10 +3,14 @@ import { AiOutlineHeart } from "react-icons/ai";
 
 import Button from "@/components/lib/Button";
 import Text from "@/components/lib/Text";
+import type { OutingProps } from "@/types";
 
 import styles from "./EventCard.module.scss";
 
-const EventCard = ({ post }: any) => {
+type Props = {
+  post: OutingProps;
+};
+const EventCard = ({ post }: Props) => {
   const formatedDate = (date: string) => {
     const dob = new Date(date);
     const dobArr = dob.toDateString().split(" ");
@@ -39,7 +43,10 @@ const EventCard = ({ post }: any) => {
             </Text>
           </div>
           <Button className="mx-2 rounded-2xl bg-white text-[#0A83FF]">
-            {`₦${Math.floor(post.price).toLocaleString()}`}
+            {`₦${parseInt(
+              post?.outingChargePlan?.singleOccupancyAmount,
+              10
+            ).toLocaleString()}`}
           </Button>
         </div>
       </div>

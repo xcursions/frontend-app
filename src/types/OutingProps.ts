@@ -16,11 +16,33 @@ type OutingProps = {
   defaultOutingDurationInDays: number;
   showInLandingPage: boolean;
   outingDestination: OutingDestination;
+  outingChargePlan: OutingChargePlan;
   outingGallery: OutingGallery[];
   outingDate: OutingDate[];
   outingPickup: OutingPickup;
 };
 export default OutingProps;
+
+type OutingChargePlan = {
+  title: string;
+  description: string;
+  currency: string;
+  cost: string;
+  adultMultiplier: number;
+  infantMultiplier: number;
+  childrenMultiplier: number;
+  petMultiplier: number;
+  quantity: number;
+  singleOccupancyAmount: string;
+  perPersonSharingAmount: string;
+  extraDurationCostPerDay: string;
+  initialPaymentPercent: number;
+  outingId: string;
+  id: string;
+  deletedAt: string;
+  updatedAt: string;
+  createdAt: string;
+};
 
 type OutingDestination = {
   city: string;

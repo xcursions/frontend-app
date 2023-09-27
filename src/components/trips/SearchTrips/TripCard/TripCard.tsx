@@ -2,17 +2,14 @@ import React from "react";
 import { AiOutlineHeart } from "react-icons/ai";
 
 import Text from "@/components/lib/Text/Text";
+import type OutingProps from "@/types/OutingProps";
 
 import styles from "./TripCard.module.scss";
 
-// type Props = {
-//   post: {
-//     url: string;
-//     location: string;
-//     price: string;
-//   };
-// };
-const TripCard = ({ post }: any) => {
+type Props = {
+  post: OutingProps;
+};
+const TripCard = ({ post }: Props) => {
   const featuredImage = post.outingGallery.find(
     (item: { featured: any }) => item.featured
   );
@@ -32,8 +29,9 @@ const TripCard = ({ post }: any) => {
         </div>
         <div>
           <Text>{post.name}</Text>
-          <Text className="text-[16px] text-[#0A83FF]">{`₦${Math.floor(
-            post.price
+          <Text className="text-[16px] text-[#0A83FF]">{`₦${parseInt(
+            post?.outingChargePlan?.singleOccupancyAmount,
+            10
           ).toLocaleString()}`}</Text>
         </div>
       </div>
