@@ -2,13 +2,13 @@
     @apply w-full items-start bg-[#FFFFFF] justify-start overflow-x-hidden overflow-y-hidden;
   }
   .container {
-    @apply relative my-[90px] lg:my-[150px] xl:my-[120px] mx-auto flex w-full max-w-[1112px] flex-col gap-[24px];
+    @apply relative my-[90px] lg:my-[150px] xl:my-[120px] mx-auto flex w-full max-w-[1160px] flex-col gap-[24px];
   }
   .heading {
     @apply text-center items-center text-[24px] md:font-[30px] font-bold lg:text-[36px]
   }
   .card_container {
-    @apply mx-auto mt-[30px] lg:gap-[24px] p-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4;
+    @apply mx-auto mt-[30px] lg:gap-[14px]  p-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4;
   }
   .card {
     margin: 4px;
