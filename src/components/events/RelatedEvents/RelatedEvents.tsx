@@ -5,6 +5,7 @@ import React from "react";
 
 import Heading from "@/components/lib/Heading";
 import { useSearchOutingsQuery } from "@/services/public";
+import type { OutingProps } from "@/types";
 
 import EventCard from "../SearchEvents/EventCard/EventCard";
 
@@ -23,7 +24,7 @@ const RelatedEvents = () => {
             }}
           >
             {eventSuccess &&
-              eventData.result?.map((post: { id: any }) => (
+              eventData.result?.map((post: OutingProps) => (
                 <Link href={`/events/${post.id}`} key={`${post.id}`}>
                   <EventCard post={post} />
                 </Link>

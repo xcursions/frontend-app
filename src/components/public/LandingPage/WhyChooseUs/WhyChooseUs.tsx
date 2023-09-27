@@ -108,7 +108,7 @@ const WhyChooseUs = () => {
               (res: { showInLandingPage: any }) => res.showInLandingPage
             ).length > 0 && (
               <div className="content-center justify-center pb-10 pt-[78px]">
-                <Text className="items-center justify-center text-center font-dmSansRegular text-[12px] text-[#0A83FF]">
+                <Text className="items-center justify-center text-center font-dmSansBold text-[12px] font-bold text-[#0A83FF]">
                   OUR TRIPS
                 </Text>
                 <Text className="items-center justify-center text-center font-dmSansBold text-[24px] text-[#101828] lg:text-[36px]">

@@ -2,11 +2,17 @@ import React from "react";
 import { GrFavorite } from "react-icons/gr";
 import { MdFavorite } from "react-icons/md";
 
+import type { OutingProps } from "@/types";
+
 import Button from "../Button";
 import Text from "../Text";
 import styles from "./EventCard.module.scss";
 
-const EventCard = ({ post, liked }: any) => {
+type Props = {
+  post: OutingProps;
+  liked?: any;
+};
+const EventCard = ({ post, liked }: Props) => {
   const formatedDate = (date: string) => {
     const dob = new Date(date);
     const dobArr = dob.toDateString().split(" ");
@@ -41,7 +47,10 @@ const EventCard = ({ post, liked }: any) => {
             )}
           </div>
           <Button className="mx-2 my-3 rounded-2xl bg-white text-[#0A83FF]">
-            {`₦${Math.floor(post?.price).toLocaleString()}`}
+            {`₦${parseInt(
+              post?.outingChargePlan?.singleOccupancyAmount || post?.price,
+              10
+            ).toLocaleString()}`}
           </Button>
         </div>
       </div>

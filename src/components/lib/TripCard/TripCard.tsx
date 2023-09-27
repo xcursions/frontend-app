@@ -3,17 +3,15 @@ import { GrFavorite } from "react-icons/gr";
 import { MdFavorite } from "react-icons/md";
 
 import Text from "@/components/lib/Text/Text";
+import type OutingProps from "@/types/OutingProps";
 
 import styles from "./TripCard.module.scss";
 
-// type Props = {
-//   post: {
-//     url: string;
-//     location: string;
-//     price: string;
-//   };
-// };
-const TripCard = ({ post, liked }: any) => {
+type Props = {
+  post: OutingProps;
+  liked?: any;
+};
+const TripCard = ({ post, liked }: Props) => {
   return (
     <div className={styles.card_container}>
       <div className={styles.card_image}>
@@ -30,7 +28,10 @@ const TripCard = ({ post, liked }: any) => {
             {post.name}
           </Text>
           <Text className="font-dmSansBold text-[16px] text-[#101828]">
-            {`₦${Math.floor(post.price).toLocaleString()}`}
+            {`₦${parseInt(
+              post?.outingChargePlan?.singleOccupancyAmount || post?.price,
+              10
+            ).toLocaleString()}`}
           </Text>
         </div>
       </div>

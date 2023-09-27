@@ -6,7 +6,6 @@ import React, { useEffect, useState } from "react";
 
 import Button from "@/components/lib/Button/Button";
 import Heading from "@/components/lib/Heading/Heading";
-// import Input from "@/components/lib/Input/Input";
 import OtpInput from "@/components/lib/OtpInput/OtpInput";
 import Text from "@/components/lib/Text/Text";
 import Navbar from "@/components/public/Navbar";
@@ -20,7 +19,6 @@ import { useVerifyForgotPasswordOtpMutation } from "@/services/auth";
 import { selectUserEmail } from "@/store/selector/user.selector";
 import { setUserData } from "@/store/slices/userSlice";
 import { validateVerifyForgotPasswordOtpInputs } from "@/utils/validators";
-// import { isEmpty } from "@/utils/validators/helpers";
 
 const initialState = {
   email: "",
@@ -70,10 +68,6 @@ const ForgotPassword = () => {
       }));
     }
   }, []);
-
-  //   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //     setPayload({ ...payload, [event.target.name]: event.target.value });
-  //   };
   return (
     <div className="w-full  overflow-hidden bg-[#FFFFFF]">
       <div className="flex">

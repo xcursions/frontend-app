@@ -16,6 +16,7 @@ import {
   useGetUserProfileQuery,
   useGetWalletBalanceQuery,
 } from "@/services/user";
+import type { OutingProps } from "@/types";
 import HeaderSection from "@/ui-components/HeaderSection";
 import Section from "@/ui-components/Section";
 
@@ -193,7 +194,7 @@ export default function Dashboard() {
               }}
             >
               {isSuccess &&
-                trips.result?.map((post: { id: any }) => (
+                trips.result?.map((post: OutingProps) => (
                   <Link href={`/trips/${post.id}`} key={`${post.id}`}>
                     <TripCard post={post} />
                   </Link>
@@ -218,7 +219,7 @@ export default function Dashboard() {
               }}
             >
               {eventSuccess &&
-                events.result?.map((post: { id: any }) => (
+                events.result?.map((post: OutingProps) => (
                   <Link href={`/events/${post.id}`} key={`${post.id}`}>
                     <EventCard post={post} />
                   </Link>
