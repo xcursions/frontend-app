@@ -9,7 +9,7 @@ import styles from "./TripCard.module.scss";
 
 type Props = {
   post: OutingProps;
-  liked: any;
+  liked?: any;
 };
 const TripCard = ({ post, liked }: Props) => {
   return (
@@ -29,7 +29,7 @@ const TripCard = ({ post, liked }: Props) => {
           </Text>
           <Text className="font-dmSansBold text-[16px] text-[#101828]">
             {`₦${parseInt(
-              post?.outingChargePlan?.singleOccupancyAmount,
+              post?.outingChargePlan?.singleOccupancyAmount || post?.price,
               10
             ).toLocaleString()}`}
           </Text>

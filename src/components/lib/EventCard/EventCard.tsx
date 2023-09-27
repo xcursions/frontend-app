@@ -10,7 +10,7 @@ import styles from "./EventCard.module.scss";
 
 type Props = {
   post: OutingProps;
-  liked: any;
+  liked?: any;
 };
 const EventCard = ({ post, liked }: Props) => {
   const formatedDate = (date: string) => {
@@ -48,7 +48,7 @@ const EventCard = ({ post, liked }: Props) => {
           </div>
           <Button className="mx-2 my-3 rounded-2xl bg-white text-[#0A83FF]">
             {`₦${parseInt(
-              post?.outingChargePlan?.singleOccupancyAmount,
+              post?.outingChargePlan?.singleOccupancyAmount || post?.price,
               10
             ).toLocaleString()}`}
           </Button>
