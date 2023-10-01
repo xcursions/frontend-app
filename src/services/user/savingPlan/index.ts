@@ -2,6 +2,8 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 
 import axiosBaseQuery from "@/utils/api/baseQuery";
 
+import type { FlightPayload } from "../payload";
+
 export const savingPlanApi = createApi({
   reducerPath: "savingPlanApi",
   baseQuery: axiosBaseQuery(),
@@ -16,15 +18,24 @@ export const savingPlanApi = createApi({
       invalidatesTags: ["SavingPlan"],
     }),
     getUpcomingPayment: builder.query<any, void>({
-      query: (data) => ({
+      query: () => ({
         url: "/saving-plan/upcoming-payments?limit=20",
         method: "get",
-        data,
       }),
       providesTags: ["SavingPlan"],
+    }),
+    createFlightBooking: builder.mutation<any, FlightPayload>({
+      query: (data) => ({
+        url: `/booking/bookings/flight`,
+        method: "post",
+        data,
+      }),
     }),
   }),
 });
 
-export const { useGetSavingPlanSummaryMutation, useGetUpcomingPaymentQuery } =
-  savingPlanApi;
+export const {
+  useGetSavingPlanSummaryMutation,
+  useGetUpcomingPaymentQuery,
+  useCreateFlightBookingMutation,
+} = savingPlanApi;
