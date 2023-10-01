@@ -10,6 +10,7 @@ import type InputProps from "./InputProps";
 
 const Input: FC<InputProps> = ({
   startIcon,
+  icon,
   endIcon,
   label,
   error,
@@ -37,6 +38,11 @@ const Input: FC<InputProps> = ({
               className={`${styles.icon} ${styles.icon__start} ml-3 rounded-lg bg-white`}
             >
               <BsSearch className={`text-xl font-extrabold`} />
+            </div>
+          )}
+          {icon && (
+            <div className={`${styles.icon} ml-3 rounded-lg bg-white`}>
+              <img src={icon} alt="icon" className="" />
             </div>
           )}
           <input

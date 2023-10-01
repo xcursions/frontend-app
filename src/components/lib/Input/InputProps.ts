@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 
 export default interface InputProps extends React.HTMLProps<HTMLInputElement> {
   startIcon?: boolean;
+  icon?: string;
   endIcon?: ReactNode;
   label?: string;
   error?: boolean;

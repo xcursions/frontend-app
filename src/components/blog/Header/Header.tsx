@@ -121,51 +121,53 @@ const Header = () => {
         </div>
       </div>
       <div className=" mx-[5%] mb-[50px] mt-[90px] xl:mx-[8%]">
-        <div className={styles.card_container}>
-          {blogData.map((res) => (
-            <div key={res.id} className="cursor-pointer">
-              <Link href={`/blog/${res.id}`}>
-                <Image
-                  width={800}
-                  height={415}
-                  src={res.blogFeaturedImage.image}
-                  alt="featured blog"
-                  className={styles.image}
-                />
-              </Link>
-              <Text className="mt-[20px]  items-center font-dmSansRegular text-[14px] text-[#0A83FF] lg:text-[16px] ">
-                {formatedDate(res.createdAt)}
-              </Text>
-              <Link href={`/blog/${res.id}`}>
-                <Heading
-                  type="h3"
-                  className="max-w-[350px] cursor-pointer font-dmSansBold text-[18px] lg:text-[21px]"
-                >
-                  {res.title}
-                </Heading>
-              </Link>
-              <div className="mt-[10px] flex gap-[8px]">
-                {res.categories.map((info) => (
-                  <span
-                    key={info.id}
-                    className="max-w-[350px] rounded-[8px] bg-[#F2F4F7] px-2 py-1 text-[12px] text-[#475467]"
+        <div className=" mx-auto max-w-[1440px]">
+          <div className={styles.card_container}>
+            {blogData.map((res) => (
+              <div key={res.id} className="cursor-pointer">
+                <Link href={`/blog/${res.id}`}>
+                  <Image
+                    width={800}
+                    height={415}
+                    src={res.blogFeaturedImage.image}
+                    alt="featured blog"
+                    className={styles.image}
+                  />
+                </Link>
+                <Text className="mt-[20px]  items-center font-dmSansRegular text-[14px] text-[#0A83FF] lg:text-[16px] ">
+                  {formatedDate(res.createdAt)}
+                </Text>
+                <Link href={`/blog/${res.id}`}>
+                  <Heading
+                    type="h3"
+                    className="max-w-[350px] cursor-pointer font-dmSansBold text-[18px] lg:text-[21px]"
                   >
-                    {info.name}
-                  </span>
-                ))}
+                    {res.title}
+                  </Heading>
+                </Link>
+                <div className="mt-[10px] flex gap-[8px]">
+                  {res.categories.map((info) => (
+                    <span
+                      key={info.id}
+                      className="max-w-[350px] rounded-[8px] bg-[#F2F4F7] px-2 py-1 text-[12px] text-[#475467]"
+                    >
+                      {info.name}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+          {blogSuccess && blogDetails && (
+            <Pagination
+              className="pagination-bar my-8"
+              currentPage={currentPage}
+              totalCount={blogDetails?.totalElements}
+              pageLimit={pageLimit}
+              onPageChange={(v) => setCurrentPage(v)}
+            />
+          )}
         </div>
-        {blogSuccess && blogDetails && (
-          <Pagination
-            className="pagination-bar my-8"
-            currentPage={currentPage}
-            totalCount={blogDetails?.totalElements}
-            pageLimit={pageLimit}
-            onPageChange={(v) => setCurrentPage(v)}
-          />
-        )}
       </div>
     </>
   );

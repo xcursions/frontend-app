@@ -2,20 +2,79 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import type { ChangeEvent } from "react";
+import React, { useState } from "react";
 
 import Button from "@/components/lib/Button/Button";
 import Heading from "@/components/lib/Heading";
+import Input from "@/components/lib/Input";
+import Select from "@/components/lib/Select";
 import Text from "@/components/lib/Text";
 import { DataTable } from "@/components/ui/data-table";
+import { useErrorHandler, useSuccessHandler } from "@/hooks";
 import { useGetBookingHistoryQuery } from "@/services/user";
+import { useCreateFlightBookingMutation } from "@/services/user/savingPlan";
 
 import styles from "./booking.module.scss";
 import { columns } from "./services/Colums";
 
+const initialState = {
+  numOfAdults: "0",
+  numOfChildren: "0",
+  numOfInfants: "0",
+  type: "round-trip",
+  class: "",
+  travelFrom: "",
+  travelTo: "",
+  departureDate: "",
+  arrivalDate: "",
+};
+
+const price = [
+  { value: "0", label: 0 },
+  { value: "1", label: 1 },
+  { value: "2", label: 2 },
+  { value: "3", label: 3 },
+  { value: "4", label: 4 },
+  { value: "5", label: 5 },
+];
+const flightClass = [
+  { value: "economy", label: " Economy" },
+  { value: "premium-economy", label: " Premium Economy" },
+  { value: "business", label: "Business" },
+  { value: "first", label: "First" },
+];
+
 const Booking = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [payload, setPayload] = useState(initialState);
+  const [isRoundTrip, setIsRoundTrip] = useState(true);
   const { data: bookingHistory, isSuccess: bookingHistorySuccess } =
     useGetBookingHistoryQuery(`?limit=6`);
+  const [
+    bookFlight,
+    {
+      isError: isFlightError,
+      error: flightError,
+      isSuccess: isFlightSuccess,
+      isLoading: flightLoading,
+    },
+  ] = useCreateFlightBookingMutation();
+
+  const handleModal = () => {
+    setIsOpen(!isOpen);
+  };
+  const handleSubmit = () => {
+    bookFlight(payload);
+  };
+  useSuccessHandler({
+    isSuccess: isFlightSuccess,
+    successFunction: () => {
+      setIsOpen(false);
+    },
+    toastMessage: "Successful",
+  });
+  useErrorHandler({ isError: isFlightError, error: flightError });
 
   const data =
     bookingHistorySuccess &&
@@ -32,7 +91,7 @@ const Booking = () => {
     <div className={styles.container}>
       <div className={styles.wrapper}>
         <Heading className="pl-[24px] pt-[40px] font-dmSansBold text-[24px] text-[#101828] lg:pl-[40px]">
-          Wallet
+          Bookings
         </Heading>
         <Text className="pl-[24px] text-[14px] text-[#667084] lg:pl-[40px] lg:text-[16px]">
           Welcome back to your dashboard
@@ -51,7 +110,10 @@ const Booking = () => {
                 <Text className="my-5 text-center font-dmSansMedium text-[18px] text-[#101828]">
                   Flights
                 </Text>
-                <Button className="mb-5 rounded-3xl bg-black">
+                <Button
+                  className="mb-5 rounded-3xl bg-black"
+                  onClick={handleModal}
+                >
                   Book Flight
                 </Button>
               </div>
@@ -91,8 +153,8 @@ const Booking = () => {
                 <Text className="my-5 text-center font-dmSansMedium text-[18px] text-[#101828]">
                   Accomodations
                 </Text>
-                <Button className="mb-5 rounded-3xl bg-black">
-                  Book Accomodations
+                <Button className="mb-5 rounded-3xl bg-black" disabled>
+                  Coming Soon
                 </Button>
               </div>
             </div>
@@ -113,6 +175,158 @@ const Booking = () => {
             <DataTable columns={columns} data={data} />
           </div>
         </div>
+        {isOpen && (
+          <div>
+            <div
+              className="fixed inset-0 z-[31] bg-[#021A3366] opacity-75"
+              onClick={handleModal}
+            ></div>
+            <div className={styles.modal}>
+              <div className={styles.modal_content}>
+                <div className="flex justify-between">
+                  <Heading className="mx-auto" type="h3">
+                    Book Your Flight
+                  </Heading>
+                  <p
+                    className="cursor-pointer pr-4 font-dmSansBold text-[16px] text-[#98A2B3]"
+                    onClick={handleModal}
+                  >
+                    X
+                  </p>
+                </div>
+                <div className="mx-auto my-5 flex justify-center gap-3">
+                  <p
+                    className={`cursor-pointer rounded-lg border border-[#E4E7EC] p-2 text-xl ${
+                      isRoundTrip
+                        ? "bg-[#000000] text-[#ffffff]"
+                        : " bg-[#ffffff] text-[#000000]"
+                    }`}
+                    onClick={() => {
+                      setIsRoundTrip(true);
+                      setPayload({ ...payload, type: "round-trip" });
+                    }}
+                  >
+                    Round Trip
+                  </p>
+                  <p
+                    className={`cursor-pointer rounded-lg border border-[#E4E7EC] p-2 text-xl ${
+                      isRoundTrip
+                        ? " bg-[#ffffff] text-[#000000]"
+                        : "bg-[#000000] text-[#ffffff]"
+                    }`}
+                    onClick={() => {
+                      setIsRoundTrip(false);
+                      setPayload({ ...payload, type: "one-way" });
+                    }}
+                  >
+                    One Way
+                  </p>
+                </div>
+                <div className=" grid grid-cols-1 gap-[15px] md:grid-cols-2 lg:grid-cols-4">
+                  <Input
+                    type="text"
+                    icon={"/assets/images/user/map-pin.png"}
+                    label="Travel From"
+                    value={payload.travelFrom}
+                    onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                      setPayload({ ...payload, travelFrom: event.target.value })
+                    }
+                  />
+                  <Input
+                    type="text"
+                    icon={"/assets/images/user/map-pin.png"}
+                    label="Travel To"
+                    value={payload.travelTo}
+                    onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                      setPayload({ ...payload, travelTo: event.target.value })
+                    }
+                  />
+                  <Input
+                    type="date"
+                    label="Departure Date"
+                    value={payload.departureDate}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                      setPayload({ ...payload, departureDate: e.target.value })
+                    }
+                  />
+                  <Input
+                    type="date"
+                    label="Arrival Date"
+                    value={payload.arrivalDate}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                      setPayload({ ...payload, arrivalDate: e.target.value })
+                    }
+                  />
+                  <Select
+                    placeholder={"No of tickets"}
+                    label="Adult"
+                    startIcon={"/assets/images/user/user.png"}
+                    value={payload.numOfAdults}
+                    onChange={(event) =>
+                      setPayload({ ...payload, numOfAdults: event.value })
+                    }
+                    options={price.map((option) => ({
+                      value: option.value,
+                      label: `${option.label} Adult`,
+                    }))}
+                    showArrow
+                  />
+                  <Select
+                    placeholder={"No of tickets"}
+                    label="Children"
+                    startIcon={"/assets/images/user/user.png"}
+                    value={payload.numOfChildren}
+                    onChange={(event) =>
+                      setPayload({ ...payload, numOfChildren: event.value })
+                    }
+                    options={price.map((option) => ({
+                      value: option.value,
+                      label: `${option.label} Child`,
+                    }))}
+                    showArrow
+                  />
+                  <Select
+                    placeholder={"No of tickets"}
+                    label="Infant"
+                    startIcon={"/assets/images/user/user.png"}
+                    value={payload.numOfInfants}
+                    onChange={(event) =>
+                      setPayload({ ...payload, numOfInfants: event.value })
+                    }
+                    options={price.map((option) => ({
+                      value: option.value,
+                      label: `${option.label} Infants`,
+                    }))}
+                    showArrow
+                  />
+                  <Select
+                    placeholder={"Class"}
+                    label="Select Class"
+                    startIcon={"/assets/images/user/briefcase.png"}
+                    value={payload.class}
+                    onChange={(event) =>
+                      setPayload({ ...payload, class: event.value })
+                    }
+                    options={flightClass.map((option) => ({
+                      value: option.value,
+                      label: `${option.label} Class`,
+                    }))}
+                    showArrow
+                  />
+                </div>
+                <div className="mx-auto my-5 flex justify-center gap-3">
+                  <Button
+                    className=" w-full rounded-full lg:w-auto"
+                    loading={flightLoading}
+                    onClick={handleSubmit}
+                  >
+                    Book Now
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

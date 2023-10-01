@@ -47,3 +47,15 @@ export type CreatePaymentCardPayload = {
   cvv: string;
   default: boolean;
 };
+
+export type FlightPayload = {
+  numOfAdults: string;
+  numOfChildren: string;
+  numOfInfants: string;
+  type: string;
+  class: string;
+  travelFrom: string;
+  travelTo: string;
+  departureDate: string;
+  arrivalDate: string;
+};
