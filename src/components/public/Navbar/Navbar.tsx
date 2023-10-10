@@ -135,7 +135,7 @@ const Navbar = ({ text, logo }: Props) => {
                   Login
                 </Link>
                 <Link
-                  href="/login"
+                  href="/signup"
                   className="inline-block w-full rounded-3xl bg-white px-4 py-2 text-center text-gray-800 shadow"
                 >
                   Sign up
