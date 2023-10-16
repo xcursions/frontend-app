@@ -11,7 +11,7 @@ const Header = () => {
     <div className={styles.header_wrapper}>
       <div className={`${styles.header}`}>
         <Image
-          src={"/assets/images/contact/contact_header.png"}
+          src={"/assets/images/contact/contact_header1.png"}
           alt="contact image"
           width={1500}
           height={1000}
