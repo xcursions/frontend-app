@@ -13,7 +13,7 @@
   .card {
     margin: 4px;
     // max-height: 330px;
-    @apply bg-[#FFFFFF] h-[150px] lg:h-[350px] overflow-hidden flex flex-row lg:flex-col gap-5 rounded-xl shadow-md p-5 items-center text-center justify-center;
+    @apply relative bg-[#FFFFFF] h-[150px] lg:h-[350px] overflow-hidden flex flex-row lg:flex-col gap-5 rounded-xl shadow-md p-5 items-center text-center justify-center;
   }
   // @media screen and (max-width: 450px) {
   //   .card {

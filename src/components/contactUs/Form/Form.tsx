@@ -79,7 +79,7 @@ const Form = () => {
             </div>
 
             <Image
-              src="/assets/images/contact/contact_man.png"
+              src="/assets/images/contact/contact_header_mobile.png"
               alt="man"
               width={750}
               height={600}
