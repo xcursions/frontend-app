@@ -4,15 +4,14 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useCallback, useEffect, useState } from "react";
-import { useDropzone } from "react-dropzone";
+import React, { useEffect, useState } from "react";
 import { AiOutlineArrowLeft, AiOutlineUpload } from "react-icons/ai";
 import { GiCancel } from "react-icons/gi";
 import { IoAdd } from "react-icons/io5";
 import { RiDeleteBinLine } from "react-icons/ri";
-import { TbFileUpload } from "react-icons/tb";
 
 import Button from "@/components/lib/Button/Button";
+import FileUpload from "@/components/lib/FileUpload";
 import { formatDatesRange } from "@/components/lib/FormatWeekRange/FormatWeekRage";
 import Heading from "@/components/lib/Heading/Heading";
 import Input from "@/components/lib/Input/Input";
@@ -112,11 +111,12 @@ const OutingDetails = ({ detailsData }: Props) => {
   const [addonPayload, setAddonPayload] = useState(initialAddonState);
   const [reviewPayload, setReviewPayload] = useState(initialReviewState);
   const [datePayload, setDatePayload] = useState(outingDateState);
+  const [photoFiles, setPhotoFiles] = useState<File[]>([]);
+  const [addonFiles, setAddonFiles] = useState<File[]>([]);
   const [destinationPayload, setDestinationPayload] = useState(
     initialDestinationState
   );
   const router = useRouter();
-  const [file, setFile] = useState<File | null>(null);
   useEffect(() => {
     setId(detailsData.id);
     setChargePlanPayload({ ...chargePlanPayload, title: detailsData.name });
@@ -279,34 +279,30 @@ const OutingDetails = ({ detailsData }: Props) => {
   ] = useCreateReviewMutation();
   const { data: reviewData, isSuccess: reviewSuccess } = useGetReviewsQuery(id);
   useCreateOutingAddonMutation();
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    if (acceptedFiles) {
-      const newFile = acceptedFiles[0];
-
-      if (newFile) {
-        setFile(newFile);
-      }
-    }
-  }, []);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: {
-      "image/png": [".png"],
-      "image/jpg": [".jpg"],
-      "image/jpeg": [".jpeg"],
-    },
-  });
+  const handlePhotoChange = (files: File[]) => {
+    setPhotoFiles(files);
+  };
+  const handleAddonChange = (files: File[]) => {
+    setAddonFiles(files);
+  };
   const handleUploadImage = () => {
-    if (file) {
-      const formData = new FormData();
-      formData.append("image", file as File);
-      formData.append("type", "image");
-      formData.append("featured", featuredImage);
-      uploadImage({
-        query: id,
-        data: formData,
-      });
-      setFile(null);
+    const formData = new FormData();
+    if (photoFiles) {
+      if (photoFiles.length > 0) {
+        for (let i = 0; i < photoFiles.length; i += 1) {
+          if (photoFiles[i]) {
+            formData.append("image", photoFiles[i] as File);
+            // formData.append("image", photoFiles as File);
+            formData.append("type", "image");
+            formData.append("featured", featuredImage);
+            uploadImage({
+              query: id,
+              data: formData,
+            });
+            setPhotoFiles([]);
+          }
+        }
+      }
     }
   };
   useErrorHandler({
@@ -431,17 +427,23 @@ const OutingDetails = ({ detailsData }: Props) => {
   useSuccessHandler({
     isSuccess: IsAddonSuccess,
     successFunction: () => {
-      if (file) {
-        const formData = new FormData();
-        formData.append("image", file as File);
-        formData.append("type", "image");
-        uploadAddonIcon({
-          query: id,
-          id: addonData.id,
-          data: formData,
-        });
-        setFile(null);
-        setAddonPayload(initialAddonState);
+      const formData = new FormData();
+      if (addonFiles) {
+        if (addonFiles.length > 0) {
+          for (let i = 0; i < addonFiles.length; i += 1) {
+            if (addonFiles[i]) {
+              formData.append("image", addonFiles[i] as File);
+              formData.append("type", "image");
+              uploadAddonIcon({
+                query: id,
+                id: addonData.id,
+                data: formData,
+              });
+              setAddonFiles([]);
+              setAddonPayload(initialAddonState);
+            }
+          }
+        }
       }
     },
     toastMessage: "Addon Successfully Added",
@@ -564,38 +566,12 @@ const OutingDetails = ({ detailsData }: Props) => {
                       X
                     </p>
                   </div>
-                  {file ? (
-                    <figure className="mt-[20px]">
-                      <img
-                        src={URL.createObjectURL(file)}
-                        alt=""
-                        className="max-h-[350px] w-full rounded-xl"
-                      />
-                    </figure>
-                  ) : (
-                    <div className="mt-[20px]" {...getRootProps()}>
-                      <input
-                        {...getInputProps()}
-                        accept="image/*"
-                        multiple={false}
-                      />
-
-                      <TbFileUpload className="cursor-pointer text-3xl" />
-
-                      {isDragActive ? (
-                        <Text className="font-dmSansBold">
-                          Drop your image here!
-                        </Text>
-                      ) : (
-                        <>
-                          <Text className="cursor-default text-[10px] font-light">
-                            We recommend an image of at least 400x400. Supports
-                            jpg, png and gif
-                          </Text>
-                        </>
-                      )}
-                    </div>
-                  )}
+                  <FileUpload
+                    multiple={true}
+                    files={photoFiles}
+                    name="file"
+                    handleChange={handlePhotoChange}
+                  />
                   <Button
                     className="mt-5 rounded-2xl text-[14px]"
                     onClick={handleUploadImage}
@@ -716,38 +692,12 @@ const OutingDetails = ({ detailsData }: Props) => {
                                 }
                               />
                             )}
-                            {file ? (
-                              <figure className="mt-[20px]">
-                                <img
-                                  src={URL.createObjectURL(file)}
-                                  alt=""
-                                  className="mx-auto max-h-[90px] w-full max-w-[90px] rounded-xl"
-                                />
-                              </figure>
-                            ) : (
-                              <div className="mt-[20px]" {...getRootProps()}>
-                                <input
-                                  {...getInputProps()}
-                                  accept="image/*"
-                                  multiple={false}
-                                />
-
-                                <TbFileUpload className="cursor-pointer text-3xl" />
-
-                                {isDragActive ? (
-                                  <Text className="font-dmSansBold">
-                                    Drop your image here!
-                                  </Text>
-                                ) : (
-                                  <>
-                                    <Text className="cursor-pointer text-[10px] font-light">
-                                      We recommend an image of at least 200x200.
-                                      Supports jpg, png and gif
-                                    </Text>
-                                  </>
-                                )}
-                              </div>
-                            )}
+                            <FileUpload
+                              multiple={true}
+                              name="file"
+                              files={addonFiles}
+                              handleChange={handleAddonChange}
+                            />
                             <Button
                               className="my-4 w-full rounded-3xl"
                               loading={addonLoading}
