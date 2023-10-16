@@ -13,6 +13,7 @@ type OutingProps = {
   updatedAt: string;
   viewCount: number;
   bookingCount: number;
+  uniqueBookingCount: number;
   defaultOutingDurationInDays: number;
   showInLandingPage: boolean;
   outingDestination: OutingDestination;

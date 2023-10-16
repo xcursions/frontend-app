@@ -1,0 +1,9 @@
+.container {
+    @apply w-full;
+}
+.wrapper {
+    margin: 24px 50px;
+}
+.card_body {
+    @apply w-full rounded-[16px] bg-[#ffffff]
+}

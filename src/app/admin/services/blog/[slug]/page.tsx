@@ -28,8 +28,8 @@ import { Switch } from "@/components/ui/switch";
 import { useErrorHandler, useSuccessHandler } from "@/hooks";
 import {
   useDeleteBlogMutation,
-  useGetBlogPostQuery,
   useGetBlogTagsQuery,
+  useGetSingleBlogPostQuery,
   useUpdateBlogImageMutation,
   useUpdateBlogPostMutation,
 } from "@/services/admin";
@@ -72,7 +72,7 @@ const setEditorWithData = (
 const Page = ({ params }: { params: { slug: string } }) => {
   const { slug } = params;
   const { data: detailsData, isSuccess: detailsDataSuccess } =
-    useGetBlogPostQuery(`/${slug}`);
+    useGetSingleBlogPostQuery(`/${slug}`);
   if (detailsDataSuccess && !detailsData) {
     notFound();
   }

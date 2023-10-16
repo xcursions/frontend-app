@@ -1,9 +1,11 @@
 "use client";
 
+import type { ColumnDef } from "@tanstack/react-table";
+import { toPng } from "html-to-image";
 import Image from "next/image";
 import Link from "next/link";
 import type { ChangeEvent } from "react";
-import React, { useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 
 import Button from "@/components/lib/Button/Button";
 import Heading from "@/components/lib/Heading";
@@ -16,7 +18,7 @@ import { useGetBookingHistoryQuery } from "@/services/user";
 import { useCreateFlightBookingMutation } from "@/services/user/savingPlan";
 
 import styles from "./booking.module.scss";
-import { columns } from "./services/Colums";
+// import { columns } from "./services/Colums";
 
 const initialState = {
   numOfAdults: "0",
@@ -44,8 +46,17 @@ const flightClass = [
   { value: "business", label: "Business" },
   { value: "first", label: "First" },
 ];
+export type Payment = {
+  id: string;
+  status: string;
+  // amount: string;
+  type: string;
+  createdAt: any;
+  bookingStatus: string;
+};
 
 const Booking = () => {
+  const ref = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [payload, setPayload] = useState(initialState);
   const [isRoundTrip, setIsRoundTrip] = useState(true);
@@ -87,6 +98,147 @@ const Booking = () => {
         bookingStatus: res.status,
       };
     });
+
+  const onButtonClick = useCallback(() => {
+    if (ref.current === null) {
+      return;
+    }
+
+    toPng(ref.current, { cacheBust: true })
+      .then((dataUrl) => {
+        const link = document.createElement("a");
+        link.download = "receipt.png";
+        link.href = dataUrl;
+        link.click();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [ref]);
+  const columns: ColumnDef<Payment>[] = [
+    {
+      accessorKey: "id",
+      header: () => <div className="text-lg font-semibold">Booking Id</div>,
+      cell: ({ row }) => {
+        const value = row.original;
+        return (
+          <div className="max-w-[90px] truncate text-[14px] font-medium text-[#101828]">
+            {value.id}
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "type",
+      header: () => <div className="text-lg font-semibold">Type</div>,
+      cell: ({ row }) => {
+        const value = row.original;
+        return (
+          <div className={`text-[14px] font-medium text-[#101828]`}>
+            {value.type}
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "status",
+      header: () => <div className="text-lg font-semibold">Payment Status</div>,
+      cell: ({ row }) => {
+        const status = row.getValue("status");
+        const value = row.original;
+        return (
+          <div
+            className={`w-fit rounded-3xl px-3 py-1 text-center text-[14px] font-medium text-[#101828] ${
+              status === "successful"
+                ? "bg-[#E6FAF0] text-[#12B76A]"
+                : "bg-[#FFECEB] text-[#F04438]"
+            }`}
+          >
+            {value.status}
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "createdAt",
+      header: () => <div className="text-lg font-semibold">Date</div>,
+      cell: ({ row }) => {
+        const value = row.original;
+        return (
+          <div className={`text-[14px] font-medium text-[#101828]`}>
+            {value.createdAt}
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "bookingStatus",
+      header: () => <div className="text-lg font-semibold">Booking Status</div>,
+      cell: ({ row }) => {
+        const status = row.getValue("bookingStatus");
+        const value = row.original;
+        return (
+          <div
+            className={`w-fit rounded-3xl px-3 py-1 text-center text-[14px] font-medium text-[#101828] ${
+              status === "successful"
+                ? "bg-[#E6FAF0] text-[#12B76A]"
+                : "bg-[#FFECEB] text-[#F04438]"
+            }`}
+          >
+            {value.bookingStatus}
+          </div>
+        );
+      },
+    },
+    {
+      id: "actions",
+      cell: () => {
+        return (
+          <div
+            className={`cursor-pointer text-[20px] font-medium text-[#F04438]`}
+            onClick={() => onButtonClick()}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+            >
+              <g clipPath="url(#clip0_2943_82477)">
+                <path
+                  d="M3.33337 14.167V15.8337C3.33337 16.2757 3.50897 16.6996 3.82153 17.0122C4.13409 17.3247 4.55801 17.5003 5.00004 17.5003H15C15.4421 17.5003 15.866 17.3247 16.1786 17.0122C16.4911 16.6996 16.6667 16.2757 16.6667 15.8337V14.167"
+                  stroke="#0A83FF"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M5.83337 9.16699L10 13.3337L14.1667 9.16699"
+                  stroke="#0A83FF"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M10 3.33301V13.333"
+                  stroke="#0A83FF"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_2943_82477">
+                  <rect width="20" height="20" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+        );
+      },
+    },
+  ];
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
@@ -171,7 +323,7 @@ const Booking = () => {
           </div>
         </div>
         <div>
-          <div>
+          <div className="bg-[#ffffff]" ref={ref}>
             <DataTable columns={columns} data={data} />
           </div>
         </div>
