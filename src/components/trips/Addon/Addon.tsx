@@ -21,7 +21,7 @@ const Addon = (info: Props) => {
   return (
     <div
       style={cardStyle}
-      className="h-[189px] w-[340px] overflow-y-hidden lg:h-[230px] lg:w-[220px]"
+      className="h-[189px] w-[340px] overflow-y-hidden lg:h-[230px] lg:w-[220px] xl:h-auto xl:min-h-[230px] xl:w-auto"
     >
       <div className="flex justify-between">
         <img src={info?.icon} alt={info?.name} className="h-[29px] w-[29px]" />

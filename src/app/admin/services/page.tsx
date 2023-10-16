@@ -18,6 +18,7 @@ import Button from "@/components/lib/Button";
 import FullPageLoader from "@/components/lib/FullPageLoader";
 import Heading from "@/components/lib/Heading";
 import Input from "@/components/lib/Input/Input";
+import { Pagination } from "@/components/lib/Pagination";
 import Text from "@/components/lib/Text";
 import TextArea from "@/components/lib/TextArea/TextArea";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -67,6 +68,9 @@ const Page = () => {
   const [outingType, setOutingType] = useState("tour");
   const [payload, setPayload] = useState(initialState);
   const router = useRouter();
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentPageBlog, setCurrentPageBlog] = useState<number>(1);
+  const pageLimit = 10;
   const [
     createOuting,
     {
@@ -83,8 +87,10 @@ const Page = () => {
     useDeleteOutingMutation();
   const [deleteBlog, { isSuccess: deleteBlogSuccess }] =
     useDeleteBlogMutation();
-  const { data: blogDetails, isSuccess: blogSuccess } =
-    useGetBlogPostQuery("?limit=1000");
+  const { data: blogDetails, isSuccess: blogSuccess } = useGetBlogPostQuery({
+    pageLimit,
+    currentPage: currentPageBlog,
+  });
   useErrorHandler({
     isError: isProfileError,
     error: profileError,
@@ -111,7 +117,10 @@ const Page = () => {
     setNewTrip(!newTrip);
   };
   useEffect(() => {
-    getOuting(`?type=${outingType}`);
+    getOuting(`?type=${outingType}&limit=${pageLimit}&page=${currentPage}`);
+  }, [currentPage, pageLimit, outingType]);
+  useEffect(() => {
+    setCurrentPage(1);
   }, [outingType]);
   const handleCreateOuting = () => {
     createOuting(payload);
@@ -408,6 +417,15 @@ const Page = () => {
               </div>
               <div className="pt-6">
                 <DataTable columns={blogColumns} data={blogData} />
+                {blogSuccess && (
+                  <Pagination
+                    className="pagination-bar my-8"
+                    currentPage={currentPageBlog}
+                    totalCount={blogDetails?.totalElements}
+                    pageLimit={pageLimit}
+                    onPageChange={(v) => setCurrentPageBlog(v)}
+                  />
+                )}
               </div>
             </div>
           ) : (
@@ -438,6 +456,15 @@ const Page = () => {
               </div>
               <div className="pt-6">
                 <DataTable columns={columns} data={data} />
+                {outingSuccess && (
+                  <Pagination
+                    className="pagination-bar my-8"
+                    currentPage={currentPage}
+                    totalCount={outingData?.totalElements}
+                    pageLimit={pageLimit}
+                    onPageChange={(v) => setCurrentPage(v)}
+                  />
+                )}
               </div>
             </div>
           )}

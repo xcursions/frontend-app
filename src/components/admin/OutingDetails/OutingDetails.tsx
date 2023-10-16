@@ -511,7 +511,7 @@ const OutingDetails = ({ detailsData }: Props) => {
         >
           <AiOutlineArrowLeft className="font-dmSansBold text-xl" /> Back
         </div>
-        <div className="mt-[48px] w-full max-w-[1089px] rounded-xl bg-[#ffffff] px-[16px] py-[10px]">
+        <div className="mt-[48px] w-full rounded-xl bg-[#ffffff] px-[16px] py-[10px]">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-[20px]">
               <Image
@@ -760,7 +760,7 @@ const OutingDetails = ({ detailsData }: Props) => {
                       </div>
                     </>
                   )}
-                  <div className="mx-[-5px] mt-[25px] grid grid-cols-3 gap-2">
+                  <div className="mx-[-5px] mt-[25px] grid grid-cols-3 gap-2 2xl:grid-cols-4">
                     {outingAddonSuccess &&
                       outingAddon.map(
                         (
@@ -808,7 +808,7 @@ const OutingDetails = ({ detailsData }: Props) => {
                     Add Photos
                   </p>
                 </div>
-                <div className="mt-[25px] grid grid-cols-4 gap-3">
+                <div className="mt-[25px] grid grid-cols-4 gap-3 2xl:grid-cols-5">
                   {detailsData.outingGallery?.map((res) => (
                     <div key={res.id} className="relative">
                       <div
@@ -827,7 +827,7 @@ const OutingDetails = ({ detailsData }: Props) => {
                         alt="uploaded image"
                         width={155}
                         height={140}
-                        className="h-[140px] w-[155px] rounded-md"
+                        className="h-[140px] w-[155px] rounded-md 2xl:h-[175px] 2xl:w-[200px] "
                       />
                     </div>
                   ))}

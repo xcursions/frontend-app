@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { HiOutlineMenuAlt1 } from "react-icons/hi";
 import { IoNotificationsOutline } from "react-icons/io5";
 
-import Button from "@/components/lib/Button/Button";
+// import Button from "@/components/lib/Button/Button";
 import FullPageLoader from "@/components/lib/FullPageLoader";
 // import Input from "@/components/lib/Input/Input";
 import TimeDifference from "@/components/lib/TimeDifference/TimeDifference";
@@ -190,11 +190,11 @@ const Header = ({ toggleSidebarMenu }: any) => {
                             />
                           ))}
                     </ul>
-                    <ul>
+                    {/* <ul>
                       <Button className="mt-3 w-full rounded-3xl">
                         view all
                       </Button>
-                    </ul>
+                    </ul> */}
                   </div>
                 </div>
               </DropdownMenu>

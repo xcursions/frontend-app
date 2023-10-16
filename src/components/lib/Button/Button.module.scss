@@ -27,8 +27,7 @@
   }
 
   &__outline {
-    @apply border-2 border-primary-main text-primary-main 
-    hover:border-primary-dark hover:text-primary-dark 
+    @apply border-2 border-[#D0D5DD] text-[#0A83FF]
     disabled:border-gray-300 disabled:text-gray-500;
   }
 }

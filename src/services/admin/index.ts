@@ -220,6 +220,13 @@ export const adminApi = createApi({
       invalidatesTags: ["Admin"],
     }),
     getBlogPost: builder.query<any, any>({
+      query: ({ pageLimit, currentPage }) => ({
+        url: `/blog/posts?limit=${pageLimit}&page=${currentPage}`,
+        method: "get",
+      }),
+      providesTags: ["Admin"],
+    }),
+    getSingleBlogPost: builder.query<any, any>({
       query: (query) => ({
         url: `/blog/posts${query}`,
         method: "get",
@@ -265,6 +272,7 @@ export const {
   useGetBlogTagsQuery,
   useCreateBlogPostMutation,
   useGetBlogPostQuery,
+  useGetSingleBlogPostQuery,
   useCreateBlogImageMutation,
   useDeleteBlogMutation,
   useUpdateBlogPostMutation,
