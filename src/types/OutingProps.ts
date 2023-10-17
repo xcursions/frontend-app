@@ -29,14 +29,18 @@ type OutingChargePlan = {
   description: string;
   currency: string;
   cost: string;
+  costGroup: string;
   adultMultiplier: number;
   infantMultiplier: number;
   childrenMultiplier: number;
   petMultiplier: number;
   quantity: number;
   singleOccupancyAmount: string;
+  singleOccupancyGroupAmount: string;
   perPersonSharingAmount: string;
+  perPersonSharingGroupAmount: string;
   extraDurationCostPerDay: string;
+  extraDurationGroupCostPerDay: string;
   initialPaymentPercent: number;
   outingId: string;
   id: string;

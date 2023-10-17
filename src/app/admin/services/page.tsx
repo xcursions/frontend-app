@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
@@ -21,7 +19,6 @@ import Input from "@/components/lib/Input/Input";
 import { Pagination } from "@/components/lib/Pagination";
 import Text from "@/components/lib/Text";
 import TextArea from "@/components/lib/TextArea/TextArea";
-import { Checkbox } from "@/components/ui/checkbox";
 import useErrorHandler from "@/hooks/useErrorHandler";
 import useSuccessHandler from "@/hooks/useSuccessHandler";
 import {
@@ -151,25 +148,6 @@ const Page = () => {
     });
   const columns: ColumnDef<Payment>[] = [
     {
-      id: "select",
-      header: ({ table }) => (
-        <Checkbox
-          checked={table.getIsAllPageRowsSelected()}
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-        />
-      ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      ),
-      enableSorting: false,
-      enableHiding: false,
-    },
-    {
       accessorKey: "trip",
       header: () => <div className="text-lg font-semibold">Trip</div>,
       cell: ({ row }) => {
@@ -256,25 +234,6 @@ const Page = () => {
   ];
   const blogColumns: ColumnDef<BlogPayment>[] = [
     {
-      id: "select",
-      header: ({ table }) => (
-        <Checkbox
-          checked={table.getIsAllPageRowsSelected()}
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-        />
-      ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      ),
-      enableSorting: false,
-      enableHiding: false,
-    },
-    {
       accessorKey: "image",
       header: () => <div className="text-lg font-semibold">Image</div>,
       cell: ({ row }) => {
@@ -286,7 +245,7 @@ const Page = () => {
           >
             <Image
               src={value.image || "/assets/images/trip/card3.png"}
-              alt={`${value.name}`}
+              alt={`${value.title}`}
               width={50}
               height={44}
               className="h-[44px] w-[50px] rounded-2xl"
@@ -475,7 +434,7 @@ const Page = () => {
               className="fixed inset-0 z-[31] bg-[#021A3366] opacity-75"
               onClick={toggleModal}
             ></div>
-            <div className="fixed inset-x-0 top-[70px] z-[32] flex items-center justify-center overflow-auto lg:left-[500px] lg:w-[450px]">
+            <div className="fixed inset-x-0 top-[40px] z-[32] flex items-center justify-center overflow-auto lg:left-[500px] lg:w-[450px]">
               <div className="w-full rounded-3xl bg-white p-5 shadow-lg">
                 <div className="flex justify-between">
                   <Heading type="h3">New Trip</Heading>
@@ -515,7 +474,7 @@ const Page = () => {
                     label="Trip Name"
                     placeholder="Enter the trip name"
                     value={payload.name}
-                    onChange={(event) =>
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                       setPayload({ ...payload, name: event.target.value })
                     }
                   />
@@ -525,7 +484,7 @@ const Page = () => {
                       type="number"
                       placeholder="Enter the Outing price"
                       value={payload.price}
-                      onChange={(event) =>
+                      onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                         setPayload({ ...payload, price: event.target.value })
                       }
                       className="w-[195px]"
@@ -535,7 +494,7 @@ const Page = () => {
                       type="number"
                       placeholder="Default Outing Duration in Days"
                       value={payload.defaultOutingDurationInDays}
-                      onChange={(event) =>
+                      onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                         setPayload({
                           ...payload,
                           defaultOutingDurationInDays: event.target.value,
@@ -562,7 +521,7 @@ const Page = () => {
                       placeholder="Select start date"
                       type="date"
                       value={payload.startDate}
-                      onChange={(event) =>
+                      onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                         setPayload({
                           ...payload,
                           startDate: event.target.value,
@@ -575,7 +534,7 @@ const Page = () => {
                       placeholder="Select end date"
                       value={payload.endDate}
                       type="date"
-                      onChange={(event) =>
+                      onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                         setPayload({ ...payload, endDate: event.target.value })
                       }
                       className="w-[200px]"
@@ -586,7 +545,7 @@ const Page = () => {
                     type="number"
                     label="Payment Deadline"
                     value={payload.deadlineGap}
-                    onChange={(event) =>
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                       setPayload({
                         ...payload,
                         deadlineGap: event.target.value,
