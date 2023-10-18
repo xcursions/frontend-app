@@ -77,7 +77,7 @@ const TripDetails = ({ detailsData }: Props) => {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [date, setDate] = React.useState<DateRange | undefined>({
     from: new Date(),
-    to: addDays(new Date(), 7),
+    to: addDays(new Date(), 4),
   });
   const [selectedItems, setSelectedItems] = useState<any[]>([]);
   const [selectedTrip, setSelectedTrip] = useState<"private" | "group">(
@@ -158,11 +158,6 @@ const TripDetails = ({ detailsData }: Props) => {
   const { numOfInfants } = payload || 0;
   const goingWithYou = numOfAdults + numOfChildren + numOfInfants;
   useEffect(() => {
-    // setPayload({
-    //   ...payload,
-    //   outingDateId: detailsData.outingDate[0].id,
-    //   outingSubType: selectedTrip,
-    // });
     if (selectedTrip === "private") {
       setPayload({
         ...payload,
@@ -176,7 +171,6 @@ const TripDetails = ({ detailsData }: Props) => {
         ...payload,
         startDate: undefined,
         endDate: undefined,
-        // outingDateId: detailsData.outingDate[0].id,
         outingSubType: selectedTrip,
       });
     }
@@ -342,9 +336,11 @@ const TripDetails = ({ detailsData }: Props) => {
                 {selectedTrip === "private" ? (
                   <div className="mb-3 mt-[30px]">
                     <DatePickerWithRange date={date} setDate={setDate} />
-                    <p className="text-[10px] text-[#F04438]">
-                      Please select Duration of your trip
-                    </p>
+                    {!date && (
+                      <p className="text-[10px] text-[#F04438]">
+                        Please select Duration of your trip
+                      </p>
+                    )}
                   </div>
                 ) : (
                   <>
@@ -417,27 +413,49 @@ const TripDetails = ({ detailsData }: Props) => {
                     <Text className="text-[14px] text-[#667084]">
                       Single Occupancy
                     </Text>
-                    <p className="font-dmSansBold text-[18px]">
-                      ₦
-                      {chargePlanSuccess &&
-                        parseInt(
-                          chargePlanData.singleOccupancyAmount,
-                          10
-                        ).toLocaleString()}
-                    </p>
+                    {selectedTrip === "private" ? (
+                      <p className="font-dmSansBold text-[18px]">
+                        ₦
+                        {chargePlanSuccess &&
+                          parseInt(
+                            chargePlanData.singleOccupancyAmount,
+                            10
+                          ).toLocaleString()}
+                      </p>
+                    ) : (
+                      <p className="font-dmSansBold text-[18px]">
+                        ₦
+                        {chargePlanSuccess &&
+                          parseInt(
+                            chargePlanData.singleOccupancyGroupAmount,
+                            10
+                          ).toLocaleString()}
+                      </p>
+                    )}
                   </div>
                   <div>
                     <Text className="text-[14px] text-[#667084]">
                       Per Person Sharing
                     </Text>
-                    <p className="font-dmSansBold text-[18px]">
-                      ₦
-                      {chargePlanSuccess &&
-                        parseInt(
-                          chargePlanData.perPersonSharingAmount,
-                          10
-                        ).toLocaleString()}
-                    </p>
+                    {selectedTrip === "private" ? (
+                      <p className="font-dmSansBold text-[18px]">
+                        ₦
+                        {chargePlanSuccess &&
+                          parseInt(
+                            chargePlanData.perPersonSharingAmount,
+                            10
+                          ).toLocaleString()}
+                      </p>
+                    ) : (
+                      <p className="font-dmSansBold text-[18px]">
+                        ₦
+                        {chargePlanSuccess &&
+                          parseInt(
+                            chargePlanData.perPersonSharingGroupAmount,
+                            10
+                          ).toLocaleString()}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className="my-5 mr-2 items-center justify-center">

@@ -4,15 +4,14 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useCallback, useEffect, useState } from "react";
-import { useDropzone } from "react-dropzone";
+import React, { useEffect, useState } from "react";
 import { AiOutlineArrowLeft, AiOutlineUpload } from "react-icons/ai";
 import { GiCancel } from "react-icons/gi";
 import { IoAdd } from "react-icons/io5";
 import { RiDeleteBinLine } from "react-icons/ri";
-import { TbFileUpload } from "react-icons/tb";
 
 import Button from "@/components/lib/Button/Button";
+import FileUpload from "@/components/lib/FileUpload";
 import { formatDatesRange } from "@/components/lib/FormatWeekRange/FormatWeekRage";
 import Heading from "@/components/lib/Heading/Heading";
 import Input from "@/components/lib/Input/Input";
@@ -56,14 +55,18 @@ const chargePlanState = {
   description: "Charge Plan Description",
   currency: "NGN",
   cost: 0,
+  costGroup: 0,
   adultMultiplier: 1,
   infantMultiplier: 0.3,
   childrenMultiplier: 0.4,
   petMultiplier: 0.4,
   quantity: 0,
   singleOccupancyAmount: 0,
+  singleOccupancyGroupAmount: 0,
   perPersonSharingAmount: 0,
+  perPersonSharingGroupAmount: 0,
   extraDurationCostPerDay: 0,
+  extraDurationGroupCostPerDay: 0,
   initialPaymentPercent: 0.3,
 };
 const initialDestinationState = {
@@ -96,6 +99,16 @@ const continent = [
   { value: "North America", label: "North America" },
   { value: "South America", label: "South America" },
 ];
+const initialState = {
+  name: "",
+  description: "",
+  currency: "NGN",
+  price: "",
+  type: "",
+  subType: "",
+  deadlineGap: "",
+  defaultOutingDurationInDays: "",
+};
 
 const OutingDetails = ({ detailsData }: Props) => {
   const [chargePlanPayload, setChargePlanPayload] = useState(chargePlanState);
@@ -111,15 +124,28 @@ const OutingDetails = ({ detailsData }: Props) => {
   const [pickupPayload, setPickupPayload] = useState(initialDestinationState);
   const [addonPayload, setAddonPayload] = useState(initialAddonState);
   const [reviewPayload, setReviewPayload] = useState(initialReviewState);
+  const [editTrip, setEditTrip] = useState(false);
+  const [payload, setPayload] = useState(initialState);
   const [datePayload, setDatePayload] = useState(outingDateState);
+  const [photoFiles, setPhotoFiles] = useState<File[]>([]);
+  const [addonFiles, setAddonFiles] = useState<File[]>([]);
   const [destinationPayload, setDestinationPayload] = useState(
     initialDestinationState
   );
   const router = useRouter();
-  const [file, setFile] = useState<File | null>(null);
   useEffect(() => {
     setId(detailsData.id);
     setChargePlanPayload({ ...chargePlanPayload, title: detailsData.name });
+    setPayload({
+      ...payload,
+      name: detailsData.name,
+      description: detailsData.description,
+      price: detailsData.price,
+      defaultOutingDurationInDays: detailsData.defaultOutingDurationInDays,
+      deadlineGap: detailsData.deadlineGap,
+      type: detailsData.type,
+      subType: detailsData.subType,
+    });
     if (detailsData.outingPickup) {
       setPickupPayload({
         ...pickupPayload,
@@ -279,34 +305,30 @@ const OutingDetails = ({ detailsData }: Props) => {
   ] = useCreateReviewMutation();
   const { data: reviewData, isSuccess: reviewSuccess } = useGetReviewsQuery(id);
   useCreateOutingAddonMutation();
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    if (acceptedFiles) {
-      const newFile = acceptedFiles[0];
-
-      if (newFile) {
-        setFile(newFile);
-      }
-    }
-  }, []);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: {
-      "image/png": [".png"],
-      "image/jpg": [".jpg"],
-      "image/jpeg": [".jpeg"],
-    },
-  });
+  const handlePhotoChange = (files: File[]) => {
+    setPhotoFiles(files);
+  };
+  const handleAddonChange = (files: File[]) => {
+    setAddonFiles(files);
+  };
   const handleUploadImage = () => {
-    if (file) {
-      const formData = new FormData();
-      formData.append("image", file as File);
-      formData.append("type", "image");
-      formData.append("featured", featuredImage);
-      uploadImage({
-        query: id,
-        data: formData,
-      });
-      setFile(null);
+    const formData = new FormData();
+    if (photoFiles) {
+      if (photoFiles.length > 0) {
+        for (let i = 0; i < photoFiles.length; i += 1) {
+          if (photoFiles[i]) {
+            formData.append("image", photoFiles[i] as File);
+            // formData.append("image", photoFiles as File);
+            formData.append("type", "image");
+            formData.append("featured", featuredImage);
+            uploadImage({
+              query: id,
+              data: formData,
+            });
+            setPhotoFiles([]);
+          }
+        }
+      }
     }
   };
   useErrorHandler({
@@ -394,13 +416,23 @@ const OutingDetails = ({ detailsData }: Props) => {
       setChargePlanPayload({
         ...chargePlanPayload,
         cost: Math.floor(chargePlanData.cost),
+        costGroup: Math.floor(chargePlanData.costGroup),
         extraDurationCostPerDay: Math.floor(
           chargePlanData.extraDurationCostPerDay
+        ),
+        extraDurationGroupCostPerDay: Math.floor(
+          chargePlanData.extraDurationGroupCostPerDay
         ),
         perPersonSharingAmount: Math.floor(
           chargePlanData.perPersonSharingAmount
         ),
+        perPersonSharingGroupAmount: Math.floor(
+          chargePlanData.perPersonSharingGroupAmount
+        ),
         singleOccupancyAmount: Math.floor(chargePlanData.singleOccupancyAmount),
+        singleOccupancyGroupAmount: Math.floor(
+          chargePlanData.singleOccupancyGroupAmount
+        ),
         infantMultiplier: chargePlanData.infantMultiplier,
         childrenMultiplier: chargePlanData.childrenMultiplier,
         initialPaymentPercent: chargePlanData.initialPaymentPercent,
@@ -431,17 +463,23 @@ const OutingDetails = ({ detailsData }: Props) => {
   useSuccessHandler({
     isSuccess: IsAddonSuccess,
     successFunction: () => {
-      if (file) {
-        const formData = new FormData();
-        formData.append("image", file as File);
-        formData.append("type", "image");
-        uploadAddonIcon({
-          query: id,
-          id: addonData.id,
-          data: formData,
-        });
-        setFile(null);
-        setAddonPayload(initialAddonState);
+      const formData = new FormData();
+      if (addonFiles) {
+        if (addonFiles.length > 0) {
+          for (let i = 0; i < addonFiles.length; i += 1) {
+            if (addonFiles[i]) {
+              formData.append("image", addonFiles[i] as File);
+              formData.append("type", "image");
+              uploadAddonIcon({
+                query: id,
+                id: addonData.id,
+                data: formData,
+              });
+              setAddonFiles([]);
+              setAddonPayload(initialAddonState);
+            }
+          }
+        }
       }
     },
     toastMessage: "Addon Successfully Added",
@@ -465,6 +503,9 @@ const OutingDetails = ({ detailsData }: Props) => {
   };
   const toggleModal = () => {
     setIsOpen(!isOpen);
+  };
+  const toggleEditModal = () => {
+    setEditTrip(!editTrip);
   };
   const toggleAddonModal = () => {
     setIsAddOnOpen(!isAddOnOpen);
@@ -511,7 +552,7 @@ const OutingDetails = ({ detailsData }: Props) => {
         >
           <AiOutlineArrowLeft className="font-dmSansBold text-xl" /> Back
         </div>
-        <div className="mt-[48px] w-full max-w-[1089px] rounded-xl bg-[#ffffff] px-[16px] py-[10px]">
+        <div className="mt-[48px] w-full rounded-xl bg-[#ffffff] px-[16px] py-[10px]">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-[20px]">
               <Image
@@ -529,7 +570,7 @@ const OutingDetails = ({ detailsData }: Props) => {
             <div className="flex gap-3">
               <Button
                 variant="outline"
-                className="flex max-h-[40px] items-center gap-3 rounded-3xl text-[14px]"
+                className="flex max-h-[40px] items-center gap-3 rounded-3xl text-[14px] text-[#F04438]"
                 onClick={() => deleteFeaturedImage(id)}
               >
                 <RiDeleteBinLine className="text-xl" />
@@ -564,38 +605,12 @@ const OutingDetails = ({ detailsData }: Props) => {
                       X
                     </p>
                   </div>
-                  {file ? (
-                    <figure className="mt-[20px]">
-                      <img
-                        src={URL.createObjectURL(file)}
-                        alt=""
-                        className="max-h-[350px] w-full rounded-xl"
-                      />
-                    </figure>
-                  ) : (
-                    <div className="mt-[20px]" {...getRootProps()}>
-                      <input
-                        {...getInputProps()}
-                        accept="image/*"
-                        multiple={false}
-                      />
-
-                      <TbFileUpload className="cursor-pointer text-3xl" />
-
-                      {isDragActive ? (
-                        <Text className="font-dmSansBold">
-                          Drop your image here!
-                        </Text>
-                      ) : (
-                        <>
-                          <Text className="cursor-default text-[10px] font-light">
-                            We recommend an image of at least 400x400. Supports
-                            jpg, png and gif
-                          </Text>
-                        </>
-                      )}
-                    </div>
-                  )}
+                  <FileUpload
+                    multiple={true}
+                    files={photoFiles}
+                    name="file"
+                    handleChange={handlePhotoChange}
+                  />
                   <Button
                     className="mt-5 rounded-2xl text-[14px]"
                     onClick={handleUploadImage}
@@ -612,7 +627,15 @@ const OutingDetails = ({ detailsData }: Props) => {
           <div className={styles.card_left}>
             <div className={styles.card_body}>
               <div className="mx-[32px] py-[32px]">
-                <Heading type="h3">Brief Description</Heading>
+                <div className="flex justify-between">
+                  <Heading type="h3">Brief Description</Heading>
+                  <Button
+                    onClick={toggleEditModal}
+                    className="rounded-3xl text-base"
+                  >
+                    Edit {detailsData.type === "tour" ? "Trip" : " Event"}
+                  </Button>
+                </div>
                 <Text className="mt-[20px] rounded-2xl border p-[10px] font-dmSansRegular text-[14px] text-[#344054]">
                   {detailsData.description}
                 </Text>
@@ -716,38 +739,12 @@ const OutingDetails = ({ detailsData }: Props) => {
                                 }
                               />
                             )}
-                            {file ? (
-                              <figure className="mt-[20px]">
-                                <img
-                                  src={URL.createObjectURL(file)}
-                                  alt=""
-                                  className="mx-auto max-h-[90px] w-full max-w-[90px] rounded-xl"
-                                />
-                              </figure>
-                            ) : (
-                              <div className="mt-[20px]" {...getRootProps()}>
-                                <input
-                                  {...getInputProps()}
-                                  accept="image/*"
-                                  multiple={false}
-                                />
-
-                                <TbFileUpload className="cursor-pointer text-3xl" />
-
-                                {isDragActive ? (
-                                  <Text className="font-dmSansBold">
-                                    Drop your image here!
-                                  </Text>
-                                ) : (
-                                  <>
-                                    <Text className="cursor-pointer text-[10px] font-light">
-                                      We recommend an image of at least 200x200.
-                                      Supports jpg, png and gif
-                                    </Text>
-                                  </>
-                                )}
-                              </div>
-                            )}
+                            <FileUpload
+                              multiple={true}
+                              name="file"
+                              files={addonFiles}
+                              handleChange={handleAddonChange}
+                            />
                             <Button
                               className="my-4 w-full rounded-3xl"
                               loading={addonLoading}
@@ -760,7 +757,7 @@ const OutingDetails = ({ detailsData }: Props) => {
                       </div>
                     </>
                   )}
-                  <div className="mx-[-5px] mt-[25px] grid grid-cols-3 gap-2">
+                  <div className="mx-[-5px] mt-[25px] grid grid-cols-3 gap-2 2xl:grid-cols-4">
                     {outingAddonSuccess &&
                       outingAddon.map(
                         (
@@ -808,7 +805,7 @@ const OutingDetails = ({ detailsData }: Props) => {
                     Add Photos
                   </p>
                 </div>
-                <div className="mt-[25px] grid grid-cols-4 gap-3">
+                <div className="mt-[25px] grid grid-cols-4 gap-3 2xl:grid-cols-5">
                   {detailsData.outingGallery?.map((res) => (
                     <div key={res.id} className="relative">
                       <div
@@ -827,7 +824,7 @@ const OutingDetails = ({ detailsData }: Props) => {
                         alt="uploaded image"
                         width={155}
                         height={140}
-                        className="h-[140px] w-[155px] rounded-md"
+                        className="h-[140px] w-[155px] rounded-md 2xl:h-[175px] 2xl:w-[200px] "
                       />
                     </div>
                   ))}
@@ -1021,50 +1018,108 @@ const OutingDetails = ({ detailsData }: Props) => {
             <div className={styles.card_body}>
               <div className="mx-[20px] py-[24px]">
                 <Heading type="h3">Charge Plans</Heading>
-                <Input
-                  label="Cost"
-                  placeholder="Enter Outing Cost"
-                  value={chargePlanPayload.cost}
-                  onChange={(e) =>
-                    setChargePlanPayload({
-                      ...chargePlanPayload,
-                      cost: e.target.value,
-                    })
+                <div
+                  className={
+                    detailsData.type === "tour" ? " grid grid-cols-2 gap-2" : ""
                   }
-                />
-                <Input
-                  label="Single Occupancy Amount"
-                  placeholder="Enter Single Occupancy Amount"
-                  value={chargePlanPayload.singleOccupancyAmount}
-                  onChange={(e) =>
-                    setChargePlanPayload({
-                      ...chargePlanPayload,
-                      singleOccupancyAmount: e.target.value,
-                    })
-                  }
-                />
-                <Input
-                  label="Per Person Sharing Amount"
-                  placeholder="Enter Per Person Sharing Amount"
-                  value={chargePlanPayload.perPersonSharingAmount}
-                  onChange={(e) =>
-                    setChargePlanPayload({
-                      ...chargePlanPayload,
-                      perPersonSharingAmount: e.target.value,
-                    })
-                  }
-                />
-                <Input
-                  label="Extra Duration Cost Per Day"
-                  placeholder="Enter Extra Duration Cost Per Day"
-                  value={chargePlanPayload.extraDurationCostPerDay}
-                  onChange={(e) =>
-                    setChargePlanPayload({
-                      ...chargePlanPayload,
-                      extraDurationCostPerDay: e.target.value,
-                    })
-                  }
-                />
+                >
+                  {detailsData.type === "tour" && (
+                    <Input
+                      label="Private Cost"
+                      placeholder="Enter Private Outing Cost"
+                      value={chargePlanPayload.cost}
+                      onChange={(e) =>
+                        setChargePlanPayload({
+                          ...chargePlanPayload,
+                          cost: e.target.value,
+                        })
+                      }
+                    />
+                  )}
+                  <Input
+                    label="Group Cost"
+                    placeholder="Enter Group Outing Cost"
+                    value={chargePlanPayload.costGroup}
+                    onChange={(e) =>
+                      setChargePlanPayload({
+                        ...chargePlanPayload,
+                        costGroup: e.target.value,
+                      })
+                    }
+                  />
+                  {detailsData.type === "tour" && (
+                    <Input
+                      label="Private Single Occupancy Amount"
+                      placeholder="Enter Single Occupancy Amount"
+                      value={chargePlanPayload.singleOccupancyAmount}
+                      onChange={(e) =>
+                        setChargePlanPayload({
+                          ...chargePlanPayload,
+                          singleOccupancyAmount: e.target.value,
+                        })
+                      }
+                    />
+                  )}
+                  <Input
+                    label="Group Single Occupancy Amount"
+                    placeholder="Enter Single Occupancy Amount"
+                    value={chargePlanPayload.singleOccupancyGroupAmount}
+                    onChange={(e) =>
+                      setChargePlanPayload({
+                        ...chargePlanPayload,
+                        singleOccupancyGroupAmount: e.target.value,
+                      })
+                    }
+                  />
+                  {detailsData.type === "tour" && (
+                    <Input
+                      label="Private Per Person Sharing Amount"
+                      placeholder="Enter Per Person Sharing Amount"
+                      value={chargePlanPayload.perPersonSharingAmount}
+                      onChange={(e) =>
+                        setChargePlanPayload({
+                          ...chargePlanPayload,
+                          perPersonSharingAmount: e.target.value,
+                        })
+                      }
+                    />
+                  )}
+                  <Input
+                    label="Group Per Person Sharing Amount"
+                    placeholder="Enter Per Person Sharing Amount"
+                    value={chargePlanPayload.perPersonSharingGroupAmount}
+                    onChange={(e) =>
+                      setChargePlanPayload({
+                        ...chargePlanPayload,
+                        perPersonSharingGroupAmount: e.target.value,
+                      })
+                    }
+                  />
+                  {detailsData.type === "tour" && (
+                    <Input
+                      label="Private Extra Duration Cost Per Day"
+                      placeholder="Enter Extra Duration Cost Per Day"
+                      value={chargePlanPayload.extraDurationCostPerDay}
+                      onChange={(e) =>
+                        setChargePlanPayload({
+                          ...chargePlanPayload,
+                          extraDurationCostPerDay: e.target.value,
+                        })
+                      }
+                    />
+                  )}
+                  <Input
+                    label="Group Extra Duration Cost Per Day"
+                    placeholder="Enter Extra Duration Cost Per Day"
+                    value={chargePlanPayload.extraDurationGroupCostPerDay}
+                    onChange={(e) =>
+                      setChargePlanPayload({
+                        ...chargePlanPayload,
+                        extraDurationGroupCostPerDay: e.target.value,
+                      })
+                    }
+                  />
+                </div>
                 <div className="my-3 flex flex-col gap-2">
                   <Text>
                     Infant Multiplier: {chargePlanPayload.infantMultiplier}
@@ -1232,7 +1287,7 @@ const OutingDetails = ({ detailsData }: Props) => {
                         {formatDatesRange(res.startDate, res.endDate)}
                         <Button
                           variant="outline"
-                          className="flex max-h-[40px] items-center gap-3 rounded-3xl text-[14px]"
+                          className="flex max-h-[40px] items-center gap-3 rounded-3xl text-[14px] text-[#F04438]"
                           onClick={() => deleteOutingDate(res.id)}
                           loading={deleteDateLoading}
                         >
@@ -1247,6 +1302,106 @@ const OutingDetails = ({ detailsData }: Props) => {
             )}
           </div>
         </div>
+        {editTrip && (
+          <>
+            <div
+              className="fixed inset-0 z-[31] bg-[#021A3366] opacity-75"
+              onClick={toggleEditModal}
+            ></div>
+            <div className="fixed inset-x-0 top-[40px] z-[32] flex items-center justify-center overflow-auto lg:left-[500px] lg:w-[450px]">
+              <div className="w-full rounded-3xl bg-white p-5 shadow-lg">
+                <div className="flex justify-between">
+                  <Heading type="h3">
+                    Edit {detailsData.type === "tour" ? "Trip" : " Event"}
+                  </Heading>
+                  <p
+                    className="cursor-pointer font-dmSansBold text-[16px] text-[#98A2B3]"
+                    onClick={toggleEditModal}
+                  >
+                    X
+                  </p>
+                </div>
+                <div className="mt-[20px] flex gap-5">
+                  <p
+                    className={`cursor-pointer rounded-md border px-2 py-1 font-dmSansRegular text-[14px] ${
+                      payload.subType === "private"
+                        ? "  bg-[#000000] text-[#ffffff]"
+                        : ""
+                    }`}
+                    onClick={() =>
+                      setPayload({ ...payload, subType: "private" })
+                    }
+                  >
+                    Private Trip
+                  </p>
+                  <p
+                    className={`cursor-pointer rounded-md border px-2 py-1 font-dmSansRegular text-[14px] ${
+                      payload.subType === "group"
+                        ? "  bg-[#000000] text-[#ffffff]"
+                        : ""
+                    }`}
+                    onClick={() => setPayload({ ...payload, subType: "group" })}
+                  >
+                    Group Trip
+                  </p>
+                </div>
+                <div className="my-[10px]">
+                  <Input
+                    label="Trip Name"
+                    placeholder="Enter the trip name"
+                    value={payload.name}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                      setPayload({ ...payload, name: event.target.value })
+                    }
+                  />
+                  <Input
+                    label="Default Duration"
+                    type="number"
+                    placeholder="Default Outing Duration in Days"
+                    value={payload.defaultOutingDurationInDays}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                      setPayload({
+                        ...payload,
+                        defaultOutingDurationInDays: event.target.value,
+                      })
+                    }
+                    className="w-[205px]"
+                  />
+                  <TextArea
+                    label="Descriptions"
+                    placeholder="your placeholder here"
+                    className="h-[135px]"
+                    value={payload.description}
+                    onChange={(event) =>
+                      setPayload({
+                        ...payload,
+                        description: event.target.value,
+                      })
+                    }
+                  />
+                  <Input
+                    placeholder="Enter payment limit in days"
+                    type="number"
+                    label="Payment Deadline"
+                    value={payload.deadlineGap}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                      setPayload({
+                        ...payload,
+                        deadlineGap: event.target.value,
+                      })
+                    }
+                  />
+                  <Button
+                    className="mt-5 w-full rounded-3xl bg-[#0A83FF]"
+                    onClick={() => updateOuting({ query: id, data: payload })}
+                  >
+                    Update {detailsData.type === "tour" ? "Trip" : " Event"}
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

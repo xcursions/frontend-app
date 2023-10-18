@@ -11,6 +11,7 @@ type IUser = {
   deletedAt: string;
   profile: UserProfile;
   email: string;
+  user_booking_info: UserBookingInfo;
 };
 export default IUser;
 
@@ -32,4 +33,14 @@ type UserProfile = {
   username: string;
   createdAt: string;
   updatedAt: string;
+};
+type UserBookingInfo = {
+  createdAt: string;
+  deletedAt: string;
+  id: string;
+  totalAmountPaid: string;
+  totalEvent: string;
+  totalTour: string;
+  updatedAt: string;
+  userId: string;
 };

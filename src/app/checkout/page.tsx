@@ -486,7 +486,8 @@ const Page = () => {
                               {tripInfo?.name}
                             </Text>
                             <Text className="font-dmSansBold text-[16px] text-[#0A83FF] ">
-                              ₦{parseInt(tripInfo?.price, 10).toLocaleString()}
+                              ₦
+                              {parseInt(bookingData?.cost, 10).toLocaleString()}
                             </Text>
                           </div>
                         </div>

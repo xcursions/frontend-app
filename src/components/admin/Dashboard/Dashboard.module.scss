@@ -1,0 +1,15 @@
+.container {
+    @apply w-full;
+}
+.wrapper {
+    margin: 24px 50px;
+}
+.grid_container {
+    display: grid;
+    grid-template-columns: 66% 33%;
+    gap: 20px; 
+    @apply mt-[32px]
+}
+.card_body {
+    @apply w-full rounded-[16px] bg-[#ffffff]
+}

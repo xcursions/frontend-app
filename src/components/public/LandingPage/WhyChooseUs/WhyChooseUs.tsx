@@ -22,7 +22,7 @@ const WhyChooseUs = () => {
         <div className={styles.card_container}>
           <div className={styles.card}>
             <Image
-              src="/assets/images/icons/luggage1.png"
+              src="/assets/images/icons/saving.png"
               alt="luggage icon"
               width={100}
               height={100}
@@ -57,13 +57,15 @@ const WhyChooseUs = () => {
             </div>
           </div>
           <div className={styles.card}>
-            <Image
-              src="/assets/images/icons/airplane.png"
-              alt="luggage icon"
-              width={100}
-              height={100}
-              className="w-[72px] lg:h-[30%] lg:w-[100px]"
-            />
+            <div className="relative h-[130px] w-[100px]">
+              <Image
+                src="/assets/images/icons/location2.png"
+                alt="luggage icon"
+                layout="fill"
+                className=" h-full w-full object-cover"
+              />
+            </div>
+
             <div className={styles.text_container}>
               <Heading type="h3" className={styles.card_heading}>
                 Book Hotels Across the Globe
@@ -77,7 +79,7 @@ const WhyChooseUs = () => {
           </div>
           <div className={styles.card}>
             <Image
-              src="/assets/images/icons/location.png"
+              src="/assets/images/icons/passport.png"
               alt="luggage icon"
               width={100}
               height={100}

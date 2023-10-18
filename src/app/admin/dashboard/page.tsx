@@ -4,6 +4,7 @@ import React from "react";
 import { AiOutlineDown } from "react-icons/ai";
 import { LuCalendarX2 } from "react-icons/lu";
 
+import TransactionDashboard from "@/components/admin/Dashboard";
 import Layout from "@/components/admin/layout/Layout";
 import Heading from "@/components/lib/Heading/Heading";
 import Text from "@/components/lib/Text/Text";
@@ -13,9 +14,13 @@ const Dashboard = () => {
   const { user } = useAppSelector((state) => state.user);
   return (
     <Layout>
-      <div className="flex justify-between p-10">
+      <div className="flex justify-between px-[50px] pt-[40px]">
         <div>
-          <Heading>Hello, {user?.profile?.fullName}🏝️</Heading>
+          <Heading>
+            Hello,{" "}
+            {user?.profile?.username || user?.profile.fullName.split(" ")[0]}
+            🏝️
+          </Heading>
           <Text className="text-[#667084]">Welcome back to your dashboard</Text>
         </div>
         <div>
@@ -29,6 +34,7 @@ const Dashboard = () => {
           </Text>
         </div>
       </div>
+      <TransactionDashboard />
     </Layout>
   );
 };

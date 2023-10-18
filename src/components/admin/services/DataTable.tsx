@@ -8,7 +8,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-import Button from "@/components/lib/Button";
+// import Button from "@/components/lib/Button";
 import {
   Table,
   TableBody,
@@ -82,7 +82,7 @@ export function DataTable<TData, TValue>({
         {table.getFilteredSelectedRowModel().rows.length} of{" "}
         {table.getFilteredRowModel().rows.length} row(s) selected.
       </div>
-      <div className="mx-5 mt-10 flex items-center justify-end gap-2">
+      {/* <div className="mx-5 mt-10 flex items-center justify-end gap-2">
         <span className="flex items-center gap-1">
           <div>Page</div>
           <strong>
@@ -102,7 +102,7 @@ export function DataTable<TData, TValue>({
         >
           Next
         </Button>
-      </div>
+      </div> */}
     </div>
   );
 }
