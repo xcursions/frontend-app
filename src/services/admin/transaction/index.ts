@@ -24,9 +24,9 @@ export const transactionApi = createApi({
         method: "get",
       }),
     }),
-    getAllBooking: builder.query<any, void>({
-      query: () => ({
-        url: "/admin-analytic/bookings",
+    getAllBooking: builder.query<any, any>({
+      query: ({ pageLimit, currentPage }) => ({
+        url: `/admin-analytic/bookings?limit=${pageLimit}&page=${currentPage}`,
         method: "get",
       }),
     }),

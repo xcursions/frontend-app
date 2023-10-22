@@ -41,7 +41,10 @@ const TransactionDashboard = () => {
     isError: isTransactionError,
     error: transactionError,
   } = useGetTransactionVolumeQuery();
-  const { data: bookingData } = useGetAllBookingQuery();
+  const { data: bookingData } = useGetAllBookingQuery({
+    pageLimit: 10,
+    currentPage: 1,
+  });
   const { data: mostBookedData, isSuccess: isMostBookedSuccess } =
     useGetMostBookedTripsQuery();
   const { data: activeUsersData, isSuccess: isActiveUsersSuccess } =
