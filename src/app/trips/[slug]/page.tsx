@@ -111,7 +111,7 @@ const Event = async ({ params }: { params: { slug: string } }) => {
     <main>
       <div className="bg-[#ffffff]">
         <Navbar text={"black"} logo={"black"} />
-        <TripDetails detailsData={data} />
+        {data && <TripDetails detailsData={data} />}
         {/* {isSuccess && <TripDetails detailsData={data} />} */}
         <RelatedTrips />
         <Subscription />
