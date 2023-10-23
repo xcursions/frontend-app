@@ -1,6 +1,6 @@
 import type { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
-import React, { use } from "react";
+import React from "react";
 
 import EventDetails from "@/components/events/EventDetails/EventDetails";
 import RelatedEvents from "@/components/events/RelatedEvents/RelatedEvents";
@@ -96,20 +96,14 @@ export async function generateMetadata(
           height: 600,
           alt: `${product.name}`,
         },
-        {
-          url: `${product.outingGallery[1].image}`,
-          width: 800,
-          height: 600,
-          alt: `${product.name}`,
-        },
       ],
     },
   };
 }
 
-const Event = ({ params }: { params: { slug: string } }) => {
+const Event = async ({ params }: { params: { slug: string } }) => {
   const { slug } = params;
-  const data = use(getOutingData(slug));
+  const data = await getOutingData(slug);
   // const { data, isSuccess } = useSearchOutingsQuery(`/${slug}`);
   // if (isSuccess && !data) {
   //   notFound();
