@@ -1,6 +1,6 @@
 import type { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
-import React, { use } from "react";
+import React from "react";
 
 import Footer from "@/components/public/Footer/Footer";
 import Navbar from "@/components/public/Navbar/Navbar";
@@ -47,12 +47,6 @@ export async function generateMetadata(
       images: [
         {
           url: `${product.outingGallery[0].image}`,
-          width: 800,
-          height: 600,
-          alt: `${product.name}`,
-        },
-        {
-          url: `${product.outingGallery[1].image}`,
           width: 800,
           height: 600,
           alt: `${product.name}`,
@@ -106,10 +100,10 @@ export async function generateMetadata(
     },
   };
 }
-const Event = ({ params }: { params: { slug: string } }) => {
+const Event = async ({ params }: { params: { slug: string } }) => {
   const { slug } = params;
   // const { data, isSuccess } = useSearchOutingsQuery(`/${slug}`);
-  const data = use(getOutingData(slug));
+  const data = await getOutingData(slug);
   // if (isSuccess && !data) {
   //   notFound();
   // }

@@ -1,6 +1,6 @@
 import type { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
-import React, { use } from "react";
+import React from "react";
 
 import BlogDetails from "@/components/blog/BlogDetails/BlogDetails";
 import Footer from "@/components/public/Footer/Footer";
@@ -94,9 +94,9 @@ export async function generateMetadata(
   };
 }
 
-const Blog = ({ params }: { params: { slug: string } }) => {
+const Blog = async ({ params }: { params: { slug: string } }) => {
   const { slug } = params;
-  const data = use(getBlogData(slug));
+  const data = await getBlogData(slug);
   // const { data, isSuccess } = useGetSingleBlogQuery(slug);
   // if (isSuccess && !data) {
   //   notFound();
