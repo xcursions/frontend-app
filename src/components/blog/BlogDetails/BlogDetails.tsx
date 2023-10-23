@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -44,8 +46,9 @@ const BlogDetails = ({ detailsData }: Props) => {
       <div className={styles.background_container}>
         <div className={styles.featured_blog}>
           <Image
-            width={800}
-            height={415}
+            // width={800}
+            // height={415}
+            layout="fill"
             src={detailsData.blogFeaturedImage.image}
             alt="featured blog"
             className={styles.image}
