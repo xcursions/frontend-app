@@ -1,7 +1,7 @@
 import "../globals.scss";
 
 export const metadata = {
-  title: "Xcursions Travel Chronicles",
+  title: "Blog | Xcursions Travel Chronicles",
   description:
     "Embark on epic journeys through our blog and fuel your wanderlust. Xcursions blog top 10 vacation destinations",
   keywords: [
