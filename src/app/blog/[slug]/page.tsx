@@ -11,7 +11,7 @@ import Subscription from "@/components/public/Subscription/Subscription";
 async function getBlogData(slug: string) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/blog/posts/${slug}`,
-    { cache: "default" }
+    { cache: "no-cache" }
   );
   if (!res.ok) return notFound();
   const data = await res.json();
