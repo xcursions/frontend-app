@@ -105,7 +105,7 @@ const Blog = async ({ params }: { params: { slug: string } }) => {
     <div>
       <div className="bg-[#F9FAFB]">
         <Navbar text={"white"} logo={"white"} />
-        <BlogDetails detailsData={data} />
+        {data && <BlogDetails detailsData={data} />}
         {/* {isSuccess && <BlogDetails detailsData={data} />} */}
         <Subscription />
         <Footer />
