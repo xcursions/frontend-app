@@ -107,7 +107,6 @@ const Event = async ({ params }: { params: { slug: string } }) => {
   // if (isSuccess && !data) {
   //   notFound();
   // }
-  console.log(data);
   return (
     <main>
       <div className="bg-[#ffffff]">
