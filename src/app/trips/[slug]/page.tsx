@@ -12,7 +12,7 @@ import TripDetails from "@/components/trips/TripDetails/TripDetails";
 async function getOutingData(slug: string) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/outing/outings/${slug}`,
-    { cache: "default" }
+    { cache: "no-cache" }
   );
   if (!res.ok) return notFound();
   const data = await res.json();
@@ -107,6 +107,7 @@ const Event = async ({ params }: { params: { slug: string } }) => {
   // if (isSuccess && !data) {
   //   notFound();
   // }
+  console.log(data);
   return (
     <main>
       <div className="bg-[#ffffff]">
