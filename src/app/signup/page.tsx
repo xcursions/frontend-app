@@ -45,10 +45,18 @@ const Signup = () => {
   const dispatch = useAppDispatch();
   const [register, { isLoading, data, isError, error, isSuccess }] =
     useRegisterMutation();
-  const [googleLogin, { isSuccess: googleSuccess, data: googleData }] =
-    useGoogleSignupMutation();
+  const [
+    googleLogin,
+    {
+      isSuccess: googleSuccess,
+      data: googleData,
+      isError: isGoogleError,
+      error: googleError,
+    },
+  ] = useGoogleSignupMutation();
 
   useErrorHandler({ isError, error });
+  useErrorHandler({ isError: isGoogleError, error: googleError });
   useSuccessHandler({
     isSuccess,
     successFunction: () => {
