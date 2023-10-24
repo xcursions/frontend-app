@@ -11,6 +11,9 @@ export const metadata: Metadata = {
   title: "Xcursions",
   description:
     "Travel round the world with the best travel agents in Nigeria and experience, take a trip and create unforgettable memories",
+  manifest: "/manifest.json",
+  icons: { apple: "/icon.png" },
+  themeColor: "#ffffff",
   openGraph: {
     title: "Xcursions landing page",
     description:
@@ -84,7 +87,6 @@ export const metadata: Metadata = {
     creatorId: "",
     images: ["/assets/images/landing-page/Landing_page_Header.png"],
   },
-  icons: "/assets/images/icons/luggage.png",
 };
 export default function RootLayout({
   children,
