@@ -81,7 +81,7 @@ const TripDetails = ({ detailsData }: Props) => {
   });
   const [selectedItems, setSelectedItems] = useState<any[]>([]);
   const [selectedTrip, setSelectedTrip] = useState<"private" | "group">(
-    "group"
+    "private"
   );
   const { user } = useAppSelector((state) => state.user);
   const [galleryOpen, setGalleryOpen] = useState(false);

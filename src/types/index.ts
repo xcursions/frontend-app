@@ -1,3 +1,4 @@
+export type { default as AdminBookingProps } from "./AdminBookingProps";
 export type { default as BlogProps } from "./BlogProps";
 export type { UploadAvatarProp } from "./misc";
 export type { default as OutingProps } from "./OutingProps";

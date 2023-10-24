@@ -1,8 +1,9 @@
 import "../globals.scss";
 
 export const metadata = {
-  title: "Top Events happening around the worls",
-  description: "Book Event to exotic locations around the world",
+  title: "Top Events happening around the world",
+  description:
+    "View and book top events, shows and festivals around the world. with Xcursions",
 };
 
 export default function RootLayout({

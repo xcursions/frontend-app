@@ -129,10 +129,12 @@ const Page = () => {
         trip: res.name,
         amount: res.outingChargePlan?.singleOccupancyAmount || "no price set",
         id: res.id,
-        viewBy: res.viewCount,
+        viewBy: res?.viewCount,
         createdAt: res.createdAt.split("T")[0],
-        bookedBy: res.bookingCount,
-        image: res.outingGallery[0].image,
+        bookedBy: res?.bookingCount,
+        image:
+          res?.outingGallery[0]?.image ||
+          "/assets/images/landing-page/Landing_page_Header.png",
       };
     });
   const blogData =
@@ -143,7 +145,7 @@ const Page = () => {
         id: res.id,
         viewBy: res.readTimeInMinute,
         createdAt: res.createdAt.split("T")[0],
-        image: res.blogFeaturedImage?.image,
+        image: res?.blogFeaturedImage?.image,
       };
     });
   const columns: ColumnDef<Payment>[] = [
@@ -392,14 +394,14 @@ const Page = () => {
               <div className="mt-10 flex justify-between  px-[12px] pt-10">
                 <Heading type="h3">All Trips</Heading>
                 <div className="flex items-center gap-4">
-                  <div className="flex gap-3 rounded-3xl border p-1 text-[12px]">
+                  {/* <div className="flex gap-3 rounded-3xl border p-1 text-[12px]">
                     <Text className="cursor-pointer rounded-3xl bg-[#EBF5FF] p-1 text-[#0A83FF]">
                       Private Trip
                     </Text>
                     <Text className="cursor-pointer rounded-3xl p-1">
                       Group Trip
                     </Text>
-                  </div>
+                  </div> */}
                   <div className="flex items-center gap-2 rounded-3xl border p-1 ">
                     <FaCalendarAlt />
                     <Text className="text-[12px] text-[#101828]">Date:</Text>
