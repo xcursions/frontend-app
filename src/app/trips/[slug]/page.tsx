@@ -90,12 +90,6 @@ export async function generateMetadata(
           height: 600,
           alt: `${product.name}`,
         },
-        {
-          url: `${product.outingGallery[1].image}`,
-          width: 800,
-          height: 600,
-          alt: `${product.name}`,
-        },
       ],
     },
   };
