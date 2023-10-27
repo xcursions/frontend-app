@@ -1,11 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import React, { useCallback, useState } from "react";
-import { useDropzone } from "react-dropzone";
-import { TbFileUpload } from "react-icons/tb";
+import React, { useState } from "react";
 
 import Button from "@/components/lib/Button/Button";
+import FileUpload from "@/components/lib/FileUpload";
 import FullPageLoader from "@/components/lib/FullPageLoader";
 import Heading from "@/components/lib/Heading";
 import Input from "@/components/lib/Input";
@@ -44,7 +43,7 @@ const gender = [
 const ProfileForm = () => {
   const [profile, setProfile] = useState(initialState);
   const [password, setPassword] = useState(initialPasswordState);
-  const [file, setFile] = useState<File | null>(null);
+  const [photoFiles, setPhotoFiles] = useState<File[]>([]);
   const { data } = useGetUserProfileQuery();
   const [uploadImage, { isLoading, isError, error, isSuccess }] =
     useUpdateUserPictureMutation();
@@ -96,28 +95,11 @@ const ProfileForm = () => {
   useSuccessHandler({
     isSuccess,
     successFunction: () => {
-      setFile(null);
+      setPhotoFiles([]);
     },
     toastMessage: "Profile Picture changed",
   });
 
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    if (acceptedFiles) {
-      const newFile = acceptedFiles[0];
-
-      if (newFile) {
-        setFile(newFile);
-      }
-    }
-  }, []);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: {
-      "image/png": [".png"],
-      "image/jpg": [".jpg"],
-      "image/jpeg": [".jpeg"],
-    },
-  });
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setProfile({ ...profile, [event.target.name]: event.target.value });
   };
@@ -131,13 +113,22 @@ const ProfileForm = () => {
     updatePassword(password);
   };
   const handleUploadImage = () => {
-    if (file) {
-      const formData = new FormData();
-      formData.append("image", file as File);
-      formData.append("type", "image");
-
-      uploadImage(formData);
+    const formData = new FormData();
+    if (photoFiles) {
+      if (photoFiles.length > 0) {
+        for (let i = 0; i < photoFiles.length; i += 1) {
+          if (photoFiles[i]) {
+            formData.append("image", photoFiles[i] as File);
+            formData.append("type", "image");
+            uploadImage(formData);
+            setPhotoFiles([]);
+          }
+        }
+      }
     }
+  };
+  const handlePhotoChange = (files: File[]) => {
+    setPhotoFiles(files);
   };
   return (
     <div className={styles.container}>
@@ -157,37 +148,17 @@ const ProfileForm = () => {
           />
           <div className="w-full p-3 lg:w-[142px]">
             <Text className="font-dmSansBold text-[14px]">Profile Picture</Text>
-            {file ? (
-              <figure className={styles.container}>
-                <img
-                  src={URL.createObjectURL(file)}
-                  alt=""
-                  className={styles.image}
-                />
-              </figure>
-            ) : (
-              <div className={styles.dropzone} {...getRootProps()}>
-                <input {...getInputProps()} accept="image/*" multiple={false} />
-
-                <TbFileUpload className="text-3xl" />
-
-                {isDragActive ? (
-                  <Text className="font-dmSansBold">Drop your image here!</Text>
-                ) : (
-                  <>
-                    <Text className="text-[10px] font-light">
-                      We recommend an image of at least 400x400. Supports jpg,
-                      png and gif
-                    </Text>
-                  </>
-                )}
-              </div>
-            )}
+            <FileUpload
+              multiple={true}
+              files={photoFiles}
+              name="file"
+              handleChange={handlePhotoChange}
+            />
 
             <Button
               className="mt-5 rounded-2xl text-[14px]"
               onClick={handleUploadImage}
-              disabled={!file}
+              disabled={!photoFiles.length}
               loading={isLoading}
             >
               Upload

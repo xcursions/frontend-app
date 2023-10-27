@@ -1,0 +1,17 @@
+.container {
+    @apply p-10 bg-[#F2F4F7] mr-3 xl:mr-5;
+}
+.title {
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    @apply border  text-[18px] hidden lg:block bg-[#ffffff];
+}
+.wrapper {
+    @apply flex flex-col xl:flex-row mx-auto w-full gap-10 py-3 lg:justify-around items-center xl:items-start bg-[#ffffff] lg:border;
+}
+.profileCard {
+    @apply flex pt-5
+}
+.profileForm {
+    @apply w-auto lg:w-[354px] pt-5;
+}
