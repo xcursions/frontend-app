@@ -37,6 +37,36 @@ export const adminUsersApi = createApi({
       }),
       invalidatesTags: ["Admin"],
     }),
+    getAllTeam: builder.query<any, void>({
+      query: () => ({
+        url: "/admin-analytic/teams/users",
+        method: "get",
+      }),
+      providesTags: ["Admin"],
+    }),
+    createTeam: builder.mutation<any, any>({
+      query: (data) => ({
+        url: "/admin-analytic/teams/users",
+        method: "post",
+        data,
+      }),
+      invalidatesTags: ["Admin"],
+    }),
+    updateTeam: builder.mutation<any, any>({
+      query: ({ query, data }) => ({
+        url: `"/admin-analytic/teams/users/${query}`,
+        method: "put",
+        data,
+      }),
+      invalidatesTags: ["Admin"],
+    }),
+    deleteTeam: builder.mutation<any, any>({
+      query: (query) => ({
+        url: `"/admin-analytic/teams/users/${query}`,
+        method: "delete",
+      }),
+      invalidatesTags: ["Admin"],
+    }),
   }),
 });
 
@@ -44,5 +74,9 @@ export const {
   useCreateCustomerMutation,
   useDeleteSingleCustomerMutation,
   useGetAllCustomersQuery,
+  useGetAllTeamQuery,
+  useCreateTeamMutation,
+  useUpdateTeamMutation,
+  useDeleteTeamMutation,
   useUpdateSingleCustomerMutation,
 } = adminUsersApi;

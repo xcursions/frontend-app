@@ -9,6 +9,7 @@ import { AiOutlineArrowLeft, AiOutlineUpload } from "react-icons/ai";
 import { GiCancel } from "react-icons/gi";
 import { IoAdd } from "react-icons/io5";
 import { RiDeleteBinLine } from "react-icons/ri";
+import { SlOptions } from "react-icons/sl";
 
 import Button from "@/components/lib/Button/Button";
 import FileUpload from "@/components/lib/FileUpload";
@@ -40,6 +41,7 @@ import {
   useGetOutingAddonsQuery,
   useGetReviewsQuery,
   useUpdateChargePlanMutation,
+  useUpdateOutingAddonMutation,
   useUpdateOutingMutation,
 } from "@/services/admin";
 import type { OutingProps } from "@/types";
@@ -128,6 +130,8 @@ const OutingDetails = ({ detailsData }: Props) => {
   const [payload, setPayload] = useState(initialState);
   const [datePayload, setDatePayload] = useState(outingDateState);
   const [photoFiles, setPhotoFiles] = useState<File[]>([]);
+  const [addonUpdate, setAddonUpdate] = useState(false);
+  const [addonUpdateId, setAddonUpdateId] = useState("");
   const [addonFiles, setAddonFiles] = useState<File[]>([]);
   const [destinationPayload, setDestinationPayload] = useState(
     initialDestinationState
@@ -293,6 +297,16 @@ const OutingDetails = ({ detailsData }: Props) => {
       error: addonError,
     },
   ] = useCreateOutingAddonMutation();
+  const [
+    updateAddon,
+    {
+      data: addonUpdateData,
+      isSuccess: IsAddonUpdateSuccess,
+      isError: IsAddonUpdateError,
+      isLoading: addonUpdateLoading,
+      error: addonUpdateError,
+    },
+  ] = useUpdateOutingAddonMutation();
   const [uploadAddonIcon] = useCreateOutingAddonIconMutation();
   const [
     createReview,
@@ -362,6 +376,10 @@ const OutingDetails = ({ detailsData }: Props) => {
   useErrorHandler({
     isError: IsAddonError,
     error: addonError,
+  });
+  useErrorHandler({
+    isError: IsAddonUpdateError,
+    error: addonUpdateError,
   });
   useErrorHandler({
     isError: isCreateReviewError,
@@ -460,6 +478,9 @@ const OutingDetails = ({ detailsData }: Props) => {
     isSuccess: destinationSuccess,
     toastMessage: "Destination Created successfully!",
   });
+  const toggleAddonModal = () => {
+    setIsAddOnOpen(!isAddOnOpen);
+  };
   useSuccessHandler({
     isSuccess: IsAddonSuccess,
     successFunction: () => {
@@ -477,12 +498,38 @@ const OutingDetails = ({ detailsData }: Props) => {
               });
               setAddonFiles([]);
               setAddonPayload(initialAddonState);
+              toggleAddonModal();
             }
           }
         }
       }
     },
     toastMessage: "Addon Successfully Added",
+  });
+  useSuccessHandler({
+    isSuccess: IsAddonUpdateSuccess,
+    successFunction: () => {
+      const formData = new FormData();
+      if (addonFiles) {
+        if (addonFiles.length > 0) {
+          for (let i = 0; i < addonFiles.length; i += 1) {
+            if (addonFiles[i]) {
+              formData.append("image", addonFiles[i] as File);
+              formData.append("type", "image");
+              uploadAddonIcon({
+                query: id,
+                id: addonUpdateData.id,
+                data: formData,
+              });
+              setAddonFiles([]);
+              setAddonPayload(initialAddonState);
+              toggleAddonModal();
+            }
+          }
+        }
+      }
+    },
+    toastMessage: "Addon Successfully Updated",
   });
   useSuccessHandler({
     isSuccess: pickupSuccess,
@@ -507,9 +554,6 @@ const OutingDetails = ({ detailsData }: Props) => {
   const toggleEditModal = () => {
     setEditTrip(!editTrip);
   };
-  const toggleAddonModal = () => {
-    setIsAddOnOpen(!isAddOnOpen);
-  };
   const toggleDateModal = () => {
     setIsDateOpen(!isDateOpen);
   };
@@ -517,7 +561,11 @@ const OutingDetails = ({ detailsData }: Props) => {
     setIsReviewOpen(!isReviewOpen);
   };
   const handleAddonSubmit = () => {
-    createAddon({ query: id, data: addonPayload });
+    if (addonUpdate) {
+      updateAddon({ query: id, id: addonUpdateId, data: addonPayload });
+    } else {
+      createAddon({ query: id, data: addonPayload });
+    }
   };
   const handleReviewSubmit = () => {
     createReview({ query: id, data: reviewPayload });
@@ -542,6 +590,18 @@ const OutingDetails = ({ detailsData }: Props) => {
   }, [showInLandingPage]);
   const handleSwitchChange = () => {
     setShowInLandingPage(!showInLandingPage);
+  };
+  const handleAddonUpdate = (info) => {
+    setAddonUpdate(true);
+    setAddonPayload({
+      ...addonPayload,
+      default: info.default,
+      name: info.name,
+      description: info.description,
+      cost: info.cost,
+    });
+    setAddonUpdateId(info.id);
+    toggleAddonModal();
   };
   return (
     <div>
@@ -663,7 +723,7 @@ const OutingDetails = ({ detailsData }: Props) => {
                       <div className="fixed inset-x-0 top-[70px] z-[32] flex items-center justify-center overflow-auto lg:left-[510px] lg:w-[420px]">
                         <div className="w-full rounded-3xl bg-white p-5 shadow-lg">
                           <div className="flex justify-between">
-                            <Heading type="h3">Flight Itinerary</Heading>
+                            <Heading type="h3">Trip Itinerary</Heading>
                             <p
                               className="cursor-pointer font-dmSansBold text-[16px] text-[#98A2B3]"
                               onClick={toggleAddonModal}
@@ -747,10 +807,12 @@ const OutingDetails = ({ detailsData }: Props) => {
                             />
                             <Button
                               className="my-4 w-full rounded-3xl"
-                              loading={addonLoading}
+                              loading={addonLoading || addonUpdateLoading}
                               onClick={handleAddonSubmit}
                             >
-                              Add Itinerary
+                              {addonUpdate
+                                ? "Update Itinerary"
+                                : "Add Itinerary"}
                             </Button>
                           </div>
                         </div>
@@ -781,6 +843,12 @@ const OutingDetails = ({ detailsData }: Props) => {
                               }
                             >
                               <GiCancel className="text-[#98A2B3]" />
+                            </div>{" "}
+                            <div
+                              className="absolute left-0 top-0 cursor-pointer rounded-full bg-[#ffffff] p-2"
+                              onClick={() => handleAddonUpdate(info)}
+                            >
+                              <SlOptions className="text-[#98A2B3]" />
                             </div>{" "}
                             <Addon key={index} {...info} />
                           </div>
