@@ -6,6 +6,7 @@ type IUser = {
   emailVerified: boolean;
   suspended: boolean;
   role: string;
+  teamRole: string;
   createdAt: string;
   updatedAt: string;
   deletedAt: string;

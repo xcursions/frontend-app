@@ -111,6 +111,14 @@ export const adminApi = createApi({
       }),
       invalidatesTags: ["Admin"],
     }),
+    updateOutingAddon: builder.mutation<any, any>({
+      query: ({ query, id, data }) => ({
+        url: `/outing-addon/outings/${query}/outingAddons/${id}`,
+        method: "put",
+        data,
+      }),
+      invalidatesTags: ["Admin"],
+    }),
     deleteOutingAddon: builder.mutation<any, any>({
       query: ({ query, id }) => ({
         url: `/outing-addon/outings/${query}/outingAddons/${id}`,
@@ -260,6 +268,7 @@ export const {
   useCreateChargePlanMutation,
   useUpdateChargePlanMutation,
   useCreateOutingAddonMutation,
+  useUpdateOutingAddonMutation,
   useDeleteOutingAddonMutation,
   useGetOutingAddonsQuery,
   useCreateOutingAddonIconMutation,
