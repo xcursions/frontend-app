@@ -270,11 +270,13 @@ const SearchTrips = () => {
         </div>
         {/* Trip Cards */}
         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-          {outingData.map((post) => (
-            <Link key={`${post.id}`} href={`/trips/${post.id}`}>
-              <TripCard post={post} />
-            </Link>
-          ))}
+          {outingData
+            .filter((items) => items.outingGallery.length > 0)
+            .map((post) => (
+              <Link key={`${post.id}`} href={`/trips/${post.id}`}>
+                <TripCard post={post} />
+              </Link>
+            ))}
         </div>
         {data && (
           <Pagination
