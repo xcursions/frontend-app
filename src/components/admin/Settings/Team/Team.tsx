@@ -227,6 +227,7 @@ const Team = () => {
       },
     },
   ];
+  console.log(id);
   return (
     <Layout>
       <div className={styles.container}>

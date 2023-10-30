@@ -54,7 +54,7 @@ export const adminUsersApi = createApi({
     }),
     updateTeam: builder.mutation<any, any>({
       query: ({ query, data }) => ({
-        url: `"/admin-analytic/teams/users/${query}`,
+        url: `/admin-analytic/teams/users/${query}`,
         method: "put",
         data,
       }),
@@ -62,7 +62,7 @@ export const adminUsersApi = createApi({
     }),
     deleteTeam: builder.mutation<any, any>({
       query: (query) => ({
-        url: `"/admin-analytic/teams/users/${query}`,
+        url: `/admin-analytic/teams/users/${query}`,
         method: "delete",
       }),
       invalidatesTags: ["Admin"],
