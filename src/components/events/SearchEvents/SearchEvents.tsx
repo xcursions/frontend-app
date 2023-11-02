@@ -260,11 +260,18 @@ const SearchEvents = () => {
         </div>
         {/* Trip Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-          {outingData.map((post) => (
-            <Link key={`${post.id}`} href={`/events/${post.id}`}>
-              <EventCard post={post} />
-            </Link>
-          ))}
+          {outingData
+            .filter(
+              (items) =>
+                items.outingGallery.length > 0 &&
+                parseInt(items.outingChargePlan.costGroup, 10) > 1 &&
+                items.outingChargePlan
+            )
+            .map((post) => (
+              <Link key={`${post.id}`} href={`/events/${post.id}`}>
+                <EventCard post={post} />
+              </Link>
+            ))}
         </div>
         {data && (
           <Pagination

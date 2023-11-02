@@ -10,8 +10,9 @@ import type { OutingProps } from "@/types";
 import TripCard from "../SearchTrips/TripCard/TripCard";
 
 const RelatedTrips = () => {
-  const { data: eventData, isSuccess: eventSuccess } =
-    useSearchOutingsQuery("?type=tour");
+  const { data: eventData, isSuccess: eventSuccess } = useSearchOutingsQuery(
+    "?type=tour&limit=15"
+  );
   return (
     <div>
       <div className="mx-auto mt-[70px] max-w-[1241px] px-3 lg:mt-[54px]">
@@ -24,11 +25,18 @@ const RelatedTrips = () => {
             }}
           >
             {eventSuccess &&
-              eventData.result?.map((post: OutingProps) => (
-                <Link href={`/trips/${post.id}`} key={`${post.id}`}>
-                  <TripCard post={post} />
-                </Link>
-              ))}
+              eventData.result
+                ?.filter(
+                  (items: OutingProps) =>
+                    items.outingGallery.length > 0 &&
+                    parseInt(items.outingChargePlan.costGroup, 10) > 1 &&
+                    items.outingChargePlan
+                )
+                .map((post: OutingProps) => (
+                  <Link href={`/trips/${post.id}`} key={`${post.id}`}>
+                    <TripCard post={post} />
+                  </Link>
+                ))}
           </div>
         </div>
       </div>
