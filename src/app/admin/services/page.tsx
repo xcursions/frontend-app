@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import toaster from "react-hot-toast";
 import { AiOutlinePlus } from "react-icons/ai";
 import { FaCalendarAlt } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -19,6 +20,7 @@ import Input from "@/components/lib/Input/Input";
 import { Pagination } from "@/components/lib/Pagination";
 import Text from "@/components/lib/Text";
 import TextArea from "@/components/lib/TextArea/TextArea";
+import { useAppSelector } from "@/hooks";
 import useErrorHandler from "@/hooks/useErrorHandler";
 import useSuccessHandler from "@/hooks/useSuccessHandler";
 import {
@@ -60,6 +62,7 @@ export type BlogPayment = {
   image: string;
 };
 const Page = () => {
+  const { user } = useAppSelector((state) => state.user);
   const [newTrip, setNewTrip] = useState(false);
   const [isBlog, setIsBlog] = useState(false);
   const [outingType, setOutingType] = useState("tour");
@@ -310,7 +313,12 @@ const Page = () => {
       },
     },
   ];
-
+  useEffect(() => {
+    if (user?.teamRole !== "service" && user?.teamRole !== "none") {
+      toaster.error("You do not have permission to visit this page");
+      router.push("/admin/dashboard");
+    }
+  }, []);
   return (
     <Layout>
       <div className="mx-[40px] mt-[40px]">
