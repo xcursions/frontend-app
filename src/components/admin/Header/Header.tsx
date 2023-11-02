@@ -6,7 +6,6 @@ import { HiOutlineMenuAlt1 } from "react-icons/hi";
 import { IoNotificationsOutline } from "react-icons/io5";
 
 import FullPageLoader from "@/components/lib/FullPageLoader";
-import Input from "@/components/lib/Input/Input";
 import { useLogoutUser } from "@/hooks";
 import DropdownMenu from "@/ui-components/DropdownMenu";
 import IconWrapper from "@/ui-components/IconWrapper";
@@ -34,7 +33,7 @@ export const menuList = [
   {
     text: "Edit Profile",
     Icon: FiUser,
-    href: "/user/account",
+    href: "/admin/settings",
   },
   {
     text: "Go to HomePage",
@@ -110,12 +109,12 @@ const Header = ({ toggleSidebarMenu }: any) => {
                 <HiOutlineMenuAlt1 />
               </button>
             </li>
-            <li>
+            {/* <li>
               <Input
                 placeholder="Search for product here"
                 className="w-[330px]"
               />
-            </li>
+            </li> */}
           </ul>
         </div>
         <div className={styles["right-items"]}>
