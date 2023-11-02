@@ -30,7 +30,7 @@ const TripCard = ({ post }: Props) => {
         <div>
           <Text>{post.name}</Text>
           <Text className="text-[16px] text-[#0A83FF]">{`₦${parseInt(
-            post?.outingChargePlan?.singleOccupancyAmount,
+            post?.outingChargePlan?.cost,
             10
           ).toLocaleString()}`}</Text>
         </div>

@@ -44,7 +44,7 @@ const EventCard = ({ post }: Props) => {
           </div>
           <Button className="mx-2 rounded-2xl bg-white text-[#0A83FF]">
             {`₦${parseInt(
-              post?.outingChargePlan?.singleOccupancyAmount,
+              post?.outingChargePlan?.costGroup,
               10
             ).toLocaleString()}`}
           </Button>
