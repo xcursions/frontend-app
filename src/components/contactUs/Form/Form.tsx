@@ -1,8 +1,10 @@
 "use client";
 
 import Image from "next/image";
+// import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { AiOutlineWhatsApp } from "react-icons/ai";
 import { FiNavigation, FiPhoneCall } from "react-icons/fi";
 import { TbMailbox } from "react-icons/tb";
 
@@ -35,6 +37,23 @@ const Form = () => {
   const handleSubmit = () => {
     createContact(payload);
   };
+  const address =
+    "No 13 LK ANGA, along Total Gospel Road, Peter Odili, Port Harcourt";
+  const address2 =
+    "His Glory Plaza, Suite 206 Ademola Adetokunbo Crescent Wuse 2 Abuja";
+
+  const openMap = () => {
+    window.open(
+      `https://maps.google.com/?q=${encodeURIComponent(address)}`,
+      "_blank"
+    );
+  };
+  const openMap2 = () => {
+    window.open(
+      `https://maps.google.com/?q=${encodeURIComponent(address2)}`,
+      "_blank"
+    );
+  };
   return (
     <div className="w-full px-5 py-[58px]">
       <div className="relative mx-auto max-w-[1241px]">
@@ -43,12 +62,27 @@ const Form = () => {
             <Text className="font-dmSansBold text-[16px] font-bold text-[#101828] lg:text-[24px] ">
               Reach Our Team
             </Text>
+            <a
+              href={`https://wa.me/+2348168277417`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div className="flex items-center gap-3 pt-3">
+                <div className="rounded-full bg-[#EBF5FF] p-3">
+                  <AiOutlineWhatsApp className="text-[#0A83FF]" />
+                </div>
+                <Text className="cursor-pointer text-[16px] text-[#000000] lg:text-[20px]">
+                  Click here to reach us on Whatsapp
+                </Text>
+              </div>
+            </a>
             <div className="flex items-center gap-3 pt-3">
               <div className="rounded-full bg-[#EBF5FF] p-3">
                 <FiPhoneCall className="text-[#0A83FF]" />
               </div>
               <Text className="text-[16px] text-[#000000] lg:text-[20px]">
-                +234 8012914116 +234 7057051768
+                <a href={`tel:+2348012914116`}>+2348012914116</a> or{" "}
+                <a href={`tel:+2347057051768`}>+2347057051768</a>
               </Text>
             </div>
             <div className="flex items-center gap-3 pt-3">
@@ -56,10 +90,15 @@ const Form = () => {
                 <TbMailbox className="text-[#0A83FF]" />
               </div>
               <Text className="text-[16px] text-[#000000] lg:text-[20px]">
-                xcursionsng@gmail.com
+                <a href={`mailto:xcursionsng@gmail.com`}>
+                  xcursionsng@gmail.com
+                </a>
               </Text>
             </div>
-            <div className="flex items-center gap-3 pt-3">
+            <div
+              className="flex cursor-pointer items-center gap-3 pt-3"
+              onClick={openMap}
+            >
               <div className="rounded-full bg-[#EBF5FF] p-3">
                 <FiNavigation className="text-[#0A83FF]" />
               </div>
@@ -68,7 +107,10 @@ const Form = () => {
                 Harcourt
               </Text>
             </div>
-            <div className="flex items-center gap-3 pt-3">
+            <div
+              className="flex cursor-pointer items-center gap-3 pt-3"
+              onClick={openMap2}
+            >
               <div className="rounded-full bg-[#EBF5FF] p-3">
                 <FiNavigation className="text-[#0A83FF]" />
               </div>

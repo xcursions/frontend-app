@@ -47,7 +47,7 @@ const SearchTrips = () => {
 
   const [outingData, setOutingData] = useState<OutingProps[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const pageLimit = 12;
+  const pageLimit = 16;
   const { data, isSuccess } = useFetchAllOutingsQuery({
     limit: pageLimit,
     page: currentPage,
@@ -271,7 +271,12 @@ const SearchTrips = () => {
         {/* Trip Cards */}
         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
           {outingData
-            .filter((items) => items.outingGallery.length > 0)
+            .filter(
+              (items) =>
+                items.outingGallery.length > 0 &&
+                parseInt(items.outingChargePlan.costGroup, 10) > 1 &&
+                items.outingChargePlan
+            )
             .map((post) => (
               <Link key={`${post.id}`} href={`/trips/${post.id}`}>
                 <TripCard post={post} />

@@ -24,11 +24,18 @@ const RelatedEvents = () => {
             }}
           >
             {eventSuccess &&
-              eventData.result?.map((post: OutingProps) => (
-                <Link href={`/events/${post.id}`} key={`${post.id}`}>
-                  <EventCard post={post} />
-                </Link>
-              ))}
+              eventData.result
+                ?.filter(
+                  (items: OutingProps) =>
+                    items.outingGallery.length > 0 &&
+                    parseInt(items.outingChargePlan.costGroup, 10) > 1 &&
+                    items.outingChargePlan
+                )
+                .map((post: OutingProps) => (
+                  <Link href={`/events/${post.id}`} key={`${post.id}`}>
+                    <EventCard post={post} />
+                  </Link>
+                ))}
           </div>
         </div>
       </div>
