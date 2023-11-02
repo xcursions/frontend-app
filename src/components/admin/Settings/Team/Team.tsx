@@ -2,7 +2,9 @@
 
 import type { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
-import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import toaster from "react-hot-toast";
 import { AiOutlinePlus } from "react-icons/ai";
 import { MdOutlineEdit } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -13,6 +15,7 @@ import Input from "@/components/lib/Input";
 import Select from "@/components/lib/Select";
 import Text from "@/components/lib/Text";
 import { Switch } from "@/components/ui/switch";
+import { useAppSelector } from "@/hooks";
 import useErrorHandler from "@/hooks/useErrorHandler";
 import useSuccessHandler from "@/hooks/useSuccessHandler";
 import {
@@ -54,6 +57,8 @@ export type AdminTeams = {
 };
 
 const Team = () => {
+  const { user } = useAppSelector((state) => state.user);
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [payload, setPayload] = useState(initialState);
@@ -227,6 +232,12 @@ const Team = () => {
       },
     },
   ];
+  useEffect(() => {
+    if (user?.teamRole !== "none") {
+      toaster.error("You do not have permission to visit this page");
+      router.push("/admin/dashboard");
+    }
+  }, []);
   return (
     <Layout>
       <div className={styles.container}>
