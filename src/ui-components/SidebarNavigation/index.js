@@ -1,11 +1,12 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable import/extensions */
 /* eslint-disable dot-notation */
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import Logo from '@/components/lib/Logo';
-import Image from 'next/image';
-import styles from './SidebarNavigation.module.css';
-import routes from '../../routes';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import Logo from "@/components/lib/Logo";
+import Image from "next/image";
+import styles from "./SidebarNavigation.module.css";
+import routes from "../../routes";
 
 const SidebarNavigation = ({ sidebarMenuActive, toggleSidebarMenu }) => {
   const Pathname = usePathname();
@@ -13,24 +14,24 @@ const SidebarNavigation = ({ sidebarMenuActive, toggleSidebarMenu }) => {
   return (
     <section
       className={`${styles.container} ${
-        sidebarMenuActive ? styles['active'] : ''
+        sidebarMenuActive ? styles["active"] : ""
       }`}
     >
       <button
-        className={styles['sidebar-close-btn']}
+        className={styles["sidebar-close-btn"]}
         onClick={toggleSidebarMenu}
       >
         x
       </button>
-      <div className={styles['logo-container']}>
+      <div className={styles["logo-container"]}>
         <Logo type="white" />
       </div>
-      <ul className={styles['sidebar-container']}>
+      <ul className={styles["sidebar-container"]}>
         {routes.map((page, index) => (
           <li
             key={index}
-            className={`${styles['sidebar-menu-item']} ${
-              Pathname === page.to ? styles['active'] : ''
+            className={`${styles["sidebar-menu-item"]} ${
+              Pathname === page.to ? styles["active"] : ""
             }`}
           >
             <Link href={page.to}>
@@ -41,16 +42,16 @@ const SidebarNavigation = ({ sidebarMenuActive, toggleSidebarMenu }) => {
         ))}
       </ul>
 
-      <ul className={styles['sidebar-footer']}>
+      <ul className={styles["sidebar-footer"]}>
         {/* <button onClick={toggleSidebarMenu}>close</button> */}
-        <li className={styles['footer-item']}>
+        <li className={styles["footer-item"]}>
           <Image
             width={250}
             height={241}
-            src="/assets/images/Ad.png"
+            src="/assets/images/Ad2.png"
             alt="advert"
-            className="mx-auto mb-3 max-h-[241px]"
-            priority={false}
+            className="mx-auto mb-3 max-h-[245px]"
+            priority
           />
         </li>
       </ul>

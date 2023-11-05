@@ -1,8 +1,10 @@
 "use client";
 
+import Image from "next/image";
 import React, { useState } from "react";
 
 import Button from "@/components/lib/Button";
+import { SubscriptionImage } from "@/components/lib/Cloudinary/Cloudinary";
 import Input from "@/components/lib/Input/Input";
 import Text from "@/components/lib/Text/Text";
 import { useErrorHandler, useSuccessHandler } from "@/hooks";
@@ -32,9 +34,11 @@ const Subscription = () => {
     <div className={styles.wrapper}>
       <div className="overflow-none mx-auto max-w-[1016px] rounded-3xl bg-[#ffffff] p-6">
         <div className="flex max-h-[334px] gap-10">
-          <img
-            src="/assets/images/landing-page/hangout2.png"
-            alt=""
+          <Image
+            src={SubscriptionImage.url}
+            alt={SubscriptionImage.alt}
+            width={350}
+            height={270}
             className="hidden max-h-[270px] w-[350px] rounded-2xl lg:block"
           />
           <div className="max-w-[550px] justify-center">
@@ -60,7 +64,7 @@ const Subscription = () => {
                 }
               />
               <Button
-                className="h-[46px] w-[149px] rounded-[100px] bg-[#0A83FF]"
+                className="h-[46px] w-full rounded-[100px] bg-[#0A83FF]"
                 onClick={handleSubmit}
               >
                 Subscribe for free
