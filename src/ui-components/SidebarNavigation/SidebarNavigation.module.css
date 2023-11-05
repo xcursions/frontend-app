@@ -82,7 +82,10 @@
     box-sizing: border-box;
     cursor: pointer;
 }
-
+.footer-item img {
+    border-radius: 24px;
+background: var(--primary-500, #0A83FF);
+}
 .footer-item span{
     margin-left: 10px;
     font-weight: 700;

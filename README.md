@@ -1,4 +1,4 @@
-# Boilerplate and Starter for Next JS 12+, Tailwind CSS 3 and TypeScript [![Twitter](https://img.shields.io/twitter/url/https/twitter.com/cloudposse.svg?style=social&label=Follow%20%40Ixartz)](https://twitter.com/ixartz)
+# Boilerplate and Starter for Next JS 13.4+, Tailwind CSS 3, SASS and TypeScript [![Twitter](https://img.shields.io/twitter/url/https/twitter.com/cloudposse.svg?style=social&label=Follow%20%40Ixartz)](https://twitter.com/ixartz)
 
 <p align="center">
   <a href="https://creativedesignsguru.com/demo/Nextjs-Boilerplate/"><img src="public/assets/images/nextjs-starter-banner.png?raw=true" alt="Next js starter banner"></a>
@@ -51,8 +51,8 @@ Build your SaaS product faster with [React SaaS Boilerplate](https://nextlessjs.
 
 ### Premium Themes
 
-| [Green Nextjs Landing Page Template](https://creativedesignsguru.com/landing-green-modern-nextjs-theme/) | [Purple Saas Nextjs Theme](https://creativedesignsguru.com/landing-purple-modern-react-theme/) |
-| --- | --- |
+| [Green Nextjs Landing Page Template](https://creativedesignsguru.com/landing-green-modern-nextjs-theme/)                                                                                                   | [Purple Saas Nextjs Theme](https://creativedesignsguru.com/landing-purple-modern-react-theme/)                                                                                                      |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [![Green Nextjs Landing Page Template](https://creativedesignsguru.com/assets/images/themes/landing-green-modern-nextjs-theme-xs.png)](https://creativedesignsguru.com/landing-green-modern-nextjs-theme/) | [![Blue Landing Page Nextjs Theme](https://creativedesignsguru.com/assets/images/themes/landing-blue-modern-nextjs-theme-xs.png)](https://creativedesignsguru.com/landing-blue-modern-react-theme/) |
 
 Find more [Nextjs Themes](https://creativedesignsguru.com/category/nextjs/).
@@ -89,7 +89,7 @@ Open http://localhost:3000 with your favorite browser to see your project.
 ├── public                          # Public assets folder
 ├── src
 │   ├── layouts                     # Layouts components
-│   ├── pages                       # Next JS Pages
+│   ├── app                         # Next JS Pages
 │   ├── pages.test                  # Next JS Pages tests (this avoid test to treated as a Next.js pages)
 │   ├── styles                      # Styles folder
 │   ├── templates                   # Default template
