@@ -1,5 +1,12 @@
+import Image from "next/image";
 import React from "react";
 
+import {
+  Testimony1,
+  Testimony2,
+  Testimony3,
+  Testimony4,
+} from "@/components/lib/Cloudinary/Cloudinary";
 import Text from "@/components/lib/Text/Text";
 
 import styles from "./Testimonies.module.scss";
@@ -35,20 +42,26 @@ const Testimonies = () => {
                 Blessing
               </Text>
             </div>
-            <img
+            <Image
+              height={256}
+              width={200}
               className="hidden h-[265px] w-[30%] rounded-lg lg:block"
-              src="/assets/images/landing-page/testimonial1.jpeg"
-              alt=""
+              src={Testimony1.url}
+              alt={Testimony1.alt}
+              title={Testimony1.title}
             />
           </a>
           <a
             href="#"
             className="flex  max-h-[265px] items-center  rounded-lg bg-white shadow lg:relative lg:max-w-[48%] lg:flex-row"
           >
-            <img
+            <Image
+              height={256}
+              width={200}
               className="hidden h-[265px] w-[30%] rounded-lg lg:block"
-              src="/assets/images/landing-page/testimonial2.jpeg"
-              alt=""
+              src={Testimony2.url}
+              alt={Testimony2.alt}
+              title={Testimony2.title}
             />
             <div className="flex flex-col justify-between p-4 leading-normal lg:w-[70%]">
               <img
@@ -70,10 +83,13 @@ const Testimonies = () => {
             href="#"
             className="flex  max-h-[265px] items-center  rounded-lg bg-white shadow lg:relative lg:max-w-[48%] lg:flex-row"
           >
-            <img
+            <Image
+              height={256}
+              width={200}
               className="hidden h-[265px] w-[30%] rounded-lg lg:block"
-              src="/assets/images/landing-page/testimonial3.jpeg"
-              alt=""
+              src={Testimony3.url}
+              alt={Testimony3.alt}
+              title={Testimony3.title}
             />
             <div className="flex flex-col justify-between p-4 leading-normal lg:w-[70%]">
               <img
@@ -113,10 +129,13 @@ const Testimonies = () => {
                 Collins
               </Text>
             </div>
-            <img
+            <Image
+              height={256}
+              width={200}
               className="hidden h-[265px] w-[30%] rounded-lg lg:block"
-              src="/assets/images/landing-page/testimonial4.jpeg"
-              alt=""
+              src={Testimony4.url}
+              alt={Testimony4.alt}
+              title={Testimony4.title}
             />
           </a>
         </div>

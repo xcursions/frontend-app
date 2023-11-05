@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 import { AiOutlineHeart } from "react-icons/ai";
 
@@ -16,8 +17,10 @@ const TripCard = ({ post }: Props) => {
   return (
     <div className={styles.card_container}>
       <div className={styles.card_image}>
-        <img
+        <Image
           className={styles.pics}
+          width={290}
+          height={300}
           src={
             (featuredImage && featuredImage.image) ||
             post.outingGallery?.[0]?.image
@@ -30,7 +33,7 @@ const TripCard = ({ post }: Props) => {
         <div>
           <Text>{post.name}</Text>
           <Text className="text-[16px] text-[#0A83FF]">{`₦${parseInt(
-            post?.outingChargePlan?.cost,
+            post?.outingChargePlan?.costGroup,
             10
           ).toLocaleString()}`}</Text>
         </div>

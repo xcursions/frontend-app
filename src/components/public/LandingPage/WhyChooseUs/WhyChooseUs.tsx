@@ -41,7 +41,7 @@ const WhyChooseUs = () => {
           <div className={styles.card}>
             <Image
               src="/assets/images/icons/calendar.png"
-              alt="luggage icon"
+              alt="calendar icon"
               width={100}
               height={100}
               className="w-[72px] lg:h-[30%] lg:w-[100px]"
@@ -60,7 +60,7 @@ const WhyChooseUs = () => {
             <div className="relative h-[130px] w-[100px]">
               <Image
                 src="/assets/images/icons/location2.png"
-                alt="luggage icon"
+                alt="location icon"
                 layout="fill"
                 className=" h-full w-full object-cover"
               />
@@ -128,8 +128,10 @@ const WhyChooseUs = () => {
                 .map((post: any) => (
                   <Link key={`${post.id}`} href={`/trips/${post.id}`}>
                     <div className={styles.card_image}>
-                      <img
+                      <Image
                         className={styles.pics}
+                        width={300}
+                        height={292}
                         src={post.outingGallery?.[0]?.image}
                         alt={post.name}
                       />

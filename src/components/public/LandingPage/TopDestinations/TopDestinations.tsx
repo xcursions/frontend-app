@@ -1,9 +1,25 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 import Button from "@/components/lib/Button/Button";
+import {
+  Gallery1,
+  Gallery2,
+  Gallery3,
+  Gallery4,
+  Gallery5,
+  Gallery6,
+  Gallery7,
+  Gallery8,
+  Gallery9,
+  Gallery10,
+  Gallery11,
+  Gallery12,
+  WomanLandscape,
+} from "@/components/lib/Cloudinary/Cloudinary";
 import Heading from "@/components/lib/Heading/Heading";
 import Text from "@/components/lib/Text/Text";
 import TripCard from "@/components/trips/SearchTrips/TripCard/TripCard";
@@ -72,9 +88,12 @@ const TopDestinations = () => {
           </Link>
         </div>
         <div className={styles.imagecontainer}>
-          <img
-            src="/assets/images/landing-page/landscape.png"
-            alt=""
+          <Image
+            src={WomanLandscape.url}
+            title={WomanLandscape.title}
+            alt={WomanLandscape.alt}
+            width={452}
+            height={500}
             className=""
           />
         </div>
@@ -128,93 +147,129 @@ const TopDestinations = () => {
         </div>
         <div className="grid gap-4">
           <div>
-            <img
+            <Image
               className="h-auto max-w-full rounded-lg"
-              src="/assets/images/gallery/gallery1.png"
-              alt=""
+              src={Gallery1.url}
+              alt={Gallery1.alt}
+              title={Gallery1.title}
+              width={350}
+              height={350}
             />
           </div>
           <div>
-            <img
+            <Image
               className="h-auto max-w-full rounded-lg"
-              src="/assets/images/gallery/gallery2.png"
-              alt=""
+              src={Gallery2.url}
+              alt={Gallery2.alt}
+              title={Gallery2.title}
+              width={350}
+              height={350}
             />
           </div>
           <div>
-            <img
+            <Image
               className="h-auto max-w-full rounded-lg"
-              src="/assets/images/gallery/gallery3.png"
-              alt=""
-            />
-          </div>
-        </div>
-        <div className="grid gap-4">
-          <div>
-            <img
-              className="h-auto max-w-full rounded-lg"
-              src="/assets/images/gallery/gallery4.png"
-              alt=""
-            />
-          </div>
-          <div>
-            <img
-              className="h-auto max-w-full rounded-lg"
-              src="/assets/images/gallery/gallery5.png"
-              alt=""
-            />
-          </div>
-          <div>
-            <img
-              className="h-auto max-w-full rounded-lg"
-              src="/assets/images/gallery/gallery6.png"
-              alt=""
+              src={Gallery3.url}
+              alt={Gallery3.alt}
+              title={Gallery3.title}
+              width={350}
+              height={350}
             />
           </div>
         </div>
         <div className="grid gap-4">
           <div>
-            <img
+            <Image
               className="h-auto max-w-full rounded-lg"
-              src="/assets/images/gallery/gallery7.png"
-              alt=""
+              src={Gallery4.url}
+              alt={Gallery4.alt}
+              title={Gallery4.title}
+              width={350}
+              height={350}
             />
           </div>
           <div>
-            <img
+            <Image
               className="h-auto max-w-full rounded-lg"
-              src="/assets/images/gallery/gallery8.png"
-              alt=""
+              src={Gallery5.url}
+              alt={Gallery5.alt}
+              title={Gallery5.title}
+              width={350}
+              height={350}
             />
           </div>
           <div>
-            <img
+            <Image
               className="h-auto max-w-full rounded-lg"
-              src="/assets/images/gallery/gallery9.png"
-              alt=""
+              src={Gallery6.url}
+              alt={Gallery6.alt}
+              title={Gallery6.title}
+              width={350}
+              height={350}
             />
           </div>
         </div>
         <div className="grid gap-4">
           <div>
-            <img
+            <Image
               className="h-auto max-w-full rounded-lg"
-              src="/assets/images/gallery/gallery10.png"
-              alt=""
+              src={Gallery7.url}
+              alt={Gallery7.alt}
+              title={Gallery7.title}
+              width={350}
+              height={350}
             />
           </div>
           <div>
-            <img
+            <Image
               className="h-auto max-w-full rounded-lg"
-              src="/assets/images/gallery/gallery11.png"
-              alt=""
+              src={Gallery8.url}
+              alt={Gallery8.alt}
+              title={Gallery8.title}
+              width={350}
+              height={350}
             />
           </div>
           <div>
-            <img
+            <Image
               className="h-auto max-w-full rounded-lg"
-              src="/assets/images/gallery/gallery12.png"
-              alt=""
+              src={Gallery9.url}
+              alt={Gallery9.alt}
+              title={Gallery9.title}
+              width={350}
+              height={350}
+            />
+          </div>
+        </div>
+        <div className="grid gap-4">
+          <div>
+            <Image
+              className="h-auto max-w-full rounded-lg"
+              src={Gallery10.url}
+              alt={Gallery10.alt}
+              title={Gallery10.title}
+              width={350}
+              height={350}
+            />
+          </div>
+          <div>
+            <Image
+              className="h-auto max-w-full rounded-lg"
+              src={Gallery11.url}
+              alt={Gallery11.alt}
+              title={Gallery11.title}
+              width={350}
+              height={350}
+            />
+          </div>
+          <div>
+            <Image
+              className="h-auto max-w-full rounded-lg"
+              src={Gallery12.url}
+              alt={Gallery12.alt}
+              title={Gallery12.title}
+              width={350}
+              height={350}
             />
           </div>
         </div>
