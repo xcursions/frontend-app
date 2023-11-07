@@ -4,7 +4,7 @@ import Image from "next/image";
 // import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { AiOutlineWhatsApp } from "react-icons/ai";
+// import { AiOutlineWhatsApp } from "react-icons/ai";
 import { FiNavigation, FiPhoneCall } from "react-icons/fi";
 import { TbMailbox } from "react-icons/tb";
 
@@ -62,7 +62,7 @@ const Form = () => {
             <Text className="font-dmSansBold text-[16px] font-bold text-[#101828] lg:text-[24px] ">
               Reach Our Team
             </Text>
-            <a
+            {/* <a
               href={`https://wa.me/+2348168277417`}
               target="_blank"
               rel="noopener noreferrer"
@@ -75,7 +75,7 @@ const Form = () => {
                   Click here to reach us on Whatsapp
                 </Text>
               </div>
-            </a>
+            </a> */}
             <div className="flex items-center gap-3 pt-3">
               <div className="rounded-full bg-[#EBF5FF] p-3">
                 <FiPhoneCall className="text-[#0A83FF]" />

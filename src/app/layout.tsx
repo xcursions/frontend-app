@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { Toaster } from "react-hot-toast";
 
+import Whatsapp from "@/components/lib/Whatsapp";
 import { toastOptions } from "@/utils/config";
 
 import { Providers } from "./GlobalRedux/provider";
@@ -116,6 +117,7 @@ export default function RootLayout({
       <body>
         <Providers>
           {children}
+          <Whatsapp />
           <Toaster position="top-right" toastOptions={toastOptions} />
         </Providers>
       </body>
