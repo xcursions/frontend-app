@@ -22,7 +22,7 @@ const page = () => {
           <img
             src="/assets/images/contact/contact_map.jpeg"
             alt="map"
-            className="relative mt-10 max-h-[550px] w-screen"
+            className="relative mt-14 max-h-[550px] w-screen"
           />
           <Subscription />
         </div>
