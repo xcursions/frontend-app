@@ -43,7 +43,7 @@ const baseQueryWithReauth = async (
   const result = await baseQuery(args, api, extraOptions);
   if (result.error?.data) {
     const errorData: any = result.error?.data;
-    const expectedErrorCodes = [499];
+    const expectedErrorCodes = [499, 401];
     toaster.error(
       errorData?.meta?.message || "Something went wrong, try again later."
     );
