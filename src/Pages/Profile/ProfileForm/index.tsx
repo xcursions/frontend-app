@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Button from "@/components/lib/Button/Button";
 import FileUpload from "@/components/lib/FileUpload";
@@ -130,6 +130,17 @@ const ProfileForm = () => {
   const handlePhotoChange = (files: File[]) => {
     setPhotoFiles(files);
   };
+  useEffect(() => {
+    setProfile({
+      ...profile,
+      fullName: data?.data?.fullName,
+      country: data?.data?.country,
+      gender: data?.data?.gender,
+      city: data?.data?.city,
+      address: data?.data?.address,
+      state: data?.data?.state,
+    });
+  }, [data]);
   return (
     <div className={styles.container}>
       <div className={styles.title}>
@@ -199,7 +210,6 @@ const ProfileForm = () => {
             placeholder="Enter City"
             label="City"
             name="city"
-            type="text"
             value={profile.city}
             onChange={handleChange}
           />
