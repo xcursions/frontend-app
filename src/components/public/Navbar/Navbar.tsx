@@ -6,6 +6,8 @@ import { usePathname } from "next/navigation";
 import React, { useState } from "react";
 import { BsSearch } from "react-icons/bs";
 
+import { useAppSelector } from "@/hooks";
+
 import styles from "./Navbar.module.scss";
 
 type Props = {
@@ -15,6 +17,7 @@ type Props = {
 
 const Navbar = ({ text, logo }: Props) => {
   const [navbar, setNavbar] = useState(false);
+  const { user } = useAppSelector((state) => state.user);
   const Pathname = usePathname();
   const textColor = text === "black" ? "text-[ #475467]" : "text-white";
   const color = navbar ? "bg-[#0A83FF]" : " ";
@@ -126,42 +129,63 @@ const Navbar = ({ text, logo }: Props) => {
                 <Link href="/about-us">About Us</Link>
               </li>
             </ul>
-            {navbar && (
-              <div className="mt-3 space-y-2 md:hidden">
-                <Link
-                  href="/login"
-                  className={`${textColor} flex items-center px-4 py-2`}
-                >
-                  Login
-                </Link>
-                <Link
-                  href="/signup"
-                  className="inline-block w-full rounded-3xl bg-white px-4 py-2 text-center text-gray-800 shadow"
-                >
-                  Sign up
-                </Link>
-              </div>
-            )}
+            {navbar &&
+              (user ? (
+                <div className="mt-3 space-y-2 md:hidden">
+                  <Link
+                    href="/user/dashboard"
+                    className="inline-block w-full rounded-3xl bg-white px-4 py-2 text-center text-gray-800 shadow"
+                  >
+                    Dashboard
+                  </Link>
+                </div>
+              ) : (
+                <div className="mt-3 space-y-2 md:hidden">
+                  <Link
+                    href="/login"
+                    className={`${textColor} flex items-center px-4 py-2`}
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    href="/signup"
+                    className="inline-block w-full rounded-3xl bg-white px-4 py-2 text-center text-gray-800 shadow"
+                  >
+                    Sign up
+                  </Link>
+                </div>
+              ))}
           </div>
         </div>
 
-        <div className="hidden items-center space-x-6 text-center md:flex">
-          <div className="flex items-center">
-            <BsSearch className={`text-xl font-extrabold ${textColor}`} />
+        {user ? (
+          <div className="hidden items-center space-x-6 text-center md:flex">
+            <Link
+              href="/user/dashboard"
+              className={`flex items-center rounded-full px-4 py-2 ${buttonColor} shadow`}
+            >
+              Dashboard
+            </Link>
           </div>
-          <Link
-            href="/login"
-            className={`${textColor} flex items-center px-4 py-2`}
-          >
-            Login
-          </Link>
-          <Link
-            href="/signup"
-            className={`flex items-center rounded-full px-4 py-2 ${buttonColor} shadow`}
-          >
-            Sign up
-          </Link>
-        </div>
+        ) : (
+          <div className="hidden items-center space-x-6 text-center md:flex">
+            <div className="flex items-center">
+              <BsSearch className={`text-xl font-extrabold ${textColor}`} />
+            </div>
+            <Link
+              href="/login"
+              className={`${textColor} flex items-center px-4 py-2`}
+            >
+              Login
+            </Link>
+            <Link
+              href="/signup"
+              className={`flex items-center rounded-full px-4 py-2 ${buttonColor} shadow`}
+            >
+              Sign up
+            </Link>
+          </div>
+        )}
       </div>
     </nav>
   );

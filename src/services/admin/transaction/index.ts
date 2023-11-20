@@ -1,51 +1,49 @@
-import { createApi } from "@reduxjs/toolkit/query/react";
+import { authApi } from "@/services/auth";
 
-import axiosBaseQuery from "@/utils/api/baseQuery";
-
-export const transactionApi = createApi({
-  reducerPath: "transactionApi",
-  baseQuery: axiosBaseQuery(),
+export const transactionApi = authApi.injectEndpoints({
+  // reducerPath: "transactionApi",
+  // baseQuery: axiosBaseQuery(),
   endpoints: (builder) => ({
     getActiveUsers: builder.query<any, void>({
       query: () => ({
         url: "/admin-analytic/active-users",
-        method: "get",
+        method: "GET",
       }),
     }),
     getTopCustomers: builder.query<any, void>({
       query: () => ({
         url: "/admin-analytic/active-users?sort=totalAmountPaid",
-        method: "get",
+        method: "GET",
       }),
     }),
     getTransactionVolume: builder.query<any, void>({
       query: () => ({
         url: "/admin-analytic/user-transaction-volumes",
-        method: "get",
+        method: "GET",
       }),
     }),
     getAllBooking: builder.query<any, any>({
       query: ({ pageLimit, currentPage }) => ({
         url: `/admin-analytic/bookings?limit=${pageLimit}&page=${currentPage}`,
-        method: "get",
+        method: "GET",
       }),
     }),
     getMostBookedTrips: builder.query<any, void>({
       query: () => ({
         url: "/outing/outings?sort=uniqueBookingCount",
-        method: "get",
+        method: "GET",
       }),
     }),
     getBookingChart: builder.query<any, void>({
       query: () => ({
         url: "/admin-analytic/bookings/chart",
-        method: "get",
+        method: "GET",
       }),
     }),
     getAllTransaction: builder.query<any, any>({
       query: ({ pageLimit, currentPage }) => ({
         url: `/admin-analytic/transactions?limit=${pageLimit}&page=${currentPage}`,
-        method: "get",
+        method: "GET",
       }),
     }),
   }),
