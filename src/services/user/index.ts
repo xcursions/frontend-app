@@ -1,8 +1,4 @@
-// @ts-nocheck
-
-import { createApi } from "@reduxjs/toolkit/query/react";
-
-import axiosBaseQuery from "@/utils/api/baseQuery";
+import { authApi } from "@/services/auth";
 
 import type {
   ChangeEmailOtpPayload,
@@ -15,235 +11,240 @@ import type {
   UpdateUserProfilePayload,
 } from "./payload";
 
-export const userApi = createApi({
-  reducerPath: "userApi",
-  baseQuery: axiosBaseQuery(),
-  tagTypes: ["User", "UserInfo"],
+export const userApi = authApi.injectEndpoints({
   endpoints: (builder) => ({
     getUser: builder.query<any, any>({
-      query: () => ({ url: "/user", method: "get" }),
+      query: () => ({ url: "/user", method: "GET" }),
       providesTags: ["User"],
     }),
     changePassword: builder.mutation<any, ChangePasswordPayload>({
-      query: (data) => ({ url: "/user/change-password", method: "post", data }),
+      query: (data) => ({
+        url: "/user/change-password",
+        method: "POST",
+        body: { ...data },
+      }),
     }),
     getWalletBalance: builder.query<any, void>({
-      query: () => ({ url: "/wallet/wallet", method: "get" }),
+      query: () => ({ url: "/wallet/wallet", method: "GET" }),
       providesTags: ["UserInfo"],
     }),
     getTransactions: builder.query<any, any>({
       query: (query) => ({
         url: `/transaction/transactions${query}`,
-        method: "get",
+        method: "GET",
       }),
       providesTags: ["UserInfo"],
     }),
     getBookingHistory: builder.query<any, any>({
       query: (query) => ({
         url: `/booking/bookings${query}`,
-        method: "get",
+        method: "GET",
       }),
       providesTags: ["UserInfo"],
     }),
     initiateLinkDeposit: builder.mutation<any, any>({
       query: (data) => ({
         url: "/fiat-deposit/deposits/link",
-        method: "post",
-        data,
+        method: "POST",
+        body: { ...data },
       }),
       invalidatesTags: ["UserInfo"],
     }),
     initiateCardDeposit: builder.mutation<any, InitiateCardDepositPayload>({
       query: (data) => ({
         url: "/fiat-deposit/deposits/card",
-        method: "post",
-        data,
+        method: "POST",
+        body: { ...data },
       }),
       invalidatesTags: ["UserInfo"],
     }),
     submitCardPin: builder.mutation<any, any>({
       query: (data) => ({
         url: "/fiat-deposit/deposits/card/submit-pin",
-        method: "post",
-        data,
+        method: "POST",
+        body: { ...data },
       }),
       invalidatesTags: ["UserInfo"],
     }),
     submitCardOtp: builder.mutation<any, any>({
       query: (data) => ({
         url: "/fiat-deposit/deposits/card/submit-otp",
-        method: "post",
-        data,
+        method: "POST",
+        body: { ...data },
       }),
       invalidatesTags: ["UserInfo"],
     }),
     createPaymentCard: builder.mutation<any, CreatePaymentCardPayload>({
       query: (data) => ({
         url: "/payment-cards/cards",
-        method: "post",
-        data,
+        method: "POST",
+        body: { ...data },
       }),
       invalidatesTags: ["UserInfo"],
     }),
     createPaymentCardPin: builder.mutation<any, any>({
       query: (data) => ({
         url: "/payment-cards/deposits/card/submit-pin",
-        method: "post",
-        data,
+        method: "POST",
+        body: { ...data },
       }),
       invalidatesTags: ["UserInfo"],
     }),
     createPaymentCardOtp: builder.mutation<any, any>({
       query: (data) => ({
         url: "/payment-cards/deposits/card/submit-otp",
-        method: "post",
-        data,
+        method: "POST",
+        body: { ...data },
       }),
       invalidatesTags: ["UserInfo"],
     }),
     getPaymentCards: builder.query<any, void>({
       query: () => ({
         url: "/payment-cards/cards",
-        method: "get",
+        method: "GET",
       }),
       providesTags: ["UserInfo"],
     }),
     deletePaymentCards: builder.mutation<any, any>({
       query: (query) => ({
         url: `/payment-cards/cards/${query}`,
-        method: "delete",
+        method: "DELETE",
       }),
       invalidatesTags: ["UserInfo"],
     }),
     changeEmail: builder.mutation<any, ChangeEmailPayload>({
-      query: (data) => ({ url: "/user/change-email", method: "post", data }),
+      query: (data) => ({
+        url: "/user/change-email",
+        method: "POST",
+        body: { ...data },
+      }),
     }),
     changeEmailOtp: builder.mutation<any, ChangeEmailOtpPayload>({
       query: (data) => ({
         url: "/user/change-email/otp",
-        method: "post",
-        data,
+        method: "POST",
+        body: { ...data },
       }),
     }),
     confirmChangeEmailOtp: builder.mutation<any, ConfirmEmailOtpPayload>({
       query: (data) => ({
         url: "/user/change-email/confirm/otp",
-        method: "post",
-        data,
+        method: "POST",
+        body: { ...data },
       }),
     }),
     updateUserProfile: builder.mutation<any, UpdateUserProfilePayload>({
       query: (data) => ({
         url: "/user/profile",
-        method: "put",
-        data,
+        method: "PUT",
+        body: { ...data },
       }),
       invalidatesTags: ["User"],
     }),
     updateUserPicture: builder.mutation<any, any>({
       query: (data) => ({
         url: "/user/profile-image",
-        method: "put",
-        data,
+        method: "PUT",
+        body: { ...data },
       }),
       invalidatesTags: ["User"],
     }),
     createOutingLike: builder.mutation<any, any>({
       query: ({ query, data }) => ({
         url: `/outing-likes/outings/${query}`,
-        method: "post",
-        data,
+        method: "POST",
+        body: { ...data },
       }),
       invalidatesTags: ["UserInfo"],
     }),
     getOutingLike: builder.query<any, any>({
       query: (query) => ({
         url: `/outing-likes/outings${query}`,
-        method: "get",
+        method: "GET",
       }),
       providesTags: ["UserInfo"],
     }),
     createBooking: builder.mutation<any, { query: any; data: any }>({
       query: ({ query, data }) => ({
         url: `/booking/outing/${query}/bookings`,
-        method: "post",
-        data,
+        method: "POST",
+        body: { ...data },
       }),
       invalidatesTags: ["UserInfo"],
     }),
     getBookingCost: builder.mutation<any, { query: any; data: any }>({
       query: ({ query, data }) => ({
         url: `/booking/outing/${query}/bookings/cost`,
-        method: "post",
-        data,
+        method: "POST",
+        body: { ...data },
       }),
     }),
     getBookingById: builder.query<any, { query: any; id: any }>({
       query: ({ query, id }) => ({
         url: `/booking/outing/${query}/bookings/${id}`,
-        method: "get",
+        method: "GET",
       }),
     }),
     handleCheckout: builder.mutation<any, any>({
       query: ({ query, data }) => ({
         url: `/checkout/bookings/${query}/checkout`,
-        method: "post",
-        data,
+        method: "POST",
+        body: { ...data },
       }),
       invalidatesTags: ["UserInfo"],
     }),
     getNotifications: builder.query<any, any>({
       query: (query) => ({
         url: `/notifications/notifications${query}`,
-        method: "get",
+        method: "GET",
       }),
       providesTags: ["UserInfo"],
     }),
     markNotification: builder.mutation<any, any>({
       query: (query) => ({
         url: `/notifications/notifications/${query}/mark-read`,
-        method: "put",
+        method: "PUT",
       }),
       invalidatesTags: ["UserInfo"],
     }),
     getUpcomingSchedule: builder.query<any, void>({
       query: () => ({
         url: "/saving-plan/upcoming-outing-schedules?limit=20",
-        method: "get",
+        method: "GET",
       }),
       providesTags: ["UserInfo"],
     }),
     handleBookingParticipants: builder.mutation<any, any>({
       query: ({ query, id, data }) => ({
         url: `/booking/outing/${query}/bookings/${id}/participants/bulk`,
-        method: "post",
-        data,
+        method: "POST",
+        body: { ...data },
       }),
       invalidatesTags: ["UserInfo"],
     }),
     getUserProfile: builder.query<any, void>({
       query: () => ({
         url: "/user/profile",
-        method: "get",
+        method: "GET",
       }),
       providesTags: ["User"],
     }),
     createContact: builder.mutation<any, ContactUsPayload>({
       query: (data) => ({
         url: "/contact/contacts/",
-        method: "post",
-        data,
+        method: "POST",
+        body: { ...data },
       }),
     }),
     newsletterSubscription: builder.mutation<any, any>({
       query: (data) => ({
         url: "/newsletter/newsletters",
-        method: "post",
-        data,
+        method: "POST",
+        body: { ...data },
       }),
     }),
     logout: builder.mutation<any, any>({
-      query: () => ({ url: "/user/logout/", method: "post" }),
+      query: () => ({ url: "/user/logout/", method: "POST" }),
     }),
   }),
 });
@@ -279,6 +280,7 @@ export const {
   useGetUpcomingScheduleQuery,
   useCreateOutingLikeMutation,
   useGetOutingLikeQuery,
+  useLazyGetOutingLikeQuery,
   useCreatePaymentCardMutation,
   useGetPaymentCardsQuery,
   useDeletePaymentCardsMutation,

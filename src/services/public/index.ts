@@ -1,29 +1,25 @@
-import { createApi } from "@reduxjs/toolkit/query/react";
-
-import axiosBaseQuery from "@/utils/api/baseQuery";
+import { authApi } from "@/services/auth";
 
 import type { GetOutingByContinentPaylod } from "./payload";
 
-export const publicApi = createApi({
-  reducerPath: "publicApi",
-  baseQuery: axiosBaseQuery(),
+export const publicApi = authApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllOutings: builder.query<any, any>({
-      query: (query) => ({ url: `/outing/outings${query}`, method: "get" }),
+      query: (query) => ({ url: `/outing/outings${query}`, method: "GET" }),
     }),
     searchOutings: builder.query<any, any>({
-      query: (query) => ({ url: `/outing/outings${query}`, method: "get" }),
+      query: (query) => ({ url: `/outing/outings${query}`, method: "GET" }),
     }),
     getOutingAddOn: builder.query<any, any>({
       query: (query) => ({
         url: `/outing-addon/outings/${query}`,
-        method: "get",
+        method: "GET",
       }),
     }),
     getOutingLocations: builder.query<any, any>({
       query: (query) => ({
         url: `/outing-destination/outings/location/locations?type=${query}`,
-        method: "get",
+        method: "GET",
       }),
     }),
     fetchAllOutings: builder.query<any, GetOutingByContinentPaylod>({
@@ -45,7 +41,7 @@ export const publicApi = createApi({
         }&location=${location || ""}&search=${search || ""}&limit=${
           limit || ""
         }&page=${page || ""}`,
-        method: "get",
+        method: "GET",
       }),
     }),
     getOutingByContinents: builder.query<any, GetOutingByContinentPaylod>({
@@ -55,7 +51,7 @@ export const publicApi = createApi({
         }&maxPrice=${maxPrice || ""}&subType=${subType || ""}&month=${
           month || ""
         }&location=${location || ""}`,
-        method: "get",
+        method: "GET",
       }),
     }),
     getOutingByMonths: builder.query<any, GetOutingByContinentPaylod>({
@@ -65,7 +61,7 @@ export const publicApi = createApi({
         }&maxPrice=${maxPrice || ""}&subType=${subType || ""}&month=${
           month || ""
         }&location=${location || ""}`,
-        method: "get",
+        method: "GET",
       }),
     }),
     getOutingByType: builder.query<any, GetOutingByContinentPaylod>({
@@ -75,56 +71,56 @@ export const publicApi = createApi({
         }&maxPrice=${maxPrice || ""}&subType=${subType || ""}&month=${
           month || ""
         }&location=${location || ""}`,
-        method: "get",
+        method: "GET",
       }),
     }),
     getOutingDurations: builder.query<any, void>({
       query: () => ({
         url: "/outing-date/outings/duration/durations",
-        method: "get",
+        method: "GET",
       }),
     }),
     getOutingPriceRange: builder.query<any, void>({
       query: () => ({
         url: "/outing/outings/price/price-range",
-        method: "get",
+        method: "GET",
       }),
     }),
     getOutingsByMultipleId: builder.mutation<any, any>({
       query: (data) => ({
         url: "/outing/outings/specific-duration/get-multiple",
-        method: "post",
+        method: "POST",
         data,
       }),
     }),
     getOutingChargePlan: builder.query<any, any>({
       query: (query) => ({
         url: `/outing/outings/${query}/charge-plans`,
-        method: "get",
+        method: "GET",
       }),
     }),
     getFeaturedBlog: builder.query<any, void>({
       query: () => ({
         url: "/blog/posts?status=true",
-        method: "get",
+        method: "GET",
       }),
     }),
     getAllBlog: builder.query<any, any>({
       query: ({ pageLimit, currentPage, search }) => ({
         url: `/blog/posts?limit=${pageLimit}&page=${currentPage}&search=${search}`,
-        method: "get",
+        method: "GET",
       }),
     }),
     getSingleBlog: builder.query<any, any>({
       query: (query) => ({
         url: `/blog/posts/${query}`,
-        method: "get",
+        method: "GET",
       }),
     }),
     getRelatedBlogByCategory: builder.query<any, any>({
       query: (query) => ({
         url: `/blog/categories/${query}/posts/recommended`,
-        method: "get",
+        method: "GET",
       }),
     }),
   }),

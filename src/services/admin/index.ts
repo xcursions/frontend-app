@@ -1,6 +1,4 @@
-import { createApi } from "@reduxjs/toolkit/query/react";
-
-import axiosBaseQuery from "@/utils/api/baseQuery";
+import { authApi } from "@/services/auth";
 
 import type {
   CreateBlogPostPayload,
@@ -10,46 +8,50 @@ import type {
   CreateOutingPayload,
 } from "./payload";
 
-export const adminApi = createApi({
-  reducerPath: "adminApi",
-  baseQuery: axiosBaseQuery(),
-  tagTypes: ["Admin"],
+export const adminApi = authApi.injectEndpoints({
+  // reducerPath: "adminApi",
+  // baseQuery: axiosBaseQuery(),
+  // tagTypes: ["Admin"],
   endpoints: (builder) => ({
     getOutings: builder.query<any, any>({
-      query: (query) => ({ url: `/outing/outings${query}`, method: "get" }),
+      query: (query) => ({ url: `/outing/outings${query}`, method: "GET" }),
       providesTags: ["Admin"],
     }),
     createOuting: builder.mutation<any, CreateOutingPayload>({
-      query: (data) => ({ url: "/outing/outings", method: "post", data }),
+      query: (data) => ({
+        url: "/outing/outings",
+        method: "POST",
+        body: { ...data },
+      }),
       invalidatesTags: ["Admin"],
     }),
     updateOuting: builder.mutation<any, any>({
       query: ({ query, data }) => ({
         url: `/outing/outings/${query}`,
-        method: "put",
-        data,
+        method: "PUT",
+        body: { ...data },
       }),
       invalidatesTags: ["Admin"],
     }),
     deleteOuting: builder.mutation<any, any>({
       query: (query) => ({
         url: `/outing/outings/${query}`,
-        method: "delete",
+        method: "DELETE",
       }),
       invalidatesTags: ["Admin"],
     }),
     deleteBlog: builder.mutation<any, any>({
       query: (query) => ({
         url: `/blog/posts/${query}`,
-        method: "delete",
+        method: "DELETE",
       }),
       invalidatesTags: ["Admin"],
     }),
     createOutingImage: builder.mutation<any, { query: any; data: any }>({
       query: ({ query, data }) => ({
         url: `/outing/outings/${query}/outing-gallery/images`,
-        method: "post",
-        data,
+        method: "POST",
+        body: { ...data },
       }),
       invalidatesTags: ["Admin"],
     }),
@@ -59,8 +61,8 @@ export const adminApi = createApi({
     >({
       query: ({ query, data }) => ({
         url: `/outing-destination/outings/${query}`,
-        method: "post",
-        data,
+        method: "POST",
+        body: { ...data },
       }),
       invalidatesTags: ["Admin"],
     }),
@@ -70,8 +72,8 @@ export const adminApi = createApi({
     >({
       query: ({ query, data }) => ({
         url: `/outing-pickup/outings/${query}`,
-        method: "post",
-        data,
+        method: "POST",
+        body: { ...data },
       }),
       invalidatesTags: ["Admin"],
     }),
@@ -81,8 +83,8 @@ export const adminApi = createApi({
     >({
       query: ({ query, data }) => ({
         url: `/outing/outings/${query}/charge-plans`,
-        method: "post",
-        data,
+        method: "POST",
+        body: { ...data },
       }),
       invalidatesTags: ["Admin"],
     }),
@@ -92,111 +94,111 @@ export const adminApi = createApi({
     >({
       query: ({ query, data }) => ({
         url: `/outing/outings/charge-plans/${query}`,
-        method: "put",
-        data,
+        method: "PUT",
+        body: { ...data },
       }),
       invalidatesTags: ["Admin"],
     }),
     getChargePlan: builder.query<any, any>({
       query: (query) => ({
         url: `/outing/outings/${query}/charge-plans`,
-        method: "get",
+        method: "GET",
       }),
     }),
     createOutingAddon: builder.mutation<any, any>({
       query: ({ query, data }) => ({
         url: `/outing-addon/outings/${query}`,
-        method: "post",
-        data,
+        method: "POST",
+        body: { ...data },
       }),
       invalidatesTags: ["Admin"],
     }),
     updateOutingAddon: builder.mutation<any, any>({
       query: ({ query, id, data }) => ({
         url: `/outing-addon/outings/${query}/outingAddons/${id}`,
-        method: "put",
-        data,
+        method: "PUT",
+        body: { ...data },
       }),
       invalidatesTags: ["Admin"],
     }),
     deleteOutingAddon: builder.mutation<any, any>({
       query: ({ query, id }) => ({
         url: `/outing-addon/outings/${query}/outingAddons/${id}`,
-        method: "delete",
+        method: "DELETE",
       }),
       invalidatesTags: ["Admin"],
     }),
     getOutingAddons: builder.query<any, any>({
       query: (query) => ({
         url: `/outing-addon/outings/${query}`,
-        method: "get",
+        method: "GET",
       }),
       providesTags: ["Admin"],
     }),
     createOutingAddonIcon: builder.mutation<any, any>({
       query: ({ query, id, data }) => ({
         url: `/outing-addon/outings/${query}/outingAddons/${id}/icon`,
-        method: "put",
-        data,
+        method: "PUT",
+        body: { ...data },
       }),
       invalidatesTags: ["Admin"],
     }),
     createReview: builder.mutation<any, any>({
       query: ({ query, data }) => ({
         url: `/outing-review/outings/${query}/reviews`,
-        method: "post",
-        data,
+        method: "POST",
+        body: { ...data },
       }),
       invalidatesTags: ["Admin"],
     }),
     getReviews: builder.query<any, any>({
       query: (query) => ({
         url: `/outing-review/outings/${query}/reviews`,
-        method: "get",
+        method: "GET",
       }),
       providesTags: ["Admin"],
     }),
     deleteReview: builder.mutation<any, any>({
       query: ({ query, id }) => ({
         url: `/outing-review/outings/${query}/reviews/${id}`,
-        method: "delete",
+        method: "DELETE",
       }),
       invalidatesTags: ["Admin"],
     }),
     deleteOutingGalleryImage: builder.mutation<any, any>({
       query: ({ query, id }) => ({
         url: `/outing/outings/${query}/outing-gallery/${id}`,
-        method: "delete",
+        method: "DELETE",
       }),
       invalidatesTags: ["Admin"],
     }),
     deleteOutingFeaturedImage: builder.mutation<any, any>({
       query: (query) => ({
         url: `/outing/outings/${query}/outing-gallery/remove/featured-image`,
-        method: "delete",
+        method: "DELETE",
       }),
       invalidatesTags: ["Admin"],
     }),
     createBlogTags: builder.mutation<any, CreateBlogTagsPayload>({
       query: (data) => ({
         url: "/blog/categories",
-        method: "post",
-        data,
+        method: "POST",
+        body: { ...data },
       }),
       invalidatesTags: ["Admin"],
     }),
     getBlogTags: builder.query<any, void>({
       query: () => ({
         url: `/blog/categories?limit=100`,
-        method: "get",
+        method: "GET",
       }),
       providesTags: ["Admin"],
     }),
     createBlogPost: builder.mutation<any, CreateBlogPostPayload>({
       query: (data) => ({
         url: "/blog/posts",
-        method: "post",
-        data,
+        method: "POST",
+        body: { ...data },
       }),
       invalidatesTags: ["Admin"],
     }),
@@ -206,53 +208,53 @@ export const adminApi = createApi({
     >({
       query: ({ query, data }) => ({
         url: `/blog/posts/${query}`,
-        method: "put",
-        data,
+        method: "PUT",
+        body: { ...data },
       }),
       invalidatesTags: ["Admin"],
     }),
     createBlogImage: builder.mutation<any, any>({
       query: ({ query, data }) => ({
         url: `/blog/posts/${query}/featured-images`,
-        method: "post",
-        data,
+        method: "POST",
+        body: { ...data },
       }),
       invalidatesTags: ["Admin"],
     }),
     updateBlogImage: builder.mutation<any, any>({
       query: ({ query, id, data }) => ({
         url: `/blog/posts/${query}/featured-images/${id}`,
-        method: "put",
-        data,
+        method: "PUT",
+        body: { ...data },
       }),
       invalidatesTags: ["Admin"],
     }),
     getBlogPost: builder.query<any, any>({
       query: ({ pageLimit, currentPage }) => ({
         url: `/blog/posts?limit=${pageLimit}&page=${currentPage}`,
-        method: "get",
+        method: "GET",
       }),
       providesTags: ["Admin"],
     }),
     getSingleBlogPost: builder.query<any, any>({
       query: (query) => ({
         url: `/blog/posts${query}`,
-        method: "get",
+        method: "GET",
       }),
       providesTags: ["Admin"],
     }),
     createOutingDate: builder.mutation<any, any>({
       query: ({ query, data }) => ({
         url: `/outing-date/outings/${query}`,
-        method: "post",
-        data,
+        method: "POST",
+        body: { ...data },
       }),
       invalidatesTags: ["Admin"],
     }),
     deleteOutingDate: builder.mutation<any, any>({
       query: (query) => ({
         url: `/outing-date/${query}`,
-        method: "delete",
+        method: "DELETE",
       }),
       invalidatesTags: ["Admin"],
     }),

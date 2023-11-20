@@ -50,7 +50,7 @@ import {
   useCreateBookingMutation,
   useCreateOutingLikeMutation,
   useGetBookingCostMutation,
-  useGetOutingLikeQuery,
+  useLazyGetOutingLikeQuery,
 } from "@/services/user";
 import { setUserBooking } from "@/store/slices/userSlice";
 import type { OutingProps } from "@/types";
@@ -81,7 +81,7 @@ const TripDetails = ({ detailsData }: Props) => {
   });
   const [selectedItems, setSelectedItems] = useState<any[]>([]);
   const [selectedTrip, setSelectedTrip] = useState<"private" | "group">(
-    "private"
+    "group"
   );
   const { user } = useAppSelector((state) => state.user);
   const [galleryOpen, setGalleryOpen] = useState(false);
@@ -102,6 +102,7 @@ const TripDetails = ({ detailsData }: Props) => {
   ] = useCreateBookingMutation();
   const [bookingCost, { data: bookingPrice, isSuccess: bookingPriceSuccess }] =
     useGetBookingCostMutation();
+  const [getLikeData, { data: likedData }] = useLazyGetOutingLikeQuery();
   const { data: reviewData, isSuccess: reviewSuccess } = useGetReviewsQuery(
     detailsData.id
   );
@@ -109,7 +110,6 @@ const TripDetails = ({ detailsData }: Props) => {
     createLike,
     { isSuccess: isLikeSuccess, isError: isLikeError, error: likeError },
   ] = useCreateOutingLikeMutation();
-  const { data: likedData } = useGetOutingLikeQuery("?type=tour");
   const router = useRouter();
   const handleOpen = () => {
     setGalleryOpen(true);
@@ -176,7 +176,11 @@ const TripDetails = ({ detailsData }: Props) => {
     }
   }, [selectedTrip, date]);
   useEffect(() => {
-    bookingCost({ query: detailsData.id, data: payload });
+    if (selectedTrip === "private") {
+      bookingCost({ query: detailsData.id, data: payload });
+    } else if (selectedTrip === "group" && payload.outingDateId) {
+      bookingCost({ query: detailsData.id, data: payload });
+    }
   }, [payload]);
   useErrorHandler({ isError: isBookingError, error: bookingError });
   useSuccessHandler({
@@ -205,8 +209,16 @@ const TripDetails = ({ detailsData }: Props) => {
   const handleLike = () => {
     if (user) {
       createLike({ query: detailsData.id, data: { liked: true } });
+    } else {
+      toaster.error("You need to be signed in");
+      router.push("/login");
     }
   };
+  useEffect(() => {
+    if (user) {
+      getLikeData("?type=tour");
+    }
+  }, []);
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
