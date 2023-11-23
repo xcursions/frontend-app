@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/dot-notation */
-/* eslint-disable import/extensions */
-/* eslint-disable dot-notation */
 
 "use client";
 

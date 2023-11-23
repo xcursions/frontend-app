@@ -4,8 +4,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useState } from "react";
-import { BsSearch } from "react-icons/bs";
 
+// import { BsSearch } from "react-icons/bs";
 import { useAppSelector } from "@/hooks";
 
 import styles from "./Navbar.module.scss";
@@ -169,9 +169,9 @@ const Navbar = ({ text, logo }: Props) => {
           </div>
         ) : (
           <div className="hidden items-center space-x-6 text-center md:flex">
-            <div className="flex items-center">
+            {/* <div className="flex items-center">
               <BsSearch className={`text-xl font-extrabold ${textColor}`} />
-            </div>
+            </div> */}
             <Link
               href="/login"
               className={`${textColor} flex items-center px-4 py-2`}

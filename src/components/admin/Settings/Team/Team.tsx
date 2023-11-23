@@ -2,9 +2,7 @@
 
 import type { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import toaster from "react-hot-toast";
+import React, { useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { MdOutlineEdit } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -15,7 +13,6 @@ import Input from "@/components/lib/Input";
 import Select from "@/components/lib/Select";
 import Text from "@/components/lib/Text";
 import { Switch } from "@/components/ui/switch";
-import { useAppSelector } from "@/hooks";
 import useErrorHandler from "@/hooks/useErrorHandler";
 import useSuccessHandler from "@/hooks/useSuccessHandler";
 import {
@@ -31,9 +28,9 @@ import { DataTable } from "../../services/DataTable";
 import styles from "./Team.module.scss";
 
 const roles = [
-  { value: "customer", label: "customer" },
-  { value: "service", label: "service" },
-  { value: "product", label: "product" },
+  { value: "regular-admin-role", label: "Administrator" },
+  { value: "operations-admin-role", label: "Operations" },
+  { value: "basic-admin-role", label: "Basic" },
 ];
 const initialState = {
   fullName: "",
@@ -57,8 +54,6 @@ export type AdminTeams = {
 };
 
 const Team = () => {
-  const { user } = useAppSelector((state) => state.user);
-  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [payload, setPayload] = useState(initialState);
@@ -143,6 +138,11 @@ const Team = () => {
     setId(value.id);
     toggleUpdateModal();
   };
+  const roleLabels: Record<string, string> = {
+    "regular-admin-role": "Administrator",
+    "basic-admin-role": "Basic",
+    "operations-admin-role": "Operations",
+  };
   const columns: ColumnDef<AdminTeams>[] = [
     {
       accessorKey: "name",
@@ -175,9 +175,11 @@ const Team = () => {
       header: () => <div className="text-lg font-semibold">Role</div>,
       cell: ({ row }) => {
         const value = row.original;
+        const role =
+          roleLabels[value.role as keyof typeof roleLabels] || value.role;
         return (
           <div className="text-[14px] font-medium capitalize text-[#101828]">
-            {value.role}
+            {role}
           </div>
         );
       },
@@ -232,12 +234,6 @@ const Team = () => {
       },
     },
   ];
-  useEffect(() => {
-    if (user?.teamRole !== "none") {
-      toaster.error("You do not have permission to visit this page");
-      router.push("/admin/dashboard");
-    }
-  }, []);
   return (
     <Layout>
       <div className={styles.container}>

@@ -50,7 +50,7 @@ const SidebarNavigation = ({ sidebarMenuActive, toggleSidebarMenu }) => {
             height={241}
             src="/assets/images/Ad2.png"
             alt="advert"
-            className="mx-auto mb-3 max-h-[245px]"
+            className="mx-auto mb-3 max-h-[140px] max-w-[190px] xl:max-h-[240px] xl:max-w-[230px]"
             priority
           />
         </li>
