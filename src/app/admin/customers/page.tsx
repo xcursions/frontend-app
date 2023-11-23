@@ -1,8 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
-import toaster from "react-hot-toast";
+import React from "react";
 import { AiOutlineDown, AiOutlinePlus } from "react-icons/ai";
 import { LuCalendarX2 } from "react-icons/lu";
 
@@ -11,17 +9,8 @@ import Layout from "@/components/admin/layout/Layout";
 import Button from "@/components/lib/Button";
 import Heading from "@/components/lib/Heading/Heading";
 import Text from "@/components/lib/Text/Text";
-import { useAppSelector } from "@/hooks";
 
 const Customers = () => {
-  const { user } = useAppSelector((state) => state.user);
-  const router = useRouter();
-  useEffect(() => {
-    if (user?.teamRole !== "customer" && user?.teamRole !== "none") {
-      toaster.error("You do not have permission to visit this page");
-      router.push("/admin/dashboard");
-    }
-  }, []);
   return (
     <Layout>
       <div className="flex justify-between px-[50px] pt-[40px]">

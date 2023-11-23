@@ -1,10 +1,5 @@
-import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import toaster from "react-hot-toast";
-
-import { logout } from "@/store/slices/userSlice";
-
-import useAppDispatch from "./useAppDispatch";
 
 const useErrorHandler = ({
   isError,
@@ -17,9 +12,6 @@ const useErrorHandler = ({
   showToast?: boolean;
   errorFunction?: () => void;
 }) => {
-  const dispatch = useAppDispatch();
-  const router = useRouter();
-
   useEffect(() => {
     if (isError && showToast) {
       toaster.error(
@@ -36,14 +28,14 @@ const useErrorHandler = ({
     }
   }, [isError]);
 
-  useEffect(() => {
-    if (isError) {
-      if (error?.data?.meta?.statusCode === 499) {
-        dispatch(logout());
-        router.push("/login");
-      }
-    }
-  }, [isError]);
+  // useEffect(() => {
+  //   if (isError) {
+  //     if (error?.data?.meta?.statusCode === 499) {
+  //       dispatch(logout());
+  //       router.push("/login");
+  //     }
+  //   }
+  // }, [isError]);
 };
 
 export default useErrorHandler;

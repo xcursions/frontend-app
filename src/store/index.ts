@@ -1,14 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
 
-import { adminApi } from "@/services/admin";
-import { transactionApi } from "@/services/admin/transaction";
-import { adminUsersApi } from "@/services/admin/users";
 import { authApi } from "@/services/auth";
-import { userApi } from "@/services/user";
-import { savingPlanApi } from "@/services/user/savingPlan";
 
-import { publicApi } from "../services/public";
 import userSlice from "./slices/userSlice";
 
 export const store = configureStore({
@@ -17,23 +11,9 @@ export const store = configureStore({
 
     // Generated Reducers from API
     [authApi.reducerPath]: authApi.reducer,
-    [userApi.reducerPath]: userApi.reducer,
-    [savingPlanApi.reducerPath]: savingPlanApi.reducer,
-    [adminApi.reducerPath]: adminApi.reducer,
-    [publicApi.reducerPath]: publicApi.reducer,
-    [transactionApi.reducerPath]: transactionApi.reducer,
-    [adminUsersApi.reducerPath]: adminUsersApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(
-      authApi.middleware,
-      userApi.middleware,
-      savingPlanApi.middleware,
-      adminApi.middleware,
-      publicApi.middleware,
-      transactionApi.middleware,
-      adminUsersApi.middleware
-    ),
+    getDefaultMiddleware().concat(authApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

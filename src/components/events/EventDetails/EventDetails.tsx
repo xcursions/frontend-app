@@ -33,7 +33,7 @@ import {
   useCreateBookingMutation,
   useCreateOutingLikeMutation,
   useGetBookingCostMutation,
-  useGetOutingLikeQuery,
+  useLazyGetOutingLikeQuery,
 } from "@/services/user";
 import { setUserBooking } from "@/store/slices/userSlice";
 import type { OutingProps } from "@/types";
@@ -80,7 +80,7 @@ const EventDetails = ({ detailsData }: Props) => {
     createLike,
     { isSuccess: isLikeSuccess, isError: isLikeError, error: likeError },
   ] = useCreateOutingLikeMutation();
-  const { data: likedData } = useGetOutingLikeQuery("?type=event");
+  const [getLikeData, { data: likedData }] = useLazyGetOutingLikeQuery();
   const handleOpen = () => {
     setGalleryOpen(true);
   };
@@ -118,7 +118,9 @@ const EventDetails = ({ detailsData }: Props) => {
     });
   }, []);
   useEffect(() => {
-    bookingCost({ query: detailsData.id, data: payload });
+    if (payload.outingDateId) {
+      bookingCost({ query: detailsData.id, data: payload });
+    }
   }, [payload]);
   useErrorHandler({ isError: isBookingError, error: bookingError });
   useSuccessHandler({
@@ -140,11 +142,19 @@ const EventDetails = ({ detailsData }: Props) => {
   const handleLike = () => {
     if (user) {
       createLike({ query: detailsData.id, data: { liked: true } });
+    } else {
+      toaster.error("You need to be signed in");
+      router.push("/login");
     }
   };
   const handleSubmit = () => {
     createBooking({ query: detailsData.id, data: payload });
   };
+  useEffect(() => {
+    if (user) {
+      getLikeData("?type=event");
+    }
+  }, []);
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
