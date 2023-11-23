@@ -3,7 +3,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Button from "@/components/lib/Button/Button";
 import FileUpload from "@/components/lib/FileUpload";
@@ -135,6 +135,17 @@ const Profile = () => {
   const handlePhotoChange = (files: File[]) => {
     setPhotoFiles(files);
   };
+  useEffect(() => {
+    setProfile({
+      ...profile,
+      fullName: data?.data?.fullName,
+      country: data?.data?.country,
+      gender: data?.data?.gender,
+      city: data?.data?.city,
+      address: data?.data?.address,
+      state: data?.data?.state,
+    });
+  }, [data]);
   return (
     <Layout>
       <div className={styles.container}>
@@ -206,7 +217,6 @@ const Profile = () => {
               placeholder="Enter City"
               label="City"
               name="city"
-              type="text"
               value={profile.city}
               onChange={handleChange}
             />
@@ -274,7 +284,8 @@ const Profile = () => {
                 className="mt-5 w-full rounded-3xl bg-[#0A83FF]"
                 disabled={
                   password.newPassword !== password.confirmPassword ||
-                  !password.oldPassword
+                  !password.oldPassword ||
+                  !password.newPassword
                 }
                 onClick={handlePasswordSubmit}
               >
@@ -282,6 +293,7 @@ const Profile = () => {
               </Button>
               <p
                 className={`${
+                  password.newPassword &&
                   password.confirmPassword === password.newPassword
                     ? "text-green-400"
                     : "text-red-500"
