@@ -20,7 +20,7 @@ import {
   usePasswordChecker,
   useSuccessHandler,
 } from "@/hooks";
-import { useGoogleSignupMutation, useRegisterMutation } from "@/services/auth";
+import { useGoogleLoginMutation, useRegisterMutation } from "@/services/auth";
 import {
   setUserAuthMethod,
   setUserData,
@@ -53,7 +53,7 @@ const Signup = () => {
       isError: isGoogleError,
       error: googleError,
     },
-  ] = useGoogleSignupMutation();
+  ] = useGoogleLoginMutation();
 
   useErrorHandler({ isError, error });
   useErrorHandler({ isError: isGoogleError, error: googleError });
