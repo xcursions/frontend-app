@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/dot-notation */
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -40,20 +39,6 @@ const SidebarNavigation = ({ sidebarMenuActive, toggleSidebarMenu }: any) => {
             </Link>
           </li>
         ))}
-      </ul>
-
-      <ul className={styles["sidebar-footer"]}>
-        {/* <button onClick={toggleSidebarMenu}>close</button> */}
-        <li className={styles["footer-item"]}>
-          <Image
-            width={230}
-            height={200}
-            src="/assets/images/Ad2.png"
-            alt="advert"
-            className="mx-auto mb-3 max-h-[140px] max-w-[190px] xl:max-h-[240px] xl:max-w-[230px]"
-            priority
-          />
-        </li>
       </ul>
     </section>
   );
