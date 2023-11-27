@@ -145,7 +145,7 @@ export const userApi = authApi.injectEndpoints({
       query: (data) => ({
         url: "/user/profile-image",
         method: "PUT",
-        body: { ...data },
+        body: data,
       }),
       invalidatesTags: ["User"],
     }),

@@ -248,12 +248,12 @@ const TransactionDashboard = () => {
       // .filter((item) => item.outing !== null)
       .map((res: any) => {
         return {
-          name: res.user.email,
-          amount: res.amount,
+          name: res?.user?.email,
+          amount: res?.amount,
           id: res?.id,
-          status: res.status,
-          createdAt: res.createdAt.split("T")[0],
-          paymentMethod: res.nature,
+          status: res?.status,
+          createdAt: res?.createdAt.split("T")[0],
+          paymentMethod: res?.nature,
           image: "/assets/images/icons/profile_avatar.jpeg",
         };
       });

@@ -73,7 +73,7 @@ const AllCustomers = () => {
         email: res?.email,
         id: res?.id,
         status: res?.suspended,
-        createdAt: res.createdAt.split("T")[0],
+        createdAt: res?.createdAt.split("T")[0],
         image:
           res?.profile?.avatarUrl || "/assets/images/icons/profile_avatar.jpeg",
       };
