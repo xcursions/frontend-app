@@ -1,8 +1,8 @@
 import type { BaseQueryApi, FetchArgs } from "@reduxjs/toolkit/query/react";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { HYDRATE } from "next-redux-wrapper";
-import toaster from "react-hot-toast";
 
+// import toaster from "react-hot-toast";
 import type { RootState } from "@/store";
 import { logout } from "@/store/slices/userSlice";
 
@@ -44,9 +44,9 @@ const baseQueryWithReauth = async (
   if (result.error?.data) {
     const errorData: any = result.error?.data;
     const expectedErrorCodes = [499, 401];
-    toaster.error(
-      errorData?.meta?.message || "Something went wrong, try again later."
-    );
+    // toaster.error(
+    //   errorData?.meta?.message || "Something went wrong, try again later."
+    // );
     if (
       !!errorData?.meta?.statusCode &&
       expectedErrorCodes.includes(errorData?.meta?.statusCode)
