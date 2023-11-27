@@ -51,7 +51,7 @@ export const adminApi = authApi.injectEndpoints({
       query: ({ query, data }) => ({
         url: `/outing/outings/${query}/outing-gallery/images`,
         method: "POST",
-        body: { ...data },
+        body: data,
       }),
       invalidatesTags: ["Admin"],
     }),
@@ -139,7 +139,7 @@ export const adminApi = authApi.injectEndpoints({
       query: ({ query, id, data }) => ({
         url: `/outing-addon/outings/${query}/outingAddons/${id}/icon`,
         method: "PUT",
-        body: { ...data },
+        body: data,
       }),
       invalidatesTags: ["Admin"],
     }),
@@ -217,7 +217,7 @@ export const adminApi = authApi.injectEndpoints({
       query: ({ query, data }) => ({
         url: `/blog/posts/${query}/featured-images`,
         method: "POST",
-        body: { ...data },
+        body: data,
       }),
       invalidatesTags: ["Admin"],
     }),
@@ -225,7 +225,7 @@ export const adminApi = authApi.injectEndpoints({
       query: ({ query, id, data }) => ({
         url: `/blog/posts/${query}/featured-images/${id}`,
         method: "PUT",
-        body: { ...data },
+        body: data,
       }),
       invalidatesTags: ["Admin"],
     }),

@@ -58,32 +58,33 @@ const Trips = () => {
   });
   const tripData = tripsList.map((res) => {
     return {
-      name: res.user.profile.fullName,
-      amount: res.cost,
-      email: res.user.email,
-      trip: res.outing.name,
-      type: res.outing.type,
-      tripType: res.outingSubType,
-      destination: `${res.outing.outingDestination.city}, ${res.outing.outingDestination.country}`,
-      checkout: res.checkout,
-      participant: res.bookingParticipant,
+      name: res?.user?.profile?.fullName,
+      amount: res?.cost,
+      email: res?.user?.email,
+      trip: res?.outing?.name,
+      type: res?.outing?.type,
+      tripType: res?.outingSubType,
+      destination: `${res?.outing?.outingDestination?.city}, ${res?.outing?.outingDestination?.country}`,
+      checkout: res?.checkout,
+      participant: res?.bookingParticipant,
       numberOfTickets:
+        res?.bookingParticipantCount &&
         res.bookingParticipantCount.numberOfAdults +
-        res.bookingParticipantCount.numberOfChildren +
-        res.bookingParticipantCount.numberOfInfants,
-      numberOfPeopleSharing: res.numberOfPeopleSharing,
+          res.bookingParticipantCount.numberOfChildren +
+          res.bookingParticipantCount.numberOfInfants,
+      numberOfPeopleSharing: res?.numberOfPeopleSharing,
       paymentDeadline: `${SubtractDate(
-        res.bookingDate.startDate,
-        res.outing.deadlineGap
+        res?.bookingDate?.startDate,
+        res?.outing?.deadlineGap
       )}`,
-      addon: res.bookingAddon,
+      addon: res?.bookingAddon,
       extraGroupDuration:
-        res.outing.outingChargePlan.extraDurationGroupCostPerDay,
-      id: res.id,
-      extraDuration: res.outing.outingChargePlan.extraDurationCostPerDay,
-      status: res.status,
-      tripDate: `${res.bookingDate.startDate.split("T")[0]} to ${
-        res.bookingDate.endDate.split("T")[0]
+        res?.outing?.outingChargePlan?.extraDurationGroupCostPerDay,
+      id: res?.id,
+      extraDuration: res?.outing?.outingChargePlan?.extraDurationCostPerDay,
+      status: res?.status,
+      tripDate: `${res?.bookingDate?.startDate.split("T")[0]} to ${
+        res?.bookingDate?.endDate.split("T")[0]
       }`,
       image:
         res?.user?.profile?.avatarUrl ||
