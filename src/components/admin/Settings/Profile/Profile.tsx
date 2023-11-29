@@ -146,7 +146,6 @@ const Profile = () => {
       state: data?.data?.state,
     });
   }, [data]);
-  console.log(data);
   return (
     <Layout>
       <div className={styles.container}>

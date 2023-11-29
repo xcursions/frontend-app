@@ -3,7 +3,7 @@
 // import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // import { BsSearch } from "react-icons/bs";
 import { useAppSelector } from "@/hooks";
@@ -17,6 +17,7 @@ type Props = {
 
 const Navbar = ({ text, logo }: Props) => {
   const [navbar, setNavbar] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { user } = useAppSelector((state) => state.user);
   const Pathname = usePathname();
   const textColor = text === "black" ? "text-[ #475467]" : "text-white";
@@ -27,6 +28,11 @@ const Navbar = ({ text, logo }: Props) => {
       : "/assets/images/landing-page/Logo.png";
   const buttonColor =
     text === "black" ? "bg-[#0A83FF] text-white" : "bg-white text-[#0A83FF] ";
+
+  useEffect(() => {
+    if (user) return setIsLoggedIn(true);
+    return setIsLoggedIn(false);
+  }, [user]);
   return (
     <nav
       className={`${styles["nav__backdrop-filter"]} ${color} absolute z-30 w-full `}
@@ -130,7 +136,7 @@ const Navbar = ({ text, logo }: Props) => {
               </li>
             </ul>
             {navbar &&
-              (user ? (
+              (isLoggedIn ? (
                 <div className="mt-3 space-y-2 md:hidden">
                   <Link
                     href="/user/dashboard"
@@ -158,7 +164,7 @@ const Navbar = ({ text, logo }: Props) => {
           </div>
         </div>
 
-        {user ? (
+        {isLoggedIn ? (
           <div className="hidden items-center space-x-6 text-center md:flex">
             <Link
               href="/user/dashboard"

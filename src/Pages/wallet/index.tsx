@@ -1,10 +1,9 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import { toPng } from "html-to-image";
 import Link from "next/link";
 import type { FormEvent } from "react";
-import React, { useCallback, useRef, useState } from "react";
+import React, { useState } from "react";
 import { AiFillEye } from "react-icons/ai";
 import { FaPlus } from "react-icons/fa";
 import { SlOptions } from "react-icons/sl";
@@ -12,8 +11,10 @@ import { SlOptions } from "react-icons/sl";
 import { TbCards } from "react-icons/tb";
 
 import Button from "@/components/lib/Button/Button";
+import CopyToClipboard from "@/components/lib/CopyToClipboard";
 import Heading from "@/components/lib/Heading/Heading";
 import Input from "@/components/lib/Input/Input";
+import MaskString from "@/components/lib/MaskString/MaskString";
 import { DownloadIcon } from "@/components/lib/Svg";
 import Text from "@/components/lib/Text/Text";
 import UpcomingPaymentCard from "@/components/lib/UpcomingPaymentCard/UpcomingPaymentCard";
@@ -53,7 +54,6 @@ export type Payment = {
 };
 
 const Wallet = () => {
-  const ref = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [paymentChannel, setPaymentChannel] = useState<"link" | "card" | "">(
     ""
@@ -192,22 +192,6 @@ const Wallet = () => {
       toggleCardModal();
     }
   };
-  const onButtonClick = useCallback(() => {
-    if (ref.current === null) {
-      return;
-    }
-
-    toPng(ref.current, { cacheBust: true })
-      .then((dataUrl) => {
-        const link = document.createElement("a");
-        link.download = "receipt.png";
-        link.href = dataUrl;
-        link.click();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [ref]);
   const columns: ColumnDef<Payment>[] = [
     {
       accessorKey: "id",
@@ -215,8 +199,8 @@ const Wallet = () => {
       cell: ({ row }) => {
         const value = row.original;
         return (
-          <div className="max-w-[90px] truncate text-[14px] font-medium text-[#101828]">
-            {value.id}
+          <div className="flex max-w-[90px] gap-1 text-[12px] font-medium text-[#101828]">
+            {MaskString(value.id)} <CopyToClipboard text={value.id} />
           </div>
         );
       },
@@ -290,7 +274,7 @@ const Wallet = () => {
         return (
           <div
             className={`cursor-pointer text-[20px] font-medium text-[#F04438]`}
-            onClick={() => onButtonClick()}
+            onClick={() => {}}
           >
             <DownloadIcon />
           </div>
@@ -401,7 +385,7 @@ const Wallet = () => {
               </Text>
             </Link>
           </div>
-          <div className="mr-2 bg-[#ffffff] px-3" ref={ref}>
+          <div className="mr-2 bg-[#ffffff] px-3">
             <DataTable columns={columns} data={data} />
           </div>
           <div className="mx-auto max-w-[200px] content-center items-center justify-center py-10">
