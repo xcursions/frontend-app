@@ -2,16 +2,16 @@
     @apply mt-[19px] max-w-[783px] border
 }
 .wrapper {
-    @apply mx-auto
+    @apply mx-auto pl-[24px] lg:pl-[40px] pr-5
 }
 .card_container {
-    @apply grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2
+    @apply flex flex-wrap gap-5;
 }
 .card {
-    @apply lg:w-[225px] w-[345px] mx-auto shadow-xl rounded-2xl mt-[24px] lg:mt-[32px] border
+    @apply lg:w-[225px] w-[345px] ml-0 shadow-xl rounded-2xl mt-[24px] lg:mt-[32px] border;
 }
   .modal {
-  @apply  fixed inset-0 w-screen z-[32] flex items-center justify-center lg:left-[160px] lg:w-[1109px]
+  @apply  fixed inset-0 w-screen z-[32] flex items-center justify-center lg:left-[160px] lg:w-[1109px];
   }
   .modal_content {
     @apply w-full rounded-3xl bg-white p-5 shadow-lg;

@@ -1,17 +1,18 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import { toPng } from "html-to-image";
 import Image from "next/image";
 import Link from "next/link";
 import type { ChangeEvent } from "react";
-import React, { useCallback, useRef, useState } from "react";
+import React, { useState } from "react";
 
 import Button from "@/components/lib/Button/Button";
+import CopyToClipboard from "@/components/lib/CopyToClipboard";
 import Heading from "@/components/lib/Heading";
 import Input from "@/components/lib/Input";
+import MaskString from "@/components/lib/MaskString/MaskString";
 import Select from "@/components/lib/Select";
-import { DownloadIcon } from "@/components/lib/Svg";
+// import { DownloadIcon } from "@/components/lib/Svg";
 import Text from "@/components/lib/Text";
 import { DataTable } from "@/components/ui/data-table";
 import { useErrorHandler, useSuccessHandler } from "@/hooks";
@@ -19,7 +20,6 @@ import { useGetBookingHistoryQuery } from "@/services/user";
 import { useCreateFlightBookingMutation } from "@/services/user/savingPlan";
 
 import styles from "./booking.module.scss";
-// import { columns } from "./services/Colums";
 
 const initialState = {
   numOfAdults: "0",
@@ -57,7 +57,6 @@ export type Payment = {
 };
 
 const Booking = () => {
-  const ref = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [payload, setPayload] = useState(initialState);
   const [isRoundTrip, setIsRoundTrip] = useState(true);
@@ -99,23 +98,6 @@ const Booking = () => {
         bookingStatus: res.status,
       };
     });
-
-  const onButtonClick = useCallback(() => {
-    if (ref.current === null) {
-      return;
-    }
-
-    toPng(ref.current, { cacheBust: true })
-      .then((dataUrl) => {
-        const link = document.createElement("a");
-        link.download = "receipt.png";
-        link.href = dataUrl;
-        link.click();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [ref]);
   const columns: ColumnDef<Payment>[] = [
     {
       accessorKey: "id",
@@ -123,8 +105,8 @@ const Booking = () => {
       cell: ({ row }) => {
         const value = row.original;
         return (
-          <div className="max-w-[90px] truncate text-[14px] font-medium text-[#101828]">
-            {value.id}
+          <div className="flex max-w-[90px] gap-1 text-[12px] font-medium text-[#101828]">
+            {MaskString(value.id)} <CopyToClipboard text={value.id} />
           </div>
         );
       },
@@ -135,7 +117,7 @@ const Booking = () => {
       cell: ({ row }) => {
         const value = row.original;
         return (
-          <div className={`text-[14px] font-medium text-[#101828]`}>
+          <div className={`text-[14px] font-medium capitalize text-[#101828]`}>
             {value.type}
           </div>
         );
@@ -143,13 +125,17 @@ const Booking = () => {
     },
     {
       accessorKey: "status",
-      header: () => <div className="text-lg font-semibold">Payment Status</div>,
+      header: () => (
+        <div className="hidden text-lg font-semibold lg:flex">
+          Payment Status
+        </div>
+      ),
       cell: ({ row }) => {
         const status = row.getValue("status");
         const value = row.original;
         return (
           <div
-            className={`w-fit rounded-3xl px-3 py-1 text-center text-[14px] font-medium text-[#101828] ${
+            className={`hidden w-fit rounded-3xl px-3 py-1 text-center text-[14px] font-medium text-[#101828] lg:flex ${
               status === "successful"
                 ? "bg-[#E6FAF0] text-[#12B76A]"
                 : "bg-[#FFECEB] text-[#F04438]"
@@ -166,7 +152,9 @@ const Booking = () => {
       cell: ({ row }) => {
         const value = row.original;
         return (
-          <div className={`text-[14px] font-medium text-[#101828]`}>
+          <div
+            className={`text-[12px] font-medium text-[#101828] lg:text-[14px]`}
+          >
             {value.createdAt}
           </div>
         );
@@ -180,7 +168,7 @@ const Booking = () => {
         const value = row.original;
         return (
           <div
-            className={`w-fit rounded-3xl px-3 py-1 text-center text-[14px] font-medium text-[#101828] ${
+            className={`w-fit rounded-3xl px-3 py-1 text-center text-[12px] font-medium text-[#101828] lg:text-[14px] ${
               status === "successful"
                 ? "bg-[#E6FAF0] text-[#12B76A]"
                 : "bg-[#FFECEB] text-[#F04438]"
@@ -191,31 +179,18 @@ const Booking = () => {
         );
       },
     },
-    {
-      id: "actions",
-      cell: () => {
-        return (
-          <div
-            className={`cursor-pointer text-[20px] font-medium text-[#F04438]`}
-            onClick={() => onButtonClick()}
-          >
-            <DownloadIcon />
-          </div>
-        );
-      },
-    },
   ];
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
-        <Heading className="pl-[24px] pt-[40px] font-dmSansBold text-[24px] text-[#101828] lg:pl-[40px]">
+        <Heading className="pt-[40px] font-dmSansBold text-[24px] text-[#101828]">
           Bookings
         </Heading>
-        <Text className="pl-[24px] text-[14px] text-[#667084] lg:pl-[40px] lg:text-[16px]">
+        <Text className="text-[14px] text-[#667084] lg:text-[16px]">
           Welcome back to your dashboard
         </Text>
         <div className={styles.card_container}>
-          <div className={`${styles.card} lg:ml-[40px]`}>
+          <div className={styles.card}>
             <div className="flex flex-row-reverse lg:flex-col">
               <Image
                 src="/assets/images/dashboard/flight.png"
@@ -278,7 +253,7 @@ const Booking = () => {
             </div>
           </div>
         </div>
-        <div className="mt-[48px] lg:ml-[40px] lg:mt-[40px]">
+        <div className="mt-[48px]">
           <div className="flex justify-between pr-5">
             <Heading type="h3">Booking History</Heading>
             <Link href="/user/booking/history">
@@ -289,7 +264,7 @@ const Booking = () => {
           </div>
         </div>
         <div>
-          <div className="bg-[#ffffff]" ref={ref}>
+          <div className="bg-[#ffffff]">
             <DataTable columns={columns} data={data} />
           </div>
         </div>
