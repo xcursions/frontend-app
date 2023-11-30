@@ -11,6 +11,9 @@ import routes from "../../routes";
 const SidebarNavigation = ({ sidebarMenuActive, toggleSidebarMenu }) => {
   const Pathname = usePathname();
 
+  const isActive = (path) => {
+    return Pathname === path || Pathname.startsWith(`${path}/`);
+  };
   return (
     <section
       className={`${styles.container} ${
@@ -31,7 +34,7 @@ const SidebarNavigation = ({ sidebarMenuActive, toggleSidebarMenu }) => {
           <li
             key={index}
             className={`${styles["sidebar-menu-item"]} ${
-              Pathname === page.to ? styles["active"] : ""
+              isActive(page.to) ? styles["active"] : ""
             }`}
           >
             <Link href={page.to}>

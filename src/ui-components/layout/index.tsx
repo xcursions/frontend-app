@@ -54,14 +54,9 @@ const Layout = ({ children }: any) => {
             // @ts-ignore
             showSidebarMenu={showSidebarMenu}
           />
-          {pathname !== "/user/account" &&
-            pathname !== "/user/account/favourite" &&
-            pathname !== "/user/account/schedule" &&
-            pathname !== "/user/account/payment" &&
-            pathname !== "/user/account/chat" &&
-            pathname !== "/user/wallet/history" &&
-            pathname !== "/user/wallet/saving-plan" &&
-            pathname !== "/user/booking/history" && <CalendarComponent />}
+          {!pathname?.startsWith("/user/account") &&
+            !pathname?.startsWith("/user/wallet/") &&
+            !pathname?.startsWith("/user/booking/") && <CalendarComponent />}
           <section className="content">{children}</section>
         </>
       )}

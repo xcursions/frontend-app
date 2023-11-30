@@ -9,7 +9,9 @@ import styles from "./SidebarNavigation.module.css";
 
 const SidebarNavigation = ({ sidebarMenuActive, toggleSidebarMenu }: any) => {
   const Pathname = usePathname();
-
+  const isActive = (path: string) => {
+    return Pathname === path || (Pathname && Pathname.startsWith(`${path}/`));
+  };
   return (
     <section
       className={`${styles.container} ${
@@ -30,7 +32,7 @@ const SidebarNavigation = ({ sidebarMenuActive, toggleSidebarMenu }: any) => {
           <li
             key={index}
             className={`${styles["sidebar-menu-item"]} ${
-              Pathname === page.to ? styles["active"] : ""
+              isActive(page.to) ? styles["active"] : ""
             }`}
           >
             <Link href={page.to}>

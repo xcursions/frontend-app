@@ -1,14 +1,14 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { AiOutlineArrowLeft } from "react-icons/ai";
 
 import CopyToClipboard from "@/components/lib/CopyToClipboard";
 import MaskString from "@/components/lib/MaskString/MaskString";
 import { Pagination } from "@/components/lib/Pagination";
-import { DownloadIcon } from "@/components/lib/Svg";
+import { ArrowIcon, DownloadIcon } from "@/components/lib/Svg";
 import { DataTable } from "@/components/ui/data-table";
 import { useLazyGetBookingHistoryQuery } from "@/services/user";
 import Layout from "@/ui-components/layout";
@@ -20,6 +20,7 @@ export type Payment = {
   type: string;
   createdAt: any;
   bookingStatus: string;
+  outingId: string;
 };
 
 const History = () => {
@@ -40,6 +41,7 @@ const History = () => {
         amount: res.cost,
         createdAt: res.createdAt.split("T")[0],
         bookingStatus: res.status,
+        outingId: res.outingId,
       };
     });
   useEffect(() => {
@@ -54,7 +56,10 @@ const History = () => {
         const value = row.original;
         return (
           <div className=" flex max-w-[90px] gap-1 text-[12px] font-medium text-[#101828]">
-            {MaskString(value.id)} <CopyToClipboard text={value.id} />
+            <Link href={`/user/booking/${value.outingId}/${value.id}`}>
+              {MaskString(value.id)}
+            </Link>{" "}
+            <CopyToClipboard text={value.id} />
           </div>
         );
       },
@@ -70,7 +75,9 @@ const History = () => {
           <div
             className={`hidden text-[14px] font-medium capitalize text-[#101828] lg:flex`}
           >
-            {value.type}
+            <Link href={`/user/booking/${value.outingId}/${value.id}`}>
+              {value.type}
+            </Link>
           </div>
         );
       },
@@ -93,7 +100,9 @@ const History = () => {
                 : "bg-[#FFECEB] text-[#F04438]"
             }`}
           >
-            {value.status}
+            <Link href={`/user/booking/${value.outingId}/${value.id}`}>
+              {value.status}
+            </Link>
           </div>
         );
       },
@@ -102,10 +111,13 @@ const History = () => {
       accessorKey: "amount",
       header: () => <div className="text-lg font-semibold">Amount</div>,
       cell: ({ row }) => {
+        const value = row.original;
         const amount = parseInt(row.getValue("amount"), 10).toLocaleString();
         return (
           <div className="text-[12px] font-medium text-[#101828] lg:text-[14px]">
-            ₦{amount}
+            <Link href={`/user/booking/${value.outingId}/${value.id}`}>
+              ₦{amount}
+            </Link>
           </div>
         );
       },
@@ -119,7 +131,9 @@ const History = () => {
           <div
             className={`text-[12px] font-medium text-[#101828] lg:text-[14px]`}
           >
-            {value.createdAt}
+            <Link href={`/user/booking/${value.outingId}/${value.id}`}>
+              {value.createdAt}
+            </Link>
           </div>
         );
       },
@@ -138,7 +152,9 @@ const History = () => {
                 : "bg-[#FFECEB] text-[#F04438]"
             }`}
           >
-            {value.bookingStatus}
+            <Link href={`/user/booking/${value.outingId}/${value.id}`}>
+              {value.bookingStatus}
+            </Link>
           </div>
         );
       },
@@ -163,7 +179,7 @@ const History = () => {
         <div className="xl:mx-[40px]">
           <div className="mb-[32px] mt-[44px] flex items-center gap-3 font-dmSansBold text-[24px] font-bold">
             <p onClick={router.back} className="cursor-pointer">
-              <AiOutlineArrowLeft />
+              <ArrowIcon />
             </p>
             <p>Booking History</p>
           </div>
