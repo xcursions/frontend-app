@@ -1,6 +1,7 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { AiOutlineArrowLeft } from "react-icons/ai";
@@ -54,7 +55,10 @@ const History = () => {
         const value = row.original;
         return (
           <div className="max-w-[170px] truncate text-[14px] font-medium text-[#101828]">
-            {MaskString(value.id)} <CopyToClipboard text={value.id} />
+            <Link href={`/user/wallet/${value.id}`}>
+              {MaskString(value.id)}
+            </Link>
+            <CopyToClipboard text={value.id} />
           </div>
         );
       },
@@ -73,7 +77,7 @@ const History = () => {
                 : "bg-[#FFECEB] text-[#F04438]"
             }`}
           >
-            {value.status}
+            <Link href={`/user/wallet/${value.id}`}>{value.status}</Link>
           </div>
         );
       },
@@ -84,9 +88,12 @@ const History = () => {
       cell: ({ row }) => {
         const amount = parseInt(row.getValue("amount"), 10).toLocaleString();
         const nature = row.getValue("nature");
+        const value = row.original;
         return (
           <div className="text-[14px] font-medium text-[#101828]">
-            {nature === "credit" ? "+" : "-"}₦{amount}
+            <Link href={`/user/wallet/${value.id}`}>
+              {nature === "credit" ? "+" : "-"}₦{amount}
+            </Link>
           </div>
         );
       },
@@ -105,7 +112,7 @@ const History = () => {
                 : "bg-[#FFECEB] text-[#F04438]"
             }`}
           >
-            {value.nature}
+            <Link href={`/user/wallet/${value.id}`}>{value.nature}</Link>
           </div>
         );
       },
@@ -117,7 +124,7 @@ const History = () => {
         const value = row.original;
         return (
           <div className={`text-[14px] font-medium text-[#101828]`}>
-            {value.createdAt}
+            <Link href={`/user/wallet/${value.id}`}>{value.createdAt}</Link>
           </div>
         );
       },
