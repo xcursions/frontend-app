@@ -15,7 +15,6 @@ type Props = {
 
 const BookedTripDetails = ({ detailsData }: Props) => {
   const router = useRouter();
-  console.log(detailsData);
   return (
     <div className="mx-[20px] bg-[#F9FAFB] pb-[80px] text-[#101828] xl:mx-[50px]">
       <div className="mt-[25px] flex justify-between xl:mt-[40px]">
