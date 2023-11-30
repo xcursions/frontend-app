@@ -35,6 +35,13 @@ export const userApi = authApi.injectEndpoints({
       }),
       providesTags: ["UserInfo"],
     }),
+    getTransactionsById: builder.query<any, any>({
+      query: (query) => ({
+        url: `/transaction/transactions/${query}`,
+        method: "GET",
+      }),
+      providesTags: ["UserInfo"],
+    }),
     getBookingHistory: builder.query<any, any>({
       query: (query) => ({
         url: `/booking/bookings${query}`,
@@ -263,6 +270,7 @@ export const {
   useCreateBookingMutation,
   useLazyGetTransactionsQuery,
   useGetTransactionsQuery,
+  useGetTransactionsByIdQuery,
   useGetBookingHistoryQuery,
   useLazyGetBookingHistoryQuery,
   useGetBookingCostMutation,
