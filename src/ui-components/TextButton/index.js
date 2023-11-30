@@ -1,7 +1,7 @@
-import styles from './textbutton.module.css';
+import styles from "./textbutton.module.css";
 
 const TextButton = ({
-  label = '',
+  label = "",
   color = null,
   fontWeight = null,
   onClick = () => {},
@@ -15,7 +15,7 @@ const TextButton = ({
   }
 
   return (
-    <button onClick={onClick} style={style} className={styles['btn-style']}>
+    <button onClick={onClick} style={style} className={styles["btn-style"]}>
       {label}
     </button>
   );

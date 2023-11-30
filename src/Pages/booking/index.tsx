@@ -18,6 +18,7 @@ import { DataTable } from "@/components/ui/data-table";
 import { useErrorHandler, useSuccessHandler } from "@/hooks";
 import { useGetBookingHistoryQuery } from "@/services/user";
 import { useCreateFlightBookingMutation } from "@/services/user/savingPlan";
+import type { AdminBookingProps } from "@/types";
 
 import styles from "./booking.module.scss";
 
@@ -50,10 +51,10 @@ const flightClass = [
 export type Payment = {
   id: string;
   status: string;
-  // amount: string;
   type: string;
   createdAt: any;
   bookingStatus: string;
+  outingId: string;
 };
 
 const Booking = () => {
@@ -89,13 +90,14 @@ const Booking = () => {
 
   const data =
     bookingHistorySuccess &&
-    bookingHistory.result.map((res: any) => {
+    bookingHistory.result.map((res: AdminBookingProps) => {
       return {
-        id: res.id,
+        id: res.bookingDate.bookingId,
         type: res.outing.type,
         status: res.status,
         createdAt: res.createdAt.split("T")[0],
         bookingStatus: res.status,
+        outingId: res.outingId,
       };
     });
   const columns: ColumnDef<Payment>[] = [
@@ -106,7 +108,10 @@ const Booking = () => {
         const value = row.original;
         return (
           <div className="flex max-w-[90px] gap-1 text-[12px] font-medium text-[#101828]">
-            {MaskString(value.id)} <CopyToClipboard text={value.id} />
+            <Link href={`/user/booking/${value.outingId}/${value.id}`}>
+              {MaskString(value.id)}
+            </Link>
+            <CopyToClipboard text={value.id} />
           </div>
         );
       },
@@ -118,7 +123,9 @@ const Booking = () => {
         const value = row.original;
         return (
           <div className={`text-[14px] font-medium capitalize text-[#101828]`}>
-            {value.type}
+            <Link href={`/user/booking/${value.outingId}/${value.id}`}>
+              {value.type}
+            </Link>
           </div>
         );
       },
@@ -141,7 +148,9 @@ const Booking = () => {
                 : "bg-[#FFECEB] text-[#F04438]"
             }`}
           >
-            {value.status}
+            <Link href={`/user/booking/${value.outingId}/${value.id}`}>
+              {value.status}
+            </Link>
           </div>
         );
       },
@@ -155,7 +164,9 @@ const Booking = () => {
           <div
             className={`text-[12px] font-medium text-[#101828] lg:text-[14px]`}
           >
-            {value.createdAt}
+            <Link href={`/user/booking/${value.outingId}/${value.id}`}>
+              {value.createdAt}
+            </Link>
           </div>
         );
       },
@@ -174,7 +185,9 @@ const Booking = () => {
                 : "bg-[#FFECEB] text-[#F04438]"
             }`}
           >
-            {value.bookingStatus}
+            <Link href={`/user/booking/${value.outingId}/${value.id}`}>
+              {value.bookingStatus}
+            </Link>
           </div>
         );
       },

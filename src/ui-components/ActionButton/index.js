@@ -1,9 +1,9 @@
 /* eslint-disable dot-notation */
 /* eslint-disable @typescript-eslint/dot-notation */
-import styles from './actionButton.module.css';
+import styles from "./actionButton.module.css";
 
 const ActionButton = ({
-  label = '',
+  label = "",
   Icon = null,
   inverse = false,
   style = {},
@@ -12,7 +12,7 @@ const ActionButton = ({
   return (
     <button
       className={
-        inverse ? `${styles['btn']} ${styles['inverse']}` : `${styles['btn']}`
+        inverse ? `${styles["btn"]} ${styles["inverse"]}` : `${styles["btn"]}`
       }
       style={style}
       onClick={onClick}

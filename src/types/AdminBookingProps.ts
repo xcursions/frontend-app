@@ -76,7 +76,7 @@ type BookingAddon = {
   createdAt: string;
   deletedAt: string | null;
   id: string;
-  outingAddon: OutingAddon[];
+  outingAddon: OutingAddon;
   updatedAt: string;
 };
 

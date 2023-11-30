@@ -1,5 +1,50 @@
-export const DownloadIcon = () => {
-  return (
+type Props = {
+  variants?: "white" | "black";
+};
+export const DownloadIcon = ({ variants }: Props) => {
+  return variants === "white" ? (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="17"
+      viewBox="0 0 16 17"
+      fill="none"
+    >
+      <g clip-path="url(#clip0_4628_34534)">
+        <path
+          d="M2.66797 11.834V13.1673C2.66797 13.5209 2.80844 13.8601 3.05849 14.1101C3.30854 14.3602 3.64768 14.5007 4.0013 14.5007H12.0013C12.3549 14.5007 12.6941 14.3602 12.9441 14.1101C13.1942 13.8601 13.3346 13.5209 13.3346 13.1673V11.834"
+          stroke="white"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M4.66797 7.83398L8.0013 11.1673L11.3346 7.83398"
+          stroke="white"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M8 3.16602V11.166"
+          stroke="white"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_4628_34534">
+          <rect
+            width="16"
+            height="16"
+            fill="white"
+            transform="translate(0 0.5)"
+          />
+        </clipPath>
+      </defs>
+    </svg>
+  ) : (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="20"
