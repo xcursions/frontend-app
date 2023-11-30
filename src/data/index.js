@@ -1,37 +1,37 @@
-import { FiUser, FiLogOut } from 'react-icons/fi';
+import { FiUser, FiLogOut } from "react-icons/fi";
 import {
   AiOutlineFileText,
   AiOutlineLogin,
   AiOutlineLogout,
-} from 'react-icons/ai';
+} from "react-icons/ai";
 
 export const menuList = [
   {
-    text: 'Edit Profile',
+    text: "Edit Profile",
     Icon: FiUser,
-    href: '/user/account',
+    href: "/user/account",
   },
   {
-    text: 'Go to HomePage',
+    text: "Go to HomePage",
     Icon: AiOutlineFileText,
-    href: '/',
+    href: "/",
   },
   {
-    text: 'Logout',
+    text: "Logout",
     Icon: FiLogOut,
-    href: '',
+    href: "",
   },
 ];
 
 export const headerLoginMenuList = [
   {
-    text: 'Login',
+    text: "Login",
     Icon: AiOutlineLogin,
-    href: '/login',
+    href: "/login",
   },
   {
-    text: 'Signup',
+    text: "Signup",
     Icon: AiOutlineLogout,
-    href: '/signup',
+    href: "/signup",
   },
 ];
