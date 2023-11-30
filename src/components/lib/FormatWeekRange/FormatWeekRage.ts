@@ -57,3 +57,23 @@ export function formatedDate(dateString: string | number | Date) {
 
   return `${day}${daySuffix} ${month}, ${year}`;
 }
+
+export function formatTimeInWAT(dateString: string | number | Date) {
+  // Create a Date object from the input date string
+  const date = new Date(dateString);
+
+  // Format the time to 12-hour clock format
+  const hours = date.getHours() % 12 || 12; // Get hours in 12-hour format
+  const minutes = date.getMinutes();
+  const period = date.getHours() >= 12 ? "pm" : "am"; // Determine AM or PM
+
+  // Get the timezone abbreviation (WAT - West Africa Time)
+  const timezoneAbbr = "WAT";
+
+  // Construct the formatted time string
+  const formattedTime = `${hours}:${
+    (minutes < 10 ? "0" : "") + minutes
+  }${period} ${timezoneAbbr}`;
+
+  return formattedTime;
+}
