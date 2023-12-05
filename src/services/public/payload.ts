@@ -5,6 +5,7 @@ export type GetOutingByContinentPaylod = {
   page?: number;
   search?: string;
   limit?: number;
+  isDraft?: boolean;
   startDate?: string;
   endDate?: string;
   location?: string;

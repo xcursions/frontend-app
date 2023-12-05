@@ -7,11 +7,16 @@ import React, { useEffect, useState } from "react";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 
 import CopyToClipboard from "@/components/lib/CopyToClipboard";
+import Loader from "@/components/lib/Loader";
 import MaskString from "@/components/lib/MaskString/MaskString";
 import { Pagination } from "@/components/lib/Pagination";
 import { DownloadIcon } from "@/components/lib/Svg";
 import { DataTable } from "@/components/ui/data-table";
-import { useLazyGetTransactionsQuery } from "@/services/user";
+import { useErrorHandler, useSuccessHandler } from "@/hooks";
+import {
+  useLazyGenerateTransactionReceiptQuery,
+  useLazyGetTransactionsQuery,
+} from "@/services/user";
 import type TransactionProps from "@/types/TransactionProps";
 import Layout from "@/ui-components/layout";
 
@@ -42,7 +47,21 @@ const History = () => {
         nature: res.nature,
       };
     });
-
+  const [
+    downloadReceipt,
+    { data: receiptData, isSuccess, isError, error, isLoading },
+  ] = useLazyGenerateTransactionReceiptQuery();
+  useErrorHandler({ isError, error });
+  useSuccessHandler({
+    isSuccess,
+    showToast: false,
+    successFunction: () => {
+      console.log(receiptData);
+    },
+  });
+  const handleDownload = (res: string) => {
+    downloadReceipt(res);
+  };
   useEffect(() => {
     transactionQuery(`?limit=${pageLimit}&page=${currentPage}`);
   }, [currentPage, pageLimit]);
@@ -131,12 +150,14 @@ const History = () => {
     },
     {
       id: "actions",
-      cell: () => {
+      cell: ({ row }) => {
+        const value = row.original;
         return (
           <div
-            className={`cursor-pointer text-[20px] font-medium text-[#F04438]`}
-            onClick={() => {}}
+            className={`flex cursor-pointer text-[20px] font-medium text-[#F04438]`}
+            onClick={() => handleDownload(value.id)}
           >
+            {isLoading && <Loader />}
             <DownloadIcon />
           </div>
         );

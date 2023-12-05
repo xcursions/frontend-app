@@ -109,9 +109,9 @@ export default function Dashboard() {
               />
               <div className="items-center text-center">
                 <p className="text-start text-[12px] text-[#FF9E3B]">Trips</p>
-                <p className="font-dmSansBold text-[20px] font-bold text-[#021A33]">
+                <div className="font-dmSansBold text-[20px] font-bold text-[#021A33]">
                   {outingSuccess && outingData.result.length > 0 ? (
-                    <div>
+                    <p>
                       {
                         outingData.result.filter(
                           (res: any) =>
@@ -119,11 +119,11 @@ export default function Dashboard() {
                             res.outing.type === "tour"
                         ).length
                       }
-                    </div>
+                    </p>
                   ) : (
-                    <div>0</div>
+                    <p>0</p>
                   )}
-                </p>
+                </div>
               </div>
             </div>
             <div className="flex w-[342px] content-center items-center rounded-2xl bg-[#F8F0FF] text-center shadow-md md:w-full lg:w-[214px]">
@@ -134,9 +134,9 @@ export default function Dashboard() {
               />
               <div className="items-center text-center">
                 <p className="text-start text-[12px] text-[#9E3BFF]">Events</p>
-                <p className="font-dmSansBold text-[20px] font-bold text-[#021A33]">
+                <div className="font-dmSansBold text-[20px] font-bold text-[#021A33]">
                   {outingSuccess && outingData.result.length > 0 ? (
-                    <div>
+                    <p>
                       {
                         outingData.result.filter(
                           (res: any) =>
@@ -144,11 +144,11 @@ export default function Dashboard() {
                             res.outing.type === "event"
                         ).length
                       }
-                    </div>
+                    </p>
                   ) : (
-                    <div>0</div>
+                    <p>0</p>
                   )}
-                </p>
+                </div>
               </div>
             </div>
           </Section>

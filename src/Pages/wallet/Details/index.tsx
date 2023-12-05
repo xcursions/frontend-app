@@ -11,6 +11,8 @@ import {
 import MaskString from "@/components/lib/MaskString/MaskString";
 import { ArrowIcon, DownloadIcon } from "@/components/lib/Svg";
 import Text from "@/components/lib/Text";
+import { useErrorHandler, useSuccessHandler } from "@/hooks";
+import { useLazyGenerateTransactionReceiptQuery } from "@/services/user";
 import type TransactionProps from "@/types/TransactionProps";
 
 type Props = {
@@ -21,7 +23,21 @@ const WalletTransactionDetails = ({ detailsData }: Props) => {
   const router = useRouter();
   const nature = detailsData?.nature;
   const outing = detailsData?.outing;
-
+  const [
+    downloadReceipt,
+    { data: receiptData, isSuccess, isError, error, isLoading },
+  ] = useLazyGenerateTransactionReceiptQuery();
+  useErrorHandler({ isError, error });
+  useSuccessHandler({
+    isSuccess,
+    showToast: false,
+    successFunction: () => {
+      console.log(receiptData);
+    },
+  });
+  const handleDownload = () => {
+    downloadReceipt(detailsData?.id);
+  };
   let textToShow = "";
   if (nature === "debit") {
     textToShow = outing ? "Trips" : "Withdraw";
@@ -30,7 +46,9 @@ const WalletTransactionDetails = ({ detailsData }: Props) => {
   }
   const renderedText =
     textToShow === "Trips" ? (
-      <Link href={`/trips/${detailsData?.outing?.id}`}>
+      <Link
+        href={`/user/booking/${detailsData?.outing?.id}/${detailsData?.checkout?.bookingId}`}
+      >
         <Text className="flex gap-2 font-dmSansBold text-sm font-bold capitalize">
           {textToShow}{" "}
           <span className=" text-[#0A83FF] underline">View Details</span>
@@ -52,7 +70,11 @@ const WalletTransactionDetails = ({ detailsData }: Props) => {
             Transaction Details
           </Text>
         </div>
-        <Button className="flex max-h-[35px] items-center gap-1 rounded-[100px] text-[12px]">
+        <Button
+          className="flex max-h-[35px] items-center gap-1 rounded-[100px] text-[12px]"
+          loading={isLoading}
+          onClick={handleDownload}
+        >
           <DownloadIcon variants="white" /> Download Receipt
         </Button>
       </div>
@@ -101,6 +123,14 @@ const WalletTransactionDetails = ({ detailsData }: Props) => {
               </Text>
             </div>
             <div>
+              <Text className="text-sm">Tax</Text>
+              <Text className="font-dmSansBold text-sm font-bold">₦0</Text>
+            </div>
+            <div>
+              <Text className="text-sm">Discounts or Promotions Applied</Text>
+              <Text className="font-dmSansBold text-sm font-bold">₦0</Text>
+            </div>
+            <div>
               <Text className="text-sm">Status</Text>
               <Text
                 className={`w-fit rounded-3xl px-4 py-2 font-dmSansBold text-sm font-bold capitalize ${
@@ -124,8 +154,10 @@ const WalletTransactionDetails = ({ detailsData }: Props) => {
           <div className="mt-[24px] grid grid-cols-2 gap-5 lg:grid-cols-3 lg:gap-9">
             <div>
               <Text className="text-sm">Payment Method</Text>
-              <Text className="font-dmSansBold text-sm font-bold">
-                Not Available
+              <Text className="font-dmSansBold text-sm font-bold capitalize">
+                {detailsData?.checkout
+                  ? detailsData?.checkout?.channel
+                  : "Not Available"}
               </Text>
             </div>
             <div>
