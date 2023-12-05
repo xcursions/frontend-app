@@ -2,7 +2,7 @@
     @apply mt-[19px] max-w-[783px] border
 }
 .wrapper {
-    @apply mx-auto
+    @apply mx-[20px] lg:mx-[32px]
 }
 .card_container {
   @apply flex flex-col gap-[25px] px-3 lg:flex-row mt-[24px] lg:mt-[32px];
@@ -27,7 +27,7 @@
       rgb(53, 51, 51) 15px,
       rgb(47, 45, 45) 30px
     );
-    @apply opacity-90 w-[345px] shadow-xl pl-2 lg:ml-[31px] lg:w-[395px] rounded-3xl
+    @apply opacity-90 w-[345px] shadow-xl pl-2  lg:w-[395px] rounded-3xl
   }
   .horizontal_div:before {
     content: "";
