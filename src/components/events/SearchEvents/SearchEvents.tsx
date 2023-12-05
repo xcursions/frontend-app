@@ -52,6 +52,7 @@ const SearchEvents = () => {
     type: "event",
     subType: queryType,
     month: queryMonth,
+    isDraft: false,
     search,
     location: queryLocation,
     minPrice,
@@ -260,18 +261,11 @@ const SearchEvents = () => {
         </div>
         {/* Trip Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-          {outingData
-            .filter(
-              (items) =>
-                items.outingGallery.length > 0 &&
-                parseInt(items.outingChargePlan.costGroup, 10) > 1 &&
-                items.outingChargePlan
-            )
-            .map((post) => (
-              <Link key={`${post.id}`} href={`/events/${post.id}`}>
-                <EventCard post={post} />
-              </Link>
-            ))}
+          {outingData.map((post) => (
+            <Link key={`${post.id}`} href={`/events/${post.id}`}>
+              <EventCard post={post} />
+            </Link>
+          ))}
         </div>
         {data && (
           <Pagination
@@ -288,3 +282,10 @@ const SearchEvents = () => {
 };
 
 export default SearchEvents;
+
+// .filter(
+//   (items) =>
+//     items.outingGallery.length > 0 &&
+//     parseInt(items.outingChargePlan.costGroup, 10) > 1 &&
+//     items.outingChargePlan
+// )

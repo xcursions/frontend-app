@@ -135,6 +135,34 @@ const BookedTripDetails = ({ detailsData }: Props) => {
           </div>
         </div>
       </div>
+      {/** Payment Info section */}
+      <div className="my-[15px] w-full max-w-[875px] bg-[#ffffff] xl:my-[25px]">
+        <div className="p-[24px]">
+          <Text className="font-dmSansBold text-[16px] font-bold">
+            Payment Info
+          </Text>
+          <div className="mt-[24px] grid grid-cols-2 gap-5 lg:grid-cols-3 lg:gap-9">
+            <div>
+              <Text className="text-sm">Total Amount</Text>
+              <Text className="font-dmSansBold text-sm font-bold capitalize">
+                ₦{parseFloat(detailsData?.cost).toLocaleString() || ""}
+              </Text>
+            </div>
+            <div>
+              <Text className="text-sm">Amount Paid So far</Text>
+              <Text className="font-dmSansBold text-sm font-bold capitalize">
+                {detailsData?.outing?.outingDestination?.city || ""}
+              </Text>
+            </div>
+            <div>
+              <Text className="text-sm">Plan</Text>
+              <Text className="font-dmSansBold text-sm font-bold capitalize">
+                {detailsData?.checkout?.paymentMethod || ""}
+              </Text>
+            </div>
+          </div>
+        </div>
+      </div>
       {/** Itineraries */}
       <div className="my-[15px] w-full  max-w-[875px] bg-[#ffffff] xl:my-[25px]">
         <div className="p-[24px]">

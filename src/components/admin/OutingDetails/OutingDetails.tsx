@@ -5,6 +5,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import toaster from "react-hot-toast";
 import { AiOutlineArrowLeft, AiOutlineUpload } from "react-icons/ai";
 import { GiCancel } from "react-icons/gi";
 import { IoAdd } from "react-icons/io5";
@@ -16,6 +17,7 @@ import FileUpload from "@/components/lib/FileUpload";
 import { formatDatesRange } from "@/components/lib/FormatWeekRange/FormatWeekRage";
 import Heading from "@/components/lib/Heading/Heading";
 import Input from "@/components/lib/Input/Input";
+import Loader from "@/components/lib/Loader";
 import Select from "@/components/lib/Select";
 import Text from "@/components/lib/Text/Text";
 import TextArea from "@/components/lib/TextArea/TextArea";
@@ -109,6 +111,7 @@ const initialState = {
   type: "",
   subType: "",
   deadlineGap: "",
+  isDraft: true,
   defaultOutingDurationInDays: "",
 };
 
@@ -142,13 +145,14 @@ const OutingDetails = ({ detailsData }: Props) => {
     setChargePlanPayload({ ...chargePlanPayload, title: detailsData.name });
     setPayload({
       ...payload,
-      name: detailsData.name,
-      description: detailsData.description,
-      price: detailsData.price,
-      defaultOutingDurationInDays: detailsData.defaultOutingDurationInDays,
-      deadlineGap: detailsData.deadlineGap,
-      type: detailsData.type,
-      subType: detailsData.subType,
+      name: detailsData?.name,
+      isDraft: detailsData?.isDraft,
+      description: detailsData?.description,
+      price: detailsData?.price,
+      defaultOutingDurationInDays: detailsData?.defaultOutingDurationInDays,
+      deadlineGap: detailsData?.deadlineGap,
+      type: detailsData?.type,
+      subType: detailsData?.subType,
     });
     if (detailsData.outingPickup) {
       setPickupPayload({
@@ -249,6 +253,7 @@ const OutingDetails = ({ detailsData }: Props) => {
       isSuccess: updateOutingSuccess,
       isError: isUpdateOutingError,
       error: updateOutingError,
+      isLoading: updateOutingLoading,
     },
   ] = useUpdateOutingMutation();
   const [
@@ -603,15 +608,48 @@ const OutingDetails = ({ detailsData }: Props) => {
     setAddonUpdateId(info.id);
     toggleAddonModal();
   };
+  const handleOutingPublish = () => {
+    if (
+      chargePlanPayload.costGroup < 1 ||
+      chargePlanPayload.cost < 1 ||
+      chargePlanPayload.singleOccupancyGroupAmount < 1 ||
+      chargePlanPayload.singleOccupancyAmount < 1 ||
+      chargePlanPayload.extraDurationGroupCostPerDay < 1 ||
+      chargePlanPayload.extraDurationCostPerDay < 1
+    ) {
+      toaster.error("Charge Plan information is required");
+    } else if (detailsData.outingGallery.length < 1) {
+      toaster.error("At least one Photo must is required");
+    } else {
+      setPayload({ ...payload, isDraft: !detailsData?.isDraft });
+    }
+  };
+  useEffect(() => {
+    if (payload?.isDraft !== detailsData?.isDraft) {
+      updateOuting({ query: id, data: payload });
+    }
+  }, [payload.isDraft]);
   return (
     <div>
       <div className="mx-[40px] mt-[40px]">
-        <div
-          className="flex h-[38px] w-fit cursor-pointer items-center gap-2 rounded-3xl border bg-[#ffffff] px-[20px] text-[14px] font-semibold"
-          onClick={router.back}
-        >
-          <AiOutlineArrowLeft className="font-dmSansBold text-xl" /> Back
+        <div className="flex justify-between">
+          <div
+            className="flex h-[38px] w-fit cursor-pointer items-center gap-2 rounded-3xl border bg-[#ffffff] px-[20px] text-[14px] font-semibold"
+            onClick={router.back}
+          >
+            <AiOutlineArrowLeft className="font-dmSansBold text-xl" /> Back
+          </div>
+          <div className="flex h-[38px] w-fit cursor-pointer items-center gap-2 rounded-3xl border bg-[#ffffff] px-[20px] text-[14px] font-semibold">
+            {updateOutingLoading && <Loader />}
+            Publish {detailsData.type === "tour" ? "Trip" : " Event"}
+            <Switch
+              checked={!detailsData?.isDraft}
+              value={!detailsData?.isDraft}
+              onCheckedChange={handleOutingPublish}
+            />
+          </div>
         </div>
+
         <div className="mt-[48px] w-full rounded-xl bg-[#ffffff] px-[16px] py-[10px]">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-[20px]">

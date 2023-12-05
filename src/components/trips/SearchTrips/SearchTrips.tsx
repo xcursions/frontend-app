@@ -55,6 +55,7 @@ const SearchTrips = () => {
     subType: queryType,
     month: queryMonth,
     search,
+    isDraft: false,
     location: queryLocation,
     minPrice,
     maxPrice,
@@ -270,18 +271,11 @@ const SearchTrips = () => {
         </div>
         {/* Trip Cards */}
         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-          {outingData
-            .filter(
-              (items) =>
-                items.outingGallery.length > 0 &&
-                parseInt(items.outingChargePlan.costGroup, 10) > 1 &&
-                items.outingChargePlan
-            )
-            .map((post) => (
-              <Link key={`${post.id}`} href={`/trips/${post.id}`}>
-                <TripCard post={post} />
-              </Link>
-            ))}
+          {outingData.map((post) => (
+            <Link key={`${post.id}`} href={`/trips/${post.id}`}>
+              <TripCard post={post} />
+            </Link>
+          ))}
         </div>
         {data && (
           <Pagination
@@ -298,3 +292,10 @@ const SearchTrips = () => {
 };
 
 export default SearchTrips;
+
+// .filter(
+//   (items) =>
+//     items.outingGallery.length > 0 &&
+//     parseInt(items.outingChargePlan.costGroup, 10) > 1 &&
+//     items.outingChargePlan
+// )
