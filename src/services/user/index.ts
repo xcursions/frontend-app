@@ -253,12 +253,6 @@ export const userApi = authApi.injectEndpoints({
     logout: builder.mutation<any, any>({
       query: () => ({ url: "/user/logout/", method: "POST" }),
     }),
-    generateTransactionReceipt: builder.query<any, any>({
-      query: (query) => ({
-        url: `/transaction/transactions/${query}/generate-pdf`,
-        method: "GET",
-      }),
-    }),
   }),
 });
 
@@ -300,6 +294,4 @@ export const {
   useDeletePaymentCardsMutation,
   useCreatePaymentCardOtpMutation,
   useCreatePaymentCardPinMutation,
-  useGenerateTransactionReceiptQuery,
-  useLazyGenerateTransactionReceiptQuery,
 } = userApi;

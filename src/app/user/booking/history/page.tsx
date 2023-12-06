@@ -161,13 +161,15 @@ const History = () => {
     },
     {
       id: "actions",
-      cell: () => {
+      cell: ({ row }) => {
+        const value = row.original;
         return (
           <div
             className={`cursor-pointer text-[20px] font-medium text-[#F04438]`}
-            onClick={() => {}}
           >
-            <DownloadIcon />
+            <Link href={`/user/booking/${value.outingId}/${value.id}`}>
+              <DownloadIcon />
+            </Link>
           </div>
         );
       },
