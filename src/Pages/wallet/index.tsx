@@ -15,19 +15,17 @@ import Button from "@/components/lib/Button/Button";
 import CopyToClipboard from "@/components/lib/CopyToClipboard";
 import Heading from "@/components/lib/Heading/Heading";
 import Input from "@/components/lib/Input/Input";
-import Loader from "@/components/lib/Loader";
 import MaskString from "@/components/lib/MaskString/MaskString";
 import { DownloadIcon } from "@/components/lib/Svg";
 import Text from "@/components/lib/Text/Text";
 import UpcomingPaymentCard from "@/components/lib/UpcomingPaymentCard/UpcomingPaymentCard";
 import { DataTable } from "@/components/ui/data-table";
-import { useErrorHandler, useSuccessHandler } from "@/hooks";
+import { useSuccessHandler } from "@/hooks";
 import {
   useGetTransactionsQuery,
   useGetWalletBalanceQuery,
   useInitiateCardDepositMutation,
   useInitiateLinkDepositMutation,
-  useLazyGenerateTransactionReceiptQuery,
   useSubmitCardOtpMutation,
   useSubmitCardPinMutation,
 } from "@/services/user";
@@ -197,21 +195,6 @@ const Wallet = () => {
       toggleCardModal();
     }
   };
-  const [
-    downloadReceipt,
-    { data: receiptData, isSuccess, isError, error, isLoading },
-  ] = useLazyGenerateTransactionReceiptQuery();
-  useErrorHandler({ isError, error });
-  useSuccessHandler({
-    isSuccess,
-    showToast: false,
-    successFunction: () => {
-      console.log(receiptData);
-    },
-  });
-  const handleDownload = (res: string) => {
-    downloadReceipt(res);
-  };
   const columns: ColumnDef<Payment>[] = [
     {
       accessorKey: "id",
@@ -301,10 +284,10 @@ const Wallet = () => {
         return (
           <div
             className={`flex cursor-pointer text-[20px] font-medium text-[#F04438]`}
-            onClick={() => handleDownload(value.id)}
           >
-            {isLoading && <Loader />}
-            <DownloadIcon />
+            <Link href={`/user/wallet/${value.id}`}>
+              <DownloadIcon />
+            </Link>
           </div>
         );
       },

@@ -1,4 +1,5 @@
 import type OutingProps from "./OutingProps";
+import type UpcomingPaymentProps from "./UpcomingPaymentProps";
 import type IUser from "./User";
 
 type AdminBookingProps = {
@@ -18,6 +19,7 @@ type AdminBookingProps = {
   outing: OutingProps;
   outingId: string;
   outingSubType: string;
+  savingPlan: UpcomingPaymentProps | null;
   status: string;
   ticketQuantity: string | number | null;
   updatedAt: string;
