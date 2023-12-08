@@ -29,12 +29,15 @@ export const publicApi = authApi.injectEndpoints({
         subType,
         type,
         month,
+        isDraft,
         location,
         search,
         limit,
         page,
       }) => ({
-        url: `/outing/outings?type=${type || ""}&minPrice=${
+        url: `/outing/outings?type=${
+          type || ""
+        }&sort=uniqueBookingCount&isDraft=${isDraft || "false"}&minPrice=${
           minPrice || ""
         }&maxPrice=${maxPrice || ""}&subType=${subType || ""}&month=${
           month || ""

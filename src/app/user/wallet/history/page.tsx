@@ -42,7 +42,6 @@ const History = () => {
         nature: res.nature,
       };
     });
-
   useEffect(() => {
     transactionQuery(`?limit=${pageLimit}&page=${currentPage}`);
   }, [currentPage, pageLimit]);
@@ -131,13 +130,16 @@ const History = () => {
     },
     {
       id: "actions",
-      cell: () => {
+      cell: ({ row }) => {
+        const value = row.original;
         return (
           <div
-            className={`cursor-pointer text-[20px] font-medium text-[#F04438]`}
-            onClick={() => {}}
+            className={`flex cursor-pointer text-[20px] font-medium text-[#F04438]`}
           >
-            <DownloadIcon />
+            <Link href={`/user/wallet/${value.id}`}>
+              {" "}
+              <DownloadIcon />
+            </Link>
           </div>
         );
       },

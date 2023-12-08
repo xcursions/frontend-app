@@ -529,8 +529,11 @@ const Page = () => {
                         </Text>
                         <div className="mt-[32px] flex items-center gap-3">
                           <Image
-                            src={tripInfo?.outingGallery[0]?.image}
-                            alt={tripInfo?.name}
+                            src={
+                              tripInfo?.outingGallery[0]?.image ||
+                              "/assets/images/trip/card1.png"
+                            }
+                            alt={tripInfo?.name || ""}
                             width={80}
                             height={80}
                             className="h-[80px] w-[80px] rounded-xl "

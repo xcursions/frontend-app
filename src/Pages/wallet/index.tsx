@@ -2,6 +2,7 @@
 
 import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import type { FormEvent } from "react";
 import React, { useState } from "react";
 import { AiFillEye } from "react-icons/ai";
@@ -54,6 +55,7 @@ export type Payment = {
 };
 
 const Wallet = () => {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [paymentChannel, setPaymentChannel] = useState<"link" | "card" | "">(
     ""
@@ -87,7 +89,8 @@ const Wallet = () => {
     isSuccess: linkSuccess,
     showToast: true,
     successFunction: () => {
-      window.open(linkDeposit?.depositLink, "_blank");
+      // window.open(linkDeposit?.depositLink);
+      router.push(linkDeposit?.depositLink);
     },
   });
   useSuccessHandler({
@@ -276,13 +279,15 @@ const Wallet = () => {
     },
     {
       id: "actions",
-      cell: () => {
+      cell: ({ row }) => {
+        const value = row.original;
         return (
           <div
-            className={`cursor-pointer text-[20px] font-medium text-[#F04438]`}
-            onClick={() => {}}
+            className={`flex cursor-pointer text-[20px] font-medium text-[#F04438]`}
           >
-            <DownloadIcon />
+            <Link href={`/user/wallet/${value.id}`}>
+              <DownloadIcon />
+            </Link>
           </div>
         );
       },
@@ -291,10 +296,10 @@ const Wallet = () => {
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
-        <Heading className="pl-3 pt-[40px] font-dmSansBold text-[24px] text-[#101828] lg:pl-[31px]">
+        <Heading className="pl-3 pt-[40px] font-dmSansBold text-[24px] text-[#101828]">
           Wallet
         </Heading>
-        <Text className="pl-3 text-[14px] text-[#667084] lg:pl-[31px] lg:text-[16px]">
+        <Text className="pl-3 text-[14px] text-[#667084] lg:text-[16px]">
           Welcome back to your dashboard
         </Text>
         <div className={styles.card_container}>
@@ -308,10 +313,9 @@ const Wallet = () => {
                 onClick={() => setShowBalance(!showBalance)}
               >
                 <Text className="cursor-pointer text-[24px] text-[#FFFFFF] lg:text-[30px]">
-                  ₦
                   {showBalance
                     ? walletBallanceSuccess &&
-                      parseInt(walletBalance.amount, 10).toLocaleString()
+                      `₦${parseInt(walletBalance.amount, 10).toLocaleString()}`
                     : "******"}
                 </Text>
                 <AiFillEye className="cursor-pointer text-[30px]" />
@@ -350,7 +354,7 @@ const Wallet = () => {
             </div>
           </div> */}
         </div>
-        <div className="mt-[48px] lg:ml-[31px] lg:mt-[40px]">
+        <div className="mt-[48px] lg:mt-[40px]">
           <div className="flex justify-between px-5">
             <Heading type="h3">Upcoming Payment</Heading>
             <Link href="/user/wallet/saving-plan">
@@ -360,7 +364,7 @@ const Wallet = () => {
             </Link>
           </div>
           {upcomingPaymentSuccess && upcomingPayment.result.length > 0 ? (
-            <div className=" mx-auto flex flex-col gap-[24px] px-3 lg:flex-row">
+            <div className=" mx-auto flex flex-col gap-[24px] px-3 md:flex-row">
               {upcomingPayment.result.slice(0, 2).map((res: any) => (
                 <div className="my-[24px]" key={res.id}>
                   <UpcomingPaymentCard detailsData={res} />
@@ -382,7 +386,7 @@ const Wallet = () => {
             </div>
           )}
         </div>
-        <div className="mt-[48px] lg:ml-[31px] lg:mt-[40px]">
+        <div className="mt-[48px] lg:mt-[40px]">
           <div className="flex justify-between px-5">
             <Heading type="h3">Transaction History</Heading>
             <Link href="/user/wallet/history">
@@ -410,7 +414,7 @@ const Wallet = () => {
               className="fixed inset-0 z-[31] bg-[#021A3366] opacity-75"
               onClick={toggleModal}
             ></div>
-            <div className="fixed inset-0 z-[32] flex w-[326px] items-center justify-center lg:left-[510px] lg:w-[418px]">
+            <div className="fixed inset-0 left-[30px] z-[32] flex w-[326px] items-center justify-center lg:left-[510px] lg:w-[418px]">
               <div className="w-full rounded-3xl bg-white p-5 shadow-lg">
                 <div className="flex justify-between">
                   <Heading type="h3">Fund Wallet</Heading>
@@ -483,7 +487,7 @@ const Wallet = () => {
               className="fixed inset-0 z-[31] bg-[#021A3366] opacity-75"
               onClick={toggleCardModal}
             ></div>
-            <div className="fixed inset-0 z-[32] flex w-[326px] items-center justify-center lg:left-[510px] lg:w-[418px]">
+            <div className="fixed inset-0 left-[30px] z-[32] flex w-[326px] items-center justify-center lg:left-[510px] lg:w-[418px]">
               <div className="w-full rounded-3xl bg-white p-5 shadow-lg">
                 <div className="flex justify-between">
                   <Heading type="h3">Fund With Card</Heading>
@@ -547,7 +551,7 @@ const Wallet = () => {
         {isPin && (
           <>
             <div className="fixed inset-0 z-[31] bg-[#021A3366] opacity-75"></div>
-            <div className="fixed inset-0 z-[32] flex w-[326px] items-center justify-center lg:left-[510px] lg:w-[418px]">
+            <div className="fixed inset-0 left-[30px] z-[32] flex w-[326px] items-center justify-center lg:left-[510px] lg:w-[418px]">
               <div className="w-full rounded-3xl bg-white p-5 shadow-lg">
                 <div className="flex justify-between">
                   <Heading type="h3">Enter Pin</Heading>
@@ -583,7 +587,7 @@ const Wallet = () => {
         {isOtp && (
           <>
             <div className="fixed inset-0 z-[31] bg-[#021A3366] opacity-75"></div>
-            <div className="fixed inset-0 z-[32] flex w-[326px] items-center justify-center lg:left-[510px] lg:w-[418px]">
+            <div className="fixed inset-0 left-[30px] z-[32] flex w-[326px] items-center justify-center lg:left-[510px] lg:w-[418px]">
               <div className="w-full rounded-3xl bg-white p-5 shadow-lg">
                 <div className="flex justify-between">
                   <Heading type="h3">Enter Otp</Heading>

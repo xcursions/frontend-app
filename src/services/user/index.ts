@@ -225,7 +225,7 @@ export const userApi = authApi.injectEndpoints({
       query: ({ query, id, data }) => ({
         url: `/booking/outing/${query}/bookings/${id}/participants/bulk`,
         method: "POST",
-        body: { ...data },
+        body: [...data],
       }),
       invalidatesTags: ["UserInfo"],
     }),
