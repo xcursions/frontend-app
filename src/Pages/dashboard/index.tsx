@@ -174,7 +174,7 @@ export default function Dashboard() {
                 </Text>
               </Link>
             </div>
-            <div className="flex gap-5 md:hidden">
+            {/* <div className="flex gap-5 md:hidden">
               <Text className="rounded-3xl bg-[#101828] p-2 px-4 font-dmSansRegular text-[12px] text-[#FFFFFF]">
                 Most Popular
               </Text>
@@ -184,7 +184,7 @@ export default function Dashboard() {
               <Text className="p-2 font-dmSansRegular text-[12px] text-[#475467]">
                 Near Me
               </Text>
-            </div>
+            </div> */}
           </div>
           <div className="no-scrollbar flex max-w-[682px] overflow-x-auto scroll-smooth">
             <div
@@ -211,7 +211,7 @@ export default function Dashboard() {
               </Text>
             </Link>
           </div>
-          <div className="no-scrollbar flex max-w-[682px] overflow-x-auto scroll-smooth">
+          <div className="no-scrollbar flex max-w-[682px] overflow-x-auto scroll-smooth pb-[37px]">
             <div
               className="grid gap-2"
               style={{

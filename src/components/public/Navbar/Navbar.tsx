@@ -20,7 +20,8 @@ const Navbar = ({ text, logo }: Props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { user } = useAppSelector((state) => state.user);
   const Pathname = usePathname();
-  const textColor = text === "black" ? "text-[ #475467]" : "text-white";
+  const textColor =
+    text === "black" && !navbar ? "text-[ #475467]" : "text-white";
   const color = navbar ? "bg-[#0A83FF]" : " ";
   const icon =
     logo === "black"
@@ -99,7 +100,7 @@ const Navbar = ({ text, logo }: Props) => {
               navbar ? "block" : "hidden"
             }`}
           >
-            <ul className="items-center justify-center space-y-8 md:flex md:space-x-6 md:space-y-0">
+            <ul className="items-center justify-center space-y-8 text-center md:flex md:space-x-6 md:space-y-0">
               <li
                 className={`${textColor} hover:text-xl  hover:underline focus:underline ${
                   Pathname === "/trips"
@@ -137,7 +138,7 @@ const Navbar = ({ text, logo }: Props) => {
             </ul>
             {navbar &&
               (isLoggedIn ? (
-                <div className="mt-3 space-y-2 md:hidden">
+                <div className="mt-10 md:hidden">
                   <Link
                     href="/user/dashboard"
                     className="inline-block w-full rounded-3xl bg-white px-4 py-2 text-center text-gray-800 shadow"
@@ -146,16 +147,16 @@ const Navbar = ({ text, logo }: Props) => {
                   </Link>
                 </div>
               ) : (
-                <div className="mt-3 space-y-2 md:hidden">
+                <div className="mt-10 flex flex-col items-center gap-5 text-center md:hidden">
                   <Link
                     href="/login"
-                    className={`${textColor} flex items-center px-4 py-2`}
+                    className={`${textColor} items-center px-4 py-2 text-center text-white`}
                   >
                     Login
                   </Link>
                   <Link
                     href="/signup"
-                    className="inline-block w-full rounded-3xl bg-white px-4 py-2 text-center text-gray-800 shadow"
+                    className="inline-block w-fit rounded-3xl bg-white px-4 py-2 text-center text-gray-800 shadow"
                   >
                     Sign up
                   </Link>
