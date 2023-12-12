@@ -5,10 +5,16 @@ import type { GetOutingByContinentPaylod } from "./payload";
 export const publicApi = authApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllOutings: builder.query<any, any>({
-      query: (query) => ({ url: `/outing/outings${query}`, method: "GET" }),
+      query: (query) => ({
+        url: `/outing/outings${query}&sort=uniqueBookingCount&isDraft=false`,
+        method: "GET",
+      }),
     }),
     searchOutings: builder.query<any, any>({
-      query: (query) => ({ url: `/outing/outings${query}`, method: "GET" }),
+      query: (query) => ({
+        url: `/outing/outings${query}&sort=uniqueBookingCount&isDraft=false`,
+        method: "GET",
+      }),
     }),
     getOutingAddOn: builder.query<any, any>({
       query: (query) => ({
