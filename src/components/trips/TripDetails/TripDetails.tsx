@@ -201,6 +201,7 @@ const TripDetails = ({ detailsData }: Props) => {
   });
   const handleSubmit = () => {
     if (!user) {
+      toaster.error("You need to be signed in");
       router.push("/login");
     } else {
       createBooking({ query: detailsData.id, data: payload });
@@ -211,7 +212,6 @@ const TripDetails = ({ detailsData }: Props) => {
       createLike({ query: detailsData.id, data: { liked: true } });
     } else {
       toaster.error("You need to be signed in");
-      router.push("/login");
     }
   };
   useEffect(() => {
@@ -633,11 +633,11 @@ const TripDetails = ({ detailsData }: Props) => {
                 <div className="my-5 mr-2 items-center justify-center">
                   <hr className="border-t-1 grow border-[#E4E7EC]" />
                 </div>
-                <div className="mr-3 flex justify-between">
+                <div className="mr-3  flex items-center justify-between">
                   <Text className="font-dmSansMedium text-[14px] font-semibold">
                     Total
                   </Text>
-                  <Text>
+                  <Text className="font-dmSansBold text-[24px] text-[#0A83FF]">
                     ₦
                     {bookingPriceSuccess &&
                       parseInt(bookingPrice, 10).toLocaleString()}
