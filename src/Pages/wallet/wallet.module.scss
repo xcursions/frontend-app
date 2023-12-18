@@ -2,7 +2,7 @@
     @apply mt-[19px] border w-[100%]
 }
 .wrapper {
-    @apply mx-[20px] lg:mx-[32px] w-screen
+    @apply mx-[20px] lg:mx-[32px] max-w-[720px]  w-screen
 }
 .card_container {
   @apply flex flex-col gap-[25px] px-3 lg:flex-row mt-[24px] lg:mt-[32px];
