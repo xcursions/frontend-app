@@ -7,6 +7,7 @@ type AdminBookingProps = {
   bookingAddon: BookingAddon[];
   checkout: Checkout;
   bookingParticipant: BookingParticipant[];
+  bookingPayment: BookingPayment[];
   bookingParticipantCount: BookingParticipantCount;
   cost: string;
   createdAt: string;
@@ -79,6 +80,16 @@ type BookingAddon = {
   deletedAt: string | null;
   id: string;
   outingAddon: OutingAddon;
+  updatedAt: string;
+};
+type BookingPayment = {
+  amount: string;
+  bookingId: string;
+  createdAt: string;
+  deletedAt: string | null;
+  id: string;
+  referenceNumber: string | null;
+  status: string;
   updatedAt: string;
 };
 

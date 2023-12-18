@@ -3,6 +3,7 @@ import { toPng } from "html-to-image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useRef, useState } from "react";
+import toaster from "react-hot-toast";
 
 import Button from "@/components/lib/Button";
 import CopyToClipboard from "@/components/lib/CopyToClipboard";
@@ -61,7 +62,7 @@ const WalletTransactionDetails = ({ detailsData }: Props) => {
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
+        toaster.error(err);
         setLoading(false);
       });
   }, [ref]);

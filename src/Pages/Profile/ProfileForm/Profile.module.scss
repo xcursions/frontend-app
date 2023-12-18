@@ -1,5 +1,5 @@
 .container {
-    @apply p-10 bg-[#ffffff]
+    @apply p-10 bg-[#ffffff] w-[100%] max-w-[950px]
 }
 .title {
     border-top-left-radius: 18px;
@@ -7,7 +7,7 @@
     @apply border  text-[18px] hidden lg:block
 }
 .wrapper {
-    @apply flex flex-col lg:flex-row mx-auto w-full gap-10 py-3 lg:justify-around bg-[#ffffff] lg:border;
+    @apply flex flex-col xl:flex-row lg:items-center xl:items-start mx-auto w-full gap-10 py-3 lg:justify-around bg-[#ffffff] lg:border;
 }
 .profileCard {
     @apply flex pt-5
