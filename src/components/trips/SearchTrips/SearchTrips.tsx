@@ -144,7 +144,7 @@ const SearchTrips = () => {
               <div className="relative w-full">
                 <Input
                   type="text"
-                  name="search"
+                  name="outing name"
                   startIcon
                   value={search}
                   onChange={(e: ChangeEvent<HTMLInputElement>) =>

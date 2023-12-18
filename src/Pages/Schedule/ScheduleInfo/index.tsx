@@ -43,7 +43,7 @@ const ScheduleInfo = () => {
         };
       });
   return (
-    <div className="p-10">
+    <div className="max-w-[950px] p-10">
       <div className="rounded-2xl border p-3">
         <Fullcalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}

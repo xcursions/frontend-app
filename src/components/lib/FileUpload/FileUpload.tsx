@@ -52,7 +52,7 @@ const FileUpload: FC<FileUploadProps> = ({
 
   return (
     <>
-      <div className="flex w-full flex-col items-center space-y-1 rounded-md border border-gray-300 bg-gray-100 px-3 py-5 text-center text-sm">
+      <div className="flex w-full flex-col items-center space-y-1 rounded-md border border-gray-300 bg-gray-100 px-3 py-5 text-center text-[12px]">
         <div className="flex w-full flex-wrap items-center gap-5">
           {existingImageUrls.length
             ? existingImageUrls.map((item, index) => (
@@ -101,7 +101,7 @@ const FileUpload: FC<FileUploadProps> = ({
                       e.stopPropagation();
                       removeFile(index);
                     }}
-                    className="absolute  -right-3 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-white shadow-lg"
+                    className="absolute -right-3  -top-2 flex h-5 w-5  items-center justify-center rounded-full bg-white shadow-lg"
                   >
                     <MdCancel />
                   </button>
@@ -127,14 +127,14 @@ const FileUpload: FC<FileUploadProps> = ({
             handleChange={handleFilesChange}
             name={name}
           >
-            <figure className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border-8 border-[#F9FAFB] bg-[#F2F4F7]">
+            <figure className="mx-auto flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border-8 border-[#F9FAFB] bg-[#F2F4F7]">
               <FiUploadCloud className="text-xl" />
             </figure>
-            <span className="font-semibold text-[#6941C6]">
+            <span className="cursor-pointer font-semibold text-[#6941C6]">
               Click to upload
             </span>
             <span>or drag and drop images</span>
-            <p className="text-xs text-[#667085]">
+            <p className="cursor-pointer text-xs text-[#667085]">
               SVG, PNG, JPG or GIF (max. 800x400px)
             </p>
           </FileUploader>

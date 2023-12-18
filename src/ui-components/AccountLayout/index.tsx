@@ -21,7 +21,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         // toggleSidebarMenu={toggleSidebarMenu}
         sidebarMenuActive={sidebarMenuActive}
       />
-      <section className={sidebarMenuActive ? "content" : "left-0 w-full"}>
+      <section className={sidebarMenuActive ? "content2" : "left-0 w-full"}>
         {children}
       </section>
     </>

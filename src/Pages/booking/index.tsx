@@ -103,11 +103,11 @@ const Booking = () => {
   const columns: ColumnDef<Payment>[] = [
     {
       accessorKey: "id",
-      header: () => <div className="text-lg font-semibold">Booking Id</div>,
+      header: () => <div className="text-[16px] font-semibold">Booking Id</div>,
       cell: ({ row }) => {
         const value = row.original;
         return (
-          <div className="flex max-w-[90px] gap-1 text-[12px] font-medium text-[#101828]">
+          <div className="flex max-w-[90px] gap-1 text-[12px] font-medium text-[#101828] hover:text-[16px]">
             <Link href={`/user/booking/${value.outingId}/${value.id}`}>
               {MaskString(value.id)}
             </Link>
@@ -118,51 +118,53 @@ const Booking = () => {
     },
     {
       accessorKey: "type",
-      header: () => <div className="text-lg font-semibold">Type</div>,
+      header: () => <div className="text-[16px] font-semibold">Type</div>,
       cell: ({ row }) => {
-        const value = row.original;
-        return (
-          <div className={`text-[14px] font-medium capitalize text-[#101828]`}>
-            <Link href={`/user/booking/${value.outingId}/${value.id}`}>
-              {value.type}
-            </Link>
-          </div>
-        );
-      },
-    },
-    {
-      accessorKey: "status",
-      header: () => (
-        <div className="hidden text-lg font-semibold lg:flex">
-          Payment Status
-        </div>
-      ),
-      cell: ({ row }) => {
-        const status = row.getValue("status");
         const value = row.original;
         return (
           <div
-            className={`hidden w-fit rounded-3xl px-3 py-1 text-center text-[14px] font-medium text-[#101828] lg:flex ${
-              status === "successful"
-                ? "bg-[#E6FAF0] text-[#12B76A]"
-                : "bg-[#FFECEB] text-[#F04438]"
-            }`}
+            className={`text-[14px] font-medium capitalize text-[#101828] hover:text-[16px]`}
           >
             <Link href={`/user/booking/${value.outingId}/${value.id}`}>
-              {value.status}
+              {value.type === "tour" ? "Trip" : "Event"}
             </Link>
           </div>
         );
       },
     },
+    // {
+    //   accessorKey: "status",
+    //   header: () => (
+    //     <div className="hidden text-lg font-semibold lg:flex">
+    //       Payment Status
+    //     </div>
+    //   ),
+    //   cell: ({ row }) => {
+    //     const status = row.getValue("status");
+    //     const value = row.original;
+    //     return (
+    //       <div
+    //         className={`hidden w-fit rounded-3xl px-3 py-1 text-center text-[14px] font-medium text-[#101828] lg:flex ${
+    //           status === "successful"
+    //             ? "bg-[#E6FAF0] text-[#12B76A]"
+    //             : "bg-[#FFECEB] text-[#F04438]"
+    //         }`}
+    //       >
+    //         <Link href={`/user/booking/${value.outingId}/${value.id}`}>
+    //           {value.status}
+    //         </Link>
+    //       </div>
+    //     );
+    //   },
+    // },
     {
       accessorKey: "createdAt",
-      header: () => <div className="text-lg font-semibold">Date</div>,
+      header: () => <div className="text-[16px] font-semibold">Date</div>,
       cell: ({ row }) => {
         const value = row.original;
         return (
           <div
-            className={`text-[12px] font-medium text-[#101828] lg:text-[14px]`}
+            className={`text-[12px] font-medium text-[#101828] hover:text-[16px] lg:text-[14px]`}
           >
             <Link href={`/user/booking/${value.outingId}/${value.id}`}>
               {value.createdAt}
@@ -173,13 +175,15 @@ const Booking = () => {
     },
     {
       accessorKey: "bookingStatus",
-      header: () => <div className="text-lg font-semibold">Booking Status</div>,
+      header: () => (
+        <div className="text-[16px] font-semibold">Booking Status</div>
+      ),
       cell: ({ row }) => {
         const status = row.getValue("bookingStatus");
         const value = row.original;
         return (
           <div
-            className={`w-fit rounded-3xl px-3 py-1 text-center text-[12px] font-medium text-[#101828] lg:text-[14px] ${
+            className={`w-fit rounded-3xl px-3 py-1 text-center text-[12px] font-medium text-[#101828] hover:text-[16px] lg:text-[14px] ${
               status === "successful"
                 ? "bg-[#E6FAF0] text-[#12B76A]"
                 : "bg-[#FFECEB] text-[#F04438]"

@@ -24,7 +24,7 @@ const CalendarComponent = () => {
         mode="single"
         selected={date}
         onSelect={setDate}
-        className="w-full max-w-[290px] rounded-2xl border bg-[#F2F4F7]"
+        className="w-full rounded-2xl border bg-[#F2F4F7]"
       />
       {isSuccess && data?.result.length > 0 ? (
         <div>

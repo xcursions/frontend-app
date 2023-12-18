@@ -2,6 +2,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { toPng } from "html-to-image";
 import Image from "next/image";
 import React, { useCallback, useRef, useState } from "react";
+import toaster from "react-hot-toast";
 
 import { Pagination } from "@/components/lib/Pagination";
 import { DownloadIcon } from "@/components/lib/Svg";
@@ -55,7 +56,7 @@ const TransactionsHistory = () => {
         link.click();
       })
       .catch((err) => {
-        console.log(err);
+        toaster.error(err);
       });
   }, [ref]);
 

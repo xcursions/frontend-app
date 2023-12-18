@@ -76,37 +76,37 @@ const History = () => {
             className={`hidden text-[14px] font-medium capitalize text-[#101828] lg:flex`}
           >
             <Link href={`/user/booking/${value.outingId}/${value.id}`}>
-              {value.type}
+              {value.type === "tour" ? "Trip" : "Event"}
             </Link>
           </div>
         );
       },
     },
-    {
-      accessorKey: "status",
-      header: () => (
-        <div className="hidden text-lg font-semibold lg:flex">
-          Payment Status
-        </div>
-      ),
-      cell: ({ row }) => {
-        const status = row.getValue("status");
-        const value = row.original;
-        return (
-          <div
-            className={`hidden w-fit rounded-3xl px-3 py-1 text-center text-[14px] font-medium text-[#101828] lg:flex ${
-              status === "successful"
-                ? "bg-[#E6FAF0] text-[#12B76A]"
-                : "bg-[#FFECEB] text-[#F04438]"
-            }`}
-          >
-            <Link href={`/user/booking/${value.outingId}/${value.id}`}>
-              {value.status}
-            </Link>
-          </div>
-        );
-      },
-    },
+    // {
+    //   accessorKey: "status",
+    //   header: () => (
+    //     <div className="hidden text-lg font-semibold lg:flex">
+    //       Payment Status
+    //     </div>
+    //   ),
+    //   cell: ({ row }) => {
+    //     const status = row.getValue("status");
+    //     const value = row.original;
+    //     return (
+    //       <div
+    //         className={`hidden w-fit rounded-3xl px-3 py-1 text-center text-[14px] font-medium text-[#101828] lg:flex ${
+    //           status === "successful"
+    //             ? "bg-[#E6FAF0] text-[#12B76A]"
+    //             : "bg-[#FFECEB] text-[#F04438]"
+    //         }`}
+    //       >
+    //         <Link href={`/user/booking/${value.outingId}/${value.id}`}>
+    //           {value.status}
+    //         </Link>
+    //       </div>
+    //     );
+    //   },
+    // },
     {
       accessorKey: "amount",
       header: () => <div className="text-lg font-semibold">Amount</div>,
