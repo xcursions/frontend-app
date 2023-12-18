@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import toaster from "react-hot-toast";
 
 import Button from "@/components/lib/Button/Button";
 import Heading from "@/components/lib/Heading/Heading";
@@ -28,7 +29,7 @@ const ForgotPassword = () => {
   const dispatch = useAppDispatch();
   const userEmail = useAppSelector(selectUserEmail);
   const [payload, setPayload] = useState(initialState);
-  const [errors, setErrors] = useState(initialState);
+  // const [errors, setErrors] = useState(initialState);
   const router = useRouter();
 
   const [login, { isLoading, isError, isSuccess, error, data }] =
@@ -47,16 +48,13 @@ const ForgotPassword = () => {
     toastMessage: "Otp Verified",
   });
   const handleSubmit = () => {
-    setErrors(initialState);
-
     const { valid, errors: validationErrors } =
       validateVerifyForgotPasswordOtpInputs(payload);
 
     if (valid) {
       login(payload);
     } else {
-      console.log(errors);
-      setErrors(validationErrors);
+      toaster.error(validationErrors.otpCode);
     }
   };
   useEffect(() => {

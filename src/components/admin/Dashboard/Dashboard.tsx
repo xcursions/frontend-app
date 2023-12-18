@@ -3,6 +3,7 @@ import { toPng } from "html-to-image";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useCallback, useRef, useState } from "react";
+import toaster from "react-hot-toast";
 
 import Button from "@/components/lib/Button";
 import { DownloadIcon } from "@/components/lib/Svg";
@@ -98,7 +99,7 @@ const TransactionDashboard = () => {
         link.click();
       })
       .catch((err) => {
-        console.log(err);
+        toaster.error(err);
       });
   }, [ref]);
 

@@ -69,7 +69,7 @@ export default function Dashboard() {
   useErrorHandler({ isError: isUserError, error: userError, showToast: false });
   return (
     <>
-      <div className="mt-[19px] max-w-[783px] border-2">
+      <div className=" mt-[19px] max-w-[780px] border-2">
         <div className="mx-[30px]">
           {auth === "regular-auth" ? (
             <HeaderSection
@@ -153,7 +153,7 @@ export default function Dashboard() {
             </div>
           </Section>
           <div className="mt-16">
-            <div className="flex justify-between pr-3">
+            <div className="flex w-[90vw] justify-between pr-3">
               <Text className="font-dmSansBold text-[18px] text-[#101828]">
                 Available Trips
               </Text>
@@ -186,7 +186,7 @@ export default function Dashboard() {
               </Text>
             </div> */}
           </div>
-          <div className="no-scrollbar flex max-w-[682px] overflow-x-auto scroll-smooth">
+          <div className="no-scrollbar flex max-w-[370px]  overflow-x-auto scroll-smooth md:max-w-[700px]">
             <div
               className="grid gap-2"
               style={{
@@ -201,7 +201,7 @@ export default function Dashboard() {
                 ))}
             </div>
           </div>
-          <div className="mt-14 flex justify-between">
+          <div className="mt-14 flex w-[90vw] justify-between">
             <Text className="font-dmSansBold text-[18px] text-[#101828]">
               Events Around You
             </Text>
@@ -211,7 +211,7 @@ export default function Dashboard() {
               </Text>
             </Link>
           </div>
-          <div className="no-scrollbar flex max-w-[682px] overflow-x-auto scroll-smooth pb-[37px]">
+          <div className="no-scrollbar flex max-w-[370px] overflow-x-auto scroll-smooth pb-[37px] md:max-w-[700px]">
             <div
               className="grid gap-2"
               style={{

@@ -1,20 +1,32 @@
 /* eslint-disable no-nested-ternary */
+
+import type { ColumnDef } from "@tanstack/react-table";
 import { toPng } from "html-to-image";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useRef, useState } from "react";
+import toaster from "react-hot-toast";
 
 import Button from "@/components/lib/Button";
+import CopyToClipboard from "@/components/lib/CopyToClipboard";
 import { formatedDate } from "@/components/lib/FormatWeekRange/FormatWeekRage";
+import MaskString from "@/components/lib/MaskString/MaskString";
 import { ArrowIcon, DownloadIcon } from "@/components/lib/Svg";
 import Text from "@/components/lib/Text";
 import Addon from "@/components/trips/Addon/Addon";
+import { DataTable } from "@/components/ui/data-table";
 import type { AdminBookingProps } from "@/types";
 
 type Props = {
   detailsData: AdminBookingProps;
 };
-
+export type Payment = {
+  id: string;
+  status: string;
+  reference: string;
+  createdAt: any;
+  amount: string;
+};
 const BookedTripDetails = ({ detailsData }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -34,10 +46,89 @@ const BookedTripDetails = ({ detailsData }: Props) => {
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
+        toaster.error(err);
         setLoading(false);
       });
   }, [ref]);
+  const paymentData = detailsData?.bookingPayment.map((res) => {
+    return {
+      id: res.id,
+      reference: res.referenceNumber || "",
+      amount: res.amount,
+      createdAt: res.createdAt.split("T")[0],
+      status: res.status,
+    };
+  });
+  const columns: ColumnDef<Payment>[] = [
+    {
+      accessorKey: "id",
+      header: () => <div className="text-lg font-semibold">Payment Id</div>,
+      cell: ({ row }) => {
+        const value = row.original;
+        return (
+          <div className="flex max-w-[90px] gap-1 text-[12px] font-medium text-[#101828] ">
+            {MaskString(value.id)}
+            <CopyToClipboard text={value.id} />
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "reference",
+      header: () => <div className="text-lg font-semibold">Reference</div>,
+      cell: ({ row }) => {
+        const value = row.original;
+        return (
+          <div className="flex max-w-[90px] gap-1 text-[12px] font-medium text-[#101828]">
+            {value.reference}
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "amount",
+      header: () => <div className="text-lg font-semibold">Amount</div>,
+      cell: ({ row }) => {
+        const amount = parseInt(row.getValue("amount"), 10).toLocaleString();
+        return (
+          <div className="flex max-w-[90px] gap-1 text-[12px] font-medium text-[#101828]">
+            ₦{amount}
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "createdAt",
+      header: () => <div className="text-lg font-semibold">Payment Date</div>,
+      cell: ({ row }) => {
+        const value = row.original;
+        return (
+          <div className="flex max-w-[90px] gap-1 text-[12px] font-medium text-[#101828] ">
+            {value.createdAt}
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "status",
+      header: () => <div className="text-lg font-semibold">Status</div>,
+      cell: ({ row }) => {
+        const status = row.getValue("status");
+        const value = row.original;
+        return (
+          <div
+            className={`w-fit rounded-3xl px-3 py-1 text-center text-[12px] font-medium text-[#101828] lg:text-[14px] ${
+              status === "successful"
+                ? "bg-[#E6FAF0] text-[#12B76A]"
+                : "bg-[#FFECEB] text-[#F04438]"
+            }`}
+          >
+            {value.status}
+          </div>
+        );
+      },
+    },
+  ];
   return (
     <div className="mx-[20px] bg-[#F9FAFB] pb-[80px] text-[#101828] xl:mx-[50px]">
       <div className="mt-[25px] flex justify-between xl:mt-[40px]">
@@ -74,13 +165,13 @@ const BookedTripDetails = ({ detailsData }: Props) => {
               {detailsData?.outing?.name}
             </Text>
             <Text className=" font-dmSansBold text-[18px] font-bold text-[#0A83FF]">
-              ₦{parseFloat(detailsData?.outing?.price).toLocaleString()}
+              ₦{parseFloat(detailsData?.cost).toLocaleString()}
             </Text>
           </div>
         </div>
         {/** Details Section */}
-        <div className="max-h-[350px] w-full max-w-[875px] bg-[#ffffff]">
-          <div className="p-[24px]">
+        <div className=" w-full bg-[#ffffff]">
+          <div className=" p-[24px]">
             <Text className="font-dmSansBold text-[16px] font-bold">
               Details
             </Text>
@@ -112,7 +203,7 @@ const BookedTripDetails = ({ detailsData }: Props) => {
                   {detailsData?.bookingParticipantCount?.numberOfInfants} Infant
                 </Text>
               </div>
-              <div>
+              {/* <div>
                 <Text className="text-sm">Payment Status</Text>
                 <Text
                   className={`w-fit rounded-3xl px-4 py-2 font-dmSansBold text-sm font-bold capitalize ${
@@ -124,7 +215,7 @@ const BookedTripDetails = ({ detailsData }: Props) => {
                 >
                   {detailsData?.status}
                 </Text>
-              </div>
+              </div> */}
               <div>
                 <Text className="text-sm">Booking Status</Text>
                 <Text
@@ -141,14 +232,15 @@ const BookedTripDetails = ({ detailsData }: Props) => {
               <div>
                 <Text className="text-sm">Location</Text>
                 <Text className="font-dmSansBold text-sm font-bold capitalize">
-                  {detailsData?.outing?.outingDestination?.city || ""}
+                  {detailsData?.outing?.outingDestination?.city ||
+                    "Location not available"}
                 </Text>
               </div>
             </div>
           </div>
         </div>
         {/** Total People Going Emails */}
-        <div className="my-[15px] w-full max-w-[875px] bg-[#ffffff] xl:my-[25px]">
+        <div className="my-[15px] w-full bg-[#ffffff] xl:my-[25px]">
           <div className="p-[24px]">
             <Text className="font-dmSansBold text-[16px] font-bold">
               Total People Going
@@ -166,7 +258,7 @@ const BookedTripDetails = ({ detailsData }: Props) => {
           </div>
         </div>
         {/** Payment Info section */}
-        <div className="my-[15px] w-full max-w-[875px] bg-[#ffffff] xl:my-[25px]">
+        <div className="my-[15px] w-full bg-[#ffffff] xl:my-[25px]">
           <div className="p-[24px]">
             <Text className="font-dmSansBold text-[16px] font-bold">
               Payment Info
@@ -195,7 +287,7 @@ const BookedTripDetails = ({ detailsData }: Props) => {
                 </Text>
               </div>
               <div>
-                <Text className="text-sm">Plan</Text>
+                <Text className="text-sm">Payment Plan</Text>
                 <Text className="font-dmSansBold text-sm font-bold capitalize">
                   {detailsData?.checkout?.paymentMethod || ""}
                 </Text>
@@ -203,18 +295,33 @@ const BookedTripDetails = ({ detailsData }: Props) => {
             </div>
           </div>
         </div>
+        {/** Payment History */}
+        <div className="my-[15px] w-full bg-[#ffffff] xl:my-[25px]">
+          <div className="p-[24px]">
+            <Text className="font-dmSansBold text-[16px] font-bold">
+              Booking Payment History
+            </Text>
+            <DataTable columns={columns} data={paymentData} />
+          </div>
+        </div>
         {/** Itineraries */}
-        <div className="my-[15px] w-full  max-w-[875px] bg-[#ffffff] xl:my-[25px]">
+        <div className="my-[15px] w-full bg-[#ffffff] xl:my-[25px]">
           <div className="p-[24px]">
             <Text className="font-dmSansBold text-[16px] font-bold">
               Itineraries
             </Text>
             <div className="mt-[24px] grid grid-cols-1 gap-5 lg:grid-cols-3 lg:gap-9">
-              {detailsData?.bookingAddon.map((res) => (
-                <div key={res.id}>
-                  <Addon {...res.outingAddon} />
-                </div>
-              ))}
+              {detailsData?.bookingAddon.length > 0 ? (
+                detailsData?.bookingAddon.map((res) => (
+                  <div key={res.id}>
+                    <Addon {...res.outingAddon} />
+                  </div>
+                ))
+              ) : (
+                <Text className="font-dmSansBold text-sm font-bold capitalize">
+                  No Itinerary added
+                </Text>
+              )}
             </div>
           </div>
         </div>

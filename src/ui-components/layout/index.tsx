@@ -54,10 +54,20 @@ const Layout = ({ children }: any) => {
             // @ts-ignore
             showSidebarMenu={showSidebarMenu}
           />
-          {!pathname?.startsWith("/user/account") &&
-            !pathname?.startsWith("/user/wallet/") &&
-            !pathname?.startsWith("/user/booking/") && <CalendarComponent />}
-          <section className="content">{children}</section>
+          <section
+            className={
+              pathname?.startsWith("/user/account") ? "content2" : "content"
+            }
+          >
+            <section>{children}</section>
+            <section>
+              {!pathname?.startsWith("/user/account") &&
+                !pathname?.startsWith("/user/wallet/") &&
+                !pathname?.startsWith("/user/booking/") && (
+                  <CalendarComponent />
+                )}
+            </section>
+          </section>
         </>
       )}
     </>
