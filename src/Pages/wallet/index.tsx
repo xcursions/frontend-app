@@ -198,7 +198,9 @@ const Wallet = () => {
   const columns: ColumnDef<Payment>[] = [
     {
       accessorKey: "id",
-      header: () => <div className="text-lg font-semibold">Transaction Id</div>,
+      header: () => (
+        <div className="text-[16px] font-semibold">Transaction Id</div>
+      ),
       cell: ({ row }) => {
         const value = row.original;
         return (
@@ -213,7 +215,7 @@ const Wallet = () => {
     },
     {
       accessorKey: "status",
-      header: () => <div className="text-lg font-semibold">Status</div>,
+      header: () => <div className="text-[16px] font-semibold">Status</div>,
       cell: ({ row }) => {
         const status = row.getValue("status");
         const value = row.original;
@@ -232,7 +234,7 @@ const Wallet = () => {
     },
     {
       accessorKey: "amount",
-      header: () => <div className="text-lg font-semibold">Amount</div>,
+      header: () => <div className="text-[16px] font-semibold">Amount</div>,
       cell: ({ row }) => {
         const amount = parseInt(row.getValue("amount"), 10).toLocaleString();
         const nature = row.getValue("nature");
@@ -248,7 +250,7 @@ const Wallet = () => {
     },
     {
       accessorKey: "nature",
-      header: () => <div className="text-lg font-semibold ">Type</div>,
+      header: () => <div className="text-[16px] font-semibold ">Type</div>,
       cell: ({ row }) => {
         const payment = row.getValue("nature");
         const value = row.original;
@@ -267,7 +269,7 @@ const Wallet = () => {
     },
     {
       accessorKey: "createdAt",
-      header: () => <div className="text-lg font-semibold">Date</div>,
+      header: () => <div className="text-[16px] font-semibold">Date</div>,
       cell: ({ row }) => {
         const value = row.original;
         return (
