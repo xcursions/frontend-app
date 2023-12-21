@@ -9,6 +9,7 @@ type OutingProps = {
   price: string;
   status: string;
   subType: string;
+  vat: number;
   type: string;
   updatedAt: string;
   viewCount: number;

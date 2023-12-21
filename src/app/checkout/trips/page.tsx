@@ -20,7 +20,9 @@ import FullPageLoader from "@/components/lib/FullPageLoader";
 import Heading from "@/components/lib/Heading";
 import Input from "@/components/lib/Input";
 import { SubtractDate } from "@/components/lib/SubtractDate/SubtractDate";
+import { InfoIcon } from "@/components/lib/Svg";
 import Text from "@/components/lib/Text/Text";
+import { CalculateVat } from "@/components/lib/VatCalculator/VatCalculator";
 import Footer from "@/components/public/Footer/Footer";
 import Navbar from "@/components/public/Navbar";
 import Subscription from "@/components/public/Subscription/Subscription";
@@ -226,6 +228,7 @@ const Page = () => {
   const toggleModal = () => {
     setIsOpen(!isOpen);
   };
+
   return (
     <>
       {!isAuthenticated ? (
@@ -638,6 +641,23 @@ const Page = () => {
                           ) : (
                             <span>No Addons</span>
                           )}
+                        </div>
+                        <div className="mr-3  flex items-center justify-between">
+                          <div className=" flex items-center gap-2">
+                            <Text className="font-dmSansMedium text-[12px] text-[#667084]">
+                              Vat
+                            </Text>
+                            <InfoIcon />
+                          </div>
+                          <Text className="font-dmSansBold text-[14px] text-[#667084]">
+                            ₦
+                            {isBookingSuccess
+                              ? CalculateVat(
+                                  bookingData?.cost,
+                                  bookingData?.outing?.vat
+                                )
+                              : null}
+                          </Text>
                         </div>
                         <div className="my-5 mr-2 items-center justify-center">
                           <hr className="border-t-1 grow border-[#E4E7EC]" />
