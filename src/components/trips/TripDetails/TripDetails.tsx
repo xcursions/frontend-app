@@ -33,7 +33,9 @@ import MapComponent from "@/components/lib/MapComponent/MapComponent";
 import OutingGallery from "@/components/lib/OutingGallery/OutingGallery";
 import Select from "@/components/lib/Select/Select";
 import { SubtractDate } from "@/components/lib/SubtractDate/SubtractDate";
+import { InfoIcon } from "@/components/lib/Svg";
 import Text from "@/components/lib/Text/Text";
+import { CalculateVat } from "@/components/lib/VatCalculator/VatCalculator";
 import { DatePickerWithRange } from "@/components/ui/dateRangePicker";
 import {
   useAppDispatch,
@@ -634,13 +636,28 @@ const TripDetails = ({ detailsData }: Props) => {
                   <hr className="border-t-1 grow border-[#E4E7EC]" />
                 </div>
                 <div className="mr-3  flex items-center justify-between">
+                  <div className=" flex items-center gap-2">
+                    <Text className="font-dmSansMedium text-[12px] text-[#667084]">
+                      Vat
+                    </Text>
+                    <InfoIcon />
+                  </div>
+                  <Text className="font-dmSansBold text-[14px] text-[#101828]">
+                    ₦
+                    {bookingPriceSuccess
+                      ? CalculateVat(bookingPrice, detailsData?.vat)
+                      : null}
+                  </Text>
+                </div>
+                <div className="mr-3  flex items-center justify-between">
                   <Text className="font-dmSansMedium text-[14px] font-semibold">
                     Total
                   </Text>
                   <Text className="font-dmSansBold text-[24px] text-[#0A83FF]">
                     ₦
-                    {bookingPriceSuccess &&
-                      parseInt(bookingPrice, 10).toLocaleString()}
+                    {bookingPriceSuccess
+                      ? parseInt(bookingPrice, 10).toLocaleString()
+                      : null}
                   </Text>
                 </div>
                 <div className="my-5 mr-3 pb-3 ">
