@@ -619,14 +619,17 @@ const TripDetails = ({ detailsData }: Props) => {
                 <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
                   {selectedItems.length > 0 &&
                     selectedItems.map((info) => (
-                      <div key={info.id} className="relative max-w-[180px]">
+                      <div
+                        key={info.id}
+                        className="relative max-w-[180px] items-center"
+                      >
                         <div
-                          className="absolute right-4 top-2 cursor-pointer"
+                          className="absolute inset-y-1 right-4 cursor-pointer"
                           onClick={() => handleItemClick(info)}
                         >
                           <GiCancel className="text-[#98A2B3]" />
                         </div>
-                        <Text className="w-auto rounded-3xl border pl-2">
+                        <Text className="min-h-[30px] w-auto rounded-3xl border pl-2">
                           {info.name}
                         </Text>
                       </div>

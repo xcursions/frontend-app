@@ -2,109 +2,85 @@
 
 "use client";
 
+import { yupResolver } from "@hookform/resolvers/yup";
 import { GoogleLogin } from "@react-oauth/google";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React from "react";
+import { useForm } from "react-hook-form";
+import toaster from "react-hot-toast";
+import * as yup from "yup";
 
 // import { LoginSocialFacebook } from "reactjs-social-login";
 import Button from "@/components/lib/Button/Button";
 import Heading from "@/components/lib/Heading/Heading";
 import Input from "@/components/lib/Input/Input";
+import { HorizontalLineIcon } from "@/components/lib/Svg";
 import Text from "@/components/lib/Text/Text";
 import Navbar from "@/components/public/Navbar/Navbar";
-import {
-  useAppDispatch,
-  useErrorHandler,
-  usePasswordChecker,
-  useSuccessHandler,
-} from "@/hooks";
+import { useAppDispatch } from "@/hooks";
 import { useGoogleLoginMutation, useRegisterMutation } from "@/services/auth";
 import {
   setUserAuthMethod,
   setUserData,
   setUserToken,
 } from "@/store/slices/userSlice";
-import { validateRegisterInputs } from "@/utils/validators";
-import { isEmpty } from "@/utils/validators/helpers";
 
-const initialState = {
-  fullName: "",
-  username: "",
-  email: "",
-  password: "",
-};
+const registerSchema = yup.object({
+  fullName: yup.string().required("Full name is required"),
+  username: yup.string().required("User name is required"),
+  email: yup.string().email().required(" Email is required"),
+  password: yup
+    .string()
+    .required()
+    .min(8, "must be at least 8 characters")
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
+      "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
+    ),
+});
 
 const Signup = () => {
-  const [payload, setPayload] = useState(initialState);
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [errors, setErrors] = useState(initialState);
   const router = useRouter();
 
   const dispatch = useAppDispatch();
-  const [register, { isLoading, data, isError, error, isSuccess }] =
-    useRegisterMutation();
-  const [
-    googleLogin,
-    {
-      isSuccess: googleSuccess,
-      data: googleData,
-      isError: isGoogleError,
-      error: googleError,
-    },
-  ] = useGoogleLoginMutation();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(registerSchema) });
 
-  useErrorHandler({ isError, error });
-  useErrorHandler({ isError: isGoogleError, error: googleError });
-  useSuccessHandler({
-    isSuccess,
-    successFunction: () => {
-      dispatch(setUserData(data?.data));
-      // dispatch(setUserToken(data.token));
-      router.push("/verify");
-    },
-    toastMessage: "Account created successfully!",
-  });
-  useSuccessHandler({
-    isSuccess: googleSuccess,
-    successFunction: () => {
-      dispatch(setUserData(googleData?.data));
-      dispatch(setUserToken(googleData?.meta?.token));
-      dispatch(setUserAuthMethod("social-auth"));
-      router.push("/user/dashboard");
-    },
-    toastMessage: "Successfully logged in using Google",
-  });
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPayload({ ...payload, [event.target.name]: event.target.value });
-  };
-  const handleConfirmPassword = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setConfirmPassword(event.currentTarget.value);
-  };
-  const handleSubmit = () => {
-    setErrors(initialState);
+  const [createUser, { isLoading }] = useRegisterMutation();
+  const [googleLogin] = useGoogleLoginMutation();
 
-    const { valid, errors: validationErrors } = validateRegisterInputs(payload);
-
-    if (valid) {
-      register(payload);
-    } else {
-      setErrors(validationErrors);
-    }
+  const onSubmit = (formValues: any) => {
+    const payload = { ...formValues };
+    createUser(payload)
+      .unwrap()
+      .then((data) => {
+        dispatch(setUserData(data?.data));
+        toaster.success("Account created successfully!");
+        router.push("/verify");
+      })
+      .catch((error) => {
+        toaster.error(error?.data?.meta?.message);
+      });
   };
-  const [validLength, hasNumber, upperCase, lowerCase, specialChar] =
-    usePasswordChecker(payload);
-  const isFormValid =
-    Object.values(payload).every((value) => value !== "") &&
-    validLength &&
-    hasNumber &&
-    upperCase &&
-    lowerCase &&
-    specialChar &&
-    confirmPassword === payload.password;
+  const onGoogleSubmit = (credentialResponse: any) => {
+    googleLogin({ idToken: credentialResponse })
+      .unwrap()
+      .then((data) => {
+        dispatch(setUserData(data?.data));
+        dispatch(setUserToken(data?.meta?.token));
+        dispatch(setUserAuthMethod("social-auth"));
+        toaster.success("Successfully logged in using Google");
+        router.push("/user/dashboard");
+      })
+      .catch((error) => {
+        toaster.error(error?.data?.meta?.message);
+      });
+  };
   return (
     <div className="w-full  overflow-hidden bg-[#FFFFFF]">
       <div className="flex">
@@ -146,8 +122,10 @@ const Signup = () => {
             <div className="my-3 flex flex-col gap-3 lg:flex-row">
               <div className=" mt-5">
                 <GoogleLogin
-                  onSuccess={(credentialResponse) =>
-                    googleLogin({ idToken: credentialResponse?.credential })
+                  onSuccess={
+                    (credentialResponse) =>
+                      onGoogleSubmit(credentialResponse?.credential)
+                    // googleLogin({ idToken: credentialResponse?.credential })
                   }
                   onError={() => {}}
                   // @ts-ignore
@@ -179,97 +157,57 @@ const Signup = () => {
               </button>
               {/* </LoginSocialFacebook> */}
             </div>
-            <div className="my-3 flex items-center justify-center">
-              <hr className="grow border-t-2 border-black" />
-              <span className="mx-4 font-semibold text-gray-600">or</span>
-              <hr className="grow border-t-2 border-black" />
+            <div className="my-3 flex items-center justify-center gap-3 text-xs font-medium">
+              <HorizontalLineIcon />
+              <span>or</span>
+              <HorizontalLineIcon />
             </div>
-            <div className="">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="flex flex-col gap-[16px]"
+            >
               <Input
                 label="Full Name"
                 placeholder="John Doe"
                 name="fullName"
-                value={payload.fullName}
-                error={!isEmpty(errors.fullName)}
-                helperText={errors.fullName}
-                onChange={handleChange}
+                register={register("fullName")}
+                errorMsg={errors?.fullName?.message}
               />
               <Input
                 label="Username"
                 placeholder="@johndoe1234"
                 name="username"
-                value={payload.username}
-                error={!isEmpty(errors.username)}
-                helperText={errors.username}
-                onChange={handleChange}
+                register={register("username")}
+                errorMsg={errors.username?.message}
               />
               <Input
                 label="Email Address"
                 placeholder="Enter your email address"
                 name="email"
-                value={payload.email}
-                error={!isEmpty(errors.email)}
-                helperText={errors.email}
-                onChange={handleChange}
+                register={register("email")}
+                errorMsg={errors.email?.message}
               />
               <Input
                 label="Password"
                 name="password"
                 type="password"
                 placeholder="Enter Password"
-                value={payload.password}
-                error={!isEmpty(errors.password)}
-                helperText={errors.password}
-                onChange={handleChange}
+                register={register("password")}
+                errorMsg={errors.password?.message}
               />
-              <Input
-                label="Confirm Password"
-                placeholder="*******"
-                type="password"
-                name="confirm password"
-                value={confirmPassword}
-                onChange={handleConfirmPassword}
-              />
-              <div className="flex flex-col  text-xs">
-                <p
-                  className={`${
-                    validLength && hasNumber && specialChar
-                      ? "text-green-400"
-                      : "text-red-500"
-                  }`}
-                >
-                  Must be more than 8 digit, have number and special characters
-                </p>
-                <p
-                  className={`${
-                    lowerCase && upperCase ? "text-green-400" : "text-red-500"
-                  }`}
-                >
-                  Must have lower and uppercase
-                </p>
-                <p
-                  className={`${
-                    confirmPassword === payload.password
-                      ? "text-green-400"
-                      : "text-red-500"
-                  }`}
-                >
-                  Confirm password must match
-                </p>
-              </div>
               <Button
-                onClick={handleSubmit}
+                type="submit"
                 loading={isLoading}
-                disabled={!isFormValid}
-                className="w-full"
+                // disabled={!isFormValid}
+                className="my-[16px] w-full rounded-[100px]"
               >
                 Create Account
               </Button>
-            </div>
-            <Text type="caption" className="mt-0 text-center">
+            </form>
+            <Text className="mt-0 text-center text-sm text-[#667084]">
               Already have an account?{" "}
               <Link href="/login" className="text-[#0A83FF]">
-                Login
+                <span className="underline">Login</span>
               </Link>
             </Text>
           </div>
