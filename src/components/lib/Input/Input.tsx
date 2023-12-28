@@ -14,8 +14,10 @@ const Input: FC<InputProps> = ({
   endIcon,
   label,
   error,
+  errorMsg,
   type = "text",
   helperText,
+  register,
   wrapperClass,
   containerClass,
   className,
@@ -30,7 +32,7 @@ const Input: FC<InputProps> = ({
         {label && <label className={styles.label}>{label} </label>}
         <div
           className={`${styles.container} ${containerClass || "rounded-2xl"} ${
-            error ? "border !border-red-600" : ""
+            error || errorMsg ? "border !border-red-600" : ""
           } ${containerClass || ""}`}
         >
           {startIcon && (
@@ -47,6 +49,7 @@ const Input: FC<InputProps> = ({
           )}
           <input
             className={`${styles.input} ${className || ""}`}
+            {...register}
             {...{
               type: visible ? inputType : "password",
               ...rest,
@@ -89,13 +92,15 @@ const Input: FC<InputProps> = ({
         </div>
       </div>
 
-      {helperText && (
+      {helperText || errorMsg ? (
         <span
-          className={`${styles.helper_text} ${error ? "text-red-600" : ""}`}
+          className={`${styles.helper_text} ${
+            error || errorMsg ? "text-red-600" : ""
+          }`}
         >
-          {helperText}
+          {helperText} {errorMsg}
         </span>
-      )}
+      ) : null}
     </div>
   );
 };

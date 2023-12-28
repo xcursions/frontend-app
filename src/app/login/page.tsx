@@ -1,23 +1,23 @@
 "use client";
 
+import { yupResolver } from "@hookform/resolvers/yup";
 import { GoogleLogin } from "@react-oauth/google";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import toaster from "react-hot-toast";
+import * as yup from "yup";
 
 // import { LoginSocialFacebook } from "reactjs-social-login";
 import Button from "@/components/lib/Button/Button";
 import Heading from "@/components/lib/Heading/Heading";
 import Input from "@/components/lib/Input/Input";
+import { HorizontalLineIcon } from "@/components/lib/Svg";
 import Text from "@/components/lib/Text/Text";
 import Navbar from "@/components/public/Navbar";
-import {
-  useAppDispatch,
-  useAuth,
-  useErrorHandler,
-  useSuccessHandler,
-} from "@/hooks";
+import { useAppDispatch, useAuth } from "@/hooks";
 import { useOnboardingChecker } from "@/hooks/useOnboardingChecker";
 import { useGoogleLoginMutation, useLoginMutation } from "@/services/auth";
 import {
@@ -25,67 +25,53 @@ import {
   setUserData,
   setUserToken,
 } from "@/store/slices/userSlice";
-import { validateLoginInputs } from "@/utils/validators";
-import { isEmpty } from "@/utils/validators/helpers";
 
-const initialState = {
-  identity: "",
-  password: "",
-};
+const registerSchema = yup.object({
+  identity: yup.string().required("User name or email is required"),
+  password: yup.string().required("password is required"),
+});
+
 const Login = () => {
   const dispatch = useAppDispatch();
   const { isAuthenticated, authData } = useAuth();
   const onboardingCheck = useOnboardingChecker();
-  const [payload, setPayload] = useState(initialState);
-  const [errors, setErrors] = useState(initialState);
   const router = useRouter();
 
-  const [login, { isLoading, isError, isSuccess, data, error }] =
-    useLoginMutation();
-  const [
-    googleLogin,
-    {
-      isSuccess: googleSuccess,
-      data: googleData,
-      isError: isGoogleError,
-      error: googleError,
-    },
-  ] = useGoogleLoginMutation();
-  useErrorHandler({ isError, error });
-  useErrorHandler({ isError: isGoogleError, error: googleError });
-  useSuccessHandler({
-    isSuccess,
-    successFunction: () => {
-      if (data?.data) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(registerSchema) });
+
+  const [login, { isLoading }] = useLoginMutation();
+  const [googleLogin] = useGoogleLoginMutation();
+  const onSubmit = (formValues: any) => {
+    login(formValues)
+      .unwrap()
+      .then((data) => {
         dispatch(setUserData(data?.data));
         dispatch(setUserToken(data?.meta?.token));
         dispatch(setUserAuthMethod("regular-auth"));
+        toaster.success("Login Successful");
         router.push("/user/dashboard");
-      }
-      return null;
-    },
-    toastMessage: "Log in successful!",
-  });
-  useSuccessHandler({
-    isSuccess: googleSuccess,
-    successFunction: () => {
-      dispatch(setUserData(googleData?.data));
-      dispatch(setUserToken(googleData?.meta?.token));
-      dispatch(setUserAuthMethod("social-auth"));
-      router.push("/user/dashboard");
-    },
-    toastMessage: "Successfully logged in using Google",
-  });
-  const handleSubmit = () => {
-    setErrors(initialState);
-
-    const { valid, errors: validationErrors } = validateLoginInputs(payload);
-
-    if (valid) {
-      login(payload);
-    } else {
-      setErrors(validationErrors);
-    }
+      })
+      .catch((error) => {
+        toaster.error(error?.data?.meta?.message);
+      });
+  };
+  const onGoogleSubmit = (credentialResponse: any) => {
+    googleLogin({ idToken: credentialResponse })
+      .unwrap()
+      .then((data) => {
+        dispatch(setUserData(data?.data));
+        dispatch(setUserToken(data?.meta?.token));
+        dispatch(setUserAuthMethod("social-auth"));
+        toaster.success("Successfully logged in using Google");
+        router.push("/user/dashboard");
+      })
+      .catch((error) => {
+        toaster.error(error?.data?.meta?.message);
+      });
   };
   useEffect(() => {
     if (isAuthenticated) {
@@ -94,10 +80,6 @@ const Login = () => {
     router.push("/user/dashboard");
     // return () => setDomLoading(false);
   }, [isAuthenticated]);
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPayload({ ...payload, [event.target.name]: event.target.value });
-  };
   return (
     <div className="w-full  overflow-hidden bg-[#FFFFFF]">
       <div className="flex">
@@ -140,7 +122,7 @@ const Login = () => {
               <div className=" mt-5">
                 <GoogleLogin
                   onSuccess={(credentialResponse) =>
-                    googleLogin({ idToken: credentialResponse?.credential })
+                    onGoogleSubmit(credentialResponse?.credential)
                   }
                   onError={() => {}}
                   // @ts-ignore
@@ -172,30 +154,26 @@ const Login = () => {
               </button>
               {/* </LoginSocialFacebook> */}
             </div>
-            <div className="my-5 flex items-center justify-center">
-              <hr className="border-t-1 grow border-black" />
-              <span className="mx-4 font-semibold text-gray-600">or</span>
-              <hr className="border-t-1 grow border-black" />
+            <div className="my-3 flex items-center justify-center gap-3 text-xs font-medium">
+              <HorizontalLineIcon />
+              <span>or</span>
+              <HorizontalLineIcon />
             </div>
-            <div className="gap-4">
+            <form className="gap-4" onSubmit={handleSubmit(onSubmit)}>
               <Input
                 label="Email Address or Username"
                 placeholder="Enter your email or username"
                 name="identity"
-                value={payload.identity}
-                error={!isEmpty(errors.identity)}
-                helperText={errors.identity}
-                onChange={handleChange}
+                register={register("identity")}
+                errorMsg={errors.identity?.message}
               />
               <Input
                 label="Password"
                 name="password"
                 placeholder="Enter Password"
-                value={payload.password}
                 type="password"
-                error={!isEmpty(errors.password)}
-                helperText={errors.password}
-                onChange={handleChange}
+                register={register("password")}
+                errorMsg={errors.password?.message}
               />
               <Link href="/forgot-password">
                 <Text className=" pb-5 pt-3 text-center text-[14px] text-[#0A83FF] underline">
@@ -203,17 +181,17 @@ const Login = () => {
                 </Text>
               </Link>
               <Button
-                onClick={handleSubmit}
+                type="submit"
                 loading={isLoading}
                 className="w-full rounded-3xl bg-[#0A83FF] text-[16px]"
               >
                 Login
               </Button>
-            </div>
-            <Text className="my-3 text-center text-[14px] text-[#667084]">
-              Dont have an account yet.
+            </form>
+            <Text className="my-3 text-center text-sm text-[#667084]">
+              Dont have an account yet.{"  "}
               <Link href="/signup">
-                <span className="text-[#0A83FF]">Create account</span>
+                <span className="text-[#0A83FF] underline">Create account</span>
               </Link>
             </Text>
           </div>
