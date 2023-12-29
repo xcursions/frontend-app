@@ -83,8 +83,13 @@ const Login = () => {
   return (
     <div className="w-full  overflow-hidden bg-[#FFFFFF]">
       <div className="flex">
-        <div className="relative hidden h-screen w-[40%] bg-[url('/assets/images/login.png')] lg:block">
-          <img src="/assets/images/login.png" alt="login image" />
+        <div className="relative hidden h-screen w-[500px] lg:block">
+          <Image
+            src="/assets/images/login.png"
+            alt="login image"
+            layout="fill"
+            className="h-full w-full object-cover"
+          />
           <Link href="/" className="absolute top-0 z-20 hidden lg:block">
             <img
               src="/assets/images/landing-page/Logo.png"
@@ -108,7 +113,7 @@ const Login = () => {
           <Navbar text="black" logo="black" />
         </div>
         <div className="m-auto mt-16 content-center items-center justify-center lg:mt-auto">
-          <div className="m-auto mt-8 items-center justify-center px-3 lg:mt-4">
+          <div className="m-auto mt-8 max-w-[344px] items-center justify-center  px-1 md:max-w-[482px] lg:mt-4">
             <Heading
               type="h1"
               className="m-auto text-center font-dmSansBold text-[24px]"
