@@ -43,7 +43,7 @@ const ForgotPassword = () => {
     //   router.push("/login");
     //   return null;
     // },
-    toastMessage: "Password changed successful!",
+    toastMessage: "Success",
   });
   const handleSubmit = () => {
     setErrors(initialState);

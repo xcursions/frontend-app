@@ -21,7 +21,7 @@ const Subscription = () => {
     useNewsletterSubscriptionMutation();
   useSuccessHandler({
     isSuccess,
-    toastMessage: "subscribed successfully",
+    toastMessage: "Success",
   });
   useErrorHandler({
     isError,

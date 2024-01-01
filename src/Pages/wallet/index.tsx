@@ -109,7 +109,7 @@ const Wallet = () => {
     successFunction: () => {
       setIsOtp(false);
     },
-    toastMessage: "Deposit Completed Successfully",
+    toastMessage: "Success",
   });
   useSuccessHandler({
     isSuccess: cardSuccess,

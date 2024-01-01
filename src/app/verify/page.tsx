@@ -81,7 +81,7 @@ const Verify = () => {
       dispatch(setUserData(ResendOtpData?.data));
       dispatch(setUserToken(ResendOtpData?.meta?.token));
     },
-    toastMessage: "Otp sent successfully!",
+    toastMessage: "Otp has been sent",
   });
   useEffect(() => {
     if (userId && userOtp) {
