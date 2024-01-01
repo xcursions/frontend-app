@@ -88,7 +88,7 @@ const PaymentInfo = () => {
     successFunction: () => {
       setIsOtp(false);
     },
-    toastMessage: "Deposit Completed Successfully",
+    toastMessage: "Successful",
   });
   useSuccessHandler({
     isSuccess: deleteSuccess,

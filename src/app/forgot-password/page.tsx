@@ -38,7 +38,7 @@ const ForgotPassword = () => {
       }
       return null;
     },
-    toastMessage: "Log in successful!",
+    toastMessage: "Success",
   });
   const handleSubmit = () => {
     setErrors(initialState);
