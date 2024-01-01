@@ -111,7 +111,9 @@ const Page = () => {
         router.push("/user/booking");
       }
     },
-    toastMessage: "Trip Booked successfully!",
+    toastMessage: checkoutData?.depositLink
+      ? "Redirecting to paystack"
+      : "Redirecting to dashboard",
   });
   useEffect(() => {
     if (isBookingSuccess) {
