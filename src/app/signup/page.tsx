@@ -84,8 +84,13 @@ const Signup = () => {
   return (
     <div className="w-full  overflow-hidden bg-[#FFFFFF]">
       <div className="flex">
-        <div className="relative hidden h-screen w-[40%] bg-[url('/assets/images/login.png')] lg:block">
-          <img src="/assets/images/login.png" alt="login image" />
+        <div className="relative hidden h-screen w-[500px] lg:block">
+          <Image
+            src="/assets/images/login.png"
+            alt="login image"
+            layout="fill"
+            className="h-full w-full object-cover"
+          />
           <Link href="/" className="absolute top-0 z-20">
             <img
               src="/assets/images/landing-page/Logo.png"
@@ -109,10 +114,10 @@ const Signup = () => {
           <Navbar text="black" logo="black" />
         </div>
         <div className="m-auto mt-16 content-center items-center justify-center lg:mt-auto">
-          <div className="m-auto mt-8 items-center justify-center px-3 lg:mt-4">
+          <div className="m-auto mt-8 max-w-[344px] items-center  justify-center px-1 md:max-w-[482px] lg:mt-4">
             <Heading
               type="h1"
-              className="m-auto text-center font-dmSansBold text-[24px]"
+              className="m-auto w-[314px] text-center font-dmSansBold text-[24px] md:w-auto"
             >
               Let&apos;s explore the world together ✈️
             </Heading>
@@ -157,14 +162,14 @@ const Signup = () => {
               </button>
               {/* </LoginSocialFacebook> */}
             </div>
-            <div className="my-3 flex items-center justify-center gap-3 text-xs font-medium">
+            <div className="my-2 flex items-center justify-center gap-3 text-xs font-medium">
               <HorizontalLineIcon />
               <span>or</span>
               <HorizontalLineIcon />
             </div>
             <form
               onSubmit={handleSubmit(onSubmit)}
-              className="flex flex-col gap-[16px]"
+              className="flex flex-col gap-[8px]"
             >
               <Input
                 label="Full Name"
@@ -195,11 +200,16 @@ const Signup = () => {
                 register={register("password")}
                 errorMsg={errors.password?.message}
               />
+              <Input
+                label="Referral Code (Optional)"
+                placeholder="Enter referral code"
+                name="referral code"
+              />
               <Button
                 type="submit"
                 loading={isLoading}
                 // disabled={!isFormValid}
-                className="my-[16px] w-full rounded-[100px]"
+                className="my-[16px] w-full rounded-[100px] text-[16px]"
               >
                 Create Account
               </Button>
@@ -209,6 +219,10 @@ const Signup = () => {
               <Link href="/login" className="text-[#0A83FF]">
                 <span className="underline">Login</span>
               </Link>
+            </Text>
+            <Text className="my-[1rem] text-center text-sm text-[#667084] underline">
+              <Link href="/privacy-policy">Privacy</Link> &{" "}
+              <Link href="/terms">Terms</Link>
             </Text>
           </div>
         </div>

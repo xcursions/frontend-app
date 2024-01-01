@@ -10,7 +10,7 @@
 
 .input {
   @apply flex-1 rounded-2xl border-transparent
-    bg-transparent px-4 py-3 font-dmSansRegular text-sm
+    bg-transparent px-4 py-2 font-dmSansRegular text-sm
     text-gray-600 focus:text-gray-900 disabled:cursor-not-allowed;
 
   &[type='date']::-webkit-calendar-picker-indicator,

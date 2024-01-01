@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -57,7 +58,7 @@ const Verify = () => {
       dispatch(setUserData(data?.data));
       dispatch(setUserToken(data?.meta?.token));
       dispatch(setUserAuthMethod("regular-auth"));
-      router.push("/user/dashboard");
+      router.push("/verify/success");
     },
     toastMessage: "Account verified successfully!",
   });
@@ -102,8 +103,15 @@ const Verify = () => {
   return (
     <div className="w-full  overflow-hidden bg-[#FFFFFF]">
       <div className="flex">
-        <div className="relative hidden h-screen w-[40%] bg-[url('/assets/images/verify.png')] lg:block">
-          <img src="/assets/images/verify.png" alt="login image" />
+        <div className="relative hidden h-screen w-[500px] lg:block">
+          <Image
+            src="/assets/images/verify.png"
+            alt="login image"
+            // width={498}
+            // height={900}
+            layout="fill"
+            className="h-full w-full object-cover"
+          />
           <Link href="/" className="absolute top-0 z-20">
             <img
               src="/assets/images/landing-page/Logo.png"
@@ -174,7 +182,7 @@ const Verify = () => {
 
             <Text className="my-3 text-[14px] text-[#667084]">
               Dont have an account yet.
-              <Link href="/signin">
+              <Link href="/signup">
                 <span className="text-[#0A83FF]">Create account</span>
               </Link>
             </Text>
