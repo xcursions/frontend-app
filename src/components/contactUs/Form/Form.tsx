@@ -32,7 +32,7 @@ const Form = () => {
   useSuccessHandler({
     isSuccess,
     showToast: true,
-    toastMessage: "Message sent successfully",
+    toastMessage: "Message has been sent",
   });
   const handleSubmit = () => {
     createContact(payload);

@@ -104,12 +104,14 @@ const Page = () => {
     isSuccess: isCheckoutSuccess,
     successFunction: () => {
       if (checkoutData?.depositLink) {
-        window.open(checkoutData?.depositLink, "_blank");
+        router.push(checkoutData?.depositLink);
       } else {
         router.push("/user/booking");
       }
     },
-    toastMessage: "Event Booked successfully!",
+    toastMessage: checkoutData?.depositLink
+      ? "Redirecting to paystack"
+      : "Redirecting to dashboard",
   });
   useEffect(() => {
     if (isBookingSuccess) {
