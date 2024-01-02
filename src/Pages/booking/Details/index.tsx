@@ -62,11 +62,13 @@ const BookedTripDetails = ({ detailsData }: Props) => {
   const columns: ColumnDef<Payment>[] = [
     {
       accessorKey: "id",
-      header: () => <div className="text-lg font-semibold">Payment Id</div>,
+      header: () => (
+        <div className="text-[10px] font-semibold md:text-lg">Id</div>
+      ),
       cell: ({ row }) => {
         const value = row.original;
         return (
-          <div className="flex max-w-[90px] gap-1 text-[12px] font-medium text-[#101828] ">
+          <div className="flex max-w-[90px] gap-1 text-[10px] font-medium text-[#101828] ">
             {MaskString(value.id)}
             <CopyToClipboard text={value.id} />
           </div>
@@ -75,11 +77,13 @@ const BookedTripDetails = ({ detailsData }: Props) => {
     },
     {
       accessorKey: "reference",
-      header: () => <div className="text-lg font-semibold">Reference</div>,
+      header: () => (
+        <div className="text-[10px] font-semibold md:text-lg">Reference</div>
+      ),
       cell: ({ row }) => {
         const value = row.original;
         return (
-          <div className="flex max-w-[90px] gap-1 text-[12px] font-medium text-[#101828]">
+          <div className="flex max-w-[90px] gap-1 text-[10px] font-medium text-[#101828]">
             {value.reference}
           </div>
         );
@@ -87,11 +91,13 @@ const BookedTripDetails = ({ detailsData }: Props) => {
     },
     {
       accessorKey: "amount",
-      header: () => <div className="text-lg font-semibold">Amount</div>,
+      header: () => (
+        <div className="text-[10px] font-semibold md:text-lg">Amount</div>
+      ),
       cell: ({ row }) => {
         const amount = parseInt(row.getValue("amount"), 10).toLocaleString();
         return (
-          <div className="flex max-w-[90px] gap-1 text-[12px] font-medium text-[#101828]">
+          <div className="flex max-w-[90px] gap-1 text-[10px] font-medium text-[#101828]">
             ₦{amount}
           </div>
         );
@@ -99,11 +105,13 @@ const BookedTripDetails = ({ detailsData }: Props) => {
     },
     {
       accessorKey: "createdAt",
-      header: () => <div className="text-lg font-semibold">Payment Date</div>,
+      header: () => (
+        <div className="text-[10px] font-semibold md:text-lg">Date</div>
+      ),
       cell: ({ row }) => {
         const value = row.original;
         return (
-          <div className="flex max-w-[90px] gap-1 text-[12px] font-medium text-[#101828] ">
+          <div className="flex max-w-[90px] gap-1 text-[10px] font-medium text-[#101828] ">
             {value.createdAt}
           </div>
         );
@@ -111,13 +119,15 @@ const BookedTripDetails = ({ detailsData }: Props) => {
     },
     {
       accessorKey: "status",
-      header: () => <div className="text-lg font-semibold">Status</div>,
+      header: () => (
+        <div className="text-[10px] font-semibold md:text-lg">Status</div>
+      ),
       cell: ({ row }) => {
         const status = row.getValue("status");
         const value = row.original;
         return (
           <div
-            className={`w-fit rounded-3xl px-3 py-1 text-center text-[12px] font-medium text-[#101828] lg:text-[14px] ${
+            className={`w-fit rounded-3xl px-3 py-1 text-center text-[10px] font-medium text-[#101828] lg:text-[14px] ${
               status === "successful"
                 ? "bg-[#E6FAF0] text-[#12B76A]"
                 : "bg-[#FFECEB] text-[#F04438]"
@@ -130,18 +140,18 @@ const BookedTripDetails = ({ detailsData }: Props) => {
     },
   ];
   return (
-    <div className="mx-[20px] bg-[#F9FAFB] pb-[80px] text-[#101828] xl:mx-[50px]">
-      <div className="mt-[25px] flex justify-between xl:mt-[40px]">
+    <div className="mx-[20px] w-full bg-[#F9FAFB] pb-[80px] text-[#101828] xl:mx-[50px]">
+      <div className="mx-auto mt-[25px] flex w-full justify-between xl:mt-[40px]">
         <div className="flex items-center gap-2">
           <span onClick={router.back} className="cursor-pointer">
             <ArrowIcon />
           </span>
-          <Text className=" font-dmSansBold text-xl font-bold">
+          <Text className=" font-dmSansBold text-sm font-bold lg:text-xl">
             Trip Details
           </Text>
         </div>
         <Button
-          className="flex max-h-[35px] items-center gap-1 rounded-[100px] text-[12px]"
+          className="flex max-h-[35px] items-center gap-1 rounded-[100px] text-[10px] lg:text-xs"
           onClick={() => setIsOpen(true)}
         >
           <DownloadIcon variants="white" /> Download Receipt
@@ -263,7 +273,7 @@ const BookedTripDetails = ({ detailsData }: Props) => {
             <Text className="font-dmSansBold text-[16px] font-bold">
               Payment Info
             </Text>
-            <div className="mt-[24px] grid grid-cols-2 gap-5 lg:grid-cols-3 lg:gap-9">
+            <div className="mt-[24px] grid grid-cols-2 gap-5  lg:grid-cols-3 lg:gap-9">
               <div>
                 <Text className="text-sm">Total Amount</Text>
                 <Text className="font-dmSansBold text-sm font-bold capitalize">
