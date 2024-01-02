@@ -10,6 +10,7 @@ import MaskString from "@/components/lib/MaskString/MaskString";
 import { Pagination } from "@/components/lib/Pagination";
 import { ArrowIcon, DownloadIcon } from "@/components/lib/Svg";
 import { DataTable } from "@/components/ui/data-table";
+import { useMediaQuery } from "@/hooks";
 import { useLazyGetBookingHistoryQuery } from "@/services/user";
 import Layout from "@/ui-components/layout";
 
@@ -25,6 +26,7 @@ export type Payment = {
 
 const History = () => {
   const router = useRouter();
+  const mobileScreen = useMediaQuery("(max-width: 760px)");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const pageLimit = 10;
   const [
@@ -51,7 +53,9 @@ const History = () => {
   const columns: ColumnDef<Payment>[] = [
     {
       accessorKey: "id",
-      header: () => <div className=" text-lg font-semibold">Booking Id</div>,
+      header: () => (
+        <div className="text-sm font-semibold lg:text-lg">Booking Id</div>
+      ),
       cell: ({ row }) => {
         const value = row.original;
         return (
@@ -67,14 +71,12 @@ const History = () => {
     {
       accessorKey: "type",
       header: () => (
-        <div className="hidden text-lg font-semibold lg:flex">Type</div>
+        <div className=" text-sm font-semibold lg:text-lg">Type</div>
       ),
       cell: ({ row }) => {
         const value = row.original;
         return (
-          <div
-            className={`hidden text-[14px] font-medium capitalize text-[#101828] lg:flex`}
-          >
+          <div className={`text-[14px] font-medium capitalize text-[#101828]`}>
             <Link href={`/user/booking/${value.outingId}/${value.id}`}>
               {value.type === "tour" ? "Trip" : "Event"}
             </Link>
@@ -109,12 +111,14 @@ const History = () => {
     // },
     {
       accessorKey: "amount",
-      header: () => <div className="text-lg font-semibold">Amount</div>,
+      header: () => (
+        <div className="text-sm font-semibold lg:text-lg">Amount</div>
+      ),
       cell: ({ row }) => {
         const value = row.original;
         const amount = parseInt(row.getValue("amount"), 10).toLocaleString();
         return (
-          <div className="text-[12px] font-medium text-[#101828] lg:text-[14px]">
+          <div className="text-[14px] font-medium text-[#101828]">
             <Link href={`/user/booking/${value.outingId}/${value.id}`}>
               ₦{amount}
             </Link>
@@ -124,13 +128,13 @@ const History = () => {
     },
     {
       accessorKey: "createdAt",
-      header: () => <div className="text-lg font-semibold">Date</div>,
+      header: () => (
+        <div className="text-sm font-semibold lg:text-lg">Date</div>
+      ),
       cell: ({ row }) => {
         const value = row.original;
         return (
-          <div
-            className={`text-[12px] font-medium text-[#101828] lg:text-[14px]`}
-          >
+          <div className={` text-[14px] font-medium text-[#101828]`}>
             <Link href={`/user/booking/${value.outingId}/${value.id}`}>
               {value.createdAt}
             </Link>
@@ -140,13 +144,83 @@ const History = () => {
     },
     {
       accessorKey: "bookingStatus",
-      header: () => <div className="text-lg font-semibold">Booking Status</div>,
+      header: () => (
+        <div className="text-sm font-semibold lg:text-lg">Booking Status</div>
+      ),
       cell: ({ row }) => {
         const status = row.getValue("bookingStatus");
         const value = row.original;
         return (
           <div
-            className={`w-fit rounded-3xl px-3 py-1 text-center text-[12px] font-medium text-[#101828] lg:text-[14px] ${
+            className={`w-fit rounded-3xl px-3 py-1 text-center text-[14px] font-medium text-[#101828] ${
+              status === "successful"
+                ? "bg-[#E6FAF0] text-[#12B76A]"
+                : "bg-[#FFECEB] text-[#F04438]"
+            }`}
+          >
+            <Link href={`/user/booking/${value.outingId}/${value.id}`}>
+              {value.bookingStatus}
+            </Link>
+          </div>
+        );
+      },
+    },
+    {
+      id: "actions",
+      cell: ({ row }) => {
+        const value = row.original;
+        return (
+          <div
+            className={`cursor-pointer text-[20px] font-medium text-[#F04438]`}
+          >
+            <Link href={`/user/booking/${value.outingId}/${value.id}`}>
+              <DownloadIcon />
+            </Link>
+          </div>
+        );
+      },
+    },
+  ];
+  const columns2: ColumnDef<Payment>[] = [
+    {
+      accessorKey: "id",
+      header: () => <div className=" text-xs font-semibold">Booking Id</div>,
+      cell: ({ row }) => {
+        const value = row.original;
+        return (
+          <div className=" flex max-w-[90px] gap-1 text-[12px] font-medium text-[#101828]">
+            <Link href={`/user/booking/${value.outingId}/${value.id}`}>
+              {MaskString(value.id)}
+            </Link>{" "}
+            <CopyToClipboard text={value.id} />
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "amount",
+      header: () => <div className="text-xs font-semibold">Amount</div>,
+      cell: ({ row }) => {
+        const value = row.original;
+        const amount = parseInt(row.getValue("amount"), 10).toLocaleString();
+        return (
+          <div className="text-[12px] font-medium text-[#101828]">
+            <Link href={`/user/booking/${value.outingId}/${value.id}`}>
+              ₦{amount}
+            </Link>
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "bookingStatus",
+      header: () => <div className="text-xs font-semibold">Booking Status</div>,
+      cell: ({ row }) => {
+        const status = row.getValue("bookingStatus");
+        const value = row.original;
+        return (
+          <div
+            className={`w-fit rounded-3xl px-3 py-1 text-center text-[12px] font-medium text-[#101828] ${
               status === "successful"
                 ? "bg-[#E6FAF0] text-[#12B76A]"
                 : "bg-[#FFECEB] text-[#F04438]"
@@ -176,7 +250,7 @@ const History = () => {
     },
   ];
   return (
-    <div className="overflow-x-hidden bg-[#ffffff]">
+    <div className=" bg-[#ffffff]">
       <Layout>
         <div className="xl:mx-[40px]">
           <div className="mb-[32px] mt-[44px] flex items-center gap-3 font-dmSansBold text-[24px] font-bold">
@@ -185,8 +259,12 @@ const History = () => {
             </p>
             <p>Booking History</p>
           </div>
-          <div className=" bg-[#ffffff]">
-            <DataTable columns={columns} data={data} />
+          <div className=" w-full bg-[#ffffff]">
+            {mobileScreen ? (
+              <DataTable columns={columns2} data={data} />
+            ) : (
+              <DataTable columns={columns} data={data} />
+            )}
             {bookingHistorySuccess && (
               <Pagination
                 className="pagination-bar my-8"
