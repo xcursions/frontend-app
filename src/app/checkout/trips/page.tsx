@@ -101,6 +101,7 @@ const Page = () => {
   });
   useSuccessHandler({
     isSuccess: isBookingParticipantSuccess,
+    showToast: false,
   });
   useSuccessHandler({
     isSuccess: isCheckoutSuccess,
