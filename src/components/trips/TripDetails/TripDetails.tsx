@@ -83,7 +83,7 @@ const TripDetails = ({ detailsData }: Props) => {
   });
   const [selectedItems, setSelectedItems] = useState<any[]>([]);
   const [selectedTrip, setSelectedTrip] = useState<"private" | "group">(
-    "group"
+    detailsData?.subType === "private" ? "private" : "group"
   );
   const { user } = useAppSelector((state) => state.user);
   const [galleryOpen, setGalleryOpen] = useState(false);
@@ -130,7 +130,11 @@ const TripDetails = ({ detailsData }: Props) => {
       .catch((err) => toaster("Failed to copy link:", err));
   };
   const handleSelect = (trip: React.SetStateAction<string>) => {
-    setSelectedTrip(trip);
+    if (detailsData?.subType === "private") {
+      setSelectedTrip("private");
+    } else {
+      setSelectedTrip(trip);
+    }
   };
   const handleItemClick = (item: any) => {
     // @ts-ignore
@@ -342,7 +346,11 @@ const TripDetails = ({ detailsData }: Props) => {
                       selectedTrip === "group"
                         ? "bg-black text-white"
                         : "bg-gray-200 text-[#667084]"
-                    } cursor-pointer`}
+                    } ${
+                      detailsData?.subType === "private"
+                        ? " cursor-not-allowed"
+                        : "cursor-pointer"
+                    }`}
                   >
                     Group Trip
                   </div>
@@ -385,18 +393,15 @@ const TripDetails = ({ detailsData }: Props) => {
                 {selectedTrip === "private" ? (
                   <Text className="flex items-center gap-3 font-dmSansRegular text-[14px] text-[#101828]">
                     <FaRegClock className=" text-xl" />
-                    {Math.floor(formatWeeksRange(date?.from, date?.to))} weeks
+                    {formatWeeksRange(date?.from, date?.to)}
                   </Text>
                 ) : (
                   <Text className="flex items-center gap-3 font-dmSansRegular text-[14px] text-[#101828]">
                     <FaRegClock className=" text-xl" />
-                    {Math.floor(
-                      formatWeeksRange(
-                        detailsData?.outingDate[0]?.startDate,
-                        detailsData?.outingDate[0]?.endDate
-                      )
-                    )}{" "}
-                    weeks
+                    {formatWeeksRange(
+                      detailsData?.outingDate[0]?.startDate,
+                      detailsData?.outingDate[0]?.endDate
+                    )}
                   </Text>
                 )}
                 {selectedTrip === "private" ? (

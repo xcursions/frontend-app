@@ -25,19 +25,50 @@ export const formatDatesRange = (
   return `${startDate} - ${endDate}`;
 };
 
+// export const formatWeeksRange = (
+//   startDateString: string | number | Date,
+//   endDateString: string | number | Date
+// ) => {
+//   const startDate = new Date(startDateString);
+//   const endDate = new Date(endDateString);
+//   // @ts-ignore
+//   const timeDifference = endDate - startDate;
+
+//   // Calculate the number of weeks in the duration
+//   const millisecondsInAWeek = 7 * 24 * 60 * 60 * 1000;
+//   const numberOfWeeks = timeDifference / millisecondsInAWeek;
+//   return numberOfWeeks;
+// };
+
 export const formatWeeksRange = (
   startDateString: string | number | Date,
   endDateString: string | number | Date
-) => {
+): string => {
   const startDate = new Date(startDateString);
   const endDate = new Date(endDateString);
-  // @ts-ignore
-  const timeDifference = endDate - startDate;
 
-  // Calculate the number of weeks in the duration
+  const timeDifference = endDate.getTime() - startDate.getTime(); // Difference in milliseconds
+
+  // Calculate the number of weeks and remaining days
   const millisecondsInAWeek = 7 * 24 * 60 * 60 * 1000;
-  const numberOfWeeks = timeDifference / millisecondsInAWeek;
-  return numberOfWeeks;
+  const numberOfWeeks = Math.floor(timeDifference / millisecondsInAWeek);
+  const remainingDays = Math.ceil(
+    (timeDifference % millisecondsInAWeek) / (24 * 60 * 60 * 1000)
+  );
+
+  // Format the result based on the number of weeks and remaining days
+  if (numberOfWeeks === 0) {
+    return `${remainingDays} day${remainingDays !== 1 ? "s" : ""}`;
+  }
+  if (numberOfWeeks === 1 && remainingDays === 0) {
+    return "1 week";
+  }
+  if (numberOfWeeks === 1 && remainingDays > 0) {
+    return `1 week and ${remainingDays} day${remainingDays !== 1 ? "s" : ""}`;
+  }
+  return `${numberOfWeeks} weeks and ${remainingDays} day${
+    remainingDays !== 1 ? "s" : ""
+  }`;
 };
 
 export function formatedDate(dateString: string | number | Date) {

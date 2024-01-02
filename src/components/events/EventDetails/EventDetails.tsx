@@ -144,7 +144,6 @@ const EventDetails = ({ detailsData }: Props) => {
       createLike({ query: detailsData.id, data: { liked: true } });
     } else {
       toaster.error("You need to be signed in");
-      router.push("/login");
     }
   };
   const handleSubmit = () => {

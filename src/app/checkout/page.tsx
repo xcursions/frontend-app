@@ -511,13 +511,10 @@ const Page = () => {
                         <Text className="flex items-center gap-3">
                           <AiOutlineClockCircle />{" "}
                           {isBookingSuccess &&
-                            Math.floor(
-                              formatWeeksRange(
-                                bookingData?.bookingDate?.startDate,
-                                bookingData?.bookingDate?.endDate
-                              )
-                            )}{" "}
-                          weeks
+                            formatWeeksRange(
+                              bookingData?.bookingDate?.startDate,
+                              bookingData?.bookingDate?.endDate
+                            )}
                         </Text>
                         <div className="my-7 mr-3 flex items-center gap-3 rounded-3xl bg-[#FFECEB] py-2">
                           <AiOutlineClockCircle className="ml-3 text-[#F04438]" />{" "}
