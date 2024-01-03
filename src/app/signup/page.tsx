@@ -1,13 +1,11 @@
-/* eslint-disable import/no-extraneous-dependencies */
-
 "use client";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import { GoogleLogin } from "@react-oauth/google";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toaster from "react-hot-toast";
 import * as yup from "yup";
@@ -43,7 +41,8 @@ const registerSchema = yup.object({
 
 const Signup = () => {
   const router = useRouter();
-
+  const searchParams = useSearchParams();
+  const [referralCode, setReferralCode] = useState("");
   const dispatch = useAppDispatch();
   const {
     register,
@@ -55,7 +54,13 @@ const Signup = () => {
   const [googleLogin] = useGoogleLoginMutation();
 
   const onSubmit = (formValues: any) => {
-    const payload = { ...formValues };
+    let payload;
+    if (referralCode.length > 1) {
+      payload = { ...formValues, referralCode };
+    } else {
+      payload = { ...formValues };
+    }
+    // const payload = { ...formValues };
     createUser(payload)
       .unwrap()
       .then((data) => {
@@ -81,6 +86,12 @@ const Signup = () => {
         toaster.error(error?.data?.meta?.message);
       });
   };
+  const code = searchParams?.get("referral-code");
+  useEffect(() => {
+    if (code) {
+      setReferralCode(code);
+    }
+  }, [code]);
   return (
     <div className="w-full  overflow-hidden bg-[#FFFFFF]">
       <div className="flex">
@@ -204,6 +215,10 @@ const Signup = () => {
                 label="Referral Code (Optional)"
                 placeholder="Enter referral code"
                 name="referral code"
+                value={referralCode}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                  setReferralCode(event.target.value)
+                }
               />
               <Button
                 type="submit"

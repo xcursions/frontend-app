@@ -1,4 +1,7 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
+import toaster from "react-hot-toast";
 
 import Heading from "@/components/lib/Heading";
 import {
@@ -12,10 +15,29 @@ import {
   // WhatsappIcon,
 } from "@/components/lib/Svg";
 import Text from "@/components/lib/Text";
+import { useGenerateReferalCodeMutation } from "@/services/user";
 
 import styles from "./Referral.module.scss";
 
 const ReferralDetails = () => {
+  const [referralLink, setReferralLink] = useState("");
+  const [generateReferralCode] = useGenerateReferalCodeMutation();
+  useEffect(() => {
+    generateReferralCode()
+      .unwrap()
+      .then((data) =>
+        setReferralLink(
+          `${process.env.NEXT_PUBLIC_SITE_URL}?referral-code=${data?.referralCode}`
+        )
+      )
+      .catch((err) => toaster.error(err?.data?.meta?.message));
+  }, []);
+  const handleCopyLink = () => {
+    navigator.clipboard
+      .writeText(referralLink)
+      .then(() => toaster("Link copied to clipboard!"))
+      .catch((err) => toaster("Failed to copy link:", err));
+  };
   return (
     <div className={styles.container}>
       <div className={styles.title}>
@@ -31,8 +53,11 @@ const ReferralDetails = () => {
           <Text className="text-[14px] text-[#475467]">
             Refer a friend to excursion and you will both get a reward of 10k
           </Text>
-          <div className="mt-[40px] flex max-w-[370px] items-center justify-between rounded-3xl border p-3">
-            <Text>AGYS12345</Text>
+          <div
+            className="mt-[40px] flex max-w-[370px] cursor-pointer items-center justify-between rounded-3xl border p-3"
+            onClick={handleCopyLink}
+          >
+            <Text>{referralLink}</Text>
             <CopyIcon />
           </div>
           <Text className="mt-[16px] text-[12px] text-[#98A2B3]">

@@ -8,6 +8,7 @@ export type RegisterPayload = {
   username: string;
   email: string;
   password: string;
+  referralCode?: string;
 };
 
 export type VerifyOTPPayload = {
