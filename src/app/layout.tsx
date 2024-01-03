@@ -3,9 +3,11 @@ import "./globals.scss";
 
 import type { Metadata } from "next";
 import Script from "next/script";
+import { Suspense } from "react";
 import { Toaster } from "react-hot-toast";
 
 import Whatsapp from "@/components/lib/Whatsapp";
+import { FacebookPixelEvents } from "@/components/pixelEvent/pixelEvent";
 import { toastOptions } from "@/utils/config";
 
 import { Providers } from "./GlobalRedux/provider";
@@ -117,6 +119,9 @@ export default function RootLayout({
       <body>
         <Providers>
           {children}
+          <Suspense>
+            <FacebookPixelEvents />
+          </Suspense>
           <Whatsapp />
           <Toaster position="top-right" toastOptions={toastOptions} />
         </Providers>
