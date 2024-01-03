@@ -250,6 +250,18 @@ export const userApi = authApi.injectEndpoints({
         body: { ...data },
       }),
     }),
+    generateReferalCode: builder.mutation<any, void>({
+      query: () => ({
+        url: "/referral/generate-code",
+        method: "POST",
+      }),
+    }),
+    getReferralHistory: builder.query<any, void>({
+      query: () => ({
+        url: "/referral/history",
+        method: "GET",
+      }),
+    }),
     logout: builder.mutation<any, any>({
       query: () => ({ url: "/user/logout/", method: "POST" }),
     }),
@@ -294,4 +306,6 @@ export const {
   useDeletePaymentCardsMutation,
   useCreatePaymentCardOtpMutation,
   useCreatePaymentCardPinMutation,
+  useGenerateReferalCodeMutation,
+  useGetReferralHistoryQuery,
 } = userApi;
