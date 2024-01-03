@@ -4,3 +4,5 @@ export { CopyIcon } from "./CopyIcon";
 export { DownloadIcon } from "./DownloadIcon";
 export * from "./HorizontalLineIcon";
 export * from "./InfoIcon";
+export * from "./ShareIcon";
+export * from "./SocialIcons";

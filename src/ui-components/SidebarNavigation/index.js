@@ -39,7 +39,7 @@ const SidebarNavigation = ({ sidebarMenuActive, toggleSidebarMenu }) => {
           >
             <Link href={page.to}>
               <page.Icon />
-              <span className="text-[16px]">{page.name}</span>
+              <span className="text-[14px] font-normal">{page.name}</span>
             </Link>
           </li>
         ))}
