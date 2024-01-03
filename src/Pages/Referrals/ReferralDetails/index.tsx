@@ -27,7 +27,7 @@ const ReferralDetails = () => {
       .unwrap()
       .then((data) =>
         setReferralLink(
-          `${process.env.NEXT_PUBLIC_SITE_URL}?referral-code=${data?.referralCode}`
+          `${process.env.NEXT_PUBLIC_SITE_URL}/signup?referral-code=${data?.referralCode}`
         )
       )
       .catch((err) => toaster.error(err?.data?.meta?.message));
