@@ -18,9 +18,7 @@ const HeaderSection = ({ heading, subHeading, rightItem = () => {} }) => {
         >
           {heading}
         </h1>
-        <p className="text-[14px] text-[#667084] lg:text-[16px]">
-          {subHeading}
-        </p>
+        <p className="text-[14px] font-normal text-[#667084]">{subHeading}</p>
       </div>
       {rightItem()}
     </header>

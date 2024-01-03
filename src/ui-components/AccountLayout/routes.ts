@@ -2,7 +2,7 @@
 import { BiUser } from "react-icons/bi";
 import { BsChatSquareText } from "react-icons/bs";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
-import { TbCalendarStats, TbCards } from "react-icons/tb";
+import { TbCalendarStats, TbCards, TbConfetti } from "react-icons/tb";
 
 export default [
   {
@@ -29,5 +29,10 @@ export default [
     to: "/user/account/chat",
     name: "Chat",
     Icon: BsChatSquareText,
+  },
+  {
+    to: "/user/account/referrals",
+    name: "Referrals",
+    Icon: TbConfetti,
   },
 ];
