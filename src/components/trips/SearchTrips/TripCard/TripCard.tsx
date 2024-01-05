@@ -14,6 +14,12 @@ const TripCard = ({ post }: Props) => {
   const featuredImage = post.outingGallery.find(
     (item: { featured: any }) => item.featured
   );
+  const price = () => {
+    if (post?.subType === "group") {
+      return post?.outingChargePlan?.costGroup;
+    }
+    return post?.outingChargePlan?.cost;
+  };
   return (
     <div className={styles.card_container}>
       <div className={styles.card_image}>
@@ -33,7 +39,7 @@ const TripCard = ({ post }: Props) => {
         <div>
           <Text>{post.name}</Text>
           <Text className="text-[16px] text-[#0A83FF]">{`₦${parseInt(
-            post?.outingChargePlan?.costGroup,
+            price(),
             10
           ).toLocaleString()}`}</Text>
         </div>

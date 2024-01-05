@@ -52,7 +52,7 @@ const FileUpload: FC<FileUploadProps> = ({
 
   return (
     <>
-      <div className="flex w-full flex-col items-center space-y-1 rounded-md border border-gray-300 bg-gray-100 px-3 py-5 text-center text-[12px]">
+      <div className="flex w-full flex-col items-center space-y-1 rounded-md border border-gray-300 bg-gray-100 px-3 py-5 text-center text-[10px]">
         <div className="flex w-full flex-wrap items-center gap-5">
           {existingImageUrls.length
             ? existingImageUrls.map((item, index) => (
@@ -134,7 +134,7 @@ const FileUpload: FC<FileUploadProps> = ({
               Click to upload
             </span>
             <span>or drag and drop images</span>
-            <p className="cursor-pointer text-xs text-[#667085]">
+            <p className="cursor-pointer text-[#667085]">
               SVG, PNG, JPG or GIF (max. 800x400px)
             </p>
           </FileUploader>
