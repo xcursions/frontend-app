@@ -9,7 +9,6 @@ import {
   AiOutlineArrowLeft,
   AiOutlineMinus,
   AiOutlinePlus,
-  AiOutlineShareAlt,
 } from "react-icons/ai";
 import { FaMicrosoft, FaRegClock } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
@@ -25,6 +24,7 @@ import GalleryViewer from "@/components/lib/GalleryViewer";
 import Heading from "@/components/lib/Heading/Heading";
 import MapComponent from "@/components/lib/MapComponent/MapComponent";
 import OutingGallery from "@/components/lib/OutingGallery/OutingGallery";
+import { EventCopyLinkIcon } from "@/components/lib/Svg/CopyIcon";
 import Text from "@/components/lib/Text/Text";
 import { useAppSelector, useErrorHandler, useSuccessHandler } from "@/hooks";
 import useAppDispatch from "@/hooks/useAppDispatch";
@@ -37,6 +37,7 @@ import {
 } from "@/services/user";
 import { setUserBooking } from "@/store/slices/userSlice";
 import type { OutingProps } from "@/types";
+import { HandleCopyLink } from "@/utils/handleCopyLink";
 
 import styles from "./EventDetails.module.scss";
 
@@ -89,27 +90,6 @@ const EventDetails = ({ detailsData }: Props) => {
   };
   const toggleModal = () => {
     setIsCalendarOpen(!isCalendarOpen);
-  };
-  const shareOnTwitter = () => {
-    const linkToShare = window?.location.href;
-    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-      "Check out this link: "
-    )}&url=${encodeURIComponent(linkToShare)}`;
-    window.open(twitterUrl, "_blank");
-  };
-  const shareOnFacebook = () => {
-    const linkToShare = window?.location.href;
-    const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-      linkToShare
-    )}`;
-    window.open(facebookUrl, "_blank");
-  };
-  const handleCopyLink = () => {
-    const linkToCopy = window?.location.href;
-    navigator.clipboard
-      .writeText(linkToCopy)
-      .then(() => toaster("Link copied to clipboard!"))
-      .catch((err) => toaster("Failed to copy link:", err));
   };
   useEffect(() => {
     setPayload({
@@ -192,10 +172,7 @@ const EventDetails = ({ detailsData }: Props) => {
           </div>
           <div className={styles.details}>
             <div className={styles.icons}>
-              <AiOutlineShareAlt
-                className={styles.icon}
-                onClick={handleCopyLink}
-              />
+              <HandleCopyLink icon={EventCopyLinkIcon} styles={styles.icon} />
               {likedData?.result.some(
                 (res: any) => detailsData.id === res.outing.id
               ) ? (
@@ -284,31 +261,32 @@ const EventDetails = ({ detailsData }: Props) => {
                   Share on social media
                 </Text>
                 <div className="my-3 flex items-center gap-3 pb-3">
-                  <div
-                    className="cursor-pointer rounded-full bg-gray-300 p-2"
-                    onClick={shareOnFacebook}
-                  >
-                    <FiFacebook />
-                  </div>
-                  <div
-                    className="cursor-pointer items-center rounded-full bg-gray-300 p-2"
-                    onClick={shareOnTwitter}
-                  >
-                    <FiTwitter />
-                  </div>
-                  <div
-                    className="cursor-pointer rounded-full bg-gray-300 p-2"
-                    onClick={handleCopyLink}
-                  >
-                    <FiInstagram />
-                  </div>
-                  <div
-                    className="flex cursor-pointer items-center gap-1 rounded-3xl bg-[#EBF5FF] p-2 text-[16px] text-[#0A83FF]"
-                    onClick={handleCopyLink}
-                  >
-                    <FiLink />
-                    <span className="hidden md:flex">Copy the link</span>
-                  </div>
+                  <HandleCopyLink
+                    icon={FiFacebook}
+                    type="share"
+                    location="facebook"
+                    styles="cursor-pointer rounded-full bg-gray-300 p-2"
+                  />
+                  <HandleCopyLink
+                    icon={FiTwitter}
+                    type="share"
+                    location="twitter"
+                    styles="cursor-pointer items-center rounded-full bg-gray-300 p-2"
+                  />
+                  <HandleCopyLink
+                    icon={FiInstagram}
+                    type="share"
+                    location="instagram"
+                    styles="cursor-pointer rounded-full bg-gray-300 p-2"
+                  />
+                  <HandleCopyLink
+                    icon={FiLink}
+                    styles={
+                      "flex cursor-pointer items-center gap-1 rounded-3xl bg-[#EBF5FF] p-2 text-[16px] text-[#0A83FF]"
+                    }
+                    text={"Copy the link"}
+                    textStyle={" hidden md:flex"}
+                  />
                 </div>
                 <div className="my-5 mr-3 flex flex-col gap-3 pb-3 md:flex-row">
                   <Button
