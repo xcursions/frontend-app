@@ -2,7 +2,7 @@ const HeaderSection = ({ heading, subHeading, rightItem = () => {} }) => {
   return (
     <header
       style={{
-        margin: "20px",
+        margin: "20px 5px",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",

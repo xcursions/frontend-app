@@ -17,13 +17,17 @@
     .container{
         width: auto;
         z-index: 3;
+        height: 100%;
         display: flex;
         margin-top: 20px;
         justify-content: space-between;
         align-items: center;
-        box-sizing: border-box;
+        // box-sizing: border-box;
         padding: 20px;
-        @apply block border;
+        border-width: 2px 2px 0px 0px; /* Top, Right, Bottom, Left */
+        border-style: solid;
+        border-color: #F2F4F7; /* You can change the color as needed */
+        @apply block;
     }  
     
 }

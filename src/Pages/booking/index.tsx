@@ -270,20 +270,16 @@ const Booking = () => {
             </div>
           </div>
         </div>
-        <div className="mt-[48px]">
-          <div className="flex justify-between pr-5">
-            <Heading type="h3">Booking History</Heading>
-            <Link href="/user/booking/history">
-              <Text className="p-2 font-dmSansMedium text-[12px] text-[#667084] underline">
-                view all
-              </Text>
-            </Link>
-          </div>
+        <div className="mt-[48px] flex justify-between pr-5">
+          <Heading type="h3">Booking History</Heading>
+          <Link href="/user/booking/history">
+            <Text className="p-2 font-dmSansMedium text-[12px] text-[#667084] underline">
+              view all
+            </Text>
+          </Link>
         </div>
-        <div>
-          <div className="bg-[#ffffff]">
-            <DataTable columns={columns} data={data} />
-          </div>
+        <div className="bg-[#ffffff] pb-5">
+          <DataTable columns={columns} data={data} />
         </div>
         {isOpen && (
           <div>

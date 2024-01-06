@@ -78,10 +78,10 @@ export function DataTable<TData, TValue>({
           )}
         </TableBody>
       </Table>
-      <div className="text-muted-foreground mx-3 flex-1 text-sm">
+      {/* <div className="text-muted-foreground mx-3 flex-1 text-sm">
         {table.getFilteredSelectedRowModel().rows.length} of{" "}
         {table.getFilteredRowModel().rows.length} row(s) selected.
-      </div>
+      </div> */}
       {/* <div className="mx-5 mt-10 flex items-center justify-end gap-2">
         <span className="flex items-center gap-1">
           <div>Page</div>
