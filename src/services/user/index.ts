@@ -258,7 +258,7 @@ export const userApi = authApi.injectEndpoints({
     }),
     getReferralHistory: builder.query<any, void>({
       query: () => ({
-        url: "/referral/history",
+        url: "/referral/history?limit=50",
         method: "GET",
       }),
     }),

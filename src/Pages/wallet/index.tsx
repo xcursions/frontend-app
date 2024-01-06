@@ -332,7 +332,10 @@ const Wallet = () => {
                   </span>
                   Fund Wallet
                 </Button>
-                <div className="rounded-full bg-black p-3 text-xl text-white">
+                <div
+                  className="cursor-pointer rounded-full bg-black p-3 text-xl text-white"
+                  onClick={toggleModal}
+                >
                   <SlOptions />
                 </div>
               </div>

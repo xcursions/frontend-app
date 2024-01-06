@@ -72,7 +72,22 @@ const Signup = () => {
         toaster.error(error?.data?.meta?.message);
       });
   };
+  const code = searchParams?.get("referral-code");
   const onGoogleSubmit = (credentialResponse: any) => {
+    if (code) {
+      googleLogin({ idToken: credentialResponse, referralCode })
+        .unwrap()
+        .then((data) => {
+          dispatch(setUserData(data?.data));
+          dispatch(setUserToken(data?.meta?.token));
+          dispatch(setUserAuthMethod("social-auth"));
+          toaster.success("Successfully logged in using Google");
+          router.push("/user/dashboard");
+        })
+        .catch((error) => {
+          toaster.error(error?.data?.meta?.message);
+        });
+    }
     googleLogin({ idToken: credentialResponse })
       .unwrap()
       .then((data) => {
@@ -86,7 +101,6 @@ const Signup = () => {
         toaster.error(error?.data?.meta?.message);
       });
   };
-  const code = searchParams?.get("referral-code");
   useEffect(() => {
     if (code) {
       setReferralCode(code);

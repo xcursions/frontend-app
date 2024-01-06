@@ -12,6 +12,8 @@ type IUser = {
   deletedAt: string;
   profile: UserProfile;
   email: string;
+  referralCode?: string;
+  referralId?: string | null;
   user_booking_info: UserBookingInfo;
 };
 export default IUser;

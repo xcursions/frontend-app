@@ -1,5 +1,5 @@
 .container {
-    @apply p-10 max-w-[950px]
+    @apply p-3 lg:p-10 max-w-[950px] bg-[#ffffff];
 }
 .title {
     border-top-left-radius: 18px;
@@ -7,5 +7,5 @@
     @apply border  text-[18px] hidden lg:block
 }
 .wrapper {
-    @apply mx-auto w-full pt-[35px] pl-[24px] lg:pl-[46px] bg-[#ffffff] lg:border;
+    @apply mx-auto w-full pt-[35px] pl-[0px] lg:pl-[34px] bg-[#ffffff] lg:border;
 }

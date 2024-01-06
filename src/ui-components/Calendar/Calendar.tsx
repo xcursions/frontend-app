@@ -17,15 +17,17 @@ const CalendarComponent = () => {
   const currentDateStr = format(new Date(), "yyyy-MM-dd");
   return (
     <div className={styles.container}>
-      <Text className="pl-2 font-dmSansBold text-[18px] text-[#101828]">
+      <Text className="font-dmSansBold text-[18px] text-[#101828]">
         Upcoming Schedule
       </Text>
-      <Calendar
-        mode="single"
-        selected={date}
-        onSelect={setDate}
-        className="w-full rounded-2xl border bg-[#F2F4F7]"
-      />
+      <div className="flex items-start justify-start">
+        <Calendar
+          mode="single"
+          selected={date}
+          onSelect={setDate}
+          className="w-full rounded-2xl border bg-[#F2F4F7]"
+        />
+      </div>
       {isSuccess && data?.result.length > 0 ? (
         <div>
           <Text className="py-3 pl-2 font-dmSansBold text-[18px] font-bold">

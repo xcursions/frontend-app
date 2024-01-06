@@ -37,6 +37,7 @@ export type ForgotPasswordOTPPayload = {
 };
 export type GoogleLoginPayload = {
   idToken: any;
+  referralCode?: string;
 };
 export type ChangePasswordPayload = {
   oldPassword: string;

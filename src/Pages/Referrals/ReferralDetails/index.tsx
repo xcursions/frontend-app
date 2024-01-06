@@ -32,7 +32,7 @@ const ReferralDetails = () => {
             {!showBalance ? <ShortHorizontalLineIcon /> : null}
           </div>
           <div
-            onClick={() => {}}
+            onClick={() => setShowBalance(true)}
             className={` ${
               showBalance
                 ? " text-base font-medium  text-[#101828]"
