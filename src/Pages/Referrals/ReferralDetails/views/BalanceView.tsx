@@ -73,11 +73,15 @@ const BalanceView = () => {
     },
     {
       accessorKey: "email",
-      header: () => <div className="text-xs font-semibold">Email</div>,
+      header: () => (
+        <div className="hidden text-xs font-semibold md:block">Email</div>
+      ),
       cell: ({ row }) => {
         const value = row.original;
         return (
-          <div className={` text-[12px] font-medium text-[#101828]`}>
+          <div
+            className={` hidden text-[12px] font-medium text-[#101828] md:block`}
+          >
             {value.email}
           </div>
         );
