@@ -109,7 +109,7 @@ export function DataTable<TData, TValue>({
             )}
           </TableBody>
         </Table>
-        <div className="text-muted-foreground flex-1 text-xs">
+        <div className="text-muted-foreground mx-3 my-1 flex-1 text-xs">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected.
         </div>

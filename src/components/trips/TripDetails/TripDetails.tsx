@@ -11,7 +11,6 @@ import {
   AiOutlineArrowLeft,
   AiOutlineMinus,
   AiOutlinePlus,
-  AiOutlineShareAlt,
 } from "react-icons/ai";
 import { BiPlus } from "react-icons/bi";
 import { FaRegClock } from "react-icons/fa";
@@ -34,6 +33,7 @@ import OutingGallery from "@/components/lib/OutingGallery/OutingGallery";
 import Select from "@/components/lib/Select/Select";
 import { SubtractDate } from "@/components/lib/SubtractDate/SubtractDate";
 import { InfoIcon } from "@/components/lib/Svg";
+import { EventCopyLinkIcon } from "@/components/lib/Svg/CopyIcon";
 import Text from "@/components/lib/Text/Text";
 import { CalculateVat } from "@/components/lib/VatCalculator/VatCalculator";
 import { DatePickerWithRange } from "@/components/ui/dateRangePicker";
@@ -56,6 +56,7 @@ import {
 } from "@/services/user";
 import { setUserBooking } from "@/store/slices/userSlice";
 import type { OutingProps } from "@/types";
+import { HandleCopyLink } from "@/utils/handleCopyLink";
 
 import Addon from "../Addon/Addon";
 import styles from "./TripDetails.module.scss";
@@ -121,13 +122,6 @@ const TripDetails = ({ detailsData }: Props) => {
   };
   const toggleModal = () => {
     setIsCalendarOpen(!isCalendarOpen);
-  };
-  const handleCopyLink = () => {
-    const linkToCopy = window?.location.href;
-    navigator.clipboard
-      .writeText(linkToCopy)
-      .then(() => toaster("Link copied to clipboard!"))
-      .catch((err) => toaster("Failed to copy link:", err));
   };
   const handleSelect = (trip: React.SetStateAction<string>) => {
     if (detailsData?.subType === "private") {
@@ -305,10 +299,11 @@ const TripDetails = ({ detailsData }: Props) => {
           </div>
           <div className={styles.details}>
             <div className={styles.icons}>
-              <AiOutlineShareAlt
+              {/* <AiOutlineShareAlt
                 className={styles.icon}
                 onClick={handleCopyLink}
-              />
+              /> */}
+              <HandleCopyLink icon={EventCopyLinkIcon} styles={styles.icon} />
               {likedData?.result.some(
                 (res: any) => detailsData.id === res.outing.id
               ) ? (

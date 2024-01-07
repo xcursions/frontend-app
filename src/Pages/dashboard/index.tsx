@@ -153,38 +153,16 @@ export default function Dashboard() {
             </div>
           </Section>
           <div className="mt-16">
-            <div className="flex w-[90vw] justify-between pr-3">
+            <div className="flex justify-between pr-3">
               <Text className="font-dmSansBold text-[18px] text-[#101828]">
                 Available Trips
               </Text>
-              {/* <div className="hidden gap-5 md:flex">
-                <Text className="rounded-3xl bg-[#101828] p-2 px-4 font-dmSansRegular text-[12px] text-[#FFFFFF]">
-                  Most Popular
-                </Text>
-                <Text className="p-2 font-dmSansRegular text-[12px] text-[#475467]">
-                  Best Price
-                </Text>
-                <Text className="p-2 font-dmSansRegular text-[12px] text-[#475467]">
-                  Near Me
-                </Text>
-              </div> */}
               <Link href="/trips">
                 <Text className="p-2 font-dmSansMedium text-[12px] text-[#667084] underline">
                   view all
                 </Text>
               </Link>
             </div>
-            {/* <div className="flex gap-5 md:hidden">
-              <Text className="rounded-3xl bg-[#101828] p-2 px-4 font-dmSansRegular text-[12px] text-[#FFFFFF]">
-                Most Popular
-              </Text>
-              <Text className="p-2 font-dmSansRegular text-[12px] text-[#475467]">
-                Best Price
-              </Text>
-              <Text className="p-2 font-dmSansRegular text-[12px] text-[#475467]">
-                Near Me
-              </Text>
-            </div> */}
           </div>
           <div className="no-scrollbar flex max-w-[370px]  overflow-x-auto scroll-smooth md:max-w-[700px]">
             <div
@@ -201,7 +179,7 @@ export default function Dashboard() {
                 ))}
             </div>
           </div>
-          <div className="mt-14 flex w-[90vw] justify-between">
+          <div className="mt-14 flex justify-between pr-3">
             <Text className="font-dmSansBold text-[18px] text-[#101828]">
               Events Around You
             </Text>
