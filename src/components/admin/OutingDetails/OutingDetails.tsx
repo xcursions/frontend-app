@@ -458,6 +458,8 @@ const OutingDetails = ({ detailsData }: Props) => {
           chargePlanData.perPersonSharingGroupAmount
         ),
         singleOccupancyAmount: Math.floor(chargePlanData.singleOccupancyAmount),
+        coupleAmount: Math.floor(chargePlanData.coupleAmount),
+        coupleGroupAmount: Math.floor(chargePlanData.coupleGroupAmount),
         singleOccupancyGroupAmount: Math.floor(
           chargePlanData.singleOccupancyGroupAmount
         ),
