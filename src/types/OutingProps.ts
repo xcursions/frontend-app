@@ -49,6 +49,8 @@ type OutingChargePlan = {
   deletedAt: string;
   updatedAt: string;
   createdAt: string;
+  coupleAmount: number;
+  coupleGroupAmount: number;
 };
 
 type OutingDestination = {

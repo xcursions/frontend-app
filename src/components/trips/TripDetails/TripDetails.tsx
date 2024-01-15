@@ -37,6 +37,7 @@ import { EventCopyLinkIcon } from "@/components/lib/Svg/CopyIcon";
 import Text from "@/components/lib/Text/Text";
 import { CalculateVat } from "@/components/lib/VatCalculator/VatCalculator";
 import { DatePickerWithRange } from "@/components/ui/dateRangePicker";
+import { Switch } from "@/components/ui/switch";
 import {
   useAppDispatch,
   useAppSelector,
@@ -71,6 +72,7 @@ const initialState = {
   numOfInfants: 0,
   outingSubType: "",
   numOfPeopleSharing: 0,
+  useCoupleCost: false,
   addonIds: [],
   startDate: "",
   endDate: "",
@@ -88,6 +90,7 @@ const TripDetails = ({ detailsData }: Props) => {
   );
   const { user } = useAppSelector((state) => state.user);
   const [galleryOpen, setGalleryOpen] = useState(false);
+  const [useCouple, setUseCouple] = useState(false);
   const [payload, setPayload] = useState(initialState);
   const { data: outingData, isSuccess: outingSuccess } = useGetOutingAddOnQuery(
     detailsData.id
@@ -164,6 +167,7 @@ const TripDetails = ({ detailsData }: Props) => {
         outingDateId: undefined,
         startDate: date?.from,
         endDate: date?.to,
+        useCoupleCost: useCouple,
         outingSubType: selectedTrip,
       });
     } else {
@@ -171,16 +175,13 @@ const TripDetails = ({ detailsData }: Props) => {
         ...payload,
         startDate: undefined,
         endDate: undefined,
+        useCoupleCost: useCouple,
         outingSubType: selectedTrip,
       });
     }
-  }, [selectedTrip, date]);
+  }, [selectedTrip, date, useCouple]);
   useEffect(() => {
-    if (selectedTrip === "private") {
-      bookingCost({ query: detailsData.id, data: payload });
-    } else if (selectedTrip === "group" && payload.outingDateId) {
-      bookingCost({ query: detailsData.id, data: payload });
-    }
+    bookingCost({ query: detailsData.id, data: payload });
   }, [payload]);
   useErrorHandler({ isError: isBookingError, error: bookingError });
   useSuccessHandler({
@@ -411,11 +412,12 @@ const TripDetails = ({ detailsData }: Props) => {
                   <div className="mr-3 mt-7 flex items-center gap-3 rounded-3xl bg-[#FFECEB] py-2">
                     <RiErrorWarningLine className="ml-3 text-[#F04438]" />{" "}
                     <Text className="text-[12px] text-[#601B16]">
-                      Deadline for payment is{" "}
-                      {SubtractDate(
+                      Deadline for payment is {detailsData?.deadlineGap} days
+                      before trip start date
+                      {/* {SubtractDate(
                         detailsData?.outingDate[0]?.startDate,
                         detailsData?.deadlineGap
-                      )}
+                      )} */}
                     </Text>
                   </div>
                 )}
@@ -430,20 +432,28 @@ const TripDetails = ({ detailsData }: Props) => {
                     {selectedTrip === "private" ? (
                       <p className="font-dmSansBold text-[18px]">
                         ₦
-                        {chargePlanSuccess &&
-                          parseInt(
-                            chargePlanData.singleOccupancyAmount,
-                            10
-                          ).toLocaleString()}
+                        {chargePlanSuccess && useCouple
+                          ? parseInt(
+                              chargePlanData?.coupleAmount,
+                              10
+                            ).toLocaleString()
+                          : parseInt(
+                              chargePlanData?.singleOccupancyAmount,
+                              10
+                            ).toLocaleString()}
                       </p>
                     ) : (
                       <p className="font-dmSansBold text-[18px]">
                         ₦
-                        {chargePlanSuccess &&
-                          parseInt(
-                            chargePlanData.singleOccupancyGroupAmount,
-                            10
-                          ).toLocaleString()}
+                        {chargePlanSuccess && useCouple
+                          ? parseInt(
+                              chargePlanData?.coupleGroupAmount,
+                              10
+                            ).toLocaleString()
+                          : parseInt(
+                              chargePlanData?.singleOccupancyGroupAmount,
+                              10
+                            ).toLocaleString()}
                       </p>
                     )}
                   </div>
@@ -454,7 +464,8 @@ const TripDetails = ({ detailsData }: Props) => {
                     {selectedTrip === "private" ? (
                       <p className="font-dmSansBold text-[18px]">
                         ₦
-                        {chargePlanSuccess &&
+                        {!useCouple &&
+                          chargePlanSuccess &&
                           parseInt(
                             chargePlanData.perPersonSharingAmount,
                             10
@@ -463,7 +474,8 @@ const TripDetails = ({ detailsData }: Props) => {
                     ) : (
                       <p className="font-dmSansBold text-[18px]">
                         ₦
-                        {chargePlanSuccess &&
+                        {!useCouple &&
+                          chargePlanSuccess &&
                           parseInt(
                             chargePlanData.perPersonSharingGroupAmount,
                             10
@@ -584,14 +596,14 @@ const TripDetails = ({ detailsData }: Props) => {
                   </Text>
                   <div className="flex items-center gap-3">
                     <button
-                      disabled={payload.numOfPeopleSharing === 0}
+                      disabled={payload.numOfPeopleSharing === 0 || useCouple}
                       onClick={() =>
                         setPayload({
                           ...payload,
                           numOfPeopleSharing: payload.numOfPeopleSharing - 1,
                         })
                       }
-                      className="cursor-pointer rounded-full bg-white text-2xl text-[#667084] shadow-md"
+                      className=" rounded-full bg-white text-2xl text-[#667084] shadow-md"
                     >
                       <AiOutlineMinus />
                     </button>
@@ -600,7 +612,8 @@ const TripDetails = ({ detailsData }: Props) => {
                       {payload.numOfPeopleSharing}
                     </span>
                     <button
-                      className="cursor-pointer rounded-full bg-white text-2xl text-[#667084] shadow-md"
+                      className=" rounded-full bg-white text-2xl text-[#667084] shadow-md"
+                      disabled={useCouple}
                       onClick={() =>
                         setPayload({
                           ...payload,
@@ -610,6 +623,22 @@ const TripDetails = ({ detailsData }: Props) => {
                     >
                       <AiOutlinePlus />
                     </button>
+                  </div>
+                </div>
+                <div className="my-5 mr-2 items-center justify-center">
+                  <hr className="border-t-1 grow border-[#E4E7EC]" />
+                </div>
+                <Text className="font-dmSansBold text-[18px]">Couples</Text>
+                <div className="my-5 mr-3 flex justify-between">
+                  <Text className="font-dmSansRegular text-[14px] text-[#667084]">
+                    Book as a couple
+                  </Text>
+                  <div className="flex items-center gap-3">
+                    <Switch
+                      checked={useCouple}
+                      value={useCouple}
+                      onCheckedChange={() => setUseCouple(!useCouple)}
+                    />
                   </div>
                 </div>
                 <div className="my-5 mr-2 items-center justify-center">
@@ -648,7 +677,10 @@ const TripDetails = ({ detailsData }: Props) => {
                   <Text className="font-dmSansBold text-[14px] text-[#101828]">
                     ₦
                     {bookingPriceSuccess
-                      ? CalculateVat(bookingPrice, detailsData?.vat)
+                      ? CalculateVat(
+                          bookingPrice,
+                          detailsData?.vat
+                        ).toLocaleString()
                       : null}
                   </Text>
                 </div>

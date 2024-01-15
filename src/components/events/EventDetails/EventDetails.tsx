@@ -24,8 +24,10 @@ import GalleryViewer from "@/components/lib/GalleryViewer";
 import Heading from "@/components/lib/Heading/Heading";
 import MapComponent from "@/components/lib/MapComponent/MapComponent";
 import OutingGallery from "@/components/lib/OutingGallery/OutingGallery";
+import { InfoIcon } from "@/components/lib/Svg";
 import { EventCopyLinkIcon } from "@/components/lib/Svg/CopyIcon";
 import Text from "@/components/lib/Text/Text";
+import { CalculateVat } from "@/components/lib/VatCalculator/VatCalculator";
 import { useAppSelector, useErrorHandler, useSuccessHandler } from "@/hooks";
 import useAppDispatch from "@/hooks/useAppDispatch";
 import { useGetReviewsQuery } from "@/services/admin";
@@ -52,7 +54,7 @@ const initialState = {
   numOfInfants: 0,
   numOfPeopleSharing: 0,
   // addonIds: [],
-  ticketQuantity: 0,
+  ticketQuantity: 1,
 };
 const EventDetails = ({ detailsData }: Props) => {
   const dispatch = useAppDispatch();
@@ -134,6 +136,7 @@ const EventDetails = ({ detailsData }: Props) => {
       getLikeData("?type=event");
     }
   }, []);
+  const vat = CalculateVat(bookingPrice, detailsData.vat);
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
@@ -212,16 +215,6 @@ const EventDetails = ({ detailsData }: Props) => {
                 </div>
                 <div className="my-5 mr-3 flex justify-between">
                   <Text className="font-dmSansRegular text-[16px]">
-                    Price of Ticket
-                  </Text>
-                  <Text className="font-dmSansBold text-[16px] text-[#0A83FF]">
-                    ₦
-                    {bookingPriceSuccess &&
-                      parseInt(bookingPrice, 10).toLocaleString()}
-                  </Text>
-                </div>
-                <div className="my-5 mr-3 flex justify-between">
-                  <Text className="font-dmSansRegular text-[16px]">
                     Number of Ticket
                   </Text>
                   <div className="flex items-center gap-3">
@@ -253,6 +246,42 @@ const EventDetails = ({ detailsData }: Props) => {
                       <AiOutlinePlus />
                     </button>
                   </div>
+                </div>
+                <div className="mr-3  flex items-center justify-between">
+                  <div className=" flex items-center gap-2">
+                    <Text className="font-dmSansMedium text-[12px] text-[#667084]">
+                      Vat
+                    </Text>
+                    <InfoIcon />
+                  </div>
+                  <Text className="font-dmSansBold text-[14px] text-[#101828]">
+                    ₦
+                    {bookingPriceSuccess
+                      ? CalculateVat(bookingPrice, detailsData?.vat)
+                      : null}
+                  </Text>
+                </div>
+                <div className="my-5 mr-3 flex justify-between">
+                  <Text className="font-dmSansRegular text-[16px]">
+                    Price of Ticket
+                  </Text>
+                  <Text className="font-dmSansBold text-[16px] text-[#0A83FF]">
+                    ₦
+                    {bookingPriceSuccess
+                      ? (bookingPrice - vat).toLocaleString()
+                      : "N/A"}
+                  </Text>
+                </div>
+                <div className="mr-3  flex items-center justify-between">
+                  <Text className="font-dmSansMedium text-[14px] font-semibold">
+                    Total
+                  </Text>
+                  <Text className="font-dmSansBold text-[24px] text-[#0A83FF]">
+                    ₦
+                    {bookingPriceSuccess
+                      ? parseInt(bookingPrice, 10).toLocaleString()
+                      : null}
+                  </Text>
                 </div>
                 <div className="my-5 mr-2 items-center justify-center">
                   <hr className="border-t-1 grow border-[#E4E7EC]" />
