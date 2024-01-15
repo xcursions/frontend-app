@@ -72,6 +72,8 @@ const chargePlanState = {
   extraDurationCostPerDay: 0,
   extraDurationGroupCostPerDay: 0,
   initialPaymentPercent: 0.3,
+  coupleAmount: 0,
+  coupleGroupAmount: 0,
 };
 const initialDestinationState = {
   city: "",
@@ -120,6 +122,7 @@ const OutingDetails = ({ detailsData }: Props) => {
   const [showInLandingPage, setShowInLandingPage] = useState(
     detailsData.showInLandingPage
   );
+  const [draft, setDraft] = useState(detailsData.isDraft);
   const [isOpen, setIsOpen] = useState(false);
   const [isDateOpen, setIsDateOpen] = useState(false);
   const [isAddOnOpen, setIsAddOnOpen] = useState(false);
@@ -211,9 +214,9 @@ const OutingDetails = ({ detailsData }: Props) => {
     },
   ] = useCreateOutingDateMutation();
   const { data: outingAddon, isSuccess: outingAddonSuccess } =
-    useGetOutingAddonsQuery(id);
+    useGetOutingAddonsQuery(detailsData.id);
   const { data: chargePlanData, isSuccess: getChargePlanDataSuccess } =
-    useGetChargePlanQuery(id);
+    useGetChargePlanQuery(detailsData.id);
   const [
     deleteAddon,
     {
@@ -322,7 +325,9 @@ const OutingDetails = ({ detailsData }: Props) => {
       error: createReviewError,
     },
   ] = useCreateReviewMutation();
-  const { data: reviewData, isSuccess: reviewSuccess } = useGetReviewsQuery(id);
+  const { data: reviewData, isSuccess: reviewSuccess } = useGetReviewsQuery(
+    detailsData.id
+  );
   useCreateOutingAddonMutation();
   const handlePhotoChange = (files: File[]) => {
     setPhotoFiles(files);
@@ -576,7 +581,10 @@ const OutingDetails = ({ detailsData }: Props) => {
     createReview({ query: id, data: reviewPayload });
   };
   useEffect(() => {
-    if (showInLandingPage !== detailsData.showInLandingPage) {
+    if (
+      showInLandingPage !== detailsData.showInLandingPage ||
+      draft !== detailsData.isDraft
+    ) {
       updateOuting({
         query: id,
         data: {
@@ -587,14 +595,18 @@ const OutingDetails = ({ detailsData }: Props) => {
           currency: "NGN",
           price: detailsData.price,
           type: detailsData.type,
+          isDraft: draft,
           subType: detailsData.subType,
           deadlineGap: detailsData.deadlineGap,
         },
       });
     }
-  }, [showInLandingPage]);
+  }, [showInLandingPage, draft]);
   const handleSwitchChange = () => {
     setShowInLandingPage(!showInLandingPage);
+  };
+  const handleDraftChange = () => {
+    setDraft(!draft);
   };
   const handleAddonUpdate = (info) => {
     setAddonUpdate(true);
@@ -610,25 +622,21 @@ const OutingDetails = ({ detailsData }: Props) => {
   };
   const handleOutingPublish = () => {
     if (
-      chargePlanPayload.costGroup < 1 ||
-      chargePlanPayload.cost < 1 ||
-      chargePlanPayload.singleOccupancyGroupAmount < 1 ||
-      chargePlanPayload.singleOccupancyAmount < 1 ||
-      chargePlanPayload.extraDurationGroupCostPerDay < 1 ||
-      chargePlanPayload.extraDurationCostPerDay < 1
+      (chargePlanPayload.costGroup < 1 && chargePlanPayload.cost < 1) ||
+      (chargePlanPayload.singleOccupancyGroupAmount < 1 &&
+        chargePlanPayload.singleOccupancyAmount < 1) ||
+      (chargePlanPayload.extraDurationGroupCostPerDay < 1 &&
+        chargePlanPayload.extraDurationCostPerDay < 1) ||
+      (chargePlanPayload.coupleAmount < 1 &&
+        chargePlanPayload.coupleGroupAmount < 1)
     ) {
       toaster.error("Charge Plan information is required");
     } else if (detailsData.outingGallery.length < 1) {
       toaster.error("At least one Photo must is required");
     } else {
-      setPayload({ ...payload, isDraft: !detailsData?.isDraft });
+      handleDraftChange();
     }
   };
-  useEffect(() => {
-    if (payload?.isDraft !== detailsData?.isDraft) {
-      updateOuting({ query: id, data: payload });
-    }
-  }, [payload.isDraft]);
   return (
     <div>
       <div className="mx-[40px] mt-[40px]">
@@ -1198,6 +1206,30 @@ const OutingDetails = ({ detailsData }: Props) => {
                       setChargePlanPayload({
                         ...chargePlanPayload,
                         perPersonSharingGroupAmount: e.target.value,
+                      })
+                    }
+                  />
+                  {detailsData.type === "tour" && (
+                    <Input
+                      label="Private Couple Cost"
+                      placeholder="Couple cost per person"
+                      value={chargePlanPayload.coupleAmount}
+                      onChange={(e) =>
+                        setChargePlanPayload({
+                          ...chargePlanPayload,
+                          coupleAmount: e.target.value,
+                        })
+                      }
+                    />
+                  )}
+                  <Input
+                    label="Group Couple Cost"
+                    placeholder="Couple cost per person"
+                    value={chargePlanPayload.coupleGroupAmount}
+                    onChange={(e) =>
+                      setChargePlanPayload({
+                        ...chargePlanPayload,
+                        coupleGroupAmount: e.target.value,
                       })
                     }
                   />
