@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { AiOutlineArrowLeft } from "react-icons/ai";
@@ -12,7 +13,6 @@ import FileUpload from "@/components/lib/FileUpload";
 import Input from "@/components/lib/Input/Input";
 import MultiSelect from "@/components/lib/MultiSelect";
 import type { Option } from "@/components/lib/MultiSelect/MultiSelectConfig";
-import QuillEditor from "@/components/lib/QuillEditor";
 import TextArea from "@/components/lib/TextArea/TextArea";
 import { useErrorHandler, useSuccessHandler } from "@/hooks";
 import {
@@ -30,6 +30,9 @@ const initialState = {
   featured: false,
   categoryIds: [""],
 };
+const QuillEditor = dynamic(() => import("@/components/lib/QuillEditor"), {
+  ssr: false,
+});
 
 const Page = () => {
   const router = useRouter();

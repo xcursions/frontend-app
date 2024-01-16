@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { notFound, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { AiOutlineArrowLeft } from "react-icons/ai";
@@ -12,7 +13,6 @@ import Button from "@/components/lib/Button/Button";
 import FileUpload from "@/components/lib/FileUpload";
 import MultiSelect from "@/components/lib/MultiSelect";
 import type { Option } from "@/components/lib/MultiSelect/MultiSelectConfig";
-import QuillEditor from "@/components/lib/QuillEditor";
 import TextArea from "@/components/lib/TextArea";
 import { Switch } from "@/components/ui/switch";
 import { useErrorHandler, useSuccessHandler } from "@/hooks";
@@ -32,6 +32,10 @@ const initialState = {
   bio: "",
   categoryIds: [""],
 };
+
+const QuillEditor = dynamic(() => import("@/components/lib/QuillEditor"), {
+  ssr: false,
+});
 const Page = ({ params }: { params: { slug: string } }) => {
   const { slug } = params;
   const { data: detailsData, isSuccess: detailsDataSuccess } =
