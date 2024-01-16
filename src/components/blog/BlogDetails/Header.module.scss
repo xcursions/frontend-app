@@ -150,6 +150,9 @@ a {
     text-decoration: underline;
     @apply italic text-blue-500;
 }
+img {
+  @apply mx-auto my-3;
+}
 p {
     font-weight: 400;
     @apply font-dmSansRegular text-sm md:text-base;
