@@ -1,0 +1,12 @@
+.container {
+  @apply relative flex w-full items-start overflow-hidden rounded-md 
+  border border-gray-300 bg-gray-100;
+}
+
+.label {
+  @apply font-dmSansBold text-xxs md:text-xs;
+}
+
+.helper_text {
+  @apply text-xxs leading-none text-gray-400;
+}

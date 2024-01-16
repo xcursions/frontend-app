@@ -1,28 +1,19 @@
-/* eslint-disable import/no-extraneous-dependencies */
-
 "use client";
 
-import {
-  //   ContentState,
-  //   convertFromHTML,
-  convertToRaw,
-  EditorState,
-} from "draft-js";
-import draftToHtml from "draftjs-to-html";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
-import React, { useCallback, useEffect, useState } from "react";
-import { useDropzone } from "react-dropzone";
-import { AiOutlineArrowLeft, AiOutlineUpload } from "react-icons/ai";
+import React, { useEffect, useState } from "react";
+import { AiOutlineArrowLeft } from "react-icons/ai";
 import { ImCheckmark } from "react-icons/im";
 import type { MultiValue } from "react-select";
 
 import Layout from "@/components/admin/layout/Layout";
 import Button from "@/components/lib/Button/Button";
+import FileUpload from "@/components/lib/FileUpload";
 import Input from "@/components/lib/Input/Input";
 import MultiSelect from "@/components/lib/MultiSelect";
 import type { Option } from "@/components/lib/MultiSelect/MultiSelectConfig";
 import TextArea from "@/components/lib/TextArea/TextArea";
-import WYSIWYGEditor from "@/components/lib/WYSIWYGEditor/WYSIWYGEditor";
 import { useErrorHandler, useSuccessHandler } from "@/hooks";
 import {
   useCreateBlogImageMutation,
@@ -39,14 +30,18 @@ const initialState = {
   featured: false,
   categoryIds: [""],
 };
+const QuillEditor = dynamic(() => import("@/components/lib/QuillEditor"), {
+  ssr: false,
+});
 
 const Page = () => {
   const router = useRouter();
-  const [article, setArticle] = useState(EditorState.createEmpty());
+  const [editorState, setEditorState] = useState("");
+  const [isEditorValid, setIsEditorValid] = useState(false);
   const [payload, setPayload] = useState(initialState);
   const [tagName, setTagName] = useState("");
   const [tag, setTag] = useState<MultiValue<Option>>([]);
-  const [file, setFile] = useState<File | null>(null);
+  const [file, setFile] = useState<File[]>([]);
   const [
     createTag,
     {
@@ -72,23 +67,6 @@ const Page = () => {
     const nameArray = tag.map((item) => item.value);
     setPayload({ ...payload, categoryIds: nameArray });
   }, [tag]);
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    if (acceptedFiles) {
-      const newFile = acceptedFiles[0];
-
-      if (newFile) {
-        setFile(newFile);
-      }
-    }
-  }, []);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: {
-      "image/png": [".png"],
-      "image/jpg": [".jpg"],
-      "image/jpeg": [".jpeg"],
-    },
-  });
   useErrorHandler({
     isError,
     error,
@@ -121,24 +99,38 @@ const Page = () => {
       setPayload(initialState);
       if (file && data) {
         const formData = new FormData();
-        formData.append("image", file as File);
-        formData.append("type", "image");
-        uploadImage({
-          query: data.id,
-          data: formData,
-        });
-        setFile(null);
+        if (file.length > 0) {
+          for (let i = 0; i < file.length; i += 1) {
+            if (file[i]) {
+              formData.append("image", file[i] as File);
+              formData.append("type", "image");
+              uploadImage({
+                query: data.id,
+                data: formData,
+              });
+              setFile([]);
+            }
+          }
+        }
+        // formData.append("image", file as File);
+        // formData.append("type", "image");
+        // uploadImage({
+        //   query: data.id,
+        //   data: formData,
+        // });
+        // setFile(null);
       }
     },
     toastMessage: "Blog Created Successfully",
   });
   const handleSubmit = () => {
-    createBlog({
-      ...payload,
-      content: draftToHtml(convertToRaw(article.getCurrentContent())),
-    });
+    if (isEditorValid && editorState !== "<p><br></p>") {
+      createBlog({
+        ...payload,
+        content: editorState,
+      });
+    }
   };
-
   return (
     <Layout>
       <div className="mx-[40px] mt-[40px]">
@@ -159,12 +151,12 @@ const Page = () => {
         </div>
         <div className={styles.top_container}>
           <div className={styles.title_container}>
-            <Input
+            <TextArea
               placeholder="Enter the blog title"
               label="Title"
               value={payload.title}
               className="w-full"
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              onChange={(e) =>
                 setPayload({ ...payload, title: e.target.value })
               }
             />
@@ -192,40 +184,15 @@ const Page = () => {
           </div>
           <div>
             <div className={styles.image_container}>
-              {file ? (
-                <figure>
-                  <img
-                    src={URL.createObjectURL(file)}
-                    alt=""
-                    className="h-[244px] w-[529px] rounded-[16px]"
-                  />
-                </figure>
-              ) : (
-                <div className=" items-center text-center" {...getRootProps()}>
-                  <input
-                    {...getInputProps()}
-                    accept="image/*"
-                    multiple={false}
-                  />
-
-                  <p className=" mb-[10px] cursor-pointer text-[24px] text-[#0A83FF]">
-                    <AiOutlineUpload className=" mx-auto" />
-                  </p>
-
-                  {isDragActive ? (
-                    <p className="font-dmSansBold">Drop your image here!</p>
-                  ) : (
-                    <>
-                      <p className="text-[14px] font-semibold text-[#0A83FF]">
-                        Upload Your Blog Photo
-                      </p>
-                      <p className="text-[12px] text-[#8D8D8D]">
-                        Your photo must be greater than 5mb
-                      </p>
-                    </>
-                  )}
-                </div>
-              )}
+              <FileUpload
+                multiple={true}
+                name="file"
+                files={file}
+                handleChange={(files: File[]) => {
+                  setFile(files);
+                }}
+                classname={"h-[210px] w-full"}
+              />
             </div>
             <p className="mt-1 text-[12px] text-[#8D8D8D]">
               The featured banner image is what appears with the article’s
@@ -233,12 +200,13 @@ const Page = () => {
             </p>
           </div>
         </div>
-        <div className="mt-[32px] h-[456px]">
-          <WYSIWYGEditor
-            label="Article"
-            containerClass="h-[453px] bg-[#ffffff] rounded-2xl"
-            editorState={article}
-            onEditorStateChange={setArticle}
+        <div className="mt-[32px]">
+          <QuillEditor
+            label="Content"
+            containerClass={"overflow-y-auto overflow-x-auto"}
+            value={editorState}
+            onEditorChange={(value) => setEditorState(value)}
+            setIsEditorValid={setIsEditorValid}
           />
         </div>
         <div className="mt-[60px] flex max-w-xs flex-col gap-4">
