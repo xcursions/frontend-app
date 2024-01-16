@@ -17,7 +17,7 @@ type Props = {
 };
 const BlogDetails = ({ detailsData }: Props) => {
   const { data, isSuccess } = useGetRelatedBlogByCategoryQuery(
-    detailsData?.categories[0].id
+    detailsData?.categories[0]?.id
   );
   return (
     <div className={styles.header_wrapper}>
