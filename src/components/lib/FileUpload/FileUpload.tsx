@@ -16,6 +16,7 @@ const FileUpload: FC<FileUploadProps> = ({
   removeFileHandler,
   isRemovingFile,
   files,
+  classname,
 }) => {
   const [isRemovingId, setIsRemovingId] = useState<string>("");
   const [existingImageUrls, setExistingImageUrls] = useState<string[]>([]);
@@ -52,7 +53,7 @@ const FileUpload: FC<FileUploadProps> = ({
 
   return (
     <>
-      <div className="flex w-full flex-col items-center space-y-1 rounded-md border border-gray-300 bg-gray-100 px-3 py-5 text-center text-[10px]">
+      <div className="flex h-full w-full flex-col items-center space-y-1 rounded-md border border-gray-300 bg-gray-100 px-3 py-5 text-center text-[10px]">
         <div className="flex w-full flex-wrap items-center gap-5">
           {existingImageUrls.length
             ? existingImageUrls.map((item, index) => (
@@ -86,7 +87,11 @@ const FileUpload: FC<FileUploadProps> = ({
           {files.length
             ? files.map((item, index) => (
                 <figure
-                  className="relative h-20 w-20 rounded-md bg-gray-200"
+                  className={
+                    classname
+                      ? `${classname} relative rounded-md bg-gray-200`
+                      : "relative h-20 w-20 rounded-md bg-gray-200"
+                  }
                   key={index}
                 >
                   <img

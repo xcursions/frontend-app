@@ -6,4 +6,5 @@ export default interface FileUploadProps {
   removeFileHandler?: (fileUrl: string, callback?: () => void) => void;
   isRemovingFile?: boolean;
   files: File[];
+  classname?: string;
 }
