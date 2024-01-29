@@ -1,12 +1,14 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { toPng } from "html-to-image";
-import Image from "next/image";
 import React, { useCallback, useRef, useState } from "react";
 import toaster from "react-hot-toast";
 
+import CopyToClipboard from "@/components/lib/CopyToClipboard";
+import MaskString from "@/components/lib/MaskString/MaskString";
 import { Pagination } from "@/components/lib/Pagination";
 import { DownloadIcon } from "@/components/lib/Svg";
 import { useGetAllTransactionQuery } from "@/services/admin/transaction";
+import { standardDate } from "@/utils/standardDate";
 
 import { DataTable } from "../services/DataTable";
 import styles from "./Transactions.module.scss";
@@ -17,6 +19,7 @@ export type Payment = {
   createdAt: string;
   status: string;
   amount: string;
+  action: string;
   paymentMethod: string;
   image: string;
 };
@@ -33,13 +36,12 @@ const TransactionsHistory = () => {
       // .filter((item) => item.outing !== null)
       .map((res: any) => {
         return {
-          name: res?.user?.email,
           amount: res?.amount,
+          action: res?.purpose,
           id: res?.id,
           status: res?.status,
           createdAt: res?.createdAt.split("T")[0],
           paymentMethod: res?.nature,
-          image: "/assets/images/icons/profile_avatar.jpeg",
         };
       });
 
@@ -62,47 +64,45 @@ const TransactionsHistory = () => {
 
   const columns: ColumnDef<Payment>[] = [
     {
-      accessorKey: "name",
-      header: () => <div className="text-lg font-semibold">Name/Email</div>,
+      accessorKey: "id",
+      header: () => (
+        <div className="font-dmSansMedium text-sm">Transaction ID</div>
+      ),
       cell: ({ row }) => {
         const value = row.original;
         return (
           <div
-            className={`flex cursor-pointer items-center gap-3 text-[14px] font-medium text-[#101828]`}
+            className={`flex gap-1 font-dmSansRegular text-sm text-[#101828]`}
           >
-            <Image
-              src={value.image}
-              alt={`${value.name}`}
-              width={50}
-              height={44}
-              className="h-[44px] w-[50px] rounded-2xl"
-            />
-            <span>{value.name}</span>
+            {MaskString(value.id)}
+            <CopyToClipboard text={value.id} />
           </div>
         );
       },
     },
     {
       accessorKey: "id",
-      header: () => <div className="text-lg font-semibold">Transaction ID</div>,
+      header: () => <div className="font-dmSansMedium text-sm">Action</div>,
       cell: ({ row }) => {
         const value = row.original;
         return (
-          <div className={`text-[14px] font-medium text-[#101828]`}>
-            {value.id}
+          <div
+            className={`font-dmSansRegular text-sm capitalize text-[#101828]`}
+          >
+            {value.action}
           </div>
         );
       },
     },
     {
       accessorKey: "status",
-      header: () => <div className="text-lg font-semibold">Status</div>,
+      header: () => <div className="font-dmSansMedium text-sm">Status</div>,
       cell: ({ row }) => {
         const value = row.original;
         const status = row.getValue("status");
         return (
           <div
-            className={`w-fit rounded-3xl px-3 py-1 text-center text-[14px] font-medium text-[#101828] ${
+            className={`w-fit rounded-3xl px-3 py-1 text-center font-dmSansRegular text-sm text-[#101828] ${
               status === "successful"
                 ? "bg-[#E6FAF0] text-[#12B76A]"
                 : "bg-[#FFECEB] text-[#F04438]"
@@ -115,11 +115,11 @@ const TransactionsHistory = () => {
     },
     {
       accessorKey: "amount",
-      header: () => <div className="text-lg font-semibold">Amount</div>,
+      header: () => <div className="font-dmSansMedium text-sm">Amount</div>,
       cell: ({ row }) => {
         const amount = parseInt(row.getValue("amount"), 10).toLocaleString();
         return (
-          <div className="text-[14px] font-medium text-[#101828]">
+          <div className="font-dmSansRegular text-sm text-[#101828]">
             ₦{amount}
           </div>
         );
@@ -127,23 +127,25 @@ const TransactionsHistory = () => {
     },
     {
       accessorKey: "createdAt",
-      header: () => <div className="text-lg font-semibold">Date</div>,
+      header: () => <div className="font-dmSansMedium text-sm">Date</div>,
       cell: ({ row }) => {
         const value = row.original;
         return (
-          <div className={` text-[14px] font-medium text-[#101828]`}>
-            {value.createdAt}
+          <div className={`font-dmSansRegular text-sm text-[#101828]`}>
+            {standardDate(value.createdAt)}
           </div>
         );
       },
     },
     {
       accessorKey: "paymentMethod",
-      header: () => <div className="text-lg font-semibold">Payment Type</div>,
+      header: () => (
+        <div className="font-dmSansMedium text-sm">Payment Type</div>
+      ),
       cell: ({ row }) => {
         const value = row.original;
         return (
-          <div className={` text-[14px] font-medium text-[#101828]`}>
+          <div className={` font-dmSansRegular text-sm text-[#101828]`}>
             {value.paymentMethod === "credit" ? "Deposit" : "Booking"}
           </div>
         );
@@ -154,7 +156,7 @@ const TransactionsHistory = () => {
       cell: () => {
         return (
           <div
-            className={`cursor-pointer text-[20px] font-medium text-[#F04438]`}
+            className={`cursor-pointer font-dmSansRegular text-[20px] text-[#F04438]`}
             onClick={() => onButtonClick()}
           >
             <DownloadIcon />

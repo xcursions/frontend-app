@@ -24,7 +24,7 @@ const SidebarNavigation = ({ sidebarMenuActive, toggleSidebarMenu }) => {
         className={styles["sidebar-close-btn"]}
         onClick={toggleSidebarMenu}
       >
-        x
+        X
       </button>
       <div className={styles["logo-container"]}>
         <Logo type="white" />

@@ -31,6 +31,7 @@ import {
 } from "@/services/user";
 import { useGetUpcomingPaymentQuery } from "@/services/user/savingPlan";
 import type TransactionProps from "@/types/TransactionProps";
+import { standardDate } from "@/utils/standardDate";
 
 import styles from "./wallet.module.scss";
 
@@ -274,7 +275,9 @@ const Wallet = () => {
         const value = row.original;
         return (
           <div className={`text-[14px] font-medium text-[#101828]`}>
-            <Link href={`/user/wallet/${value.id}`}>{value.createdAt}</Link>
+            <Link href={`/user/wallet/${value.id}`}>
+              {standardDate(value.createdAt)}
+            </Link>
           </div>
         );
       },
@@ -400,7 +403,7 @@ const Wallet = () => {
               </Text>
             </Link>
           </div>
-          <div className="mr-2 bg-[#ffffff] px-3">
+          <div className="mr-2 w-full bg-[#ffffff] px-3">
             <DataTable columns={columns} data={data} />
           </div>
           <div className="mx-auto max-w-[200px] content-center items-center justify-center py-10">

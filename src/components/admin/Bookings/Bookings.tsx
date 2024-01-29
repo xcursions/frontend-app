@@ -12,9 +12,9 @@ const AllBookings = () => {
       <div className={styles.wrapper}>
         <div className="flex gap-5">
           <p
-            className={`cursor-pointer text-[16px] font-bold ${
+            className={`cursor-pointer text-[16px] ${
               type === "trip"
-                ? " border-b-2 border-[#0A83FF] px-3 pb-3 text-[#0A83FF]"
+                ? " border-b-2 border-[#0A83FF] px-3 pb-3 font-bold text-[#0A83FF]"
                 : "text-[#344054]"
             }`}
             onClick={() => setType("trip")}
@@ -22,9 +22,9 @@ const AllBookings = () => {
             Trips/Events
           </p>
           <p
-            className={`cursor-pointer text-[16px] font-bold ${
+            className={`cursor-pointer text-[16px] ${
               type === "flight"
-                ? " border-b-2 border-[#0A83FF] px-3 pb-3 text-[#0A83FF]"
+                ? " border-b-2 border-[#0A83FF] px-3 pb-3 font-bold text-[#0A83FF]"
                 : "text-[#344054]"
             }`}
             onClick={() => setType("flight")}
@@ -32,9 +32,9 @@ const AllBookings = () => {
             Flights
           </p>
           <p
-            className={`cursor-pointer text-[16px] font-bold ${
+            className={`cursor-pointer text-[16px]  ${
               type === "accomodation"
-                ? " border-b-2 border-[#0A83FF] px-3 pb-3 text-[#0A83FF]"
+                ? " border-b-2 border-[#0A83FF] px-3 pb-3 font-bold text-[#0A83FF]"
                 : "text-[#344054]"
             }`}
             onClick={() => setType("accomodation")}
@@ -42,9 +42,9 @@ const AllBookings = () => {
             Accomodations
           </p>
           <p
-            className={`cursor-pointer text-[16px] font-bold ${
+            className={`cursor-pointer text-[16px]  ${
               type === "custom"
-                ? " border-b-2 border-[#0A83FF] px-3 pb-3 text-[#0A83FF]"
+                ? " border-[#0A83FF]font-bold border-b-2 px-3 pb-3 text-[#0A83FF]"
                 : "text-[#344054]"
             }`}
             onClick={() => setType("custom")}

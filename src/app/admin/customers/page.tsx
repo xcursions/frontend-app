@@ -15,13 +15,20 @@ const Customers = () => {
     <Layout>
       <div className="flex justify-between px-[50px] pt-[40px]">
         <div className=" items-center">
-          <Heading>Customers</Heading>
+          <Heading className=" text-2xl text-[#101828]">Customers</Heading>
         </div>
-        <div className=" flex gap-3">
+        <div className=" flex h-[38px] gap-3">
+          <Text className=" flex items-center gap-2 rounded-3xl bg-[#ffffff] px-3 py-1">
+            <LuCalendarX2 />
+            Referrals
+            <span className="flex items-center gap-2 py-1">
+              <AiOutlineDown />
+            </span>
+          </Text>
           <Text className=" flex items-center gap-2 rounded-3xl bg-[#ffffff] px-3 py-1">
             <LuCalendarX2 />
             Date{" "}
-            <span className="flex items-center gap-2 rounded-3xl bg-[#F2F4F7] px-2 py-1">
+            <span className="flex items-center gap-2 py-1">
               Monthly
               <AiOutlineDown />
             </span>

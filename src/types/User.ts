@@ -14,6 +14,7 @@ type IUser = {
   email: string;
   referralCode?: string;
   referralId?: string | null;
+  userReferrals: any[];
   user_booking_info: UserBookingInfo;
 };
 export default IUser;

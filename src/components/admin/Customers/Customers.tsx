@@ -3,6 +3,8 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
+import Button from "@/components/lib/Button";
+import Heading from "@/components/lib/Heading";
 import { Pagination } from "@/components/lib/Pagination";
 import { Switch } from "@/components/ui/switch";
 import { useErrorHandler, useSuccessHandler } from "@/hooks";
@@ -21,13 +23,17 @@ export type Payment = {
   name: string;
   email: string;
   createdAt: string;
+  referral: string;
   status: any;
   amount: string;
   image: string;
+  username: string;
 };
 
 const AllCustomers = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [isOpen, setIsOpen] = useState(false);
+  const [selected, setSelected] = useState<Payment>();
   const pageLimit = 10;
   const {
     data: customerData,
@@ -70,39 +76,50 @@ const AllCustomers = () => {
       return {
         name: res?.profile?.fullName,
         amount: res?.user_booking_info?.totalAmountPaid,
+        username: res?.profile?.username,
         email: res?.email,
         id: res?.id,
         status: res?.suspended,
+        referral: res?.userReferrals.length,
         createdAt: res?.createdAt.split("T")[0],
         image:
           res?.profile?.avatarUrl || "/assets/images/icons/profile_avatar.jpeg",
       };
     });
+  const toggleModal = () => {
+    setIsOpen(!isOpen);
+  };
+  const handleDelete = (id: string) => {
+    deleteCustomerStatus(id);
+  };
   const columns: ColumnDef<Payment>[] = [
     {
       accessorKey: "name",
-      header: () => <div className="text-lg font-semibold">Name</div>,
+      header: () => <div className="text-sm font-semibold">Name</div>,
       cell: ({ row }) => {
         const value = row.original;
         return (
           <div
-            className={`flex cursor-pointer items-center gap-3 text-[14px] font-medium text-[#101828]`}
+            className={`flex cursor-pointer items-center gap-3 text-xs font-medium text-[#101828]`}
           >
             <Image
               src={value.image}
               alt={`${value.name}`}
               width={50}
-              height={44}
-              className="h-[44px] w-[50px] rounded-2xl"
+              height={50}
+              className="h-[50px] w-[50px] rounded-full"
             />
-            <span>{value.name}</span>
+            <div className="flex flex-col font-dmSansMedium">
+              <span>{value.name}</span>
+              <span className="text-[#0A83FF]">@{value.username}</span>
+            </div>
           </div>
         );
       },
     },
     {
       accessorKey: "email",
-      header: () => <div className="text-lg font-semibold">Email Address</div>,
+      header: () => <div className="text-sm font-semibold">Email Address</div>,
       cell: ({ row }) => {
         const value = row.original;
         return (
@@ -113,24 +130,28 @@ const AllCustomers = () => {
       },
     },
     {
-      accessorKey: "createdAt",
-      header: () => <div className="text-lg font-semibold">Date Joined</div>,
+      accessorKey: "referral",
+      header: () => (
+        <div className="text-sm font-semibold">No of Referrals</div>
+      ),
       cell: ({ row }) => {
         const value = row.original;
         return (
-          <div className={` text-[14px] font-medium text-[#101828]`}>
-            {value.createdAt}
+          <div
+            className={` text-center text-[14px] font-medium text-[#101828]`}
+          >
+            {value.referral}
           </div>
         );
       },
     },
     {
       accessorKey: "amount",
-      header: () => <div className="text-lg font-semibold">Total Paid</div>,
+      header: () => <div className="text-sm font-semibold">Total Paid</div>,
       cell: ({ row }) => {
         const amount = parseInt(row.getValue("amount"), 10).toLocaleString();
         return (
-          <div className="text-[14px] font-medium text-[#101828]">
+          <div className="text-center text-[14px]  font-medium text-[#101828]">
             ₦{amount}
           </div>
         );
@@ -138,7 +159,7 @@ const AllCustomers = () => {
     },
     {
       accessorKey: "status",
-      header: () => <div className="text-lg font-semibold">Active</div>,
+      header: () => <div className="text-sm font-semibold">Active</div>,
       cell: ({ row }) => {
         const value = row.original;
         return (
@@ -164,7 +185,10 @@ const AllCustomers = () => {
         return (
           <div
             className={`cursor-pointer text-[20px] font-medium text-[#F04438]`}
-            onClick={() => deleteCustomerStatus(value.id)}
+            onClick={() => {
+              setSelected(value);
+              toggleModal();
+            }}
           >
             <RiDeleteBin6Line />
           </div>
@@ -188,6 +212,37 @@ const AllCustomers = () => {
           />
         )}
       </div>
+      {isOpen ? (
+        <>
+          <div
+            className="fixed inset-0 z-[31] bg-[#021A3366] opacity-75"
+            onClick={toggleModal}
+          ></div>
+          <div className="fixed inset-0 left-[30px] z-[32] flex w-[326px] items-center justify-center lg:left-[510px] lg:w-[430px]">
+            <div className="w-full rounded-3xl bg-white p-5 shadow-lg">
+              <div className="flex justify-between">
+                <Heading type="h3">
+                  Are you sure you want to Delete this user?
+                </Heading>
+                <p
+                  className="cursor-pointer font-dmSansBold text-[16px] text-[#98A2B3]"
+                  onClick={toggleModal}
+                >
+                  X
+                </p>
+              </div>
+              <div className="mt-5 flex justify-between">
+                <Button variant="outline" onClick={toggleModal}>
+                  No
+                </Button>
+                <Button onClick={() => handleDelete(selected?.id || "")}>
+                  Yes
+                </Button>
+              </div>
+            </div>
+          </div>
+        </>
+      ) : null}
     </div>
   );
 };
