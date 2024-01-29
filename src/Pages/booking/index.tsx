@@ -19,6 +19,7 @@ import { useErrorHandler, useSuccessHandler } from "@/hooks";
 import { useGetBookingHistoryQuery } from "@/services/user";
 import { useCreateFlightBookingMutation } from "@/services/user/savingPlan";
 import type { AdminBookingProps } from "@/types";
+import { standardDate } from "@/utils/standardDate";
 
 import styles from "./booking.module.scss";
 
@@ -167,7 +168,7 @@ const Booking = () => {
             className={`text-[12px] font-medium text-[#101828] hover:text-[16px] lg:text-[14px]`}
           >
             <Link href={`/user/booking/${value.outingId}/${value.id}`}>
-              {value.createdAt}
+              {standardDate(value.createdAt)}
             </Link>
           </div>
         );

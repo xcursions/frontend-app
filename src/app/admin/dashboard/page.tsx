@@ -14,9 +14,9 @@ const Dashboard = () => {
   const { user } = useAppSelector((state) => state.user);
   return (
     <Layout>
-      <div className="flex justify-between px-[50px] pt-[40px]">
+      <div className="flex items-center justify-between px-[50px] pt-[40px]">
         <div>
-          <Heading>
+          <Heading className=" font-dmSansBold text-2xl">
             Hello,{" "}
             {user?.profile?.username || user?.profile.fullName.split(" ")[0]}
             🏝️
@@ -24,10 +24,10 @@ const Dashboard = () => {
           <Text className="text-[#667084]">Welcome back to your dashboard</Text>
         </div>
         <div>
-          <Text className="mt-7 flex items-center gap-2 rounded-3xl bg-[#ffffff] px-3 py-1">
+          <Text className="flex h-[39px] items-center gap-2 rounded-3xl bg-[#ffffff] p-1">
             <LuCalendarX2 />
             Date{" "}
-            <span className="flex items-center gap-2 rounded-3xl bg-[#F2F4F7] px-2 py-1">
+            <span className="flex items-center gap-2 rounded-3xl bg-[#F2F4F7] p-1">
               Monthly
               <AiOutlineDown />
             </span>
