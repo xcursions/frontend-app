@@ -7,6 +7,7 @@ import { SubtractDate } from "@/components/lib/SubtractDate/SubtractDate";
 import { useErrorHandler, useSuccessHandler } from "@/hooks";
 import { useGetAllBookingQuery } from "@/services/admin/transaction";
 import type { AdminBookingProps } from "@/types";
+import { standardDate } from "@/utils/standardDate";
 
 import { DataTable } from "../../services/DataTable";
 import { CardModal } from "./cardModal";
@@ -83,9 +84,9 @@ const Trips = () => {
       id: res?.id,
       extraDuration: res?.outing?.outingChargePlan?.extraDurationCostPerDay,
       status: res?.status,
-      tripDate: `${res?.bookingDate?.startDate.split("T")[0]} to ${
-        res?.bookingDate?.endDate.split("T")[0]
-      }`,
+      tripDate: `${standardDate(res?.bookingDate?.startDate)} to ${standardDate(
+        res?.bookingDate?.endDate
+      )}`,
       image:
         res?.user?.profile?.avatarUrl ||
         "/assets/images/icons/profile_avatar.jpeg",
@@ -103,7 +104,7 @@ const Trips = () => {
   const columns: ColumnDef<Payment>[] = [
     {
       accessorKey: "name",
-      header: () => <div className="text-lg font-semibold">Name</div>,
+      header: () => <div className="font-dmSansMedium text-sm">Name</div>,
       cell: ({ row }) => {
         const value = row.original;
         return (
@@ -125,7 +126,9 @@ const Trips = () => {
     },
     {
       accessorKey: "email",
-      header: () => <div className="text-lg font-semibold">Email Address</div>,
+      header: () => (
+        <div className="font-dmSansMedium text-sm">Email Address</div>
+      ),
       cell: ({ row }) => {
         const value = row.original;
         return (
@@ -140,7 +143,9 @@ const Trips = () => {
     },
     {
       accessorKey: "trip",
-      header: () => <div className="text-lg font-semibold">Outing Name</div>,
+      header: () => (
+        <div className="font-dmSansMedium text-sm">Outing Name</div>
+      ),
       cell: ({ row }) => {
         const value = row.original;
         return (
@@ -155,7 +160,7 @@ const Trips = () => {
     },
     {
       accessorKey: "tripDate",
-      header: () => <div className="text-lg font-semibold">Trip Date</div>,
+      header: () => <div className="font-dmSansMedium text-sm">Trip Date</div>,
       cell: ({ row }) => {
         const value = row.original;
         return (
@@ -170,7 +175,7 @@ const Trips = () => {
     },
     {
       accessorKey: "type",
-      header: () => <div className="text-lg font-semibold">Type</div>,
+      header: () => <div className="font-dmSansMedium text-sm">Type</div>,
       cell: ({ row }) => {
         const value = row.original;
         return (
@@ -185,7 +190,7 @@ const Trips = () => {
     },
     {
       accessorKey: "amount",
-      header: () => <div className="text-lg font-semibold">Amount</div>,
+      header: () => <div className="font-dmSansMedium text-sm">Amount</div>,
       cell: ({ row }) => {
         const amount = parseInt(row.getValue("amount"), 10).toLocaleString();
         return (
@@ -197,7 +202,7 @@ const Trips = () => {
     },
     {
       accessorKey: "status",
-      header: () => <div className="text-lg font-semibold">Status</div>,
+      header: () => <div className="font-dmSansMedium text-sm">Status</div>,
       cell: ({ row }) => {
         const value = row.original;
         return (

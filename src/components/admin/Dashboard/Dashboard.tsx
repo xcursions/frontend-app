@@ -6,6 +6,8 @@ import React, { useCallback, useRef, useState } from "react";
 import toaster from "react-hot-toast";
 
 import Button from "@/components/lib/Button";
+import CopyToClipboard from "@/components/lib/CopyToClipboard";
+import MaskString from "@/components/lib/MaskString/MaskString";
 import { DownloadIcon } from "@/components/lib/Svg";
 import Text from "@/components/lib/Text";
 import { useErrorHandler, useSuccessHandler } from "@/hooks";
@@ -18,6 +20,7 @@ import {
   useGetTransactionVolumeQuery,
 } from "@/services/admin/transaction";
 import type { IUser, OutingProps } from "@/types";
+import { standardDate } from "@/utils/standardDate";
 
 import { DataTable } from "../services/DataTable";
 import styles from "./Dashboard.module.scss";
@@ -106,7 +109,9 @@ const TransactionDashboard = () => {
   const columns: ColumnDef<Payment>[] = [
     {
       accessorKey: "name",
-      header: () => <div className="text-lg font-semibold">Name/Email</div>,
+      header: () => (
+        <div className=" font-dmSansMedium text-sm">Name/Email</div>
+      ),
       cell: ({ row }) => {
         const value = row.original;
         return (
@@ -117,8 +122,8 @@ const TransactionDashboard = () => {
               src={value.image}
               alt={`${value.name}`}
               width={50}
-              height={44}
-              className="h-[44px] w-[50px] rounded-2xl"
+              height={50}
+              className="h-[50px] w-[50px] rounded-full"
             />
             <span>{value.name}</span>
           </div>
@@ -127,19 +132,24 @@ const TransactionDashboard = () => {
     },
     {
       accessorKey: "id",
-      header: () => <div className="text-lg font-semibold">Transaction ID</div>,
+      header: () => (
+        <div className=" font-dmSansMedium text-sm">Transaction ID</div>
+      ),
       cell: ({ row }) => {
         const value = row.original;
         return (
-          <div className={`text-[14px] font-medium text-[#101828]`}>
-            {value.id}
+          <div
+            className={`flex items-center gap-1 text-[14px] font-medium text-[#101828]`}
+          >
+            {MaskString(value.id)}
+            <CopyToClipboard text={value.id} />
           </div>
         );
       },
     },
     {
       accessorKey: "status",
-      header: () => <div className="text-lg font-semibold">Status</div>,
+      header: () => <div className=" font-dmSansMedium text-sm">Status</div>,
       cell: ({ row }) => {
         const value = row.original;
         const status = row.getValue("status");
@@ -158,7 +168,7 @@ const TransactionDashboard = () => {
     },
     {
       accessorKey: "amount",
-      header: () => <div className="text-lg font-semibold">Amount</div>,
+      header: () => <div className=" font-dmSansMedium text-sm">Amount</div>,
       cell: ({ row }) => {
         const amount = parseInt(row.getValue("amount"), 10).toLocaleString();
         return (
@@ -170,19 +180,21 @@ const TransactionDashboard = () => {
     },
     {
       accessorKey: "createdAt",
-      header: () => <div className="text-lg font-semibold">Date</div>,
+      header: () => <div className=" font-dmSansMedium text-sm">Date</div>,
       cell: ({ row }) => {
         const value = row.original;
         return (
           <div className={` text-[14px] font-medium text-[#101828]`}>
-            {value.createdAt}
+            {standardDate(value.createdAt)}
           </div>
         );
       },
     },
     {
       accessorKey: "paymentMethod",
-      header: () => <div className="text-lg font-semibold">Payment Type</div>,
+      header: () => (
+        <div className=" font-dmSansMedium text-sm">Payment Type</div>
+      ),
       cell: ({ row }) => {
         const value = row.original;
         return (

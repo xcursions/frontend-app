@@ -30,6 +30,7 @@ import {
   useLazyGetOutingsQuery,
 } from "@/services/admin";
 import type { BlogProps, OutingProps } from "@/types";
+import { standardDate } from "@/utils/standardDate";
 
 const initialState = {
   name: "",
@@ -152,7 +153,7 @@ const Page = () => {
   const columns: ColumnDef<Payment>[] = [
     {
       accessorKey: "trip",
-      header: () => <div className="text-lg font-semibold">Trip</div>,
+      header: () => <div className="font-dmSansMedium text-sm">Trip</div>,
       cell: ({ row }) => {
         const value = row.original;
         return (
@@ -164,8 +165,8 @@ const Page = () => {
               src={value.image}
               alt={`${value.name}`}
               width={50}
-              height={44}
-              className="h-[44px] w-[50px] rounded-2xl"
+              height={50}
+              className="h-[50px] w-[50px] rounded-full"
             />
             <span>{value.trip}</span>
           </div>
@@ -174,7 +175,7 @@ const Page = () => {
     },
     {
       accessorKey: "amount",
-      header: () => <div className="text-lg font-semibold">Amount</div>,
+      header: () => <div className="font-dmSansMedium text-sm">Amount</div>,
       cell: ({ row }) => {
         const amount = parseInt(row.getValue("amount"), 10).toLocaleString();
         return (
@@ -186,7 +187,7 @@ const Page = () => {
     },
     {
       accessorKey: "viewBy",
-      header: () => <div className="text-lg font-semibold">View by</div>,
+      header: () => <div className="font-dmSansMedium text-sm">View by</div>,
       cell: ({ row }) => {
         const value = row.original;
         return (
@@ -198,19 +199,21 @@ const Page = () => {
     },
     {
       accessorKey: "createdAt",
-      header: () => <div className="text-lg font-semibold">Date Created</div>,
+      header: () => (
+        <div className="font-dmSansMedium text-sm">Date Created</div>
+      ),
       cell: ({ row }) => {
         const value = row.original;
         return (
           <div className={` text-[14px] font-medium text-[#101828]`}>
-            {value.createdAt}
+            {standardDate(value.createdAt)}
           </div>
         );
       },
     },
     {
       accessorKey: "bookedBy",
-      header: () => <div className="text-lg font-semibold">Booked by</div>,
+      header: () => <div className="font-dmSansMedium text-sm">Booked by</div>,
       cell: ({ row }) => {
         const value = row.original;
         return (
@@ -238,7 +241,7 @@ const Page = () => {
   const blogColumns: ColumnDef<BlogPayment>[] = [
     {
       accessorKey: "image",
-      header: () => <div className="text-lg font-semibold">Image</div>,
+      header: () => <div className="font-dmSansMedium text-sm">Image</div>,
       cell: ({ row }) => {
         const value = row.original;
         return (
@@ -250,8 +253,8 @@ const Page = () => {
               src={value.image || "/assets/images/trip/card3.png"}
               alt={`${value.title}`}
               width={50}
-              height={44}
-              className="h-[44px] w-[50px] rounded-2xl"
+              height={50}
+              className="h-[50px] w-[50px] rounded-full"
             />
           </div>
         );
@@ -259,7 +262,7 @@ const Page = () => {
     },
     {
       accessorKey: "title",
-      header: () => <div className="text-lg font-semibold">Title</div>,
+      header: () => <div className="font-dmSansMedium text-sm">Title</div>,
       cell: ({ row }) => {
         const value = row.original;
         return (
@@ -274,19 +277,23 @@ const Page = () => {
     },
     {
       accessorKey: "createdAt",
-      header: () => <div className="text-lg font-semibold">Date Published</div>,
+      header: () => (
+        <div className="font-dmSansMedium text-sm">Date Published</div>
+      ),
       cell: ({ row }) => {
         const value = row.original;
         return (
           <div className={` text-[14px] font-medium text-[#101828]`}>
-            {value.createdAt}
+            {standardDate(value.createdAt)}
           </div>
         );
       },
     },
     {
       accessorKey: "viewBy",
-      header: () => <div className="text-lg font-semibold">Minutes Read</div>,
+      header: () => (
+        <div className="font-dmSansMedium text-sm">Minutes Read</div>
+      ),
       cell: ({ row }) => {
         const value = row.original;
         return (
@@ -315,9 +322,7 @@ const Page = () => {
     <Layout>
       <div className="mx-[40px] mt-[40px]">
         <div>
-          <Heading type="h2" className="mb-[20px]">
-            Service
-          </Heading>
+          <Heading className=" mb-5 text-2xl text-[#101828]">Service</Heading>
           <div className="flex gap-5">
             <p
               className={`cursor-pointer text-[16px] font-bold ${

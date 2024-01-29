@@ -133,7 +133,7 @@ const Header = ({ toggleSidebarMenu }: any) => {
                 className={styles["close-sidemenu"]}
                 onClick={toggleSidebarMenu}
               >
-                <HiOutlineMenuAlt1 />
+                <HiOutlineMenuAlt1 className=" text-[30px]" />
               </button>
             </li>
             {/* <li>
