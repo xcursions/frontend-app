@@ -36,10 +36,10 @@ const TripCard = ({ post, liked }: Props) => {
           {liked ? <MdFavorite /> : <GrFavorite />}
         </div>
         <div>
-          <Text className="text-center font-dmSansRegular text-[14px] font-normal text-[#1D2838]">
+          <Text className="font-dmSansRegular text-[14px] font-normal text-[#1D2838]">
             {post.name}
           </Text>
-          <Text className="text-center text-[14px] text-[#0A83FF]">{`₦${parseInt(
+          <Text className=" text-[14px] text-[#101828]">{`₦${parseInt(
             price(),
             10
           ).toLocaleString()}`}</Text>
