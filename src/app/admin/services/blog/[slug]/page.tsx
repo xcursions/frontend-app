@@ -224,7 +224,8 @@ const Page = ({ params }: { params: { slug: string } }) => {
                 <div className=" relative inline-block">
                   <img
                     src={
-                      detailsDataSuccess && detailsData.blogFeaturedImage.image
+                      detailsDataSuccess &&
+                      detailsData?.blogFeaturedImage?.image
                     }
                     alt=""
                     className="block h-[244px] w-[529px] rounded-[16px]"
