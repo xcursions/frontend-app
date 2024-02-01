@@ -134,7 +134,8 @@ const Page = ({ params }: { params: { slug: string } }) => {
     toastMessage: "Blog Created Successfully",
   });
   const handleSubmit = () => {
-    if (isEditorValid && editorState !== "<p><br></p>") {
+    console.log(isEditorValid);
+    if (editorState !== "<p><br></p>") {
       updateBlog({
         query: detailsData.id,
         data: {
