@@ -1,5 +1,6 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
@@ -34,6 +35,7 @@ const AllCustomers = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<Payment>();
+  const router = useRouter();
   const pageLimit = 10;
   const {
     data: customerData,
@@ -101,6 +103,7 @@ const AllCustomers = () => {
         return (
           <div
             className={`flex cursor-pointer items-center gap-3 text-xs font-medium text-[#101828]`}
+            onClick={() => router.push(`/admin/customers/${value.id}`)}
           >
             <Image
               src={value.image}
@@ -123,7 +126,10 @@ const AllCustomers = () => {
       cell: ({ row }) => {
         const value = row.original;
         return (
-          <div className={`text-[14px] font-medium text-[#101828]`}>
+          <div
+            className={`cursor-pointer text-[14px]  font-medium text-[#101828]`}
+            onClick={() => router.push(`/admin/customers/${value.id}`)}
+          >
             {value.email}
           </div>
         );
@@ -138,7 +144,8 @@ const AllCustomers = () => {
         const value = row.original;
         return (
           <div
-            className={` text-center text-[14px] font-medium text-[#101828]`}
+            className={` cursor-pointer text-center  text-[14px] font-medium text-[#101828]`}
+            onClick={() => router.push(`/admin/customers/${value.id}`)}
           >
             {value.referral}
           </div>
@@ -149,9 +156,13 @@ const AllCustomers = () => {
       accessorKey: "amount",
       header: () => <div className="text-sm font-semibold">Total Paid</div>,
       cell: ({ row }) => {
+        const value = row.original;
         const amount = parseInt(row.getValue("amount"), 10).toLocaleString();
         return (
-          <div className="text-center text-[14px]  font-medium text-[#101828]">
+          <div
+            className="cursor-pointer text-center text-[14px]  font-medium text-[#101828]"
+            onClick={() => router.push(`/admin/customers/${value.id}`)}
+          >
             ₦{amount}
           </div>
         );
@@ -170,7 +181,7 @@ const AllCustomers = () => {
                 data: { suspended: !value.status },
               })
             }
-            className={`text-[14px] font-medium text-[#101828]`}
+            className={`cursor-pointer text-[14px]  font-medium text-[#101828]`}
           >
             {value.status}
             <Switch checked={!value.status} />

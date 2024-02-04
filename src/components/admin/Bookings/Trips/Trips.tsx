@@ -10,6 +10,7 @@ import type { AdminBookingProps } from "@/types";
 import { standardDate } from "@/utils/standardDate";
 
 import { DataTable } from "../../services/DataTable";
+import FormCanvas from "../FormCanvas";
 import { CardModal } from "./cardModal";
 import styles from "./Trips.module.scss";
 
@@ -133,7 +134,7 @@ const Trips = () => {
         const value = row.original;
         return (
           <div
-            className={`text-[14px] font-medium text-[#101828]`}
+            className={`cursor-pointer text-[14px] font-medium text-[#101828]`}
             onClick={() => handleCardClick(value)}
           >
             {value.email}
@@ -150,7 +151,7 @@ const Trips = () => {
         const value = row.original;
         return (
           <div
-            className={` text-[14px] font-medium text-[#101828]`}
+            className={` cursor-pointer text-[14px] font-medium text-[#101828]`}
             onClick={() => handleCardClick(value)}
           >
             {value.trip}
@@ -165,7 +166,7 @@ const Trips = () => {
         const value = row.original;
         return (
           <div
-            className={` text-[14px] font-medium text-[#101828]`}
+            className={` cursor-pointer text-[14px] font-medium text-[#101828]`}
             onClick={() => handleCardClick(value)}
           >
             {value.tripDate}
@@ -180,7 +181,7 @@ const Trips = () => {
         const value = row.original;
         return (
           <div
-            className={` font-dmSansRegular text-[16px] capitalize text-[#101828]`}
+            className={` cursor-pointer font-dmSansRegular text-[16px] capitalize text-[#101828]`}
             onClick={() => handleCardClick(value)}
           >
             {value.type === "tour" ? "trip" : "event"}
@@ -194,7 +195,7 @@ const Trips = () => {
       cell: ({ row }) => {
         const amount = parseInt(row.getValue("amount"), 10).toLocaleString();
         return (
-          <div className="text-[14px] font-medium text-[#101828]">
+          <div className="cursor-pointer text-[14px] font-medium text-[#101828]">
             ₦{amount}
           </div>
         );
@@ -227,8 +228,13 @@ const Trips = () => {
           <DataTable columns={columns} data={tripData} />
         </div>
         {selectedCard && (
-          <CardModal cardDetails={selectedCard} onClose={handleCloseModal} />
+          <FormCanvas onClose={handleCloseModal} title="Outing Details">
+            <CardModal cardDetails={selectedCard} onClose={handleCloseModal} />
+          </FormCanvas>
         )}
+        {/* {selectedCard && (
+          <CardModal cardDetails={selectedCard} onClose={handleCloseModal} />
+        )} */}
         {isSuccess && (
           <Pagination
             className="pagination-bar my-8"

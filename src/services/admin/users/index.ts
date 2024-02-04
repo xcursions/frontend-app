@@ -12,6 +12,12 @@ export const adminUsersApi = authApi.injectEndpoints({
       }),
       providesTags: ["Admin"],
     }),
+    getSingleCustomer: builder.query<any, any>({
+      query: (id) => ({
+        url: `/admin-analytic/users/${id}`,
+        method: "GET",
+      }),
+    }),
     updateSingleCustomer: builder.mutation<any, any>({
       query: ({ query, data }) => ({
         url: `/admin-analytic/users/${query}`,
@@ -70,6 +76,7 @@ export const adminUsersApi = authApi.injectEndpoints({
 
 export const {
   useCreateCustomerMutation,
+  useGetSingleCustomerQuery,
   useDeleteSingleCustomerMutation,
   useGetAllCustomersQuery,
   useGetAllTeamQuery,
