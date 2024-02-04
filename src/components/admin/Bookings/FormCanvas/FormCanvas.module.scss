@@ -1,0 +1,63 @@
+.background {
+  z-index: 100;
+  animation: zoomIn 1.5s ease-in-out;
+  @apply fixed left-0 top-0 flex h-screen w-screen justify-end 
+  bg-black/50;
+}
+
+.container {
+  background-color: #FFFFFF;
+  @apply flex h-screen w-full flex-col gap-5 overflow-y-auto
+  md:max-w-4xl;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 4rem;
+  padding-left: 4rem;
+  padding-right: 4rem;
+  margin-bottom: 1rem;
+  font-size: 24px;
+  font-weight: 700;
+  span {
+      cursor: pointer;
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes zoomOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+}
+
+.open {
+
+  animation: zoomIn 1.5s ease-in-out;
+};
+
+.content {
+  @apply w-full overflow-y-auto px-5;
+  height: calc(100% - 115px);
+}
+
+.buttons {
+  @apply mb-5 flex w-full items-center justify-center gap-5;
+}
