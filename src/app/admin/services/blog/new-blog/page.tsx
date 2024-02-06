@@ -27,6 +27,7 @@ import styles from "./blog.module.scss";
 const initialState = {
   title: "",
   bio: "",
+  description: "",
   featured: false,
   categoryIds: [""],
 };
@@ -158,6 +159,15 @@ const Page = () => {
               className="w-full"
               onChange={(e) =>
                 setPayload({ ...payload, title: e.target.value })
+              }
+            />
+            <TextArea
+              placeholder="Enter Meta Description"
+              label="Meta Description for SEO"
+              value={payload.description}
+              className="w-full"
+              onChange={(e) =>
+                setPayload({ ...payload, description: e.target.value })
               }
             />
             <div>
