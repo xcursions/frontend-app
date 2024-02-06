@@ -1,8 +1,33 @@
 .background {
   z-index: 100;
-  animation: zoomIn 1.5s ease-in-out;
+  animation: zoomIn 0.5s ease-in-out;
   @apply fixed left-0 top-0 flex h-screen w-screen justify-end 
-  bg-black/50;
+  bg-black/50 shadow-lg;
+}
+.background_center {
+  z-index: 100;
+  position: fixed;
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+  top: 50%;
+  left: 50%;
+  animation: zoomInCenter 0.5s ease-in-out;
+  transform: translate(-50%, -50%);
+  background-color: rgb(0 0 0 / 0.5);
+  border-radius: 10px;
+  @apply shadow-lg;
+}
+
+.container_center {
+  background-color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto !important;
+  width: 100%;
+  max-width: 500px;
+  max-height: 650px;
+  border-radius: 10px;
+  padding-bottom: 1rem;
+  justify-content: center; /* Center content vertically */
 }
 
 .container {
@@ -11,6 +36,17 @@
   md:max-w-4xl;
 }
 
+.title_center {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  font-size: 24px;
+  font-weight: 700;
+  span {
+      cursor: pointer;
+  }
+}
 .title {
   display: flex;
   justify-content: space-between;
@@ -36,6 +72,16 @@
     transform: scale(1);
   }
 }
+@keyframes zoomInCenter {
+  from {
+    opacity: 0;
+    transform: scale(0.3) translate(-50%, -50%);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translate(-50%, -50%);
+  }
+}
 
 @keyframes zoomOut {
   from {
@@ -50,11 +96,11 @@
 
 .open {
 
-  animation: zoomIn 1.5s ease-in-out;
+  animation: zoomIn 0.5s ease-in-out;
 };
 
 .content {
-  @apply w-full overflow-y-auto px-5;
+  @apply w-full overflow-y-auto px-3;
   height: calc(100% - 115px);
 }
 

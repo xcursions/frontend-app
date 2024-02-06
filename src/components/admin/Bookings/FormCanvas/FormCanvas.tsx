@@ -11,6 +11,7 @@ const FormCanvas: FC<PropsWithChildren<FormCanvasProps>> = ({
   title,
   onClose,
   children,
+  center,
 }) => {
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -29,9 +30,13 @@ const FormCanvas: FC<PropsWithChildren<FormCanvasProps>> = ({
   });
 
   return (
-    <div className={`${styles.background}`}>
-      <div className={styles.container}>
-        <div className={styles.title}>
+    <div
+      className={
+        center ? `${styles.background_center}` : `${styles.background}`
+      }
+    >
+      <div className={center ? styles.container_center : styles.container}>
+        <div className={center ? styles.title_center : styles.title}>
           <Heading type="h3">{title}</Heading>
           <span onClick={onClose}>
             <CancelIcon />

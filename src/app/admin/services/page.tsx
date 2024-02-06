@@ -10,6 +10,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { FaCalendarAlt } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
+import FormCanvas from "@/components/admin/Bookings/FormCanvas";
 import Layout from "@/components/admin/layout/Layout";
 // import { columns } from "@/components/admin/services/Colums";
 import { DataTable } from "@/components/admin/services/DataTable";
@@ -69,6 +70,7 @@ const Page = () => {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currentPageBlog, setCurrentPageBlog] = useState<number>(1);
+  const [activeForm, setActiveForm] = useState("");
   const pageLimit = 10;
   const [
     createOuting,
@@ -112,8 +114,14 @@ const Page = () => {
   useEffect(() => {
     setPayload({ ...payload, type: outingType });
   }, [outingType]);
-  const toggleModal = () => {
-    setNewTrip(!newTrip);
+  const handleOpenOffCanvas = (formType: string) => {
+    setActiveForm(formType);
+    setNewTrip(true);
+  };
+
+  const handleClose = () => {
+    setNewTrip(false);
+    // refetch();
   };
   useEffect(() => {
     getOuting(`?type=${outingType}&limit=${pageLimit}&page=${currentPage}`);
@@ -414,7 +422,7 @@ const Page = () => {
                   </div>
                   <Button
                     className="flex items-center gap-2 rounded-3xl text-[14px]"
-                    onClick={toggleModal}
+                    onClick={() => handleOpenOffCanvas("New Trip")}
                   >
                     <AiOutlinePlus /> New Trip
                   </Button>
@@ -436,145 +444,126 @@ const Page = () => {
           )}
         </div>
         {newTrip && (
-          <>
-            <div
-              className="fixed inset-0 z-[31] bg-[#021A3366] opacity-75"
-              onClick={toggleModal}
-            ></div>
-            <div className="fixed inset-x-0 top-[40px] z-[32] flex items-center justify-center overflow-auto lg:left-[500px] lg:w-[450px]">
-              <div className="w-full rounded-3xl bg-white p-5 shadow-lg">
-                <div className="flex justify-between">
-                  <Heading type="h3">New Trip</Heading>
-                  <p
-                    className="cursor-pointer font-dmSansBold text-[16px] text-[#98A2B3]"
-                    onClick={toggleModal}
-                  >
-                    X
-                  </p>
-                </div>
-                <div className="mt-[20px] flex gap-5">
-                  <p
-                    className={`cursor-pointer rounded-md border px-2 py-1 font-dmSansRegular text-[14px] ${
-                      payload.subType === "private"
-                        ? "  bg-[#000000] text-[#ffffff]"
-                        : ""
-                    }`}
-                    onClick={() =>
-                      setPayload({ ...payload, subType: "private" })
-                    }
-                  >
-                    Private Trip
-                  </p>
-                  <p
-                    className={`cursor-pointer rounded-md border px-2 py-1 font-dmSansRegular text-[14px] ${
-                      payload.subType === "group"
-                        ? "  bg-[#000000] text-[#ffffff]"
-                        : ""
-                    }`}
-                    onClick={() => setPayload({ ...payload, subType: "group" })}
-                  >
-                    Group Trip
-                  </p>
-                </div>
-                <div className="my-[10px]">
+          <FormCanvas onClose={handleClose} title={activeForm} center>
+            <div className="w-full rounded-3xl px-[1rem]">
+              <div className="mt-[20px] flex gap-5">
+                <p
+                  className={`cursor-pointer rounded-md border px-2 py-1 font-dmSansRegular text-[14px] ${
+                    payload.subType === "private"
+                      ? "  bg-[#000000] text-[#ffffff]"
+                      : ""
+                  }`}
+                  onClick={() => setPayload({ ...payload, subType: "private" })}
+                >
+                  Private Trip
+                </p>
+                <p
+                  className={`cursor-pointer rounded-md border px-2 py-1 font-dmSansRegular text-[14px] ${
+                    payload.subType === "group"
+                      ? "  bg-[#000000] text-[#ffffff]"
+                      : ""
+                  }`}
+                  onClick={() => setPayload({ ...payload, subType: "group" })}
+                >
+                  Group Trip
+                </p>
+              </div>
+              <div className="my-[10px]">
+                <Input
+                  label="Trip Name"
+                  placeholder="Enter the trip name"
+                  value={payload.name}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    setPayload({ ...payload, name: event.target.value })
+                  }
+                />
+                <div className="flex w-full gap-2">
                   <Input
-                    label="Trip Name"
-                    placeholder="Enter the trip name"
-                    value={payload.name}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                      setPayload({ ...payload, name: event.target.value })
-                    }
-                  />
-                  <div className="flex w-full gap-2">
-                    <Input
-                      label="Price"
-                      type="number"
-                      placeholder="Enter the Outing price"
-                      value={payload.price}
-                      onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                        setPayload({ ...payload, price: event.target.value })
-                      }
-                      className="w-[195px]"
-                    />
-                    <Input
-                      label="Default Duration"
-                      type="number"
-                      placeholder="Default Outing Duration in Days"
-                      value={payload.defaultOutingDurationInDays}
-                      onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                        setPayload({
-                          ...payload,
-                          defaultOutingDurationInDays: event.target.value,
-                        })
-                      }
-                      className="w-[205px]"
-                    />
-                  </div>
-                  <TextArea
-                    label="Descriptions"
-                    placeholder="your placeholder here"
-                    className="h-[135px]"
-                    value={payload.description}
-                    onChange={(event) =>
-                      setPayload({
-                        ...payload,
-                        description: event.target.value,
-                      })
-                    }
-                  />
-                  <div className="flex gap-2">
-                    <Input
-                      label="Start Date"
-                      placeholder="Select start date"
-                      type="date"
-                      value={payload.startDate}
-                      onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                        setPayload({
-                          ...payload,
-                          startDate: event.target.value,
-                        })
-                      }
-                      className="w-[200px]"
-                    />
-                    <Input
-                      label="End Date"
-                      placeholder="Select end date"
-                      value={payload.endDate}
-                      type="date"
-                      onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                        setPayload({ ...payload, endDate: event.target.value })
-                      }
-                      className="w-[200px]"
-                    />
-                  </div>
-                  <Input
-                    placeholder="Enter payment limit in days"
+                    label="Price"
                     type="number"
-                    label="Payment Deadline"
-                    value={payload.deadlineGap}
+                    placeholder="Enter the Outing price"
+                    value={payload.price}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                      setPayload({ ...payload, price: event.target.value })
+                    }
+                    className="w-[195px]"
+                  />
+                  <Input
+                    label="Default Duration"
+                    type="number"
+                    placeholder="Default Outing Duration in Days"
+                    value={payload.defaultOutingDurationInDays}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                       setPayload({
                         ...payload,
-                        deadlineGap: event.target.value,
+                        defaultOutingDurationInDays: event.target.value,
                       })
                     }
+                    className="w-[205px]"
                   />
-                  <Button
-                    className="mt-5 w-full rounded-3xl bg-[#0A83FF]"
-                    onClick={handleCreateOuting}
-                    disabled={
-                      !payload.name ||
-                      !payload.description ||
-                      !payload.startDate
-                    }
-                  >
-                    Create {outingType === "tour" ? "Trip" : " Event"}
-                  </Button>
-                  {outingLoading && <FullPageLoader />}
                 </div>
+                <TextArea
+                  label="Descriptions"
+                  placeholder="your placeholder here"
+                  className="h-[135px]"
+                  value={payload.description}
+                  onChange={(event) =>
+                    setPayload({
+                      ...payload,
+                      description: event.target.value,
+                    })
+                  }
+                />
+                <div className="flex gap-2">
+                  <Input
+                    label="Start Date"
+                    placeholder="Select start date"
+                    type="date"
+                    value={payload.startDate}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                      setPayload({
+                        ...payload,
+                        startDate: event.target.value,
+                      })
+                    }
+                    className="w-[200px]"
+                  />
+                  <Input
+                    label="End Date"
+                    placeholder="Select end date"
+                    value={payload.endDate}
+                    type="date"
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                      setPayload({ ...payload, endDate: event.target.value })
+                    }
+                    className="w-[200px]"
+                  />
+                </div>
+                <Input
+                  placeholder="Enter payment limit in days"
+                  type="number"
+                  label="Payment Deadline"
+                  value={payload.deadlineGap}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    setPayload({
+                      ...payload,
+                      deadlineGap: event.target.value,
+                    })
+                  }
+                />
+                <Button
+                  className="mt-5 w-full rounded-3xl bg-[#0A83FF]"
+                  onClick={handleCreateOuting}
+                  disabled={
+                    !payload.name || !payload.description || !payload.startDate
+                  }
+                >
+                  Create {outingType === "tour" ? "Trip" : " Event"}
+                </Button>
+                {outingLoading && <FullPageLoader />}
               </div>
             </div>
-          </>
+          </FormCanvas>
         )}
       </div>
     </Layout>
