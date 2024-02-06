@@ -37,11 +37,11 @@ export async function generateMetadata(
   // optionally access and extend (rather than replace) parent metadata
   const previousImages = (await parent).openGraph?.images || [];
   return {
-    title: `${product.title} with Xcursions the number 1 travel and tourism company`,
-    description: `${product.title}`,
+    title: `${product.title}`,
+    description: `${product?.description || ""}`,
     openGraph: {
-      title: `${product.title} with Xcursions the number 1 travel and tourism company`,
-      description: `${product.title}`,
+      title: `${product.title}`,
+      description: `${product?.description || ""}`,
       url: `${process.env.NEXT_PUBLIC_SITE_URL}/blog/${params.slug}`,
       images: [
         {
@@ -74,11 +74,12 @@ export async function generateMetadata(
       "Amazing locations",
       "Vacation",
       `${product.title}`,
+      `${product?.description}`,
     ],
     twitter: {
       card: "summary_large_image",
       title: `${product.title} with Xcursions the number 1 travel and tourism company`,
-      description: `${product.title} `,
+      description: `${product?.description || ""} `,
       siteId: "",
       creator: "@xcursionsdotng",
       creatorId: "",
