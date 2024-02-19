@@ -79,7 +79,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1,
     })),
     ...blogValues.result.map((data: any) => ({
-      url: `${url}/blog/${data?.id}`,
+      url: `${url}/blog/${data?.slug}`,
       lastModified:
         new Date(data?.updatedAt).toISOString() || new Date().toISOString(),
       changeFrequency: "monthly",
