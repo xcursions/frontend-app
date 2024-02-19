@@ -94,7 +94,7 @@ const Header = () => {
               <Text className="mt-[30px] items-center font-dmSansRegular text-[16px] text-[#0A83FF] ">
                 {formatedDate(featuredPost.createdAt)}
               </Text>
-              <Link href={`/blog/${featuredPost.id}`}>
+              <Link href={`/blog/${featuredPost.slug}`}>
                 <Heading
                   type="h3"
                   className="cursor-pointer font-dmSansBold text-[21px] lg:text-[24px]"
@@ -120,12 +120,12 @@ const Header = () => {
           )}
         </div>
       </div>
-      <div className=" mx-[5%] mb-[50px] mt-[90px] xl:mx-[8%]">
+      <div className=" mx-[3%] my-[50px]">
         <div className=" mx-auto max-w-[1440px]">
           <div className={styles.card_container}>
             {blogData.map((res) => (
               <div key={res.id} className="cursor-pointer">
-                <Link href={`/blog/${res.id}`}>
+                <Link href={`/blog/${res.slug}`}>
                   <Image
                     width={800}
                     height={415}
@@ -137,7 +137,7 @@ const Header = () => {
                 <Text className="mt-[20px]  items-center font-dmSansRegular text-[14px] text-[#0A83FF] lg:text-[16px] ">
                   {formatedDate(res.createdAt)}
                 </Text>
-                <Link href={`/blog/${res.id}`}>
+                <Link href={`/blog/${res.slug}`}>
                   <Heading
                     type="h3"
                     className="max-w-[350px] cursor-pointer font-dmSansBold text-[18px] lg:text-[21px]"

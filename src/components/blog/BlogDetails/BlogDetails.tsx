@@ -85,7 +85,7 @@ const BlogDetails = ({ detailsData }: Props) => {
           {isSuccess &&
             data.posts.slice(0, 3).map((res: BlogProps) => (
               <div key={res.id} className="mt-[50px] cursor-pointer">
-                <Link href={`/blog/${res.id}`}>
+                <Link href={`/blog/${res.slug}`}>
                   <Image
                     width={348}
                     height={223}
@@ -97,7 +97,7 @@ const BlogDetails = ({ detailsData }: Props) => {
                 <Text className="mt-[20px]  items-center font-dmSansRegular text-[14px] text-[#0A83FF] lg:text-[16px] ">
                   {formatedDate(res.createdAt)}
                 </Text>
-                <Link href={`/blog/${res.id}`}>
+                <Link href={`/blog/${res.slug}`}>
                   <Heading
                     type="h3"
                     className="max-w-[350px] cursor-pointer font-dmSansBold text-[18px] lg:text-[21px]"

@@ -8,6 +8,7 @@ type BlogProps = {
   deletedAt: string;
   updatedAt: string;
   featured: boolean;
+  slug: string;
   id: string;
   readTimeInMinute: number;
   title: string;

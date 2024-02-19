@@ -1,5 +1,6 @@
 .card_container {
-    @apply mx-auto pt-6  w-[163px] md:w-[220px] lg:w-[292px] ;
+    @apply mx-auto pt-6  w-full h-fit;
+    // @apply mx-auto pt-6  w-[163px] md:w-[220px] lg:w-[292px] ;
   }
   .card_image {
     position: relative;
@@ -7,5 +8,6 @@
     cursor: pointer;
   }
   .pics {
-    @apply rounded-[20px] h-[150px] w-[200px] md:w-[220px] lg:w-[292px] lg:h-[300px];
+    @apply rounded-[20px] w-full h-fit max-h-[160px] sm:max-h-[300px] min-h-[160px] sm:min-h-[300px];
+    // @apply rounded-[20px] h-[150px] w-[200px] md:w-[220px] lg:w-[292px] lg:h-[300px];
   }
