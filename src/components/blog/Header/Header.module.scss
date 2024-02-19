@@ -147,14 +147,16 @@
     }
 }
 .card_container {
-@apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mx-auto gap-[40px] xl:gap-[48px];
+@apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mx-auto gap-2;
   .image {
-    width: 348px;
-    height: 233px;
+    width: 100%;
+    height: fit-content;
+    min-height: 230px;
+    max-height: 233px;
     border-radius: 24px;
     @media screen and (max-width: 768px) {
-      width: 342px;
-      height: 209px;
+      width: 100%;
+      height: fit-content;
       border-radius: 24px;
     }
   }
