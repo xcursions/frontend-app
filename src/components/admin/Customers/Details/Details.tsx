@@ -3,13 +3,19 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import { RiDeleteBin6Line, RiEdit2Fill } from "react-icons/ri";
 
 import Button from "@/components/lib/Button";
+import CopyToClipboard from "@/components/lib/CopyToClipboard";
+import Loader from "@/components/lib/Loader";
+import MaskString from "@/components/lib/MaskString/MaskString";
+import { Pagination } from "@/components/lib/Pagination";
 import { ArrowIcon } from "@/components/lib/Svg";
 import Text from "@/components/lib/Text";
 import { Switch } from "@/components/ui/switch";
+import { useSuccessHandler } from "@/hooks";
+import { useGetBookingByUserIdQuery } from "@/services/admin/transaction";
 import type { IUser } from "@/types";
 import { standardDate } from "@/utils/standardDate";
 
@@ -26,8 +32,29 @@ type Payment = {
   status: any;
   image: string;
 };
+type BookingHistoryProp = {
+  id: string;
+  type: string;
+  price: string;
+  paymentStatus: string;
+  createdAt: string;
+  bookingStatus: string;
+};
 const CustomerDetails = ({ detailsData }: Props) => {
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [bookingHistory, setBookingHistory] = useState([]);
+  const pageLimit = 10;
+  const userId = detailsData.id;
   const router = useRouter();
+  const {
+    data: bookingHistoryData,
+    isSuccess,
+    isLoading,
+  } = useGetBookingByUserIdQuery({
+    userId,
+    pageLimit,
+    currentPage,
+  });
   const data = detailsData?.userReferrals.map((res, idx) => {
     return {
       name: res?.referredUser?.profile?.fullName,
@@ -38,6 +65,26 @@ const CustomerDetails = ({ detailsData }: Props) => {
         res?.referredUser?.profile?.avatarUrl ||
         "/assets/images/icons/profile_avatar.jpeg",
     };
+  });
+  const historyData = bookingHistory.map((res: any) => {
+    return {
+      id: res?.id,
+      type: res?.outing?.type,
+      price: res?.cost,
+      createdAt: res?.bookingDate?.createdAt,
+      bookingStatus: res?.status,
+      paymentStatus: res?.bookingPayment[0].status,
+    };
+  });
+  useSuccessHandler({
+    isSuccess,
+    showToast: false,
+    dependencies: [bookingHistoryData],
+    successFunction() {
+      if (bookingHistoryData?.result) {
+        setBookingHistory(bookingHistoryData?.result);
+      }
+    },
   });
   const columns: ColumnDef<Payment>[] = [
     {
@@ -108,6 +155,104 @@ const CustomerDetails = ({ detailsData }: Props) => {
       },
     },
   ];
+
+  const bookingColumn: ColumnDef<BookingHistoryProp>[] = [
+    {
+      accessorKey: "id",
+      header: () => <div className="text-sm font-semibold">Booking ID</div>,
+      cell: ({ row }) => {
+        const value = row.original;
+        return (
+          <div
+            className={`flex gap-1 font-dmSansRegular text-sm text-[#101828]`}
+          >
+            {MaskString(value.id)}
+            <CopyToClipboard text={value.id} />
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "type",
+      header: () => <div className="text-sm font-semibold">Type</div>,
+      cell: ({ row }) => {
+        const value = row.original;
+        return (
+          <div
+            className={`flex gap-1 font-dmSansRegular text-sm capitalize text-[#101828]`}
+          >
+            {value.type}
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "price",
+      header: () => <div className="text-sm font-semibold">Amount</div>,
+      cell: ({ row }) => {
+        const amount = parseInt(row.getValue("price"), 10).toLocaleString();
+        return (
+          <div
+            className={`flex gap-1 font-dmSansRegular text-sm text-[#101828]`}
+          >
+            ₦{amount}
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "paymentStatus",
+      header: () => <div className="text-sm font-semibold">Payment Status</div>,
+      cell: ({ row }) => {
+        const value = row.original;
+        const status = row.getValue("paymentStatus");
+        return (
+          <div
+            className={`w-fit rounded-3xl px-3 py-1 text-center font-dmSansRegular text-sm text-[#101828] ${
+              status === "successful"
+                ? "bg-[#E6FAF0] text-[#12B76A]"
+                : "bg-[#FFECEB] text-[#F04438]"
+            }`}
+          >
+            {value.paymentStatus}
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "createdAt",
+      header: () => <div className="text-sm font-semibold">Date</div>,
+      cell: ({ row }) => {
+        const value = row.original;
+        return (
+          <div
+            className={`flex gap-1 font-dmSansRegular text-sm text-[#101828]`}
+          >
+            {standardDate(value.createdAt)}
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "bookingStatus",
+      header: () => <div className="text-sm font-semibold">Booking Status</div>,
+      cell: ({ row }) => {
+        const value = row.original;
+        const status = row.getValue("bookingStatus");
+        return (
+          <div
+            className={`w-fit rounded-3xl px-3 py-1 text-center font-dmSansRegular text-sm text-[#101828] ${
+              status === "successful"
+                ? "bg-[#E6FAF0] text-[#12B76A]"
+                : "bg-[#FFECEB] text-[#F04438]"
+            }`}
+          >
+            {value.bookingStatus}
+          </div>
+        );
+      },
+    },
+  ];
   return (
     <div className=" mx-[50px] pb-[80px] text-[#101828]">
       <div className="mx-auto mt-[40px] flex w-full justify-between">
@@ -133,7 +278,7 @@ const CustomerDetails = ({ detailsData }: Props) => {
           </Button>
         </div>
       </div>
-      <div className="mt-5 flex max-w-[875px] flex-col gap-3">
+      <div className="mt-5 flex flex-col gap-3">
         <div className=" w-full bg-[#ffffff]">
           <div className=" p-[24px]">
             <Text className="font-dmSansBold text-[16px] font-bold">
@@ -214,6 +359,30 @@ const CustomerDetails = ({ detailsData }: Props) => {
                 </Text>
               </div>
             </div>
+          </div>
+        </div>
+        <div className=" w-full bg-[#ffffff]">
+          <div className=" p-[24px]">
+            <Text className="font-dmSansBold text-[16px] font-bold">
+              Booking History
+            </Text>
+            {isLoading ? (
+              <Loader />
+            ) : (
+              <div className="mt-[24px]">
+                <DataTable columns={bookingColumn} data={historyData} />
+              </div>
+            )}
+
+            {isSuccess && (
+              <Pagination
+                className="pagination-bar my-8"
+                currentPage={currentPage}
+                totalCount={bookingHistoryData?.totalElements}
+                pageLimit={pageLimit}
+                onPageChange={(v) => setCurrentPage(v)}
+              />
+            )}
           </div>
         </div>
         <div className=" w-full bg-[#ffffff]">
