@@ -1,5 +1,6 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { toPng } from "html-to-image";
+import { useRouter } from "next/navigation";
 import React, { useCallback, useRef, useState } from "react";
 import toaster from "react-hot-toast";
 
@@ -27,23 +28,22 @@ export type Payment = {
 const TransactionsHistory = () => {
   const ref = useRef<HTMLDivElement>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const router = useRouter();
   const pageLimit = 10;
   const { data: transactionHistory, isSuccess: isTransactionHistorySuccess } =
     useGetAllTransactionQuery({ pageLimit, currentPage });
   const data =
     isTransactionHistorySuccess &&
-    transactionHistory.result
-      // .filter((item) => item.outing !== null)
-      .map((res: any) => {
-        return {
-          amount: res?.amount,
-          action: res?.purpose,
-          id: res?.id,
-          status: res?.status,
-          createdAt: res?.createdAt.split("T")[0],
-          paymentMethod: res?.nature,
-        };
-      });
+    transactionHistory.result.map((res: any) => {
+      return {
+        amount: res?.amount,
+        action: res?.purpose,
+        id: res?.id,
+        status: res?.status,
+        createdAt: res?.createdAt.split("T")[0],
+        paymentMethod: res?.nature,
+      };
+    });
 
   const onButtonClick = useCallback(() => {
     if (ref.current === null) {
@@ -81,13 +81,14 @@ const TransactionsHistory = () => {
       },
     },
     {
-      accessorKey: "id",
+      accessorKey: "action",
       header: () => <div className="font-dmSansMedium text-sm">Action</div>,
       cell: ({ row }) => {
         const value = row.original;
         return (
           <div
-            className={`font-dmSansRegular text-sm capitalize text-[#101828]`}
+            className={`cursor-pointer font-dmSansRegular text-sm capitalize text-[#101828]`}
+            onClick={() => router.push(`/admin/transactions/${value.id}`)}
           >
             {value.action}
           </div>
@@ -102,11 +103,12 @@ const TransactionsHistory = () => {
         const status = row.getValue("status");
         return (
           <div
-            className={`w-fit rounded-3xl px-3 py-1 text-center font-dmSansRegular text-sm text-[#101828] ${
+            className={`w-fit cursor-pointer rounded-3xl px-3 py-1 text-center font-dmSansRegular text-sm text-[#101828] ${
               status === "successful"
                 ? "bg-[#E6FAF0] text-[#12B76A]"
                 : "bg-[#FFECEB] text-[#F04438]"
             }`}
+            onClick={() => router.push(`/admin/transactions/${value.id}`)}
           >
             {value.status}
           </div>
@@ -117,9 +119,13 @@ const TransactionsHistory = () => {
       accessorKey: "amount",
       header: () => <div className="font-dmSansMedium text-sm">Amount</div>,
       cell: ({ row }) => {
+        const value = row.original;
         const amount = parseInt(row.getValue("amount"), 10).toLocaleString();
         return (
-          <div className="font-dmSansRegular text-sm text-[#101828]">
+          <div
+            className="cursor-pointer font-dmSansRegular text-sm text-[#101828]"
+            onClick={() => router.push(`/admin/transactions/${value.id}`)}
+          >
             ₦{amount}
           </div>
         );
@@ -131,7 +137,10 @@ const TransactionsHistory = () => {
       cell: ({ row }) => {
         const value = row.original;
         return (
-          <div className={`font-dmSansRegular text-sm text-[#101828]`}>
+          <div
+            className={`cursor-pointer font-dmSansRegular text-sm text-[#101828]`}
+            onClick={() => router.push(`/admin/transactions/${value.id}`)}
+          >
             {standardDate(value.createdAt)}
           </div>
         );
@@ -145,14 +154,17 @@ const TransactionsHistory = () => {
       cell: ({ row }) => {
         const value = row.original;
         return (
-          <div className={` font-dmSansRegular text-sm text-[#101828]`}>
+          <div
+            className={` cursor-pointer font-dmSansRegular text-sm text-[#101828]`}
+            onClick={() => router.push(`/admin/transactions/${value.id}`)}
+          >
             {value.paymentMethod === "credit" ? "Deposit" : "Booking"}
           </div>
         );
       },
     },
     {
-      id: "delete",
+      id: "download",
       cell: () => {
         return (
           <div

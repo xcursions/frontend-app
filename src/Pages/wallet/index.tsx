@@ -110,7 +110,7 @@ const Wallet = () => {
     successFunction: () => {
       setIsOtp(false);
     },
-    toastMessage: "Success",
+    toastMessage: "Redirecting to paystack",
   });
   useSuccessHandler({
     isSuccess: cardSuccess,
