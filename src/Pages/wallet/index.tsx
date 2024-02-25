@@ -93,6 +93,7 @@ const Wallet = () => {
       // window.open(linkDeposit?.depositLink);
       router.push(linkDeposit?.depositLink);
     },
+    toastMessage: "Redirecting to paystack",
   });
   useSuccessHandler({
     isSuccess: pinSuccess,
@@ -110,7 +111,7 @@ const Wallet = () => {
     successFunction: () => {
       setIsOtp(false);
     },
-    toastMessage: "Redirecting to paystack",
+    toastMessage: "Success",
   });
   useSuccessHandler({
     isSuccess: cardSuccess,
