@@ -129,7 +129,7 @@ const Header = () => {
                   <Image
                     width={800}
                     height={415}
-                    src={res.blogFeaturedImage.image}
+                    src={res?.blogFeaturedImage?.image}
                     alt="featured blog"
                     className={styles.image}
                   />

@@ -28,6 +28,15 @@ export const transactionApi = authApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    getBookingByUserId: builder.query<
+      any,
+      { userId: string; pageLimit: number; currentPage: number }
+    >({
+      query: ({ userId, pageLimit, currentPage }) => ({
+        url: `/admin-analytic/bookings/${userId}?limit=${pageLimit}&page=${currentPage}`,
+        method: "GET",
+      }),
+    }),
     getMostBookedTrips: builder.query<any, void>({
       query: () => ({
         url: "/outing/outings?sort=uniqueBookingCount",
@@ -46,6 +55,12 @@ export const transactionApi = authApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    getTransactionById: builder.query<any, any>({
+      query: (id) => ({
+        url: `/admin-analytic/transactions/${id}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -53,8 +68,10 @@ export const {
   useGetActiveUsersQuery,
   useGetTopCustomersQuery,
   useGetAllBookingQuery,
+  useGetBookingByUserIdQuery,
   useGetMostBookedTripsQuery,
   useGetAllTransactionQuery,
+  useGetTransactionByIdQuery,
   useGetBookingChartQuery,
   useGetTransactionVolumeQuery,
 } = transactionApi;

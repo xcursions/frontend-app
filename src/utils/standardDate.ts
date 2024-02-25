@@ -9,3 +9,16 @@ export function standardDate(date: string | number | Date) {
   }
   return null;
 }
+
+export function formatTimeWithTimeZone(
+  date: Date,
+  timezoneAbbreviation: string
+): string {
+  const formattedTime = new Date(date).toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  });
+
+  return `${formattedTime} ${timezoneAbbreviation}`;
+}
