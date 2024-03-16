@@ -98,16 +98,11 @@ export async function generateMetadata(
 const Blog = async ({ params }: { params: { slug: string } }) => {
   const { slug } = params;
   const data = await getBlogData(slug);
-  // const { data, isSuccess } = useGetSingleBlogQuery(slug);
-  // if (isSuccess && !data) {
-  //   notFound();
-  // }
   return (
     <div>
       <div className="bg-[#F9FAFB]">
         <Navbar text={"white"} logo={"white"} />
         {data && <BlogDetails detailsData={data} />}
-        {/* {isSuccess && <BlogDetails detailsData={data} />} */}
         <Subscription />
         <Footer />
       </div>
