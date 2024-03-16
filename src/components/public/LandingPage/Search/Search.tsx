@@ -127,7 +127,10 @@ const Search = () => {
   };
 
   return (
-    <div className="relative z-10">
+    <div
+      className=" relative z-10 mx-auto mt-[-100px] flex w-full justify-center md:mt-[-50px]"
+      // className="lead_page_banner__scroll_down"
+    >
       <div className=" mx-1 max-w-[1209px] rounded-2xl bg-[#FFFFFF] p-5 shadow-lg lg:max-h-[230px]">
         <div>
           <Heading
@@ -208,7 +211,7 @@ const Search = () => {
             className="flex w-[300px] items-center justify-center gap-3 rounded-[100px] bg-[#0A83FF] p-3 text-white lg:mt-4 lg:h-[96px] lg:w-[75px] lg:p-5"
             onClick={() => handleSubmitQuery()}
           >
-            <BsSearch className="text-xl" />
+            <BsSearch className="w-[20px] md:w-[30px]" />
             <span className="text-center lg:hidden">Search</span>
           </button>
         </div>

@@ -1,0 +1,15 @@
+.container {
+    @apply p-10 bg-[#ffffff]
+}
+.title {
+    @apply border-2 rounded-2xl text-[18px] hidden lg:block
+}
+.wrapper {
+    @apply flex mx-auto w-full gap-10 py-3 lg:justify-around bg-[#ffffff] border-2 rounded-2xl;
+}
+.profileCard {
+    @apply flex pt-5
+}
+.profileForm {
+    @apply w-[342px] lg:w-[354px] pt-5;
+}

@@ -1,0 +1,161 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+::selection {
+  background: #0A83FF;
+  color: #fff;
+}
+
+// scroll bar ui
+* {
+  scrollbar-color: $primary-500 $primary-50;
+  scrollbar-width: thin;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  @include breakpoint(tablet) {
+    width: 5px;
+    height: 5px;
+  }
+}
+// ÷
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  @include breakpoint(tablet) {
+    background: transparent;
+  }
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: $primary-500;
+  border-radius: 10px;
+  &:hover {
+    background: $primary-100;
+  }
+}
+
+html {
+  // This defines what 1rem is
+  font-size: 62.5%;
+  background: $neutral-25;
+}
+
+body {
+  box-sizing: border-box;
+  height: 100%;
+  position: relative;
+  scroll-behavior: smooth;
+  font-family: var(--font-dmSans);
+  section.btn_testing {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 6rem;
+    background-color: #fff;
+  }
+
+  section.btn_column_test {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 6rem;
+    background-color: #fff;
+  }
+  section.table_test {
+    padding: 2rem;
+    background-color: $neutral-25;
+  }
+
+  section.btn_column_test {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 6rem;
+    background-color: #fff;
+  }
+
+  &:has(.mep-modal-container),
+  &:has(.mep_sidenav_mob-open) {
+    overflow: hidden;
+  }
+}
+
+.isloading {
+  border-radius: 50%;
+  border: 2.3px solid;
+  border-color: $color-white;
+  width: 16px;
+  height: 16px;
+  border-right-color: transparent;
+  animation: spin 1.5s linear infinite;
+  &.invert {
+    border-color: $primary-600;
+    border-right-color: transparent;
+  }
+}
+.cod_page {
+  @apply min-h-screen;
+
+  &_section {
+    position: relative;
+    width: 100%;
+    max-width: 1600px;
+    padding: 0 1rem;
+    margin: 0 auto;
+
+    &_contain {
+      padding: 5rem 0;
+    }
+
+    &__tagline {
+      @apply font-dmSans text-base italic text-primary block mb-[6px];
+    }
+    &__title {
+      @apply font-semibold break-words uppercase;
+      font-size: clamp(20px, 6vw, 30px);
+    }
+    &__subtitle {
+      @apply text-base my-3;
+    }
+  }
+  & .lead_page_banner {
+    @apply h-full max-h-[460px] w-full relative;
+    &_img {
+      @apply max-h-[460px];
+    }
+
+    &__txt {
+      @apply absolute top-[20%] left-0 right-0 flex items-center overflow-clip justify-center z-[2];
+      &::before {
+        content: "";
+        background: $color-black;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        opacity: 0.2;
+      }
+
+      & > header {
+        @apply relative z-[4];
+      }
+
+      & .lead_title {
+        @apply font-semibold animate-[fade-in-bottom-up_0.7s_ease-out];
+        letter-spacing: 0.02em;
+        font-size: clamp(35px, 5vw, 48px);
+      }
+    }
+  }
+}

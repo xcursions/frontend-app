@@ -108,7 +108,7 @@ const Footer = () => {
           </div>
           <div className="py-5 font-dmSansMedium md:pl-[30%] lg:pl-[40%] ">
             <span className=" text-[14px] text-gray-100 ">
-              © 2023{" "}
+              © {new Date().getFullYear()}
               <Link href="/" className="hover:underline">
                 Xcursions. All Rights Reserved.
               </Link>

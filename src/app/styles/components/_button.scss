@@ -1,0 +1,39 @@
+.secondaryDash {
+  @apply bg-[#0A83FF] dashEffect;
+}
+.ghostDash {
+  @apply bg-transparent dashEffect;
+}
+
+.dashEffect {
+  @apply relative px-[38px] py-[17px] rounded-[10000px] text-xs font-semibold tracking-[0.15em] text-primary;
+  vertical-align: middle;
+  height: initial;
+  display: inline-block !important;
+  & > * {
+    @apply ml-5 inline-block;
+    transition: transform 0.2s ease-out;
+  }
+
+  &::before {
+    content: "";
+    @apply absolute top-1/2 w-[11px] h-[1px];
+    background-color: currentColor;
+    display: inline-block;
+    transform: scaleX(1);
+    transition: 0.2s ease-out;
+    transition-delay: 0s;
+    transform-origin: left;
+    vertical-align: middle;
+  }
+  &:hover {
+    & > * {
+      transform: translateX(-10px) translateZ(0);
+    }
+
+    &::before {
+      transform: scaleX(0);
+      transition-delay: 0.05s;
+    }
+  }
+}
