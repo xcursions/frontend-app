@@ -30,17 +30,19 @@ const Navbar2 = () => {
     >
       <div className={styles.wrapper}>
         <div className={styles.lhs}>
-          <Image
-            src={
-              navbar
-                ? "/assets/images/landing-page/logo_white.png"
-                : "/assets/images/landing-page/logo_black.png"
-            }
-            alt="Xcursions Logo"
-            width={117}
-            height={25}
-            className="h-fit w-full"
-          />
+          <Link href="/">
+            <Image
+              src={
+                navbar
+                  ? "/assets/images/landing-page/logo_white.png"
+                  : "/assets/images/landing-page/logo_black.png"
+              }
+              alt="Xcursions Logo"
+              width={117}
+              height={25}
+              className="h-fit w-full"
+            />
+          </Link>
           <ul className={styles.lhs_links}>
             <li
               className={`font-dmSansSemiBold txt-14 hover:underline focus:underline ${

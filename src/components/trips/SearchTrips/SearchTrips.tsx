@@ -9,6 +9,7 @@ import { FiFilter } from "react-icons/fi";
 import Input from "@/components/lib/Input";
 import { Pagination } from "@/components/lib/Pagination";
 import Select from "@/components/lib/Select/Select";
+import TripCard from "@/components/public/LandingPage/AvailableTrips/TripCard";
 import useSuccessHandler from "@/hooks/useSuccessHandler";
 import {
   useFetchAllOutingsQuery,
@@ -19,7 +20,7 @@ import {
 import type { OutingProps } from "@/types";
 
 import styles from "./SearchTrips.module.scss";
-import TripCard from "./TripCard/TripCard";
+// import TripCard from "./TripCard/TripCard";
 
 const optionPrice = [
   { value: { minPrice: "0", maxPrice: "500000" }, label: "Under 500k" },
