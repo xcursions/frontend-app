@@ -4,12 +4,9 @@
 import React from "react";
 
 import Booking from "@/Pages/booking";
-import Layout from "@/ui-components/layout";
 
 export default () => (
   <div className="bg-[#ffffff]">
-    <Layout>
-      <Booking />
-    </Layout>
+    <Booking />
   </div>
 );

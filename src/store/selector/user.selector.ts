@@ -21,3 +21,7 @@ export const selectedUserId = createSelector(
   selectUser,
   (user) => user?.userId || user?.id
 );
+export const selectIsUserActivated = createSelector(
+  selectUser,
+  (userInfo) => userInfo?.emailVerified
+);

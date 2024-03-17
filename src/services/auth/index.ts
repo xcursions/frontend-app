@@ -5,6 +5,7 @@ import { HYDRATE } from "next-redux-wrapper";
 // import toaster from "react-hot-toast";
 import type { RootState } from "@/store";
 import { logout } from "@/store/slices/userSlice";
+import { getLocationFrom } from "@/utils";
 
 import type {
   ForgotPasswordOTPPayload,
@@ -25,12 +26,6 @@ const baseQuery = fetchBaseQuery({
     if (token) {
       headers.set("Authorization", token);
     }
-    // if (process.env.NODE_ENV !== 'production') {
-    //   headers.set(
-    //     'cors-bypass',
-    //     'n098JYr8xJlv5uh3Do3jwakZJeaYp9X3ziYJTSRZduEZN1MjGE'
-    //   );
-    // }
     return headers;
   },
 });
@@ -52,7 +47,8 @@ const baseQueryWithReauth = async (
       expectedErrorCodes.includes(errorData?.meta?.statusCode)
     ) {
       api.dispatch(logout());
-      window.location.replace("/login");
+      // window.location.replace("/login");
+      window.location.replace(`/login?from=${getLocationFrom()}`);
     }
   }
 

@@ -124,7 +124,7 @@ const Header = () => {
         <div className=" mx-auto max-w-[1440px]">
           <div className={styles.card_container}>
             {blogData.map((res) => (
-              <div key={res.id} className="cursor-pointer">
+              <div key={res.id} className="flex cursor-pointer flex-col">
                 <Link href={`/blog/${res.slug}`}>
                   <Image
                     width={800}
@@ -140,7 +140,7 @@ const Header = () => {
                 <Link href={`/blog/${res.slug}`}>
                   <Heading
                     type="h3"
-                    className="max-w-[350px] cursor-pointer font-dmSansBold text-[18px] lg:text-[21px]"
+                    className="max-w-[350px] cursor-pointer font-dmSansBold text-[18px]"
                   >
                     {res.title}
                   </Heading>

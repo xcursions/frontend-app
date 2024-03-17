@@ -1,38 +1,60 @@
 "use client";
 
 // eslint-disable-next-line simple-import-sort/imports
-import type { IUser } from "@/types";
-// import Cookies from "js-cookie";
+
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+
+import {
+  selectIsUserActivated,
+  selectUser,
+} from "@/store/selector/user.selector";
+
 import useAppSelector from "./useAppSelector";
 import { useLogoutUser } from "./useLogoutUser";
-import useUserData from "./useUserData";
+import { useUserData } from "./useUserData";
 
-const useAuth = (noAuth?: boolean | undefined) => {
+const useAuth = () => {
   const [isAuthenticating, setIsAuthenticating] = useState<boolean>(true);
-  const { user } = useAppSelector((state) => state.user);
-  const { token } = useAppSelector((state) => state.user);
-  // const userData = useUserData();
-  const [authData, setAuthData] = useState<IUser | null>(null);
+  const [authData, setAuthData] = useState<boolean | null>(null);
+  const userStore = useAppSelector(selectUser);
+  const userStoreId = userStore?.id;
+  const isUserActivated = useAppSelector(selectIsUserActivated);
+  const userId = useUserData()?.id;
+  const isUserDataActivated = useUserData()?.suspended;
+
   const endUserSession = useLogoutUser();
+  const router = useRouter();
+  const pathname = usePathname();
+  // @ts-ignore
+  const locationFrom = useSearchParams().get("clfrm");
 
   useEffect(() => {
-    (async () => {
-      if (user && token) {
-        setAuthData(user);
-      } else if ((!user || !token) && !noAuth) {
+    router.prefetch("/verify");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (userId) {
+      if (
+        (!isAuthenticating && !isUserActivated) ||
+        (!isAuthenticating && isUserDataActivated)
+      ) {
+        setAuthData(!!userId);
+        if (pathname !== "/verify") router.push(`/verify?clfrm=${pathname}`);
+      } else if (!isAuthenticating && userStore) {
+        setAuthData(!!userStore || !!userId);
+        if (pathname === "/verify")
+          router.push(locationFrom || "/user/dashboard");
+      } else if (!isAuthenticating && !userStoreId && !userId) {
         endUserSession();
       }
-    })();
-    setIsAuthenticating(false);
-    // return () => setIsAuthenticating(false);
-  }, [isAuthenticating, user]);
-
-  const isAuthenticated = !!token && !!authData;
-  useUserData({ skip: !isAuthenticated });
+      setIsAuthenticating(false);
+    }
+  }, [isAuthenticating, userId]);
 
   return {
-    isAuthenticated,
+    isAuthenticated: !!authData,
     authData,
     isAuthenticating,
   };

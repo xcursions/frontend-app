@@ -4,7 +4,6 @@ import React from "react";
 
 import BookedTripDetails from "@/Pages/booking/Details";
 import { useGetBookingByIdQuery } from "@/services/user";
-import Layout from "@/ui-components/layout";
 
 type RouteParams = {
   slug: string[];
@@ -19,9 +18,7 @@ const BookingDetails = ({ params }: { params: RouteParams }) => {
     });
   return (
     <div className="bg-[#F9FAFB]">
-      <Layout>
-        {isBookingSuccess && <BookedTripDetails detailsData={bookingData} />}
-      </Layout>
+      {isBookingSuccess && <BookedTripDetails detailsData={bookingData} />}
     </div>
   );
 };

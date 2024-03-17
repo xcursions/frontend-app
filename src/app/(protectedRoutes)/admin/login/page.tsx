@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 
 import Button from "@/components/lib/Button/Button";
@@ -25,6 +25,8 @@ const Login = () => {
   const [payload, setPayload] = useState(initialState);
   const [errors, setErrors] = useState(initialState);
   const router = useRouter();
+  // @ts-ignore
+  const fromRoute = useSearchParams().get("clfrm");
 
   const [login, { isLoading, isError, isSuccess, data, error }] =
     useLoginMutation();
@@ -35,7 +37,18 @@ const Login = () => {
       if (data?.data) {
         dispatch(setUserData(data?.data));
         dispatch(setUserToken(data?.meta?.token));
-        router.push("/admin/dashboard");
+        if (!data?.data?.emailVerified) router.push("/verify");
+        else if (!!fromRoute && fromRoute.includes("http"))
+          window.location.replace(fromRoute);
+        else
+          router.replace(
+            `${
+              !!fromRoute && fromRoute !== "null"
+                ? fromRoute
+                : "/admin/dashboard"
+            }`
+          );
+        // router.push("/admin/dashboard");
       }
       return null;
     },
@@ -62,7 +75,7 @@ const Login = () => {
         <Navbar text="black" logo="black" />
       </div>
       <div>
-        <Link href="/" className="mx-auto justify-center">
+        <Link href="/" className="mx-auto flex justify-center">
           <img
             src="/assets/images/landing-page/logo_black.png"
             alt="login image"

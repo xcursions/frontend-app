@@ -1,4 +1,6 @@
 import { authApi } from "@/services/auth";
+import type { IUser } from "@/types";
+import type { ApiResponseTypes } from "@/types/ApiResponseType";
 
 import type {
   ChangeEmailOtpPayload,
@@ -13,9 +15,11 @@ import type {
 
 export const userApi = authApi.injectEndpoints({
   endpoints: (builder) => ({
-    getUser: builder.query<any, any>({
+    getUser: builder.query<IUser, void>({
       query: () => ({ url: "/user", method: "GET" }),
       providesTags: ["User"],
+      transformResponse: (response: ApiResponseTypes<IUser>) =>
+        (response?.data as IUser) || {},
     }),
     changePassword: builder.mutation<any, ChangePasswordPayload>({
       query: (data) => ({

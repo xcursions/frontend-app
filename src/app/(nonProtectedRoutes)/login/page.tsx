@@ -4,8 +4,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { GoogleLogin } from "@react-oauth/google";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import React from "react";
 import { useForm } from "react-hook-form";
 import toaster from "react-hot-toast";
 import * as yup from "yup";
@@ -17,8 +17,7 @@ import Input from "@/components/lib/Input/Input";
 import { HorizontalLineIcon } from "@/components/lib/Svg";
 import Text from "@/components/lib/Text/Text";
 import Navbar from "@/components/public/Navbar";
-import { useAppDispatch, useAuth } from "@/hooks";
-import { useOnboardingChecker } from "@/hooks/useOnboardingChecker";
+import { useAppDispatch } from "@/hooks";
 import { useGoogleLoginMutation, useLoginMutation } from "@/services/auth";
 import {
   setUserAuthMethod,
@@ -33,9 +32,9 @@ const registerSchema = yup.object({
 
 const Login = () => {
   const dispatch = useAppDispatch();
-  const { isAuthenticated, authData } = useAuth();
-  const onboardingCheck = useOnboardingChecker();
   const router = useRouter();
+  // @ts-ignore
+  const fromRoute = useSearchParams().get("clfrm");
 
   const {
     register,
@@ -53,7 +52,18 @@ const Login = () => {
         dispatch(setUserToken(data?.meta?.token));
         dispatch(setUserAuthMethod("regular-auth"));
         toaster.success("Login Successful");
-        router.push("/user/dashboard");
+        if (!data?.data?.emailVerified) router.push("/verify");
+        else if (!!fromRoute && fromRoute.includes("http"))
+          window.location.replace(fromRoute);
+        else
+          router.replace(
+            `${
+              !!fromRoute && fromRoute !== "null"
+                ? fromRoute
+                : "/user/dashboard"
+            }`
+          );
+        // router.push("/user/dashboard");
       })
       .catch((error) => {
         toaster.error(error?.data?.meta?.message);
@@ -73,13 +83,13 @@ const Login = () => {
         toaster.error(error?.data?.meta?.message);
       });
   };
-  useEffect(() => {
-    if (isAuthenticated) {
-      onboardingCheck(authData);
-    }
-    router.push("/user/dashboard");
-    // return () => setDomLoading(false);
-  }, [isAuthenticated]);
+  // useEffect(() => {
+  //   if (isAuthenticated) {
+  //     onboardingCheck(authData);
+  //   }
+  //   router.push("/user/dashboard");
+  //   // return () => setDomLoading(false);
+  // }, [isAuthenticated]);
   return (
     <div className="w-full  overflow-hidden bg-[#FFFFFF]">
       <div className="flex">

@@ -4,7 +4,6 @@ import React from "react";
 
 import WalletTransactionDetails from "@/Pages/wallet/Details";
 import { useGetTransactionsByIdQuery } from "@/services/user";
-import Layout from "@/ui-components/layout";
 
 type RouteParams = {
   slug: string;
@@ -16,11 +15,9 @@ const TransactionDetails = ({ params }: { params: RouteParams }) => {
     useGetTransactionsByIdQuery(slug);
   return (
     <div className="bg-[#F9FAFB]">
-      <Layout>
-        {isTransactionSuccess && (
-          <WalletTransactionDetails detailsData={transactionData} />
-        )}
-      </Layout>
+      {isTransactionSuccess && (
+        <WalletTransactionDetails detailsData={transactionData} />
+      )}
     </div>
   );
 };

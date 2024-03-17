@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 
 import FullPageLoader from "@/components/lib/FullPageLoader";
 import { useAuth } from "@/hooks";
-import { useOnboardingChecker } from "@/hooks/useOnboardingChecker";
 
 import CalendarComponent from "../Calendar/Calendar";
 import Header from "../Header";
@@ -23,25 +22,22 @@ const Layout = ({ children }: any) => {
   }, []);
   const pathname = usePathname();
   const [domLoading, setDomLoading] = useState<boolean>(true);
+  const [appConfig, setAppConfig] = useState(false);
   const { isAuthenticated, authData } = useAuth();
-  const onboardingCheck = useOnboardingChecker();
-  // useEffect(() => {
-  //   if (!user?.suspended && user?.profile?.id && token) {
-  //     router.push(`${pathname}`);
-  //   } else {
-  //     router.push("/login");
-  //   }
-  // }, [user, router, pathname]);
+
   useEffect(() => {
-    if (isAuthenticated) {
-      onboardingCheck(authData);
+    if (authData) {
+      setAppConfig(true);
     }
-    setDomLoading(false);
-    // return () => setDomLoading(false);
   }, [isAuthenticated]);
+  useEffect(() => {
+    if (authData && isAuthenticated) {
+      setDomLoading(false);
+    }
+  }, [authData, isAuthenticated]);
   return (
     <>
-      {domLoading || !isAuthenticated ? (
+      {domLoading || !appConfig || !isAuthenticated ? (
         <FullPageLoader />
       ) : (
         <>
