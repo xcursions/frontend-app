@@ -4,12 +4,9 @@
 import React from "react";
 
 import Profile from "@/Pages/Profile";
-import Layout from "@/ui-components/layout";
 
 export default () => (
   <div className="bg-[#ffffff]">
-    <Layout>
-      <Profile />
-    </Layout>
+    <Profile />
   </div>
 );

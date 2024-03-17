@@ -4,12 +4,9 @@
 import React from "react";
 
 import Wallet from "@/Pages/wallet";
-import Layout from "@/ui-components/layout";
 
 export default () => (
   <div className="bg-[#ffffff]">
-    <Layout>
-      <Wallet />
-    </Layout>
+    <Wallet />
   </div>
 );

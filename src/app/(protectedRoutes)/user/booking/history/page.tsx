@@ -12,7 +12,6 @@ import { ArrowIcon, DownloadIcon } from "@/components/lib/Svg";
 import { DataTable } from "@/components/ui/data-table";
 import { useMediaQuery } from "@/hooks";
 import { useLazyGetBookingHistoryQuery } from "@/services/user";
-import Layout from "@/ui-components/layout";
 
 export type Payment = {
   id: string;
@@ -251,32 +250,30 @@ const History = () => {
   ];
   return (
     <div className=" bg-[#ffffff]">
-      <Layout>
-        <div className="xl:mx-[40px]">
-          <div className="mb-[32px] mt-[44px] flex items-center gap-3 font-dmSansBold text-[24px] font-bold">
-            <p onClick={router.back} className="cursor-pointer">
-              <ArrowIcon />
-            </p>
-            <p>Booking History</p>
-          </div>
-          <div className=" w-full bg-[#ffffff]">
-            {mobileScreen ? (
-              <DataTable columns={columns2} data={data} />
-            ) : (
-              <DataTable columns={columns} data={data} />
-            )}
-            {bookingHistorySuccess && (
-              <Pagination
-                className="pagination-bar my-8"
-                currentPage={currentPage}
-                totalCount={bookingHistory?.totalElements}
-                pageLimit={pageLimit}
-                onPageChange={(v) => setCurrentPage(v)}
-              />
-            )}
-          </div>
+      <div className="xl:mx-[40px]">
+        <div className="mb-[32px] mt-[44px] flex items-center gap-3 font-dmSansBold text-[24px] font-bold">
+          <p onClick={router.back} className="cursor-pointer">
+            <ArrowIcon />
+          </p>
+          <p>Booking History</p>
         </div>
-      </Layout>
+        <div className=" w-full bg-[#ffffff]">
+          {mobileScreen ? (
+            <DataTable columns={columns2} data={data} />
+          ) : (
+            <DataTable columns={columns} data={data} />
+          )}
+          {bookingHistorySuccess && (
+            <Pagination
+              className="pagination-bar my-8"
+              currentPage={currentPage}
+              totalCount={bookingHistory?.totalElements}
+              pageLimit={pageLimit}
+              onPageChange={(v) => setCurrentPage(v)}
+            />
+          )}
+        </div>
+      </div>
     </div>
   );
 };

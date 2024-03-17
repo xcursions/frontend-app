@@ -4,13 +4,9 @@
 import React from "react";
 
 import Dashboard from "@/Pages/dashboard";
-// import Vendor from "@/templates/Vendors";
-import Layout from "@/ui-components/layout";
 
 export default () => (
   <div className="bg-[#ffffff]">
-    <Layout>
-      <Dashboard />
-    </Layout>
+    <Dashboard />
   </div>
 );

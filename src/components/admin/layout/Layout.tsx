@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import FullPageLoader from "@/components/lib/FullPageLoader";
 import { useAppSelector, useAuth } from "@/hooks";
 
-// import { useGetUserQuery } from "@/services/user";
 import Header from "../Header/Header";
 import SidebarNavigation from "../SidebarNavigation/SidebarNavigation";
 
@@ -22,39 +21,50 @@ const Layout = ({ children }: any) => {
   }, []);
   const router = useRouter();
   const pathname = usePathname();
-  const { user, token } = useAppSelector((state) => state.user);
-  const { isAuthenticated } = useAuth(true);
-  // const { data, isSuccess } = useGetUserQuery();
-
-  // const userExists = isSuccess && data?.data?.id;
+  const [domLoading, setDomLoading] = useState<boolean>(true);
+  const [appConfig, setAppConfig] = useState(false);
+  const { user } = useAppSelector((state) => state.user);
+  const { isAuthenticated, authData } = useAuth();
 
   useEffect(() => {
-    if (
-      !user?.suspended &&
-      user?.profile?.id &&
-      token &&
-      user?.role === "admin"
-    ) {
+    if (authData) {
+      setAppConfig(true);
+    }
+  }, [isAuthenticated]);
+  useEffect(() => {
+    if (authData && isAuthenticated) {
+      setDomLoading(false);
+    }
+  }, [authData, isAuthenticated]);
+
+  useEffect(() => {
+    if (user?.role === "admin") {
       router.push(`${pathname}`);
     } else {
       router.push("/admin/login");
     }
-  }, [user, router, token, pathname]);
+  }, [user, router, pathname]);
   return (
     <>
-      {!isAuthenticated ? (
+      {domLoading || !appConfig || !isAuthenticated ? (
         <FullPageLoader />
       ) : (
         <>
-          <SidebarNavigation
-            toggleSidebarMenu={toggleSidebarMenu}
-            sidebarMenuActive={sidebarMenuActive}
-          />
-          <Header
-            toggleSidebarMenu={toggleSidebarMenu}
-            // @ts-ignore
-            showSidebarMenu={showSidebarMenu}
-          />
+          {!pathname?.startsWith("/admin/login") && (
+            <>
+              {" "}
+              <SidebarNavigation
+                toggleSidebarMenu={toggleSidebarMenu}
+                sidebarMenuActive={sidebarMenuActive}
+              />
+              <Header
+                toggleSidebarMenu={toggleSidebarMenu}
+                // @ts-ignore
+                showSidebarMenu={showSidebarMenu}
+              />
+            </>
+          )}
+
           <section className="content">{children}</section>
         </>
       )}

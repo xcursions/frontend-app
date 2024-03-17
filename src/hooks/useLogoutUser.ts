@@ -1,20 +1,19 @@
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import { logout } from "@/store/slices/userSlice";
-import { loginRedirect } from "@/utils/serversideProps.helper";
 
+// import { loginRedirect } from "@/utils/serversideProps.helper";
 import useAppDispatch from "./useAppDispatch";
 
 export const useLogoutUser = () => {
   const dispatch = useAppDispatch();
-  const pathname = usePathname();
+  // const pathname = usePathname();
   const router = useRouter();
 
   const clearUserStorage = () => {
     dispatch(logout());
-    // @ts-ignore
-    const destination = loginRedirect(pathname);
-    router.push(destination);
+    // const destination = loginRedirect(pathname);
+    router.push("/login");
   };
 
   /**

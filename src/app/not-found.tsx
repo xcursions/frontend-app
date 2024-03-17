@@ -1,12 +1,12 @@
 import Link from "next/link";
 
 import Button from "@/components/lib/Button/Button";
-import Navbar from "@/components/public/Navbar";
+import Navbar2 from "@/components/public/Navbar2";
 
 export default function NotFound() {
   return (
     <div className="bg-[#ffffff]">
-      <Navbar text={"black"} logo={"black"} />
+      <Navbar2 />
       <div className="flex h-[100vh] items-center justify-center">
         <div className="text-center">
           <h1>404 - Page Not Found</h1>
