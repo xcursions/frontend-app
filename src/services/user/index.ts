@@ -168,6 +168,13 @@ export const userApi = authApi.injectEndpoints({
       }),
       invalidatesTags: ["UserInfo"],
     }),
+    deleteOutingLike: builder.mutation<any, any>({
+      query: (query) => ({
+        url: `/outing-likes/${query}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["UserInfo"],
+    }),
     getOutingLike: builder.query<any, any>({
       query: (query) => ({
         url: `/outing-likes/outings${query}`,
@@ -303,6 +310,7 @@ export const {
   useMarkNotificationMutation,
   useGetUpcomingScheduleQuery,
   useCreateOutingLikeMutation,
+  useDeleteOutingLikeMutation,
   useGetOutingLikeQuery,
   useLazyGetOutingLikeQuery,
   useCreatePaymentCardMutation,

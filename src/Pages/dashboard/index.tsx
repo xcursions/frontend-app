@@ -5,7 +5,8 @@ import { useState } from "react";
 
 import EventCard from "@/components/lib/EventCard/EventCard";
 import Text from "@/components/lib/Text/Text";
-import TripCard from "@/components/lib/TripCard/TripCard";
+import TripCard from "@/components/public/LandingPage/AvailableTrips/TripCard";
+// import TripCard from "@/components/lib/TripCard/TripCard";
 import { useAppSelector, useErrorHandler, useSuccessHandler } from "@/hooks";
 import {
   useGetAllOutingsQuery,
