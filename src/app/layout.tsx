@@ -1,17 +1,24 @@
 /* eslint-disable @next/next/no-before-interactive-script-outside-document */
-import "./globals.scss";
+import "./styles/main.scss";
 
 import type { Metadata } from "next";
+import { DM_Sans } from "next/font/google";
 import Script from "next/script";
 import { Suspense } from "react";
 import { Toaster } from "react-hot-toast";
 
-import Whatsapp from "@/components/lib/Whatsapp";
+// import Whatsapp from "@/components/lib/Whatsapp";
 import { FacebookPixelEvents } from "@/components/pixelEvent/pixelEvent";
 import { toastOptions } from "@/utils/config";
 
 import { Providers } from "./GlobalRedux/provider";
 
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  variable: "--font-dmSans",
+  display: "swap",
+  weight: "400",
+});
 export const metadata: Metadata = {
   title: "Xcursions",
   description:
@@ -116,13 +123,13 @@ export default function RootLayout({
         })`,
         }}
       />
-      <body>
+      <body className={`${dmSans.variable}`}>
         <Providers>
           {children}
           <Suspense>
             <FacebookPixelEvents />
           </Suspense>
-          <Whatsapp />
+          {/* <Whatsapp /> */}
           <Toaster position="top-right" toastOptions={toastOptions} />
         </Providers>
       </body>

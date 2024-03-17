@@ -5,8 +5,7 @@
 
 .size {
   &__small {
-    @apply min-h-[30px] min-w-[90px] px-3 text-xs lg:min-h-[40px] 
-    lg:min-w-[120px];
+    @apply min-h-[30px] min-w-[80px] px-3 text-xs;
   }
 
   &__medium {

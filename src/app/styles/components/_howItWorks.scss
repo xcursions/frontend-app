@@ -1,0 +1,53 @@
+.xcursion_hiw {
+    width: 100%;
+    &_wrapper {
+        @apply mt-7 mx-auto flex w-full max-w-[1160px] flex-col gap-[24px];
+        .header {
+            text-align: center;
+            font-size: clamp(24px, 6vw, 36px);
+            font-weight: 700;
+        }
+        .paragraph {
+            text-align: center;
+            font-size: clamp(14px, 6vw, 16px);
+            font-weight: 400;
+            color: #344054;
+        }
+    }
+    &_card_container {
+        display: flex;
+        flex-direction: row;
+        gap: 5%;
+        margin-top: 40px;
+        justify-content: center;
+        align-items: center;
+        margin: 20px;
+        @include breakpoint(mobile-lg) {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin: 10px;
+        }
+        &__txt {
+            width: 100%;
+            max-width: 380px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            text-align: start;
+            h4 {
+                font-size: 24px;
+                font-weight: 700;
+                line-height: 31px;
+                color: #101828;
+                margin-left: 8px;
+            }
+            p {
+                font-size: clamp(14px, 8vw, 16px);
+                color: #475467;
+                font-weight: 400;
+                line-height: 28px;
+            }
+        }
+    }
+}

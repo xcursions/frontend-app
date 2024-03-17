@@ -154,7 +154,7 @@ const Header = ({ toggleSidebarMenu }: any) => {
                 // @ts-ignore
                 count={
                   notificationData?.result.filter((res: any) => !res.isRead)
-                    .length
+                    .length || null
                 }
                 screenCenter={false}
               >

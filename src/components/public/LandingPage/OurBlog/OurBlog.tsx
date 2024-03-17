@@ -1,0 +1,70 @@
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import React, { useState } from "react";
+
+import Button from "@/components/lib/Button";
+import useSuccessHandler from "@/hooks/useSuccessHandler";
+import { useGetAllBlogQuery } from "@/services/public";
+import type BlogProps from "@/types/BlogProps";
+
+const OurBlog = () => {
+  const [blogData, setBlogData] = useState<BlogProps[]>([]);
+  const { data: blogDetails, isSuccess: blogSuccess } = useGetAllBlogQuery({
+    pageLimit: 4,
+    currentPage: 1,
+    search: "",
+  });
+  useSuccessHandler({
+    isSuccess: blogSuccess,
+    showToast: false,
+    dependencies: [blogDetails],
+    successFunction: () => {
+      if (blogDetails.result.length > 0) {
+        setBlogData(blogDetails.result);
+      }
+    },
+  });
+  return (
+    <>
+      {blogDetails?.result?.length > 0 ? (
+        <div className="xcursion_availableTrips_wrapper mb-10">
+          <div className="xcursion_availableTrips_header">
+            <div>
+              <h3>Our Blog</h3>
+              <p>Listen to our stories</p>
+            </div>
+            <div className="button">
+              <Link href={"/blog"}>
+                <Button className="rounded-[1000px]">View all</Button>
+              </Link>
+            </div>
+          </div>
+          <div className="mx-3 mt-5 grid grid-cols-1 gap-3 object-fill sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
+            {blogData.map((blog) => (
+              <div key={blog.id}>
+                <Image
+                  width={350}
+                  height={273}
+                  alt={blog.title}
+                  src={blog.blogFeaturedImage.image}
+                  className="h-[273px] w-full rounded-xl"
+                />
+                <p className="txt-10 fw-700 mt-2 break-words uppercase text-[#667084]">
+                  {blog.categories.length > 0
+                    ? blog?.categories[0]?.name
+                    : null}{" "}
+                  <span> • {blog.readTimeInMinute} MINS Read</span>
+                </p>
+                <h4 className="txt-18 fw-700">{blog.title}</h4>
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : null}
+    </>
+  );
+};
+
+export default OurBlog;
