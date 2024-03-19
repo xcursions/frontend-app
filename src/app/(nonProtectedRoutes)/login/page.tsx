@@ -59,7 +59,7 @@ const Login = () => {
           router.replace(
             `${
               !!fromRoute && fromRoute !== "null"
-                ? fromRoute
+                ? decodeURIComponent(fromRoute)
                 : "/user/dashboard"
             }`
           );
@@ -77,7 +77,17 @@ const Login = () => {
         dispatch(setUserToken(data?.meta?.token));
         dispatch(setUserAuthMethod("social-auth"));
         toaster.success("Successfully logged in using Google");
-        router.push("/user/dashboard");
+        if (!data?.data?.emailVerified) router.push("/verify");
+        else if (!!fromRoute && fromRoute.includes("http"))
+          window.location.replace(fromRoute);
+        else
+          router.replace(
+            `${
+              !!fromRoute && fromRoute !== "null"
+                ? decodeURIComponent(fromRoute)
+                : "/user/dashboard"
+            }`
+          );
       })
       .catch((error) => {
         toaster.error(error?.data?.meta?.message);

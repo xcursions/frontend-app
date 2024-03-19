@@ -44,7 +44,7 @@ const Login = () => {
           router.replace(
             `${
               !!fromRoute && fromRoute !== "null"
-                ? fromRoute
+                ? decodeURIComponent(fromRoute)
                 : "/admin/dashboard"
             }`
           );
