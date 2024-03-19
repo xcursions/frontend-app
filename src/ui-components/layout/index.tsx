@@ -1,10 +1,10 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import FullPageLoader from "@/components/lib/FullPageLoader";
-import { useAuth } from "@/hooks";
+import { useAppSelector, useAuth } from "@/hooks";
 
 import CalendarComponent from "../Calendar/Calendar";
 import Header from "../Header";
@@ -21,7 +21,9 @@ const Layout = ({ children }: any) => {
     setSidebarMenuActive(window.innerWidth > 768 ? true : false);
   }, []);
   const pathname = usePathname();
+  const router = useRouter();
   const [domLoading, setDomLoading] = useState<boolean>(true);
+  const { user } = useAppSelector((state) => state.user);
   const [appConfig, setAppConfig] = useState(false);
   const { isAuthenticated, authData } = useAuth();
 
@@ -35,6 +37,11 @@ const Layout = ({ children }: any) => {
       setDomLoading(false);
     }
   }, [authData, isAuthenticated]);
+  useEffect(() => {
+    if (!user) {
+      router.push(`/login?clfrm=${pathname}`);
+    }
+  }, [user, router, pathname]);
   return (
     <>
       {domLoading || !appConfig || !isAuthenticated ? (

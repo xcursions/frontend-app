@@ -70,6 +70,8 @@ const userSlice = createSlice({
       localStorage.removeItem("xcursions-booking");
       Cookies.remove("xcursions-token");
       state.user = null;
+      state.token = null;
+      state.booking = null;
     },
   },
 });

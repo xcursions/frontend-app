@@ -289,6 +289,7 @@ export const {
   useUpdateUserPictureMutation,
   useUpdateUserProfileMutation,
   useGetUserProfileQuery,
+  useLazyGetUserProfileQuery,
   useGetWalletBalanceQuery,
   useCreateBookingMutation,
   useLazyGetTransactionsQuery,
