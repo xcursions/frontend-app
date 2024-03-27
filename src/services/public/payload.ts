@@ -13,3 +13,16 @@ export type GetOutingByContinentPaylod = {
   type?: string;
   month?: string;
 };
+
+export type VisaApplicationPayload = {
+  visaCountry: string;
+  nationality: string;
+  hasPassport: boolean;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  maritalStatus: string;
+  dateOfBirth: string;
+  travelHistory: string;
+};

@@ -48,7 +48,9 @@ const baseQueryWithReauth = async (
     ) {
       api.dispatch(logout());
       // window.location.replace("/login");
-      window.location.replace(`/login?from=${getLocationFrom()}`);
+      window.location.replace(
+        `/login?clfrm=${decodeURIComponent(getLocationFrom())}`
+      );
     }
   }
 

@@ -1,0 +1,25 @@
+.xcursions_visa {
+    background-color: $color-white;
+    width: 100%;
+    &_wrapper {
+        width: 100%;
+        max-width: 1300px;
+        padding-left: 5%;
+        padding-right: 5%;
+        padding-top: 25px;
+        padding-bottom: 25px;
+        margin: 0 auto;
+        display: flex;
+        gap: 30px;
+        // flex-wrap: wrap;
+        justify-content: center;
+        // justify-content: space-between;
+    }
+    &_lhs {
+        width: 100%;
+        display: flex;
+        max-width: 530px;
+        flex-direction: column;
+        gap: 20px;
+    }
+}
