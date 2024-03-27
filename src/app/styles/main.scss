@@ -19,9 +19,11 @@
 @import "components/howItWorks";
 @import "components/tripCard";
 @import "components/whyChooseUs";
+@import "components/checkbox";
 
 // Pages
 @import "page/home";
+@import "page/visa";
 
 @layer base {
     :root {
