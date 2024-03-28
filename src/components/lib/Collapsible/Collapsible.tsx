@@ -107,7 +107,11 @@ export const Collapsible: React.FC<CollapsibleProps> = ({
         className={`mep-collapsible_header`}
       >
         <div className="mep-collapsible_header_txt">
-          <h4 className={"txt-14 fw-500 mep-collapsible_header_txt_title"}>
+          <h4
+            className={
+              "txt-14 fw-400 mep-collapsible_header_txt_title font-dmSansRegular"
+            }
+          >
             {title}
           </h4>
           <p className={"txt-12 mep-collapsible_header_txt_subtitle"}>
