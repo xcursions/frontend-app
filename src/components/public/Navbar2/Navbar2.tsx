@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 
 import Button from "@/components/lib/Button";
 import { Collapsible } from "@/components/lib/Collapsible";
-import { CancelIcon, HamburgerIcon, NigeriaIcon } from "@/components/lib/Svg";
+import { CancelIcon, HamburgerIcon } from "@/components/lib/Svg";
 import { useAppSelector } from "@/hooks";
 
 import styles from "./Navbar.module.scss";
@@ -70,7 +70,7 @@ const Navbar2 = () => {
                 Pathname === "/blog" ? " text-[#0A83FF] underline" : ""
               }`}
             >
-              <Link href="/blog">Blogs</Link>
+              <Link href="/blog">Blog</Link>
             </li>
             <li className="font-dmSansSemiBold">
               <Collapsible
@@ -78,16 +78,21 @@ const Navbar2 = () => {
                 title="More"
                 // wrapperClassName=" min-w-[52px]"
               >
-                <p className="mb-2 cursor-pointer">Custom Trips</p>
-                <p>Book Flights</p>
+                <Link href="/" className="mb-2 cursor-pointer">
+                  <p>Custom Trips</p>
+                </Link>
+                <br />
+                <Link href="/">
+                  <p>Book Flights</p>
+                </Link>
               </Collapsible>
             </li>
           </ul>
         </div>
         <div className={styles.rhs}>
           <div className="hidden items-center gap-1 md:flex">
-            <NigeriaIcon />
-            <p className="txt-14 fw-500">NGN (₦) Naira</p>
+            {/* <NigeriaIcon />
+            <p className="txt-14 fw-500">NGN (₦) Naira</p> */}
             {isLoggedIn ? (
               <Link href={"/user/dashboard"}>
                 <div className="flex items-center gap-1">
@@ -139,13 +144,13 @@ const Navbar2 = () => {
             Events
           </Link>
           <Link href="/blog" className=" txt-white txt-28 fw-700">
-            Blogs
+            Blog
           </Link>
-          <div className="flex gap-2">
+          {/* <div className="flex gap-2">
             {" "}
             <NigeriaIcon />
             <p className="txt-14 fw-500">NGN (₦) Naira</p>
-          </div>
+          </div> */}
           {isLoggedIn ? (
             <Link href={"/user/dashboard"}>
               <div className="flex items-center gap-1">

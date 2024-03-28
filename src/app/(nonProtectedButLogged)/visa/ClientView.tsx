@@ -34,6 +34,7 @@ const marritalOption = [
 ];
 const ClientView = () => {
   const [loading, setLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const [createVisa] = useCreateVisaApplicationMutation();
   const onSubmit = (formValues: any) => {
@@ -57,6 +58,14 @@ const ClientView = () => {
     },
   });
   const currentState = watch();
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  // Function to close the modal
+  const closeModal = () => {
+    setIsOpen(false);
+  };
   return (
     <div className="xcursions_visa_wrapper">
       <div className="xcursions_visa_lhs">
@@ -68,7 +77,7 @@ const ClientView = () => {
           <span>Back</span>
         </p>
         <h1 className=" txt-24 fw-700">Start Visa Application</h1>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form>
           <section className="flex flex-col gap-2 lg:flex-row">
             <Input
               label="Country you need visa for"
@@ -166,7 +175,7 @@ const ClientView = () => {
               Conditions . I also confirm that the informations provided are
               accurate.
             </p>
-            <Button className=" mt-4 w-full" type="submit" loading={loading}>
+            <Button className=" mt-4 w-full" type="button" onClick={openModal}>
               Continue
             </Button>
           </div>
@@ -181,8 +190,44 @@ const ClientView = () => {
           className="max-h-[430px] w-full min-w-[320px] max-w-[360px] rounded-md object-cover"
         />
       </div>
+      {/** Popup modal */}
+      {isOpen && (
+        <div className="modal">
+          <div className="modal_content">
+            <span className="close" onClick={closeModal}>
+              &times;
+            </span>
+            <div className=" flex flex-col items-center justify-center gap-3 pt-4 text-center md:pt-2">
+              <Image
+                src="/assets/images/icons/passport.png"
+                alt="visa image"
+                width={100}
+                height={100}
+              />
+
+              <p className=" txt-16 fw-500 text-[#101828]">
+                Complete your visa enquiry process by booking a 30 minute
+                consultation with an expert!
+              </p>
+              <p className=" txt-14 fw-400 text-[#475467]">
+                You will be charged{" "}
+                <span className=" text-[#0A83FF]">₦5,000</span>for this service.
+                This will be deducted from your visa application fee.
+              </p>
+              <Button
+                className=" txt-14 fw-400 h-[40px] w-full rounded-[10000px]"
+                onClick={handleSubmit(onSubmit)}
+                loading={loading}
+              >
+                Proceed to Payment
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
 export default ClientView;
+// onSubmit={handleSubmit(onSubmit)}
