@@ -145,7 +145,7 @@ const Search = () => {
             <Select
               placeholder={"Select Continents"}
               label="Location"
-              startIcon={"/assets/images/landing-page/map.png"}
+              startIcon={"/assets/images/icons/map.png"}
               value={queryLocation}
               onChange={(event) => setQueryLocation(event.value)}
               options={continent.map(
@@ -182,7 +182,7 @@ const Search = () => {
               placeholder={"When Are You Going?"}
               label="Select Month"
               value={queryMonth}
-              startIcon={"/assets/images/landing-page/calendar.png"}
+              startIcon={"/assets/images/icons/calendar.png"}
               onChange={(event) => setQueryMonth(event.value)}
               options={month.map(
                 (option: { month: string; totalOuting: number }) => ({
@@ -198,7 +198,7 @@ const Search = () => {
             placeholder={"Select an Option"}
             label="Price"
             value={price}
-            startIcon={"/assets/images/landing-page/dollar.png"}
+            startIcon={"/assets/images/icons/naira2.png"}
             onChange={(event) => setPrice(event.value)}
             options={optionPrice.map((option) => ({
               value: `${option.value.minPrice}-${option.value.maxPrice}`,

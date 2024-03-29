@@ -26,8 +26,8 @@ const Select: FC<SelectProps> = ({
 
         <div className={`${styles.container} ${containerClass || ""}`}>
           {startIcon && (
-            <div className={`${styles.icon} ml-3 rounded-lg bg-white`}>
-              <img src={startIcon} alt="icon" className="" />
+            <div className={`${styles.icon} ml-3 bg-white`}>
+              <img src={startIcon} alt="icon" className=" h-[20px] w-[20px]" />
             </div>
           )}
 
