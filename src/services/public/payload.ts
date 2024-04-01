@@ -36,5 +36,5 @@ export type CustomTripPayload = {
   budgetPerPersonExcludingFlight: number;
   otherActivities: string;
   notes: string;
-  referredFrom?: string | null;
+  referredFrom?: string;
 };
