@@ -26,3 +26,15 @@ export type VisaApplicationPayload = {
   dateOfBirth: string;
   travelHistory: string;
 };
+
+export type CustomTripPayload = {
+  toCountry: string;
+  numberOfPersons: number;
+  otherDestinations: string;
+  specialOccasion?: string;
+  travelDates: string;
+  budgetPerPersonExcludingFlight: number;
+  otherActivities: string;
+  notes: string;
+  referredFrom?: string;
+};

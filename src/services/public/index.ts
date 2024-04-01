@@ -2,6 +2,7 @@ import { authApi } from "@/services/auth";
 import type { ApiResponseTypes } from "@/types/ApiResponseType";
 
 import type {
+  CustomTripPayload,
   GetOutingByContinentPaylod,
   VisaApplicationPayload,
 } from "./payload";
@@ -146,6 +147,16 @@ export const publicApi = authApi.injectEndpoints({
         body: { ...data },
       }),
     }),
+    createCustomTrips: builder.mutation<
+      ApiResponseTypes<unknown>,
+      CustomTripPayload
+    >({
+      query: (data) => ({
+        url: "/custom-trips/trips",
+        method: "POST",
+        body: { ...data },
+      }),
+    }),
   }),
 });
 export const {
@@ -168,4 +179,5 @@ export const {
   useGetOutingByTypeQuery,
   useFetchAllOutingsQuery,
   useCreateVisaApplicationMutation,
+  useCreateCustomTripsMutation,
 } = publicApi;

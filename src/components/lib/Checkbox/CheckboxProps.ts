@@ -4,7 +4,7 @@ export default interface CheckboxProps
   wrapperClassname?: string;
   labelClassname?: string;
   type?: string;
-  label?: string;
+  label?: React.ReactNode | string;
   name?: string;
   indeterminate?: any;
 }
