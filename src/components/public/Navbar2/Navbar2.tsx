@@ -78,7 +78,14 @@ const Navbar2 = () => {
                 title="More"
                 // wrapperClassName=" min-w-[52px]"
               >
-                <Link href="/" className="mb-2 cursor-pointer">
+                <Link
+                  href="/custom-trip"
+                  className={`font-dmSansSemiBold txt-14 mb-2  hover:underline focus:underline ${
+                    Pathname === "/custom-trip"
+                      ? " text-[#0A83FF] underline"
+                      : ""
+                  }`}
+                >
                   <p>Custom Trips</p>
                 </Link>
                 <br />
@@ -111,14 +118,8 @@ const Navbar2 = () => {
               </Link>
             ) : (
               <div className="flex gap-2">
-                <Link
-                  href={"/login"}
-                  className="rounded-[10000px] border border-[#0A83FF] px-3 text-[#0A83FF]"
-                >
-                  Login
-                </Link>
-                <Link href={"/signup"}>
-                  <Button className="rounded-[10000px]">Signup</Button>
+                <Link href={"/login"}>
+                  <Button className="rounded-[10000px]">Sign In</Button>
                 </Link>
               </div>
             )}
@@ -169,17 +170,17 @@ const Navbar2 = () => {
             </Link>
           ) : (
             <div className="flex w-full flex-col items-center gap-3">
-              <Link
+              {/* <Link
                 href={"/login"}
                 className=" m-auto flex min-h-[40px] w-full max-w-[80%] items-center justify-center rounded-[1000px] bg-white text-center text-[#0A83FF]"
               >
                 Login
-              </Link>
+              </Link> */}
               <Link
-                href={"/signup"}
+                href={"/login"}
                 className=" m-auto flex min-h-[40px] w-full max-w-[80%] items-center justify-center rounded-[1000px] bg-[#064F99] text-center"
               >
-                Signup
+                Sign In
               </Link>
             </div>
           )}

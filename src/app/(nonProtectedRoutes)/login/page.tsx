@@ -5,13 +5,14 @@ import { GoogleLogin } from "@react-oauth/google";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import toaster from "react-hot-toast";
 import * as yup from "yup";
 
 // import { LoginSocialFacebook } from "reactjs-social-login";
 import Button from "@/components/lib/Button/Button";
+import Checkbox from "@/components/lib/Checkbox";
 import Heading from "@/components/lib/Heading/Heading";
 import Input from "@/components/lib/Input/Input";
 import { HorizontalLineIcon } from "@/components/lib/Svg";
@@ -44,6 +45,7 @@ const Login = () => {
 
   const [login, { isLoading }] = useLoginMutation();
   const [googleLogin] = useGoogleLoginMutation();
+  const [isChecked, setIsChecked] = useState(false);
   const onSubmit = (formValues: any) => {
     login(formValues)
       .unwrap()
@@ -121,11 +123,12 @@ const Login = () => {
           <div className="absolute bottom-5 hidden pb-[40px] pl-[40px] text-[#FFFFFF] lg:block">
             <Text className="font-dmSansMedium text-[30px]">
               ⛲️ <br />
-              Escape to Paradise!
+              Your adventure awaits…
             </Text>
             <Text className="max-w-[419px] font-dmSansRegular text-[14px]">
-              Book your dream vacation today with our exclusive travel deals.
-              Unbeatable prices, top-notch service.
+              Xcursions members earn points with every booking and gain access
+              to exclusive deals tailored to optimize your travel experience.
+              Sign in today!
             </Text>
           </div>
         </div>
@@ -138,10 +141,10 @@ const Login = () => {
               type="h1"
               className="m-auto text-center font-dmSansBold text-[24px]"
             >
-              Your gateway to unforgettable journeys 🏝️
+              Login or create an account 🏝️
             </Heading>
             <Text className="text-center text-[14px] text-[#667084]">
-              Get Access to your account
+              Unravel the ‘easy’ in travel from one account
             </Text>
             <div className="my-5 flex flex-col items-center gap-3 lg:flex-row">
               <div className=" mt-5">
@@ -205,9 +208,32 @@ const Login = () => {
                   Forgot Password
                 </Text>
               </Link>
+              <Checkbox
+                checked={isChecked}
+                label={
+                  <p className="txt-12">
+                    By continuing, I have read and agreed to our{" "}
+                    <Link href={"/terms"} className=" font-dmSansItalic italic">
+                      Terms and Conditions
+                    </Link>
+                    , and{" "}
+                    <Link
+                      href={"/privacy-policy"}
+                      className=" font-dmSansItalic italic"
+                    >
+                      Xcursions Privacy
+                    </Link>{" "}
+                    Statement
+                  </p>
+                }
+                className="pb-5"
+                id="terms"
+                onClick={() => setIsChecked(!isChecked)}
+              />
               <Button
                 type="submit"
                 loading={isLoading}
+                disabled={!isChecked}
                 className="w-full rounded-3xl bg-[#0A83FF] text-[16px]"
               >
                 Login
