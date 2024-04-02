@@ -130,7 +130,7 @@ const ClientView = () => {
             errorMsg={errors.referredFrom?.message}
           />
           <Button
-            className=" w-full"
+            className=" mt-4 h-[40px] w-full"
             type="submit"
             loading={isLoading}
             disabled={isLoading}
