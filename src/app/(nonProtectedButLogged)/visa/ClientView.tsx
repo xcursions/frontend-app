@@ -175,7 +175,11 @@ const ClientView = () => {
               Conditions . I also confirm that the informations provided are
               accurate.
             </p>
-            <Button className=" mt-4 w-full" type="button" onClick={openModal}>
+            <Button
+              className=" mt-4 h-[40px] w-full"
+              type="button"
+              onClick={openModal}
+            >
               Continue
             </Button>
           </div>
