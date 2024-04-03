@@ -85,3 +85,18 @@ export const getDatesInRange = (
 
   return years;
 };
+
+export function isLessThan20DaysFromNow(date: Date) {
+  // Get the current date
+  const currentDate = new Date();
+
+  // Add 20 days to the current date
+  const twentyDaysFromNow = new Date(currentDate);
+  twentyDaysFromNow.setDate(currentDate.getDate() + 21);
+
+  // Convert the given date to milliseconds since Epoch
+  const givenDateMs = date.getTime();
+
+  // Return true if the given date is less than 20 days from now
+  return givenDateMs < twentyDaysFromNow.getTime();
+}
