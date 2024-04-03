@@ -57,6 +57,7 @@ import {
 } from "@/services/user";
 import { setUserBooking } from "@/store/slices/userSlice";
 import type { OutingProps } from "@/types";
+import { isLessThan20DaysFromNow } from "@/utils";
 import { HandleCopyLink } from "@/utils/handleCopyLink";
 
 import Addon from "../Addon/Addon";
@@ -81,8 +82,8 @@ const TripDetails = ({ detailsData }: Props) => {
   const dispatch = useAppDispatch();
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(),
-    to: addDays(new Date(), 4),
+    from: addDays(new Date(), 21),
+    to: addDays(new Date(), 25),
   });
   const [selectedItems, setSelectedItems] = useState<any[]>([]);
   const [selectedTrip, setSelectedTrip] = useState<"private" | "group">(
@@ -201,9 +202,13 @@ const TripDetails = ({ detailsData }: Props) => {
     toastMessage: "Outing has been added to your favorites",
   });
   const handleSubmit = () => {
-    if (!user) {
-      toaster.error("You need to be signed in");
-      router.push("/login");
+    if (selectedTrip === "private") {
+      const isAllowed = isLessThan20DaysFromNow(date.from);
+      if (isAllowed) {
+        toaster.error("Start date cannot be less than 21 days from now");
+      } else {
+        createBooking({ query: detailsData.id, data: payload });
+      }
     } else {
       createBooking({ query: detailsData.id, data: payload });
     }
