@@ -140,7 +140,7 @@ const BookedTripDetails = ({ detailsData }: Props) => {
     },
   ];
   return (
-    <div className="mx-[20px] w-full bg-[#F9FAFB] pb-[80px] text-[#101828] xl:mx-[50px]">
+    <div className="mx-[20px] w-full bg-[#F9FAFB] pb-[80px] pr-10  pt-10 text-[#101828] xl:mx-[50px]">
       <div className="mx-auto mt-[25px] flex w-full justify-between xl:mt-[40px]">
         <div className="flex items-center gap-2">
           <span onClick={router.back} className="cursor-pointer">

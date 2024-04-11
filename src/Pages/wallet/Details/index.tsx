@@ -67,7 +67,7 @@ const WalletTransactionDetails = ({ detailsData }: Props) => {
       });
   }, [ref]);
   return (
-    <div className="mx-[20px] bg-[#F9FAFB] pb-[80px] text-[#101828] xl:mx-[50px]">
+    <div className="mx-[20px] bg-[#F9FAFB] pb-[80px] pr-10 pt-10 text-[#101828] xl:mx-[50px]">
       <div className="my-[25px] flex justify-between xl:my-[40px]">
         <div className="flex items-center gap-2">
           <span onClick={router.back} className="cursor-pointer">
