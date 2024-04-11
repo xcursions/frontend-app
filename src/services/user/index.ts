@@ -273,6 +273,16 @@ export const userApi = authApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    generatePayForMeLink: builder.mutation<
+      ApiResponseTypes<unknown>,
+      { id: any; data: any }
+    >({
+      query: ({ id, data }) => ({
+        url: `checkout/bookings/${id}/pay-for-me`,
+        method: "POST",
+        body: { ...data },
+      }),
+    }),
     logout: builder.mutation<any, any>({
       query: () => ({ url: "/user/logout/", method: "POST" }),
     }),
@@ -321,4 +331,5 @@ export const {
   useCreatePaymentCardPinMutation,
   useGenerateReferalCodeMutation,
   useGetReferralHistoryQuery,
+  useGeneratePayForMeLinkMutation,
 } = userApi;

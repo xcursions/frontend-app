@@ -41,7 +41,7 @@ const OurBlog = () => {
               </Link>
             </div>
           </div>
-          <div className="mx-3 mt-5 grid grid-cols-1 gap-3 object-fill sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="mx-3 mt-5 grid grid-cols-2 gap-3 object-fill sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
             {blogData.map((blog) => (
               <div key={blog.id}>
                 <Image
@@ -57,7 +57,7 @@ const OurBlog = () => {
                     : null}{" "}
                   <span> • {blog.readTimeInMinute} MINS Read</span>
                 </p>
-                <h4 className="txt-18 fw-700">{blog.title}</h4>
+                <h4 className="txt-18 fw-700 txt-truncate">{blog.title}</h4>
               </div>
             ))}
           </div>

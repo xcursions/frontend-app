@@ -89,9 +89,9 @@ const Navbar2 = () => {
                   <p>Custom Trips</p>
                 </Link>
                 <br />
-                <Link href="/">
-                  <p>Book Flights</p>
-                </Link>
+                <p className=" cursor-not-allowed text-gray-400">
+                  Book Flights
+                </p>
               </Collapsible>
             </li>
           </ul>
