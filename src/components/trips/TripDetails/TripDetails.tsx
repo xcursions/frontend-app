@@ -80,19 +80,27 @@ const initialState = {
 };
 const TripDetails = ({ detailsData }: Props) => {
   const dispatch = useAppDispatch();
+  const router = useRouter();
+  const { user } = useAppSelector((state) => state.user);
+
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [date, setDate] = React.useState<DateRange | undefined>({
-    from: addDays(new Date(), 21),
-    to: addDays(new Date(), 25),
+    from: addDays(new Date(), 31),
+    to: addDays(new Date(), 35),
   });
   const [selectedItems, setSelectedItems] = useState<any[]>([]);
   const [selectedTrip, setSelectedTrip] = useState<"private" | "group">(
     detailsData?.subType === "private" ? "private" : "group"
   );
-  const { user } = useAppSelector((state) => state.user);
   const [galleryOpen, setGalleryOpen] = useState(false);
   const [useCouple, setUseCouple] = useState(false);
   const [payload, setPayload] = useState(initialState);
+
+  const { numOfAdults } = payload || 0;
+  const { numOfChildren } = payload || 0;
+  const { numOfInfants } = payload || 0;
+  const goingWithYou = numOfAdults + numOfChildren + numOfInfants;
+
   const { data: outingData, isSuccess: outingSuccess } = useGetOutingAddOnQuery(
     detailsData.id
   );
@@ -107,8 +115,15 @@ const TripDetails = ({ detailsData }: Props) => {
       error: bookingError,
     },
   ] = useCreateBookingMutation();
-  const [bookingCost, { data: bookingPrice, isSuccess: bookingPriceSuccess }] =
-    useGetBookingCostMutation();
+  const [
+    bookingCost,
+    {
+      data: bookingPrice,
+      isSuccess: bookingPriceSuccess,
+      isError: isBookingPriceError,
+      error: bookingPriceError,
+    },
+  ] = useGetBookingCostMutation();
   const [getLikeData, { data: likedData }] = useLazyGetOutingLikeQuery();
   const { data: reviewData, isSuccess: reviewSuccess } = useGetReviewsQuery(
     detailsData.id
@@ -117,7 +132,41 @@ const TripDetails = ({ detailsData }: Props) => {
     createLike,
     { isSuccess: isLikeSuccess, isError: isLikeError, error: likeError },
   ] = useCreateOutingLikeMutation();
-  const router = useRouter();
+
+  useEffect(() => {
+    if (selectedTrip === "private") {
+      setPayload({
+        ...payload,
+        outingDateId: undefined,
+        startDate: date?.from,
+        endDate: date?.to,
+        useCoupleCost: useCouple,
+        outingSubType: selectedTrip,
+      });
+    } else {
+      setPayload({
+        ...payload,
+        startDate: undefined,
+        endDate: undefined,
+        useCoupleCost: useCouple,
+        outingSubType: selectedTrip,
+      });
+    }
+  }, [selectedTrip, date, useCouple]);
+  useEffect(() => {
+    if (payload.outingDateId) {
+      bookingCost({ query: detailsData.id, data: payload });
+    }
+    if (selectedTrip === "private") {
+      bookingCost({ query: detailsData.id, data: payload });
+    }
+  }, [payload]);
+  useEffect(() => {
+    if (user) {
+      getLikeData("?type=tour");
+    }
+  }, []);
+
   const handleOpen = () => {
     setGalleryOpen(true);
   };
@@ -157,34 +206,9 @@ const TripDetails = ({ detailsData }: Props) => {
       setPayload({ ...payload, addonIds: [...payload.addonIds, item.id] });
     }
   };
-  const { numOfAdults } = payload || 0;
-  const { numOfChildren } = payload || 0;
-  const { numOfInfants } = payload || 0;
-  const goingWithYou = numOfAdults + numOfChildren + numOfInfants;
-  useEffect(() => {
-    if (selectedTrip === "private") {
-      setPayload({
-        ...payload,
-        outingDateId: undefined,
-        startDate: date?.from,
-        endDate: date?.to,
-        useCoupleCost: useCouple,
-        outingSubType: selectedTrip,
-      });
-    } else {
-      setPayload({
-        ...payload,
-        startDate: undefined,
-        endDate: undefined,
-        useCoupleCost: useCouple,
-        outingSubType: selectedTrip,
-      });
-    }
-  }, [selectedTrip, date, useCouple]);
-  useEffect(() => {
-    bookingCost({ query: detailsData.id, data: payload });
-  }, [payload]);
+
   useErrorHandler({ isError: isBookingError, error: bookingError });
+  useErrorHandler({ isError: isBookingPriceError, error: bookingPriceError });
   useSuccessHandler({
     isSuccess: bookingSuccess,
     successFunction: () => {
@@ -201,6 +225,7 @@ const TripDetails = ({ detailsData }: Props) => {
     isSuccess: isLikeSuccess,
     toastMessage: "Outing has been added to your favorites",
   });
+
   const handleSubmit = () => {
     if (selectedTrip === "private") {
       const isAllowed = isLessThan20DaysFromNow(date.from);
@@ -220,11 +245,6 @@ const TripDetails = ({ detailsData }: Props) => {
       toaster.error("You need to be signed in");
     }
   };
-  useEffect(() => {
-    if (user) {
-      getLikeData("?type=tour");
-    }
-  }, []);
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>

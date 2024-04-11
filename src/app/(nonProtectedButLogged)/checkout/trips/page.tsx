@@ -19,8 +19,16 @@ import {
 import FullPageLoader from "@/components/lib/FullPageLoader";
 import Heading from "@/components/lib/Heading";
 import Input from "@/components/lib/Input";
+import Loader from "@/components/lib/Loader";
 import { SubtractDate } from "@/components/lib/SubtractDate/SubtractDate";
-import { InfoIcon } from "@/components/lib/Svg";
+import {
+  CopyIcon,
+  FacebookIcon,
+  InfoIcon,
+  InstagramIcon,
+  TwitterIcon,
+  WhatsappIcon,
+} from "@/components/lib/Svg";
 import Text from "@/components/lib/Text/Text";
 import { CalculateVat } from "@/components/lib/VatCalculator/VatCalculator";
 import Footer from "@/components/public/Footer/Footer";
@@ -35,11 +43,13 @@ import {
 } from "@/hooks";
 import { useGetAllOutingsQuery } from "@/services/public";
 import {
+  useGeneratePayForMeLinkMutation,
   useGetBookingByIdQuery,
   useHandleBookingParticipantsMutation,
   useHandleCheckoutMutation,
 } from "@/services/user";
 import { useGetSavingPlanSummaryMutation } from "@/services/user/savingPlan";
+import { HandleCopyLink } from "@/utils/handleCopyLink";
 
 import styles from "../page.module.scss";
 
@@ -90,10 +100,24 @@ const Page = () => {
       error: bookingParticipantError,
     },
   ] = useHandleBookingParticipantsMutation();
+  const [
+    payForMe,
+    {
+      data: payForMeData,
+      isSuccess: isPayForMeSuccess,
+      isLoading: isPayForMeLoading,
+      isError: isPayForMeError,
+      error: payForMeError,
+    },
+  ] = useGeneratePayForMeLinkMutation();
 
   useErrorHandler({
     isError: isBookingParticipantError,
     error: bookingParticipantError,
+  });
+  useErrorHandler({
+    isError: isPayForMeError,
+    error: payForMeError,
   });
   useErrorHandler({
     isError: isCheckoutError,
@@ -185,7 +209,23 @@ const Page = () => {
       });
     }
   };
-
+  const handlePayForMe = () => {
+    if (plan === "instant") {
+      payForMe({
+        id: booking?.id,
+        data: { paymentMethod: plan, channel: "paystack" },
+      });
+    } else {
+      payForMe({
+        id: booking?.id,
+        data: {
+          paymentMethod: plan,
+          channel: "paystack",
+          periodicPaymentType: paymentFrequency,
+        },
+      });
+    }
+  };
   const handleSavingSubmit = () => {
     if (paymentChannel === "wallet" && plan === "saving-plan") {
       handleCheckout({
@@ -231,7 +271,7 @@ const Page = () => {
   const toggleModal = () => {
     setIsOpen(!isOpen);
   };
-
+  console.log(payForMeData);
   return (
     <>
       {!isAuthenticated ? (
@@ -442,6 +482,60 @@ const Page = () => {
                                   Monthly
                                 </div>
                               </div>
+                              {isPayForMeLoading && !isPayForMeSuccess ? (
+                                <Loader />
+                              ) : (
+                                <p
+                                  className=" txt-14 fw-500 mt-3 cursor-pointer"
+                                  onClick={handlePayForMe}
+                                >
+                                  Pay for me?{" "}
+                                  <span className=" text-[#0A83FF] underline">
+                                    Generate link
+                                  </span>
+                                </p>
+                              )}
+                              {isPayForMeSuccess ? (
+                                <>
+                                  <div className="mt-[40px] flex max-w-[370px] cursor-pointer items-center justify-between rounded-3xl border p-3">
+                                    <Text>{payForMeData?.depositLink}</Text>
+                                    <HandleCopyLink
+                                      link={payForMeData?.depositLink}
+                                      icon={CopyIcon}
+                                    />
+                                  </div>
+                                  <div className="mt-3 flex gap-4">
+                                    <HandleCopyLink
+                                      link={payForMeData?.depositLink}
+                                      icon={FacebookIcon}
+                                      location="facebook"
+                                      type="share"
+                                      styles="flex h-[32px] w-[32px] items-center justify-center rounded-[100px] bg-[#F2F4F7]"
+                                    />
+                                    <HandleCopyLink
+                                      link={payForMeData?.depositLink}
+                                      icon={TwitterIcon}
+                                      location="twitter"
+                                      type="share"
+                                      styles="flex h-[32px] w-[32px] items-center justify-center rounded-[100px] bg-[#F2F4F7]"
+                                    />
+                                    <HandleCopyLink
+                                      link={payForMeData?.depositLink}
+                                      icon={InstagramIcon}
+                                      location="instagram"
+                                      type="share"
+                                      styles="flex h-[32px] w-[32px] items-center justify-center rounded-[100px] bg-[#F2F4F7]"
+                                    />
+                                    <HandleCopyLink
+                                      link={payForMeData?.depositLink}
+                                      icon={WhatsappIcon}
+                                      location="whatsapp"
+                                      type="share"
+                                      styles="flex h-[32px] w-[32px] items-center justify-center rounded-[100px] bg-[#F2F4F7]"
+                                    />
+                                  </div>
+                                </>
+                              ) : null}
                               <p className="mt-[24px] text-[12px] text-[#F04438]">
                                 You must complete payment before the payment
                                 deadline
@@ -506,15 +600,73 @@ const Page = () => {
                           </div>
                         )}
                         {plan !== "saving-plan" && (
-                          <Button
-                            className="my-5 mb-6 rounded-3xl"
-                            disabled={
-                              plan !== "instant" || (count > 1 && !data[0].name)
-                            }
-                            onClick={toggleModal}
-                          >
-                            Pay Now
-                          </Button>
+                          <>
+                            {isPayForMeLoading && !isPayForMeSuccess ? (
+                              <Loader />
+                            ) : (
+                              <p
+                                className=" txt-14 fw-500 mt-3 cursor-pointer"
+                                onClick={handlePayForMe}
+                              >
+                                Pay for me?{" "}
+                                <span className=" text-[#0A83FF] underline">
+                                  Generate link
+                                </span>
+                              </p>
+                            )}
+                            {isPayForMeSuccess ? (
+                              <>
+                                <div className="mt-[40px] flex max-w-[370px] cursor-pointer items-center justify-between rounded-3xl border p-3">
+                                  <Text>{payForMeData?.depositLink}</Text>
+                                  <HandleCopyLink
+                                    link={payForMeData?.depositLink}
+                                    icon={CopyIcon}
+                                  />
+                                </div>
+                                <div className="mt-3 flex gap-4">
+                                  <HandleCopyLink
+                                    link={payForMeData?.depositLink}
+                                    icon={FacebookIcon}
+                                    location="facebook"
+                                    type="share"
+                                    styles="flex h-[32px] w-[32px] items-center justify-center rounded-[100px] bg-[#F2F4F7]"
+                                  />
+                                  <HandleCopyLink
+                                    link={payForMeData?.depositLink}
+                                    icon={TwitterIcon}
+                                    location="twitter"
+                                    type="share"
+                                    styles="flex h-[32px] w-[32px] items-center justify-center rounded-[100px] bg-[#F2F4F7]"
+                                  />
+                                  <HandleCopyLink
+                                    link={payForMeData?.depositLink}
+                                    icon={InstagramIcon}
+                                    location="instagram"
+                                    type="share"
+                                    styles="flex h-[32px] w-[32px] items-center justify-center rounded-[100px] bg-[#F2F4F7]"
+                                  />
+                                  <HandleCopyLink
+                                    link={payForMeData?.depositLink}
+                                    icon={WhatsappIcon}
+                                    location="whatsapp"
+                                    type="share"
+                                    styles="flex h-[32px] w-[32px] items-center justify-center rounded-[100px] bg-[#F2F4F7]"
+                                  />
+                                </div>
+                              </>
+                            ) : null}
+
+                            <Button
+                              className="my-5 mb-6 rounded-3xl"
+                              disabled={
+                                plan !== "instant" ||
+                                (count > 1 && !data[0].name)
+                              }
+                              onClick={toggleModal}
+                            >
+                              Pay Now
+                            </Button>
+                          </>
                         )}
                         {isBookingParticipantLoading ||
                           (isLoading && <FullPageLoader />)}

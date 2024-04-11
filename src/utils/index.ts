@@ -92,7 +92,7 @@ export function isLessThan20DaysFromNow(date: Date) {
 
   // Add 20 days to the current date
   const twentyDaysFromNow = new Date(currentDate);
-  twentyDaysFromNow.setDate(currentDate.getDate() + 21);
+  twentyDaysFromNow.setDate(currentDate.getDate() + 31);
 
   // Convert the given date to milliseconds since Epoch
   const givenDateMs = date.getTime();
