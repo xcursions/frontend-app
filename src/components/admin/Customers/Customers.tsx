@@ -37,12 +37,14 @@ const AllCustomers = () => {
   const [selected, setSelected] = useState<Payment>();
   const router = useRouter();
   const pageLimit = 10;
+
   const {
     data: customerData,
     isSuccess: isCustomerSuccess,
     isError: isCustomerError,
     error: customerError,
   } = useGetAllCustomersQuery({ pageLimit, currentPage });
+
   const [
     updateCustomerStatus,
     { isSuccess: isUpdateSuccess, isError: isUpdateError, error: updateError },
@@ -72,6 +74,7 @@ const AllCustomers = () => {
     isError: isCustomerError,
     error: customerError,
   });
+
   const data =
     isCustomerSuccess &&
     customerData.result.map((res: IUser) => {
@@ -88,12 +91,14 @@ const AllCustomers = () => {
           res?.profile?.avatarUrl || "/assets/images/icons/profile_avatar.jpeg",
       };
     });
+
   const toggleModal = () => {
     setIsOpen(!isOpen);
   };
   const handleDelete = (id: string) => {
     deleteCustomerStatus(id);
   };
+
   const columns: ColumnDef<Payment>[] = [
     {
       accessorKey: "name",
@@ -154,7 +159,7 @@ const AllCustomers = () => {
     },
     {
       accessorKey: "amount",
-      header: () => <div className="text-sm font-semibold">Total Paid</div>,
+      header: () => <div className="text-sm font-semibold">Total Spent</div>,
       cell: ({ row }) => {
         const value = row.original;
         const amount = parseInt(row.getValue("amount"), 10).toLocaleString();

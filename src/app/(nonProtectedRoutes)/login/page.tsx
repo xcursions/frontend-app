@@ -122,7 +122,6 @@ const Login = () => {
           <div className="absolute inset-0 hidden bg-black opacity-10 lg:block"></div>
           <div className="absolute bottom-5 hidden pb-[40px] pl-[40px] text-[#FFFFFF] lg:block">
             <Text className="font-dmSansMedium text-[30px]">
-              ⛲️ <br />
               Your adventure awaits…
             </Text>
             <Text className="max-w-[419px] font-dmSansRegular text-[14px]">
@@ -141,7 +140,7 @@ const Login = () => {
               type="h1"
               className="m-auto text-center font-dmSansBold text-[24px]"
             >
-              Login or create an account 🏝️
+              Login or create an account
             </Heading>
             <Text className="text-center text-[14px] text-[#667084]">
               Unravel the ‘easy’ in travel from one account

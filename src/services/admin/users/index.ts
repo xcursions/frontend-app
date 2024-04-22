@@ -17,6 +17,7 @@ export const adminUsersApi = authApi.injectEndpoints({
         url: `/admin-analytic/users/${id}`,
         method: "GET",
       }),
+      providesTags: ["Admin"],
     }),
     updateSingleCustomer: builder.mutation<any, any>({
       query: ({ query, data }) => ({

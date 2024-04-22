@@ -1,0 +1,23 @@
+
+.top_container {
+    display: flex;
+    gap: 64px;
+    margin-top: 32px;
+}
+.title_container {
+    width: 495px;
+    display: flex;
+    gap: 25px;
+    flex-direction: column;
+}
+.image_container {
+    border: 1px dashed #D0D5DD; /* 1px width, dotted style, black color */
+    background-color: #ffffff;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 246px;
+    width: 531px;
+  }

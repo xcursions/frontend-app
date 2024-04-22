@@ -39,3 +39,25 @@ export type CreateBlogPostPayload = {
   featured: boolean;
   categoryIds?: any[];
 };
+
+export interface FundUserPayload {
+  amount: number;
+}
+
+export interface CreateBannerPayload {
+  title: string;
+  description: string;
+  ctaLink: string;
+  status: string;
+}
+
+export interface BannerResponse {
+  id: string;
+  title: string;
+  ctaLink: string;
+  status: string;
+  description: string;
+  createdAt: string;
+  imageUrl: string;
+  deletedAt: string | null;
+}

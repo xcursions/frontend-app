@@ -81,7 +81,7 @@ const TripCard = ({ post }: Props) => {
         key={`${post.id}`}
       >
         <Image
-          className="xcursions_tripcard_image"
+          className="xcursions_tripcard_image object-cover"
           width={290}
           height={222}
           src={

@@ -1,13 +1,19 @@
 "use client";
 
+import { yupResolver } from "@hookform/resolvers/yup";
 import type { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { RiDeleteBin6Line, RiEdit2Fill } from "react-icons/ri";
+import * as Yup from "yup";
 
 import Button from "@/components/lib/Button";
 import CopyToClipboard from "@/components/lib/CopyToClipboard";
+import Heading from "@/components/lib/Heading";
+import Input from "@/components/lib/Input";
 import Loader from "@/components/lib/Loader";
 import MaskString from "@/components/lib/MaskString/MaskString";
 import { Pagination } from "@/components/lib/Pagination";
@@ -15,7 +21,11 @@ import { ArrowIcon } from "@/components/lib/Svg";
 import Text from "@/components/lib/Text";
 import { Switch } from "@/components/ui/switch";
 import { useSuccessHandler } from "@/hooks";
-import { useGetBookingByUserIdQuery } from "@/services/admin/transaction";
+import type { FundUserPayload } from "@/services/admin/payload";
+import {
+  useFundUserMutation,
+  useGetBookingByUserIdQuery,
+} from "@/services/admin/transaction";
 import type { IUser } from "@/types";
 import { standardDate } from "@/utils/standardDate";
 
@@ -40,12 +50,27 @@ type BookingHistoryProp = {
   createdAt: string;
   bookingStatus: string;
 };
+const FundUserSchema = Yup.object({
+  amount: Yup.number().min(1000).required("An amount is required"),
+});
+
 const CustomerDetails = ({ detailsData }: Props) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [bookingHistory, setBookingHistory] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({ resolver: yupResolver(FundUserSchema) });
+
   const pageLimit = 10;
   const userId = detailsData.id;
+
   const router = useRouter();
+
   const {
     data: bookingHistoryData,
     isSuccess,
@@ -55,6 +80,8 @@ const CustomerDetails = ({ detailsData }: Props) => {
     pageLimit,
     currentPage,
   });
+  const [fundUser, { isLoading: fundingLoading }] = useFundUserMutation();
+
   const data = detailsData?.userReferrals.map((res, idx) => {
     return {
       name: res?.referredUser?.profile?.fullName,
@@ -66,6 +93,7 @@ const CustomerDetails = ({ detailsData }: Props) => {
         "/assets/images/icons/profile_avatar.jpeg",
     };
   });
+
   const historyData = bookingHistory.map((res: any) => {
     return {
       id: res?.id,
@@ -76,6 +104,7 @@ const CustomerDetails = ({ detailsData }: Props) => {
       paymentStatus: res?.bookingPayment[0].status,
     };
   });
+
   useSuccessHandler({
     isSuccess,
     showToast: false,
@@ -86,6 +115,26 @@ const CustomerDetails = ({ detailsData }: Props) => {
       }
     },
   });
+
+  const toggleModal = () => {
+    setIsOpen(!isOpen);
+  };
+  const onSubmit = (formValues: FundUserPayload) => {
+    fundUser({ id: userId, data: formValues })
+      .unwrap()
+      .then((res: any) => {
+        toast.success(
+          `${res?.purpose} ₦${parseInt(res?.amount, 10).toLocaleString()} ${
+            res?.status
+          }` ?? "Successful"
+        );
+        reset();
+      })
+      .catch((error) => console.error(error));
+    reset();
+    setIsOpen(!isOpen);
+  };
+
   const columns: ColumnDef<Payment>[] = [
     {
       accessorKey: "id",
@@ -260,15 +309,21 @@ const CustomerDetails = ({ detailsData }: Props) => {
           <span onClick={router.back} className="cursor-pointer">
             <ArrowIcon />
           </span>
-          <Text className=" font-dmSansBold  text-2xl">Trip Details</Text>
+          <Text className=" font-dmSansBold  text-2xl">Customer Info</Text>
         </div>
         <div className="flex gap-2">
           <Button
             variant="outline"
-            className="mx-auto flex h-[35px]  items-center justify-center gap-1 rounded-[100px] border-[#0A83FF] text-center text-xs"
+            className="mx-auto flex h-[35px]  items-center justify-center gap-1 rounded-[100px] text-center text-xs"
             onClick={() => {}}
           >
             <RiEdit2Fill /> Edit
+          </Button>
+          <Button
+            className="mx-auto flex h-[35px]  items-center justify-center gap-1 rounded-[100px] text-center text-xs"
+            onClick={toggleModal}
+          >
+            Fund Account
           </Button>
           <Button
             className="mx-auto flex h-[35px] items-center justify-center gap-1 rounded-[100px] bg-[#F04438] text-center text-xs"
@@ -339,11 +394,7 @@ const CustomerDetails = ({ detailsData }: Props) => {
               <div>
                 <Text className="text-sm">Balance</Text>
                 <Text className="font-dmSansBold text-sm font-bold">
-                  ₦
-                  {parseInt(
-                    detailsData?.user_booking_info?.totalAmountPaid,
-                    10
-                  ).toLocaleString()}
+                  ₦{parseInt(detailsData?.wallet?.amount, 10).toLocaleString()}
                 </Text>
               </div>
               <div>
@@ -395,6 +446,44 @@ const CustomerDetails = ({ detailsData }: Props) => {
             </div>
           </div>
         </div>
+        {isOpen ? (
+          <div>
+            <div
+              className="fixed inset-0 z-[31] bg-[#021A3366] opacity-75"
+              onClick={toggleModal}
+            ></div>
+            <form
+              className="fixed inset-0 left-[30px] z-[32] flex w-[326px] items-center justify-center lg:left-[510px] lg:w-[418px]"
+              onSubmit={handleSubmit(onSubmit)}
+            >
+              <div className="w-full rounded-3xl bg-white p-5 shadow-lg">
+                <div className="flex justify-between">
+                  <Heading type="h3">Fund Wallet</Heading>
+                  <p
+                    className="cursor-pointer font-dmSansBold text-[16px] text-[#98A2B3]"
+                    onClick={toggleModal}
+                  >
+                    X
+                  </p>
+                </div>
+                <Input
+                  label="Amount"
+                  placeholder="Enter amount here"
+                  type="number"
+                  register={register("amount")}
+                  errorMsg={errors.amount?.message}
+                />
+                <Button
+                  type="submit"
+                  className=" mt-5 w-full rounded-3xl"
+                  loading={fundingLoading}
+                >
+                  Credit Account
+                </Button>
+              </div>
+            </form>
+          </div>
+        ) : null}
       </div>
     </div>
   );

@@ -104,6 +104,15 @@ const Login = () => {
               helperText={errors.identity}
               onChange={handleChange}
             />
+            {/* <Input
+              label="Email Address"
+              placeholder="Enter your email address"
+              name="identity"
+              value={payload.identity}
+              error={!isEmpty(errors.identity)}
+              helperText={errors.identity}
+              onChange={handleChange}
+            /> */}
             <Input
               label="Password"
               name="password"
@@ -114,6 +123,16 @@ const Login = () => {
               helperText={errors.password}
               onChange={handleChange}
             />
+            {/* <Input
+              label="Password"
+              name="password"
+              placeholder="Enter Password"
+              type="password"
+              value={payload.password}
+              error={!isEmpty(errors.password)}
+              helperText={errors.password}
+              onChange={handleChange}
+            /> */}
             <Text className=" pb-5 pt-3 text-center text-[14px] text-[#0A83FF] underline">
               <Link href="/forgot-password">Forgot Password</Link>
             </Text>
