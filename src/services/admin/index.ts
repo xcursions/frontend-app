@@ -1,6 +1,8 @@
 import { authApi } from "@/services/auth";
+import type { ApiResponseTypes } from "@/types/ApiResponseType";
 
 import type {
+  CreateBannerPayload,
   CreateBlogPostPayload,
   CreateBlogTagsPayload,
   CreateOutingChargePlanPayload,
@@ -258,6 +260,54 @@ export const adminApi = authApi.injectEndpoints({
       }),
       invalidatesTags: ["Admin"],
     }),
+    createBanner: builder.mutation<any, CreateBannerPayload>({
+      query: (data) => ({
+        url: "/campaigns/campaigns",
+        method: "POST",
+        body: { ...data },
+      }),
+      invalidatesTags: ["Admin"],
+    }),
+    createBannerImage: builder.mutation<any, any>({
+      query: ({ id, data }) => ({
+        url: `/campaigns/campaigns/advert-image/${id}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["Admin"],
+    }),
+    getAllBanner: builder.query<any, void>({
+      query: () => ({
+        url: "/campaigns/campaigns",
+        method: "GET",
+      }),
+      providesTags: ["Admin"],
+    }),
+    getSingleBanner: builder.query<any, string>({
+      query: (id) => ({
+        url: `/campaigns/campaigns/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["Admin"],
+    }),
+    updateBanner: builder.mutation<
+      any,
+      { id: string; data: CreateBannerPayload }
+    >({
+      query: ({ id, data }) => ({
+        url: `/campaigns/campaigns/${id}`,
+        method: "PUT",
+        body: { ...data },
+      }),
+      invalidatesTags: ["Admin"],
+    }),
+    deleteBanner: builder.mutation<ApiResponseTypes<unknown>, string>({
+      query: (id) => ({
+        url: `/campaigns/campaigns/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Admin"],
+    }),
   }),
 });
 export const {
@@ -293,4 +343,10 @@ export const {
   useDeleteOutingGalleryImageMutation,
   useCreateOutingDateMutation,
   useDeleteOutingDateMutation,
+  useCreateBannerMutation,
+  useCreateBannerImageMutation,
+  useDeleteBannerMutation,
+  useUpdateBannerMutation,
+  useGetAllBannerQuery,
+  useGetSingleBannerQuery,
 } = adminApi;

@@ -165,14 +165,14 @@ const ClientView = () => {
               />
             </section>
             <Input
-              label="Travel history in the last 5 years to either (UK, USA , Europe , UAE , South Africa )"
+              label="Travel history in the last 5 years"
               className="w-full"
               register={register("travelHistory")}
               errorMsg={errors.travelHistory?.message}
             />
             <p className=" txt-14 fw-400 mt-2">
-              By clicking the next , I confirm that I have read the Terms and
-              Conditions . I also confirm that the informations provided are
+              By clicking the continue , I confirm that I have read the Terms
+              and Conditions . I also confirm that the informations provided are
               accurate.
             </p>
             <Button

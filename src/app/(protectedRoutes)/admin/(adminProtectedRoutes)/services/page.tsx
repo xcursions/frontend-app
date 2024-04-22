@@ -24,11 +24,14 @@ import useErrorHandler from "@/hooks/useErrorHandler";
 import useSuccessHandler from "@/hooks/useSuccessHandler";
 import {
   useCreateOutingMutation,
+  useDeleteBannerMutation,
   useDeleteBlogMutation,
   useDeleteOutingMutation,
+  useGetAllBannerQuery,
   useGetBlogPostQuery,
   useLazyGetOutingsQuery,
 } from "@/services/admin";
+import type { BannerResponse } from "@/services/admin/payload";
 import type { BlogProps, OutingProps } from "@/types";
 import { standardDate } from "@/utils/standardDate";
 
@@ -61,16 +64,29 @@ export type BlogPayment = {
   createdAt: string;
   image: string;
 };
+interface BannerPayment {
+  id: string;
+  title: string;
+  ctaLink: string;
+  status: string;
+  description: string;
+  createdAt: string;
+  image: string;
+}
+
 const Page = () => {
   const [newTrip, setNewTrip] = useState(false);
   const [isBlog, setIsBlog] = useState(false);
+  const [isBanner, setIsBanner] = useState(false);
   const [outingType, setOutingType] = useState("tour");
   const [payload, setPayload] = useState(initialState);
-  const router = useRouter();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currentPageBlog, setCurrentPageBlog] = useState<number>(1);
   const [activeForm, setActiveForm] = useState("");
+
+  const router = useRouter();
   const pageLimit = 10;
+
   const [
     createOuting,
     {
@@ -91,6 +107,21 @@ const Page = () => {
     pageLimit,
     currentPage: currentPageBlog,
   });
+  const { data: bannerDetails, isSuccess: bannerSuccess } =
+    useGetAllBannerQuery();
+  const [deleteBanner, { isSuccess: deleteBannerSuccess }] =
+    useDeleteBannerMutation();
+
+  useEffect(() => {
+    setPayload({ ...payload, type: outingType });
+  }, [outingType]);
+  useEffect(() => {
+    getOuting(`?type=${outingType}&limit=${pageLimit}&page=${currentPage}`);
+  }, [currentPage, pageLimit, outingType]);
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [outingType]);
+
   useErrorHandler({
     isError: isProfileError,
     error: profileError,
@@ -110,9 +141,11 @@ const Page = () => {
     isSuccess: deleteBlogSuccess,
     toastMessage: "Blog Post Deleted",
   });
-  useEffect(() => {
-    setPayload({ ...payload, type: outingType });
-  }, [outingType]);
+  useSuccessHandler({
+    isSuccess: deleteBannerSuccess,
+    toastMessage: "Banner Deleted",
+  });
+
   const handleOpenOffCanvas = (formType: string) => {
     setActiveForm(formType);
     setNewTrip(true);
@@ -122,15 +155,10 @@ const Page = () => {
     setNewTrip(false);
     // refetch();
   };
-  useEffect(() => {
-    getOuting(`?type=${outingType}&limit=${pageLimit}&page=${currentPage}`);
-  }, [currentPage, pageLimit, outingType]);
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [outingType]);
   const handleCreateOuting = () => {
     createOuting(payload);
   };
+
   const data =
     outingSuccess &&
     outingData.result.map((res: OutingProps) => {
@@ -157,6 +185,20 @@ const Page = () => {
         image: res?.blogFeaturedImage?.image,
       };
     });
+
+  const bannerData =
+    bannerSuccess &&
+    bannerDetails.result.map((res: BannerResponse) => {
+      return {
+        title: res.title,
+        id: res.id,
+        status: res.status,
+        ctaLink: res.ctaLink,
+        createdAt: res.createdAt.split("T")[0],
+        image: res?.imageUrl,
+      };
+    });
+
   const columns: ColumnDef<Payment>[] = [
     {
       accessorKey: "trip",
@@ -245,6 +287,7 @@ const Page = () => {
       },
     },
   ];
+
   const blogColumns: ColumnDef<BlogPayment>[] = [
     {
       accessorKey: "image",
@@ -325,6 +368,106 @@ const Page = () => {
       },
     },
   ];
+
+  const bannerColumns: ColumnDef<BannerPayment>[] = [
+    {
+      accessorKey: "image",
+      header: () => <div className="font-dmSansMedium text-sm">Image</div>,
+      cell: ({ row }) => {
+        const value = row.original;
+        return (
+          <div
+            className={`cursor-pointer items-center gap-3 text-[14px] font-medium text-[#101828]`}
+            onClick={() => router.push(`/admin/services/banner/${value.id}`)}
+          >
+            <Image
+              src={value.image || "/assets/images/trip/card3.png"}
+              alt={`${value.title}`}
+              width={50}
+              height={50}
+              className="h-[50px] w-[50px] rounded-full"
+            />
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "title",
+      header: () => <div className="font-dmSansMedium text-sm">Title</div>,
+      cell: ({ row }) => {
+        const value = row.original;
+        return (
+          <div
+            className={`cursor-pointer items-center gap-3 text-[14px] font-medium text-[#101828]`}
+            onClick={() => router.push(`/admin/services/banner/${value.id}`)}
+          >
+            <span>{value.title}</span>
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "createdAt",
+      header: () => (
+        <div className="font-dmSansMedium text-sm">Date Published</div>
+      ),
+      cell: ({ row }) => {
+        const value = row.original;
+        return (
+          <div
+            className={`cursor-pointer items-center gap-3 text-[14px] font-medium text-[#101828]`}
+            onClick={() => router.push(`/admin/services/banner/${value.id}`)}
+          >
+            {standardDate(value.createdAt)}
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "status",
+      header: () => <div className="font-dmSansMedium text-sm">Status</div>,
+      cell: ({ row }) => {
+        const value = row.original;
+        return (
+          <div
+            className={`cursor-pointer items-center gap-3 text-[14px] font-medium text-[#101828]`}
+            onClick={() => router.push(`/admin/services/banner/${value.id}`)}
+          >
+            {value.status} Minutes
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "link",
+      header: () => <div className="font-dmSansMedium text-sm">Link</div>,
+      cell: ({ row }) => {
+        const value = row.original;
+        return (
+          <div
+            className={`cursor-pointer items-center gap-3 text-[14px] font-medium text-[#101828]`}
+            onClick={() => router.push(`/admin/services/banner/${value.id}`)}
+          >
+            {value.ctaLink}
+          </div>
+        );
+      },
+    },
+    {
+      id: "delete",
+      cell: ({ row }) => {
+        const value = row.original;
+        return (
+          <div
+            className={`cursor-pointer text-[20px] font-medium text-[#F04438]`}
+            onClick={() => deleteBanner(value.id)}
+          >
+            <RiDeleteBin6Line />
+          </div>
+        );
+      },
+    },
+  ];
   return (
     <>
       <div className="mx-[40px] mt-[40px]">
@@ -340,6 +483,7 @@ const Page = () => {
               onClick={() => {
                 setIsBlog(false);
                 setOutingType("tour");
+                setIsBanner(false);
               }}
             >
               Trip
@@ -353,6 +497,7 @@ const Page = () => {
               onClick={() => {
                 setIsBlog(false);
                 setOutingType("event");
+                setIsBanner(false);
               }}
             >
               Event
@@ -366,11 +511,27 @@ const Page = () => {
               onClick={() => {
                 setOutingType("");
                 setIsBlog(true);
+                setIsBanner(false);
               }}
             >
               Blog
             </p>
+            <p
+              className={`cursor-pointer text-[16px] font-bold ${
+                isBanner
+                  ? " border-b-2 border-[#0A83FF] px-3 pb-3 text-[#0A83FF]"
+                  : ""
+              }`}
+              onClick={() => {
+                setOutingType("");
+                setIsBlog(false);
+                setIsBanner(true);
+              }}
+            >
+              Banner
+            </p>
           </div>
+          {/* eslint-disable-next-line no-nested-ternary */}
           {isBlog ? (
             <div className="rounded-2xl bg-[#FFFFFF]">
               <div className="mt-10 flex justify-between  px-[12px] pt-10">
@@ -399,6 +560,27 @@ const Page = () => {
                     onPageChange={(v) => setCurrentPageBlog(v)}
                   />
                 )}
+              </div>
+            </div>
+          ) : isBanner ? (
+            <div className="rounded-2xl bg-[#FFFFFF]">
+              <div className="mt-10 flex justify-between  px-[12px] pt-10">
+                <Heading type="h3">Banner</Heading>
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2 rounded-3xl border p-1 ">
+                    <FaCalendarAlt />
+                    <Text className="text-[12px] text-[#101828]">Date:</Text>
+                    <Text className="text-[12px] text-[#667084]">All Time</Text>
+                  </div>
+                  <Link href="/admin/services/banner">
+                    <Button className="flex items-center gap-2 rounded-3xl text-[14px]">
+                      <AiOutlinePlus /> New Banner
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+              <div className="pt-6">
+                <DataTable columns={bannerColumns} data={bannerData} />
               </div>
             </div>
           ) : (

@@ -26,7 +26,9 @@
   }
 
   &__outline {
-    @apply border-2 border-[#D0D5DD] text-[#0A83FF]
+    border: 2px solid !important;
+    border-color: #0A83FF;
+    @apply text-[#0A83FF]
     disabled:border-gray-300 disabled:text-gray-500;
   }
 }

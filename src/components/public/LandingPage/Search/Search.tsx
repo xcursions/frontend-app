@@ -137,13 +137,13 @@ const Search = () => {
             type="h3"
             className="mt-3 items-center text-center text-[18px] text-[#101828]"
           >
-            Where Are You Going?
+            Going Somewhere? Start Here!
           </Heading>
         </div>
         <div className=" my-2 flex flex-col items-center justify-center gap-5 text-start font-dmSansRegular text-base lg:flex-row lg:gap-2">
           {continentSuccess && (
             <Select
-              placeholder={"Select Continents"}
+              placeholder={"Select continents"}
               label="Location"
               startIcon={"/assets/images/icons/map.png"}
               value={queryLocation}
@@ -160,8 +160,8 @@ const Search = () => {
           )}
           {typeSuccess && (
             <Select
-              placeholder={"Select Type"}
-              label="Trip Type"
+              placeholder={"Select type"}
+              label="Trip type"
               startIcon={"/assets/images/icons/plane.png"}
               value={queryType}
               onChange={(event) => setQueryType(event.value)}
@@ -179,8 +179,8 @@ const Search = () => {
           )}
           {monthSuccess && (
             <Select
-              placeholder={"When Are You Going?"}
-              label="Select Month"
+              placeholder={"When are you going?"}
+              label="Select month"
               value={queryMonth}
               startIcon={"/assets/images/icons/calendar.png"}
               onChange={(event) => setQueryMonth(event.value)}
@@ -195,7 +195,7 @@ const Search = () => {
             />
           )}
           <Select
-            placeholder={"Select an Option"}
+            placeholder={"Select an option"}
             label="Price"
             value={price}
             startIcon={"/assets/images/icons/naira2.png"}

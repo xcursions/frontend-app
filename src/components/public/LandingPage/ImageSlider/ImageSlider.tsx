@@ -24,27 +24,29 @@ const mockSlide = [
   {
     id: 1,
     imageUrl: "/assets/images/landing-page/slider1.png",
-    title: "Travel anywhere in the world, without taking on debt.",
+    title: "Your Vacation, Your Way",
     subtitle:
-      "Xcursions makes saving for travel fun and effortless. Book more flights, take control of your finances, and start living life by your rules.",
-    button: "Book a trip",
+      "Find your perfect holiday with us! Whether it's a romantic honeymoon, family vacation, solo adventure, specialized trip in wellness, wildlife, sports, or relaxation, we've got you covered.",
+    button: "Book Now",
     link: "/trips",
   },
   {
     id: 2,
     imageUrl: "/assets/images/landing-page/slider2.png",
-    title: "Let Your Wanderlust Take Flight. Cheap & Affordable flights",
+    title: "Flight Convenience at Your Finger Tip",
     subtitle:
-      "With convenient booking options and unparalleled customer service, we make exploring the world effortless. Start your adventure today.",
-    button: "Book Flight",
+      "Enjoy seamless flight booking experiences, hassle-free reservations, and convenient planning for your next adventure.",
+    button: "Book Now",
+    link: "/custom-trip",
   },
   {
     id: 3,
     imageUrl: "/assets/images/landing-page/slider3.png",
-    title: "Discover Boundless Horizons with Xcursions",
+    title: "Travel Freely, Explore Without Debt",
     subtitle:
-      ". Whether you're yearning for the allure of exotic destinations or seeking adventure in far-off lands, we're here to make your travel dreams a reality. Our commitment to excellence ensures that every step of your journey, from booking to touchdown, is seamless and memorable.",
-    button: "Book custom trip",
+      "Experience the liberating joy of debt-free travel with our “Pay small small” option. Save effortlessly and travel spontaneously, anytime, anywhere.",
+    button: "Start Saving",
+    link: "/user/wallet",
   },
 ];
 export const ImageSlider: React.FC<Props> = ({
