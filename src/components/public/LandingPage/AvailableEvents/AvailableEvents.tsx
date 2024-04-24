@@ -18,8 +18,11 @@ const AvailableEvents = () => {
         <div className="xcursion_availableTrips_wrapper">
           <div className="xcursion_availableTrips_header">
             <div>
-              <h3>Events</h3>
-              <p>The best place you could spend the summer</p>
+              <h3>Event Lineup</h3>
+              <p>
+                Not traveling yet? Experience culture, entertainment & all round
+                fun from our carefully curated event list
+              </p>
             </div>
             <div className="button">
               <Link href={"/events"}>

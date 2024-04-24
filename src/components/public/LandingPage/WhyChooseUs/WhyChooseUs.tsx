@@ -12,7 +12,7 @@ const WhyChooseUs = () => {
       <div className="xcursion_wcs_wrapper">
         <div>
           <h3 className="header">Why Choose Us</h3>
-          <p className="paragraph">The best place you could spend the summer</p>
+          {/* <p className="paragraph">The best place you could spend the summer</p> */}
         </div>
 
         <div className="xcursion_wcs_card_container">
@@ -24,14 +24,16 @@ const WhyChooseUs = () => {
               height={75}
               className="h-[75px] w-[70px]"
             />
-            <div className=" txt">
+            <div className="txt">
               <h4>Save & Travel On The Go</h4>
               <p>
-                Automate your savings & reach your travel goals faster with our
-                “pay small small“ plan. Join us today,
+                Automate your savings and reach your travel goals with our
+                pay-small-small plan
               </p>
             </div>
-            <Button className="rounded-[1000px]">Get Started</Button>
+            <Link href={"/signup"}>
+              <Button className="rounded-[1000px]">Get Started</Button>
+            </Link>
           </div>
           <div className="xcursion_wcs_card_container_card">
             <Image
@@ -41,11 +43,11 @@ const WhyChooseUs = () => {
               height={75}
               className="h-[75px] w-[70px]"
             />
-            <div className=" txt">
-              <h4>Experience new places across the world</h4>
+            <div className="txt">
+              <h4>Adventure without limits</h4>
               <p>
-                Explore new worlds and uncover the extraordinary. Adventure
-                awaits with every destination you discover.
+                Discover new worlds and uncover the extraordinary, one
+                destination at a time.
               </p>
             </div>
             <Link href={"/trips"}>
@@ -61,14 +63,15 @@ const WhyChooseUs = () => {
               className="h-[75px] w-[70px]"
             />
             <div className="txt">
-              <h4>Visa Application Guidance</h4>
+              <h4>Seamless visa applications</h4>
               <p>
-                Streamline your visa application process, ensure accuracy, and
-                maximize your chances of approval with our professional
-                guidance.
+                Maximise your chances of visa approvals with our professional
+                visa guidance and convenient applications
               </p>
             </div>
-            <Button className="rounded-[1000px]">Start Application</Button>
+            <Button className="rounded-[1000px]" disabled>
+              Start Application
+            </Button>
           </div>
         </div>
       </div>

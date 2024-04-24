@@ -18,8 +18,11 @@ const AvailableTrips = () => {
     <div className="xcursion_availableTrips_wrapper">
       <div className="xcursion_availableTrips_header">
         <div>
-          <h3>Available Trips</h3>
-          <p>The best place you could spend the summer</p>
+          <h3>Must-See Adventures in 2024</h3>
+          <p>
+            Go all in with these fun-filled adventures carefully curated to
+            create your most memorable year yet
+          </p>
           <div className="slider">
             <p
               className={trip === "private" ? "active" : ""}

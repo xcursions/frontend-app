@@ -40,6 +40,7 @@ const Banner = ({ params }: { params: { slug: string } }) => {
   const [file, setFile] = useState<File[]>([]);
   const [editorState, setEditorState] = useState("");
   const [isEditorValid, setIsEditorValid] = useState(false);
+  const [showImage, setShowImage] = useState(false);
   const [payload, setPayload] = useState(initialState);
 
   const router = useRouter();
@@ -133,6 +134,7 @@ const Banner = ({ params }: { params: { slug: string } }) => {
       status: prevPayload.status === "published" ? "unpublished" : "published",
     }));
   };
+  console.log(detailsData);
   return (
     <div className="mx-[40px] mt-[40px]">
       <div className="flex justify-between">
@@ -189,15 +191,32 @@ const Banner = ({ params }: { params: { slug: string } }) => {
         </div>
         <div>
           <div className={styles.image_container}>
-            <FileUpload
-              multiple={true}
-              name="file"
-              files={file}
-              handleChange={(files: File[]) => {
-                setFile(files);
-              }}
-              classname={"h-[210px] w-full"}
-            />
+            {!showImage && detailsDataSuccess && (
+              <div className=" relative inline-block">
+                <img
+                  src={detailsDataSuccess && detailsData?.imageUrl}
+                  alt=""
+                  className="block h-[244px] w-[529px] rounded-[16px] object-cover"
+                />
+                <button
+                  className="absolute right-0 top-0 cursor-pointer rounded-full bg-white px-2 text-xl"
+                  onClick={() => setShowImage(!showImage)}
+                >
+                  X
+                </button>
+              </div>
+            )}
+            {showImage && (
+              <FileUpload
+                multiple={true}
+                name="file"
+                files={file}
+                handleChange={(files: File[]) => {
+                  setFile(files);
+                }}
+                classname={"h-[210px] w-full"}
+              />
+            )}
           </div>
           <p className="mt-1 text-[12px] text-[#8D8D8D]">
             The featured banner image is what appears with the article’s tittle.

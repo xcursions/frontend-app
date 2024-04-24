@@ -11,9 +11,7 @@ import Select from "@/components/lib/Select/Select";
 import useSuccessHandler from "@/hooks/useSuccessHandler";
 import {
   useFetchAllOutingsQuery,
-  useGetOutingByContinentsQuery,
   useGetOutingByMonthsQuery,
-  useGetOutingByTypeQuery,
 } from "@/services/public";
 import type { OutingProps } from "@/types";
 
@@ -33,13 +31,13 @@ const optionPrice = [
 const SearchEvents = () => {
   const [search, setSearch] = useState("");
   const [price, setPrice] = useState("");
-  const [queryType, setQueryType] = useState("");
+  // const [queryType, setQueryType] = useState("");
   const [queryMonth, setQueryMonth] = useState("");
   const [minPrice, setMinPrice] = useState<number>();
   const [maxPrice, setMaxPrice] = useState<number>();
-  const [queryLocation, setQueryLocation] = useState("");
-  const [continent, setContinent] = useState([]);
-  const [type, setType] = useState([]);
+  // const [queryLocation, setQueryLocation] = useState("");
+  // const [continent, setContinent] = useState([]);
+  // const [type, setType] = useState([]);
   const [month, setMonth] = useState([]);
 
   const [outingData, setOutingData] = useState<OutingProps[]>([]);
@@ -50,29 +48,20 @@ const SearchEvents = () => {
     limit: pageLimit,
     page: currentPage,
     type: "event",
-    subType: queryType,
+    // subType: queryType,
     month: queryMonth,
     isDraft: false,
     search,
-    location: queryLocation,
+    // location: queryLocation,
     minPrice,
     maxPrice,
-  });
-
-  const { isSuccess: continentSuccess, data: continentData } =
-    useGetOutingByContinentsQuery({ type: "event", location: queryLocation });
-  const { isSuccess: typeSuccess, data: typeData } = useGetOutingByTypeQuery({
-    type: "event",
-    location: queryLocation,
-    subType: queryType,
-    month: queryMonth,
   });
 
   const { isSuccess: monthSuccess, data: monthData } =
     useGetOutingByMonthsQuery({
       type: "event",
-      location: queryLocation,
-      subType: queryType,
+      // location: queryLocation,
+      // subType: queryType,
       month: queryMonth,
     });
   function splitPriceRange(priceRange: string) {
@@ -95,29 +84,29 @@ const SearchEvents = () => {
 
     showToast: false,
   });
-  useSuccessHandler({
-    isSuccess: continentSuccess,
-    dependencies: [continentData],
-    successFunction: () => {
-      setContinent(continentData);
-    },
+  // useSuccessHandler({
+  //   isSuccess: continentSuccess,
+  //   dependencies: [continentData],
+  //   successFunction: () => {
+  //     setContinent(continentData);
+  //   },
 
-    showToast: false,
-  });
+  //   showToast: false,
+  // });
 
-  useSuccessHandler({
-    isSuccess: typeSuccess,
-    dependencies: [typeData || monthData],
-    successFunction: () => {
-      setType(typeData);
-    },
+  // useSuccessHandler({
+  //   isSuccess: typeSuccess,
+  //   dependencies: [typeData || monthData],
+  //   successFunction: () => {
+  //     setType(typeData);
+  //   },
 
-    showToast: false,
-  });
+  //   showToast: false,
+  // });
 
   useSuccessHandler({
     isSuccess: monthSuccess,
-    dependencies: [monthData || typeData],
+    dependencies: [monthData],
     successFunction: () => {
       setMonth(monthData);
     },
@@ -129,7 +118,7 @@ const SearchEvents = () => {
       <div className={styles.container}>
         {/** Search field */}
         <div className="flex">
-          <form className="grid grid-cols-1 items-center gap-10 lg:grid-cols-5 lg:gap-3">
+          <form className="grid grid-cols-1 items-center gap-10 lg:grid-cols-3 lg:gap-3">
             <div className="flex w-full items-center ">
               <div className="relative w-full">
                 <Input
@@ -169,7 +158,7 @@ const SearchEvents = () => {
                 </button>
               </div>
             </div>
-            <div
+            {/* <div
               className={`${
                 showFilter ? "block" : "hidden"
               } relative w-full lg:block`}
@@ -192,7 +181,7 @@ const SearchEvents = () => {
                   className=" block w-full cursor-pointer rounded-lg  text-sm text-[#667084]"
                 />
               )}
-            </div>
+            </div> */}
             <div
               className={`${
                 showFilter ? "block" : "hidden"
@@ -212,7 +201,7 @@ const SearchEvents = () => {
                 className=" block w-full cursor-pointer  rounded-lg text-sm text-[#667084]"
               />
             </div>
-            <div
+            {/* <div
               className={`${
                 showFilter ? "block" : "hidden"
               } relative w-full lg:block`}
@@ -233,7 +222,7 @@ const SearchEvents = () => {
                   className=" block w-full cursor-pointer  rounded-lg text-sm text-[#667084]"
                 />
               )}
-            </div>
+            </div> */}
             <div
               className={`${
                 showFilter ? "block" : "hidden"
@@ -241,7 +230,7 @@ const SearchEvents = () => {
             >
               {monthSuccess && (
                 <Select
-                  placeholder={"Select Month"}
+                  placeholder={"Select month"}
                   value={queryMonth}
                   startIcon={"/assets/images/icons/calendar1.png"}
                   // @ts-ignore

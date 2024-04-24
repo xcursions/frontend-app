@@ -239,7 +239,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
                       detailsData?.blogFeaturedImage?.image
                     }
                     alt=""
-                    className="block h-[244px] w-[529px] rounded-[16px]"
+                    className="block h-[244px] w-[529px] rounded-[16px] object-cover"
                   />
                   <button
                     className="absolute right-0 top-0 cursor-pointer rounded-full bg-white px-2 text-xl"
