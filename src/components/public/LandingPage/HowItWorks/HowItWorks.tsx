@@ -5,7 +5,7 @@ const HowItWorks = () => {
   return (
     <div className="xcursion_hiw_wrapper">
       <div>
-        <h3 className="header">How it works</h3>
+        <h3 className="header">Travel the Xcursions Way</h3>
         <p className="paragraph">
           Achieve total travel freedom in just 3 easy steps
         </p>
@@ -24,18 +24,19 @@ const HowItWorks = () => {
         <div className="xcursion_hiw_card_container__txt">
           <h4>1. Select your destination</h4>
           <p>
-            Browse for cost-effective flights right from your xcursions
-            dashboard. No upfront charges or concealed expenses.
+            Whether you’re looking for a short break in Europe, or a long
+            vacation in Asia, we’ve got packages to suit your taste and across
+            all continents.
           </p>
         </div>
       </div>
       <div className="xcursion_hiw_card_container">
         <div className="xcursion_hiw_card_container__txt">
-          <h4>2. Commence saving</h4>
+          <h4>2. Start Saving</h4>
           <p>
-            Link your debit card and input your passport information to begin
-            saving. You&apos;ll receive a tailored budget plan, access to travel
-            inspiration, continuous support, and additional perks.
+            No money, no problem! Our Xcursions Pay-small-small plan helps you
+            save and travel on the go. Join our Xcursions &apos;Pay Small Small
+            Plan&apos; and save gradually with zero charges.
           </p>
         </div>
         <div>
@@ -61,11 +62,11 @@ const HowItWorks = () => {
           />
         </div>
         <div className="xcursion_hiw_card_container__txt">
-          <h4>3. Gear up for departure!</h4>
+          <h4>3. Locked In? Journey Sets!</h4>
           <p>
-            Xcursions assists you in cultivating enduring saving habits,
-            empowering you to pursue your aspirations without financial
-            constraints or debt hindrances.
+            Once you&apos;ve set up your plan, just sit back and observe how
+            your savings unlock the door to the the travel experiences of your
+            dreams.
           </p>
         </div>
       </div>

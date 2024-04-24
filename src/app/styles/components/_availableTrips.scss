@@ -32,7 +32,7 @@
         }
         h3 {
             font-weight: 700;
-            font-size: clamp(30px, 8vw, 36px);
+            font-size: clamp(26px, 8vw, 30px);
             line-height: 48px;
         }
         p{
@@ -48,6 +48,7 @@
             border-radius: 8px;
             align-items: center;
             margin-top: 15px;
+            width: fit-content;
             cursor: pointer;
             p{
                  font-size: 14px;

@@ -33,7 +33,10 @@ const OurBlog = () => {
           <div className="xcursion_availableTrips_header">
             <div>
               <h3>Our Blog</h3>
-              <p>Listen to our stories</p>
+              <p>
+                Discover trendy travel news, insights, and everything else you
+                need to know about travel and tours
+              </p>
             </div>
             <div className="button">
               <Link href={"/blog"}>
