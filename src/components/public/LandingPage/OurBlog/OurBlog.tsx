@@ -46,22 +46,24 @@ const OurBlog = () => {
           </div>
           <div className="mx-3 mt-5 grid grid-cols-2 gap-3 object-fill sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
             {blogData.map((blog) => (
-              <div key={blog.id}>
-                <Image
-                  width={350}
-                  height={273}
-                  alt={blog.title}
-                  src={blog.blogFeaturedImage.image}
-                  className="h-[273px] w-full rounded-xl object-cover"
-                />
-                <p className="txt-10 fw-700 mt-2 break-words uppercase text-[#667084]">
-                  {blog.categories.length > 0
-                    ? blog?.categories[0]?.name
-                    : null}{" "}
-                  <span> • {blog.readTimeInMinute} MINS Read</span>
-                </p>
-                <h4 className="txt-18 fw-700 txt-truncate">{blog.title}</h4>
-              </div>
+              <Link key={blog.id} href={`/blog/${blog.id}`}>
+                <div>
+                  <Image
+                    width={350}
+                    height={273}
+                    alt={blog.title}
+                    src={blog.blogFeaturedImage.image}
+                    className="h-[273px] w-full rounded-xl object-cover"
+                  />
+                  <p className="txt-10 fw-700 mt-2 break-words uppercase text-[#667084]">
+                    {blog.categories.length > 0
+                      ? blog?.categories[0]?.name
+                      : null}{" "}
+                    <span> • {blog.readTimeInMinute} MINS Read</span>
+                  </p>
+                  <h4 className="txt-18 fw-700 txt-truncate">{blog.title}</h4>
+                </div>
+              </Link>
             ))}
           </div>
         </div>
