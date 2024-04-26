@@ -62,7 +62,7 @@ const CardSlider: React.FC<Props> = ({ classname, wrapperClassname }) => {
                         className="card_slider_subtitle"
                       />
                       <Link
-                        href="/"
+                        href={slide.ctaLink}
                         className="card_slider_lead_cta secondaryDash text-[#ffffff]"
                       >
                         <span>Get Started</span>
