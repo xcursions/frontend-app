@@ -69,9 +69,9 @@ const WhyChooseUs = () => {
                 visa guidance and convenient applications
               </p>
             </div>
-            <Button className="rounded-[1000px]" disabled>
-              Start Application
-            </Button>
+            <Link href={"/visa"}>
+              <Button className="rounded-[1000px]">Start Application</Button>
+            </Link>
           </div>
         </div>
       </div>
