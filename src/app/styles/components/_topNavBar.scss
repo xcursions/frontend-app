@@ -1,0 +1,105 @@
+.cod__top_nav_bar {
+  @apply hidden relative w-full top-0 left-0 z-20 bg-transparent text-white items-center justify-between px-10 py-8;
+  transition: all 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+  &.base {
+    @apply absolute flex;
+  }
+
+  &.inview {
+    @apply fixed flex bg-white text-black z-30 py-0 px-10;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    transform: translateY(-100%);
+    &.notBase {
+      @apply sticky;
+      transform: translateY(0);
+    }
+
+    @include breakpoint(tablet-md) {
+      @apply pl-6;
+      .cod__top_nav_bar__nav_list_item {
+        display: none !important;
+        &.logo {
+          display: inline-block !important;
+        }
+      }
+    }
+
+    &.reveal_nav {
+      transform: translateY(0);
+    }
+  }
+
+  &_donate {
+    @apply tracking-wider font-semibold flex items-center justify-center gap-2;
+
+    &_icon {
+      @apply inline-flex items-center justify-center w-4 h-5;
+    }
+
+    &:hover {
+      .cod__top_nav_bar_donate_wrapper {
+        @apply border-inherit;
+      }
+    }
+    @include breakpoint(tablet-md) {
+      display: none !important;
+    }
+  }
+
+  &__nav_list {
+    @apply flex items-center justify-center gap-5;
+
+    &_item {
+      @apply text-xs font-semibold px-3 py-4;
+      transition: color 0.3s linear;
+      letter-spacing: 0.15em;
+
+      &:hover,
+      &.active {
+        @apply text-[#0A83FF];
+      }
+
+      @include breakpoint(tablet-md) {
+        display: none !important;
+        &.logo {
+          display: inline-block !important;
+        }
+      }
+    }
+  }
+}
+
+.cod__side_nav_bar {
+  &_content {
+    @apply overflow-y-auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  &__nav_list {
+    @apply flex flex-col flex-grow h-full;
+    &_item {
+      @apply p-4 block border-b text-center font-medium relative;
+
+      &:hover,
+      &.active {
+        @apply text-[#0A83FF] font-semibold;
+
+        &::before {
+          width: 100%;
+          left: 0;
+        }
+      }
+      &::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 1px;
+        background-color: $primary;
+        transition: width 0.3s ease-in-out, left 0.3s ease-in-out;
+      }
+    }
+  }
+}

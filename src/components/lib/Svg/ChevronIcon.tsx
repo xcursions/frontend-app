@@ -2,7 +2,7 @@ import type { FC } from "react";
 
 import type { IconProps } from "./IconProps";
 
-const ChevronIcon: FC<IconProps> = ({ className, color = "#4A3041" }) => {
+const ChevronIcon: FC<IconProps> = ({ className, color = "#ffffff" }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

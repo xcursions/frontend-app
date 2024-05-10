@@ -24,6 +24,15 @@ const mockSlide = [
   {
     id: 1,
     imageUrl: "/assets/images/landing-page/slider1.png",
+    title: "Travel Freely, Explore Without Debt",
+    subtitle:
+      "Experience the liberating joy of debt-free travel with our “Pay small small” option. Save effortlessly and travel spontaneously, anytime, anywhere.",
+    button: "Start Saving",
+    link: "/user/wallet",
+  },
+  {
+    id: 2,
+    imageUrl: "/assets/images/landing-page/slider2.png",
     title: "Your Vacation, Your Way",
     subtitle:
       "Find your perfect holiday with us! Whether it's a romantic honeymoon, family vacation, solo adventure, specialized trip in wellness, wildlife, sports, or relaxation, we've got you covered.",
@@ -31,22 +40,13 @@ const mockSlide = [
     link: "/trips",
   },
   {
-    id: 2,
-    imageUrl: "/assets/images/landing-page/slider2.png",
+    id: 3,
+    imageUrl: "/assets/images/landing-page/slider3.jpeg",
     title: "Flight Convenience at Your Finger Tip",
     subtitle:
       "Enjoy seamless flight booking experiences, hassle-free reservations, and convenient planning for your next adventure.",
     button: "Book Now",
     link: "/custom-trip",
-  },
-  {
-    id: 3,
-    imageUrl: "/assets/images/landing-page/slider3.png",
-    title: "Travel Freely, Explore Without Debt",
-    subtitle:
-      "Experience the liberating joy of debt-free travel with our “Pay small small” option. Save effortlessly and travel spontaneously, anytime, anywhere.",
-    button: "Start Saving",
-    link: "/user/wallet",
   },
 ];
 export const ImageSlider: React.FC<Props> = ({
@@ -81,7 +81,7 @@ export const ImageSlider: React.FC<Props> = ({
           <SwiperSlide key={slide.id}>
             <Image
               src={slide.imageUrl}
-              className={`lead_page_banner_img h-[60vh] min-w-full animate-zoom-in-img object-cover object-center lg:h-auto${
+              className={`lead_page_banner_img h-[60vh] min-w-full animate-zoom-in-img object-cover object-center lg:h-[85vh]${
                 classname || ""
               }`}
               width={945}
@@ -95,7 +95,7 @@ export const ImageSlider: React.FC<Props> = ({
       </Swiper>
       <AnimatedInView>
         <div className="lead_page_banner__txt">
-          <header className="text-center text-white">
+          <header className=" text-white">
             {/* <span className="lead_tagline">{currentNav?.pageTitleTag}</span> */}
             <h1 className="lead_title">{mockSlide[slideIndex]?.title}</h1>
             <p className="lead_subtitle">{mockSlide[slideIndex]?.subtitle}</p>

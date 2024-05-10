@@ -12,14 +12,16 @@ import Search from "@/components/public/LandingPage/Search";
 // import Testimonies from "@/components/public/LandingPage/Testimonies/Testimonies";
 // import TopDestinations from "@/components/public/LandingPage/TopDestinations/TopDestinations";
 import WhyChooseUs from "@/components/public/LandingPage/WhyChooseUs/WhyChooseUs";
-import Navbar2 from "@/components/public/Navbar2";
+import TopNavBar from "@/components/public/TopNavBar";
 // import Subscription from "@/components/public/Subscription";
 
 const Home = () => {
   return (
     <main className="cod_page cod_homePage">
-      <Navbar2 />
+      {/* <Navbar2 /> */}
+      <TopNavBar />
       <ImageSlider />
+
       <Search />
       <CardSlider />
       <WhyChooseUs />

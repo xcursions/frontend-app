@@ -109,7 +109,7 @@ export const Collapsible: React.FC<CollapsibleProps> = ({
         <div className="mep-collapsible_header_txt">
           <h4
             className={
-              "txt-14 fw-400 mep-collapsible_header_txt_title font-dmSansRegular"
+              "txt-14 fw-700 mep-collapsible_header_txt_title mt-1 font-dmSansBold"
             }
           >
             {title}
@@ -123,7 +123,7 @@ export const Collapsible: React.FC<CollapsibleProps> = ({
           <button
             aria-label={`collapse button`}
             type="button"
-            className={`mep-collapsible_icon_button rotate_center ${
+            className={`mep-collapsible_icon_button rotate_center mt-1 ${
               (isOpen || open) && currentId === id ? " down" : ""
             }`}
           >
