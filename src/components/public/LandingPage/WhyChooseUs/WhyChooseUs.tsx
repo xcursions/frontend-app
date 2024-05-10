@@ -18,7 +18,7 @@ const WhyChooseUs = () => {
         <div className="xcursion_wcs_card_container">
           <div className="xcursion_wcs_card_container_card">
             <Image
-              src="/assets/images/icons/cash.png"
+              src="/assets/images/icons/wallet.png"
               alt="luggage icon"
               width={70}
               height={75}
@@ -37,7 +37,7 @@ const WhyChooseUs = () => {
           </div>
           <div className="xcursion_wcs_card_container_card">
             <Image
-              src="/assets/images/icons/location.png"
+              src="/assets/images/icons/adv.png"
               alt="luggage icon"
               width={70}
               height={75}
@@ -56,7 +56,7 @@ const WhyChooseUs = () => {
           </div>
           <div className="xcursion_wcs_card_container_card">
             <Image
-              src="/assets/images/icons/passport.png"
+              src="/assets/images/icons/visa.png"
               alt="luggage icon"
               width={70}
               height={75}
@@ -66,7 +66,7 @@ const WhyChooseUs = () => {
               <h4>Seamless visa applications</h4>
               <p>
                 Maximise your chances of visa approvals with our professional
-                visa guidance and convenient applications
+                visa guidance
               </p>
             </div>
             <Link href={"/visa"}>

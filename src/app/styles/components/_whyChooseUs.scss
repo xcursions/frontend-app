@@ -44,11 +44,11 @@
         @apply overflow-hidden gap-5 rounded-xl shadow-md p-5 items-start text-start justify-start;
         .txt {
             width: 100%;
-            max-width: 370px;
+            // max-width: 370px;
             text-align: start;
             h4 {
                 font-weight: 700;
-                font-size: clamp(14px, 8vw, 16px);
+                font-size: clamp(16px, 8vw, 18px);
             }
             p {
                 font-weight: 400;

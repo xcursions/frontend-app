@@ -4,5 +4,6 @@ export { default as useAuth } from "./useAuth";
 export { default as useErrorHandler } from "./useErrorHandler";
 export { useLogoutUser } from "./useLogoutUser";
 export { default as useMediaQuery } from "./useMediaQuery";
+export { useNavitemList } from "./useNavitemList";
 export { default as usePasswordChecker } from "./usePasswordChecker";
 export { default as useSuccessHandler } from "./useSuccessHandler";

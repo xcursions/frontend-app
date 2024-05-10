@@ -22,7 +22,13 @@ const HowItWorks = () => {
           />
         </div>
         <div className="xcursion_hiw_card_container__txt">
-          <h4>1. Select your destination</h4>
+          <Image
+            src="/assets/images/icons/1.png"
+            width={50}
+            height={50}
+            alt="1"
+          />
+          <h4>Select your destination</h4>
           <p>
             Whether you’re looking for a short break in Europe, or a long
             vacation in Asia, we’ve got packages to suit your taste and across
@@ -32,7 +38,13 @@ const HowItWorks = () => {
       </div>
       <div className="xcursion_hiw_card_container">
         <div className="xcursion_hiw_card_container__txt">
-          <h4>2. Start Saving</h4>
+          <Image
+            src="/assets/images/icons/2.png"
+            width={50}
+            height={50}
+            alt="2"
+          />
+          <h4>Start Saving</h4>
           <p>
             No money, no problem! Our Xcursions Pay-small-small plan helps you
             save and travel on the go. Join our Xcursions &apos;Pay Small Small
@@ -62,7 +74,13 @@ const HowItWorks = () => {
           />
         </div>
         <div className="xcursion_hiw_card_container__txt">
-          <h4>3. Locked In? Journey Sets!</h4>
+          <Image
+            src="/assets/images/icons/3.png"
+            width={50}
+            height={50}
+            alt="3"
+          />
+          <h4>Locked In? Journey Sets!</h4>
           <p>
             Once you&apos;ve set up your plan, just sit back and observe how
             your savings unlock the door to the the travel experiences of your

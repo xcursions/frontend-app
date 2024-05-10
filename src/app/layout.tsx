@@ -9,6 +9,7 @@ import { Toaster } from "react-hot-toast";
 
 // import Whatsapp from "@/components/lib/Whatsapp";
 import { FacebookPixelEvents } from "@/components/pixelEvent/pixelEvent";
+import { cn } from "@/lib/utils";
 import { toastOptions } from "@/utils/config";
 
 import { Providers } from "./GlobalRedux/provider";
@@ -106,7 +107,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <Script
         async
         src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GTAG}`}
@@ -123,14 +124,19 @@ export default function RootLayout({
         })`,
         }}
       />
-      <body className={`${dmSans.variable}`}>
+      <body
+        className={cn(
+          `${dmSans.className} relative min-h-screen bg-background antialiased`,
+          dmSans.variable
+        )}
+      >
         <Providers>
+          <Toaster position="top-right" toastOptions={toastOptions} />
           {children}
           <Suspense>
             <FacebookPixelEvents />
           </Suspense>
           {/* <Whatsapp /> */}
-          <Toaster position="top-right" toastOptions={toastOptions} />
         </Providers>
       </body>
     </html>

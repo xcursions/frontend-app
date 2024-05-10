@@ -131,7 +131,7 @@ const Search = () => {
       className=" relative z-10 mx-auto mt-[-100px] flex w-full justify-center md:mt-[-50px]"
       // className="lead_page_banner__scroll_down"
     >
-      <div className=" mx-1 max-w-[1209px] rounded-2xl bg-[#FFFFFF] p-5 shadow-lg lg:max-h-[230px]">
+      <div className=" mx-1 max-w-[1100px] rounded-2xl bg-[#FFFFFF] p-3 shadow-lg lg:max-h-[230px]">
         <div>
           <Heading
             type="h3"
@@ -155,7 +155,7 @@ const Search = () => {
                 })
               )}
               showArrow
-              className=" block w-[290px] cursor-pointer rounded-lg text-sm text-[#98A2B3] md:w-[350px] lg:w-[200px] xl:w-[250px]"
+              className=" block w-[290px] cursor-pointer rounded-lg text-sm text-[#98A2B3] md:w-[350px] lg:w-[200px] xl:w-[220px]"
             />
           )}
           {typeSuccess && (
@@ -174,7 +174,7 @@ const Search = () => {
                 })
               )}
               showArrow
-              className=" block w-[290px] cursor-pointer rounded-lg text-sm text-[#98A2B3] md:w-[350px] lg:w-[200px] xl:w-[250px]"
+              className=" block w-[290px] cursor-pointer rounded-lg text-sm text-[#98A2B3] md:w-[350px] lg:w-[200px] xl:w-[220px]"
             />
           )}
           {monthSuccess && (
@@ -191,7 +191,7 @@ const Search = () => {
                 })
               )}
               showArrow
-              className=" block w-[290px] cursor-pointer text-sm text-[#667084] md:w-[350px] lg:w-[200px] xl:w-[250px]"
+              className=" block w-[290px] cursor-pointer text-sm text-[#667084] md:w-[350px] lg:w-[200px] xl:w-[220px]"
             />
           )}
           <Select
@@ -205,7 +205,7 @@ const Search = () => {
               label: option.label,
             }))}
             showArrow
-            className=" block w-[290px] cursor-pointer text-sm text-[#667084] md:w-[350px] lg:w-[200px] xl:w-[250px]"
+            className=" block w-[290px] cursor-pointer text-sm text-[#667084] md:w-[350px] lg:w-[200px] xl:w-[220px]"
           />
           <button
             className="flex w-[300px] items-center justify-center gap-3 rounded-[100px] bg-[#0A83FF] p-3 text-white lg:mt-4 lg:h-[96px] lg:w-[75px] lg:p-5"
