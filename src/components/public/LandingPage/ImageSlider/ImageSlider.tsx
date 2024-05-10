@@ -81,7 +81,7 @@ export const ImageSlider: React.FC<Props> = ({
           <SwiperSlide key={slide.id}>
             <Image
               src={slide.imageUrl}
-              className={`lead_page_banner_img h-[60vh] min-w-full animate-zoom-in-img object-cover object-center lg:h-[85vh]${
+              className={`lead_page_banner_img h-[80vh] min-w-full animate-zoom-in-img object-cover object-center lg:h-[85vh]${
                 classname || ""
               }`}
               width={945}
