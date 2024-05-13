@@ -84,48 +84,49 @@ const ClientView = () => {
         <h1 className=" txt-24 fw-700">Custom Trip</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Input
-            label="Where would you like to travel? 🌍"
+            label="Where are you travelling to? 🌍"
             register={register("toCountry")}
             errorMsg={errors?.toCountry?.message}
           />
           <Input
-            label="How many people will be traveling? 🧳"
+            label="How many people are joining you on this adventure? 🧳"
             register={register("numberOfPersons")}
             errorMsg={errors.numberOfPersons?.message}
+            type="number"
           />
           <Input
-            label="Would you like to suggest any other destinations that interest you?"
+            label="Got any other places on your must-visit list?"
             register={register("otherDestinations")}
             errorMsg={errors.otherDestinations?.message}
           />
           <Input
-            label="Are you celebrating a special occasion? If yes mention the occasion below! (optional)"
+            label="Celebrating something special? We'd love to hear! (optional)"
             register={register("specialOccasion")}
             errorMsg={errors.specialOccasion?.message}
           />
           <Input
-            label="What are your travel dates?/Please specify how long you want the trip to be 📅 You can always change this later."
+            label="When do you plan to travel, and for how long? 📅"
             register={register("travelDates")}
             type="date"
             errorMsg={errors.travelDates?.message}
           />
           <Input
-            label="What is your budget per person excluding flights? 💰"
+            label="What is your budget per traveler, excluding flights? 💰"
             register={register("budgetPerPersonExcludingFlight")}
             errorMsg={errors.budgetPerPersonExcludingFlight?.message}
           />
           <Input
-            label="Do you have any particular activities in mind that you want us to incorporate in your itinerary? 🌴"
+            label="What kind of fun activities (tours) would you like us to include? 🌴"
             register={register("otherActivities")}
             errorMsg={errors.otherActivities?.message}
           />
           <Input
-            label="Do you have any additional thoughts or notes about your ideal trip? 📝"
+            label="Any other specific ideas or wishes for your trip? We're eager to hear them! 📝"
             register={register("notes")}
             errorMsg={errors.notes?.message}
           />
           <Input
-            label="How did you hear about us? (optional)"
+            label="How did you find out about us? (optional)"
             register={register("referredFrom")}
             errorMsg={errors.referredFrom?.message}
           />

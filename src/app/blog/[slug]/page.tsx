@@ -4,8 +4,8 @@ import React from "react";
 
 import BlogDetails from "@/components/blog/BlogDetails/BlogDetails";
 import Footer from "@/components/public/Footer/Footer";
-import Navbar2 from "@/components/public/Navbar2";
 import Subscription from "@/components/public/Subscription/Subscription";
+import TopNavBar from "@/components/public/TopNavBar";
 // import { useGetSingleBlogQuery } from "@/services/public";
 
 async function getBlogData(slug: string) {
@@ -101,7 +101,7 @@ const Blog = async ({ params }: { params: { slug: string } }) => {
   return (
     <div>
       <div className="bg-[#F9FAFB]">
-        <Navbar2 />
+        <TopNavBar />
         {data && <BlogDetails detailsData={data} />}
         <Subscription />
         <Footer />

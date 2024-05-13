@@ -44,6 +44,7 @@ const TripCard = ({ post }: Props) => {
     return foundEntry ? foundEntry[0] : null; // Return the country code if found, otherwise null
   };
   const countryCode = getCountryCode(post?.outingDestination?.country);
+
   const handleLike = () => {
     if (user) {
       createLike({ query: post.id, data: { liked: true } })
@@ -66,6 +67,7 @@ const TripCard = ({ post }: Props) => {
         .catch(() => toast.error("Sorry an error occurred"));
     }
   };
+
   useEffect(() => {
     if (user) {
       getLikeData("?limit=50");

@@ -271,7 +271,7 @@ const SearchTrips = () => {
           </form>
         </div>
         {/* Trip Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+        <div className="flex flex-wrap justify-around">
           {outingData.map((post) => (
             <Link key={`${post.id}`} href={`/trips/${post.id}`}>
               <TripCard post={post} />

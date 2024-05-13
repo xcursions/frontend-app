@@ -54,12 +54,12 @@ export const useNavitemList = (type: InitHookOptions): NavigationItem[] => {
     ...(isTabletMdView && type !== "all"
       ? topNavList.filter((item) => item.id !== "logo")
       : []),
-    // {
-    //   id: "forms",
-    //   linkRef: "/forms/",
-    //   linkTitle: "Forms",
-    //   pageTitle: "Forms",
-    // },
+    {
+      id: "flights",
+      linkRef: "/flights",
+      linkTitle: "Flights",
+      pageTitle: "Flights",
+    },
     // {
     //   id: "jnr-church",
     //   linkRef: "/junior-church/",

@@ -63,6 +63,16 @@ const Footer = () => {
                       Events
                     </Link>
                   </li>
+                  <li className="mb-4">
+                    <Link href="/custom-trip" className="hover:underline">
+                      Custom Trips
+                    </Link>
+                  </li>
+                  <li className="mb-4">
+                    <Link href="/visa" className="hover:underline">
+                      Visa
+                    </Link>
+                  </li>
                 </ul>
               </div>
               <div>
@@ -80,11 +90,11 @@ const Footer = () => {
                       About Us
                     </Link>
                   </li>
-                  <li className="mb-4">
+                  {/* <li className="mb-4">
                     <Link href="/#faq" className="hover:underline">
                       FAQ
                     </Link>
-                  </li>
+                  </li> */}
                 </ul>
               </div>
               <div>

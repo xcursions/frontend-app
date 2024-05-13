@@ -82,6 +82,11 @@ const AvailableTrips = () => {
               </div>
             ))}
       </div>
+      <div className=" mt-2 flex items-center justify-center md:hidden">
+        <Link href={"/trips"}>
+          <Button className="rounded-[1000px]">View all</Button>
+        </Link>
+      </div>
     </div>
   );
 };
