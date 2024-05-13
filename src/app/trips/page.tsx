@@ -1,8 +1,8 @@
 import React from "react";
 
 import Footer from "@/components/public/Footer/Footer";
-import Navbar2 from "@/components/public/Navbar2";
 import Subscription from "@/components/public/Subscription/Subscription";
+import TopNavBar from "@/components/public/TopNavBar";
 import Header from "@/components/trips/Header/Header";
 import SearchTrips from "@/components/trips/SearchTrips/SearchTrips";
 
@@ -10,7 +10,7 @@ const trips = () => {
   return (
     <div className="bg-[#ffffff]">
       <div>
-        <Navbar2 />
+        <TopNavBar />
         <Header />
         <SearchTrips />
         <Subscription />

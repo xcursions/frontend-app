@@ -9,7 +9,7 @@ import Button from "@/components/lib/Button/Button";
 import Heading from "@/components/lib/Heading/Heading";
 import Input from "@/components/lib/Input/Input";
 import Text from "@/components/lib/Text/Text";
-import Navbar from "@/components/public/Navbar";
+import TopNavBar from "@/components/public/TopNavBar";
 import { useAppDispatch, useErrorHandler, useSuccessHandler } from "@/hooks";
 import { useForgotPasswordMutation } from "@/services/auth";
 import { setUserData } from "@/store/slices/userSlice";
@@ -58,6 +58,9 @@ const ForgotPassword = () => {
   };
   return (
     <div className="w-full  overflow-hidden bg-[#FFFFFF]">
+      <div className="lg:hidden">
+        <TopNavBar />
+      </div>
       <div className="flex">
         <div className="relative hidden h-screen w-[500px] lg:block">
           <Image
@@ -84,9 +87,6 @@ const ForgotPassword = () => {
               crafted itineraries, unbeatable prices.
             </Text>
           </div>
-        </div>
-        <div className="lg:hidden">
-          <Navbar text="black" logo="black" />
         </div>
         <div className="m-auto mt-16 content-center items-center justify-center lg:mt-auto">
           <div className="m-auto mt-8 items-center justify-center px-3 lg:mt-4">

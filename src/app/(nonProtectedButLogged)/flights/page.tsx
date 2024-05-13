@@ -4,7 +4,7 @@ import TopNavBar from "@/components/public/TopNavBar";
 
 import ClientView from "./ClientView";
 
-const Visa = () => {
+const Flights = () => {
   return (
     <div>
       <TopNavBar />
@@ -13,4 +13,4 @@ const Visa = () => {
   );
 };
 
-export default Visa;
+export default Flights;

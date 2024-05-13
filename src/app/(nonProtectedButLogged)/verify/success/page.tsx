@@ -6,11 +6,14 @@ import Button from "@/components/lib/Button";
 import Heading from "@/components/lib/Heading/Heading";
 import { CheckIcon } from "@/components/lib/Svg";
 import Text from "@/components/lib/Text/Text";
-import Navbar from "@/components/public/Navbar";
+import TopNavBar from "@/components/public/TopNavBar";
 
 const Verify = () => {
   return (
     <div className="w-full  overflow-hidden bg-[#FFFFFF]">
+      <div className="lg:hidden">
+        <TopNavBar />
+      </div>
       <div className="flex">
         <div className="relative hidden h-screen w-[500px] lg:block">
           <Image
@@ -37,9 +40,6 @@ const Verify = () => {
               Unbeatable prices, top-notch service.
             </Text>
           </div>
-        </div>
-        <div className="lg:hidden">
-          <Navbar text="black" logo="black" />
         </div>
         <div className="m-auto mt-24 content-center items-center justify-center lg:mt-auto">
           <div className="m-auto mt-8  max-w-[403px] items-center justify-center px-3 lg:mt-4">

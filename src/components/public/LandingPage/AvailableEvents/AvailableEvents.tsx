@@ -72,6 +72,11 @@ const AvailableEvents = () => {
                   </div>
                 ))}
           </div>
+          <div className=" mt-2 flex items-center justify-center md:hidden">
+            <Link href={"/events"}>
+              <Button className="rounded-[1000px]">View all</Button>
+            </Link>
+          </div>
         </div>
       ) : null}
     </>

@@ -29,8 +29,8 @@ export const SideNavBar = ({ hamburgerColor }: { hamburgerColor?: string }) => {
         <SheetHeader>
           <SheetTitle>
             <Image
-              className="mx-auto"
-              src="/assets/images/landing-page/logo_black.png"
+              // className="mx-auto"
+              src="/assets/images/landing-page/logo_white.png"
               width={120}
               height={53}
               priority
@@ -56,6 +56,12 @@ export const SideNavBar = ({ hamburgerColor }: { hamburgerColor?: string }) => {
               </Link>
             </li>
           ))}
+          <Link
+            href={"/login"}
+            className="cod__side_nav_bar__nav_list_item mt-10 min-h-[40px] w-full rounded-[1000px] bg-[#064F99]"
+          >
+            Sign In
+          </Link>
         </ul>
       </SheetContent>
     </Sheet>

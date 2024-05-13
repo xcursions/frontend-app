@@ -22,8 +22,8 @@ import Input from "@/components/lib/Input";
 import { SubtractDate } from "@/components/lib/SubtractDate/SubtractDate";
 import Text from "@/components/lib/Text/Text";
 import Footer from "@/components/public/Footer/Footer";
-import Navbar from "@/components/public/Navbar";
 import Subscription from "@/components/public/Subscription/Subscription";
+import TopNavBar from "@/components/public/TopNavBar";
 import {
   useAppSelector,
   useAuth,
@@ -224,7 +224,7 @@ const Page = () => {
       ) : (
         <>
           <div className="bg-[#F9FAFB]">
-            <Navbar text={"black"} logo={"black"} />
+            <TopNavBar />
             <div className={styles.wrapper}>
               <div className={styles.container}>
                 <div className={styles.card_container}>

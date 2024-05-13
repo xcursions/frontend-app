@@ -2,14 +2,14 @@ import React from "react";
 
 import Header from "@/components/blog/Header";
 import Footer from "@/components/public/Footer";
-import Navbar2 from "@/components/public/Navbar2";
 import Subscription from "@/components/public/Subscription";
+import TopNavBar from "@/components/public/TopNavBar";
 
 const Blog = () => {
   return (
     <div>
       <div>
-        <Navbar2 />
+        <TopNavBar />
         <Header />
         <Subscription />
         <Footer />

@@ -64,11 +64,11 @@ const TopNavBar = () => {
               {navItem.linkTitle}
             </Link>
           ))}
-          <div className="cod__top_nav_bar__nav_list_item">
+          <div className="cod__top_nav_bar__nav_list">
             <Collapsible
               id="More"
               title="More"
-              // wrapperClassName=" min-w-[52px]"
+              wrapperClassName=" cod__top_nav_bar__nav_list_item"
             >
               <Link
                 href="/custom-trip"
@@ -80,7 +80,7 @@ const TopNavBar = () => {
               </Link>
               <br />
               <Link
-                href="/custom-trip"
+                href="/flights"
                 className={`cod__top_nav_bar__nav_list_item${
                   pathname === "/flights" ? " active" : ""
                 }`}
@@ -90,25 +90,25 @@ const TopNavBar = () => {
             </Collapsible>
           </div>
         </nav>
-        <div className="cod__top_nav_bar__nav_list_item">
+        <div className="cod__top_nav_bar__nav_list">
           {isLoggedIn ? (
-            <div className=" flex items-center gap-3">
+            <div className=" cod__top_nav_bar__nav_list">
               <Link href="/user/account/favourite">
-                <div className=" flex items-center gap-1">
+                <div className="cod__top_nav_bar__nav_list_item items-center justify-center gap-1 mdLg:flex">
                   <AiOutlineHeart />
                   Favourite
                 </div>
               </Link>
 
               <Link href="/user/wallet">
-                <div className=" flex cursor-pointer items-center gap-1">
+                <div className="cod__top_nav_bar__nav_list_item items-center justify-center gap-1 mdLg:flex">
                   <NigeriaIcon />
                   <p className="txt-14 fw-500">NGN</p>
                 </div>
               </Link>
 
               <Link href={"/user/dashboard"}>
-                <div className="flex items-center gap-1">
+                <div className="cod__top_nav_bar__nav_list_item">
                   <Image
                     src={
                       user?.profile?.avatarUrl ||
@@ -124,14 +124,14 @@ const TopNavBar = () => {
               </Link>
             </div>
           ) : (
-            <div className="flex gap-2">
+            <div className="cod__top_nav_bar__nav_list_item gap-2">
               <Link href={"/login"}>
                 <Button className="rounded-[10000px]">Sign In</Button>
               </Link>
             </div>
           )}
         </div>
-        <div className=" flex md:hidden">
+        <div className=" flex mdLg:hidden">
           <SideNavBar hamburgerColor="#000" />
         </div>
       </div>
@@ -164,8 +164,12 @@ const TopNavBar = () => {
               {navItem.linkTitle}
             </Link>
           ))}
-          <div className="cod__top_nav_bar__nav_list_item">
-            <Collapsible id="More" title="More">
+          <div className="cod__top_nav_bar__nav_list">
+            <Collapsible
+              id="More"
+              title="More"
+              wrapperClassName="cod__top_nav_bar__nav_list_item"
+            >
               <Link
                 href="/custom-trip"
                 className={`cod__top_nav_bar__nav_list_item${
@@ -176,7 +180,7 @@ const TopNavBar = () => {
               </Link>
               <br />
               <Link
-                href="/custom-trip"
+                href="/flights"
                 className={`cod__top_nav_bar__nav_list_item${
                   pathname === "/flights" ? " active" : ""
                 }`}
@@ -186,24 +190,24 @@ const TopNavBar = () => {
             </Collapsible>
           </div>
         </nav>
-        <div className="cod__top_nav_bar__nav_list_item">
+        <div className="cod__top_nav_bar__nav_list">
           {isLoggedIn ? (
-            <div className=" flex items-center gap-3">
+            <div className="cod__top_nav_bar__nav_list">
               <Link href="/user/account/favourite">
-                <div className=" flex items-center gap-1">
+                <div className="cod__top_nav_bar__nav_list_item items-center justify-center gap-1 mdLg:flex">
                   <AiOutlineHeart />
                   Favourite
                 </div>
               </Link>
               <Link href="/user/wallet">
-                <div className=" flex cursor-pointer items-center gap-1">
+                <div className="cod__top_nav_bar__nav_list_item items-center justify-center gap-1 mdLg:flex">
                   <NigeriaIcon />
                   <p className="txt-14 fw-500">NGN</p>
                 </div>
               </Link>
 
               <Link href={"/user/dashboard"}>
-                <div className="flex items-center gap-1">
+                <div className="cod__top_nav_bar__nav_list_item flex items-center gap-1">
                   <Image
                     src={
                       user?.profile?.avatarUrl ||
@@ -219,7 +223,7 @@ const TopNavBar = () => {
               </Link>
             </div>
           ) : (
-            <div className="flex gap-2">
+            <div className="cod__top_nav_bar__nav_list_item  gap-2">
               <Link href={"/login"}>
                 <Button className="rounded-[10000px]">Sign In</Button>
               </Link>
@@ -227,7 +231,7 @@ const TopNavBar = () => {
           )}
         </div>
 
-        <div className=" flex md:hidden">
+        <div className=" flex mdLg:hidden">
           <SideNavBar hamburgerColor="#000" />
         </div>
       </div>

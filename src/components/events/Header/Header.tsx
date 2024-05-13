@@ -24,8 +24,9 @@ const Header = () => {
           >
             Events
           </Heading>
-          <Text className="mx-auto max-w-[345px] text-center text-white">
-            Your Adventure Begins Here!
+          <Text className="mx-auto max-w-[500px] text-center text-white">
+            From festivals to live shows, our carefully curated events are
+            designed to deliver unforgettable experiences
           </Text>
         </div>
       </div>

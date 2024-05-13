@@ -44,7 +44,7 @@ const OurBlog = () => {
               </Link>
             </div>
           </div>
-          <div className="mx-3 mt-5 grid grid-cols-2 gap-3 object-fill sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="mx-3 mt-5 grid grid-cols-1 gap-3 object-fill sm:gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {blogData.map((blog) => (
               <Link key={blog.id} href={`/blog/${blog.id}`}>
                 <div>
@@ -65,6 +65,11 @@ const OurBlog = () => {
                 </div>
               </Link>
             ))}
+          </div>
+          <div className=" mt-2 flex items-center justify-center md:hidden">
+            <Link href={"/blog"}>
+              <Button className="rounded-[1000px]">View all</Button>
+            </Link>
           </div>
         </div>
       ) : null}

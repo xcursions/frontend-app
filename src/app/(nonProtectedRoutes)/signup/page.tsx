@@ -16,7 +16,7 @@ import Heading from "@/components/lib/Heading/Heading";
 import Input from "@/components/lib/Input/Input";
 import { HorizontalLineIcon } from "@/components/lib/Svg";
 import Text from "@/components/lib/Text/Text";
-import Navbar from "@/components/public/Navbar/Navbar";
+import TopNavBar from "@/components/public/TopNavBar";
 import { useAppDispatch } from "@/hooks";
 import { useGoogleLoginMutation, useRegisterMutation } from "@/services/auth";
 import {
@@ -108,6 +108,9 @@ const Signup = () => {
   }, [code]);
   return (
     <div className="w-full  overflow-hidden bg-[#FFFFFF]">
+      <div className="lg:hidden">
+        <TopNavBar />
+      </div>
       <div className="flex">
         <div className="relative hidden h-screen w-[500px] lg:block">
           <Image
@@ -134,9 +137,6 @@ const Signup = () => {
               Unbeatable prices, top-notch service.
             </Text>
           </div>
-        </div>
-        <div className="lg:hidden">
-          <Navbar text="black" logo="black" />
         </div>
         <div className="m-auto mt-16 content-center items-center justify-center lg:mt-auto">
           <div className="m-auto mt-8 max-w-[344px] items-center  justify-center px-1 md:max-w-[482px] lg:mt-4">

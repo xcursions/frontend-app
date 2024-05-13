@@ -41,7 +41,7 @@ const mockSlide = [
   },
   {
     id: 3,
-    imageUrl: "/assets/images/landing-page/slider3.jpeg",
+    imageUrl: "/assets/images/landing-page/slider3.png",
     title: "Flight Convenience at Your Finger Tip",
     subtitle:
       "Enjoy seamless flight booking experiences, hassle-free reservations, and convenient planning for your next adventure.",
