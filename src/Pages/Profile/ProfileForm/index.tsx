@@ -177,7 +177,7 @@ const ProfileForm = () => {
           </div>
         </div>
         <div className={styles.profileForm}>
-          <Text className="text-[15px] font-bold">ACCOUNT INFO</Text>
+          <Text className="text-[15px] font-bold">ACCOUNT INFORMATION</Text>
           <Input
             placeholder="John Doe"
             label="Full Name"

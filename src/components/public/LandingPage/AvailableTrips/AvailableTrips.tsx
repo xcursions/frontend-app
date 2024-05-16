@@ -28,7 +28,7 @@ const AvailableTrips = () => {
               className={trip === "private" ? "active" : ""}
               onClick={() => setTrip("private")}
             >
-              Personalized Trip
+              Personalised Trip
             </p>
             <p
               className={trip === "group" ? "active" : ""}

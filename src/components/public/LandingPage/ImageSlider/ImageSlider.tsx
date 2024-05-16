@@ -22,15 +22,6 @@ type Props = {
 
 const mockSlide = [
   {
-    id: 1,
-    imageUrl: "/assets/images/landing-page/slider1.png",
-    title: "Travel Freely, Explore Without Debt",
-    subtitle:
-      "Experience the liberating joy of debt-free travel with our “Pay small small” option. Save effortlessly and travel spontaneously, anytime, anywhere.",
-    button: "Start Saving",
-    link: "/user/wallet",
-  },
-  {
     id: 2,
     imageUrl: "/assets/images/landing-page/slider2.png",
     title: "Your Vacation, Your Way",
@@ -40,13 +31,22 @@ const mockSlide = [
     link: "/trips",
   },
   {
+    id: 1,
+    imageUrl: "/assets/images/landing-page/slider1.png",
+    title: "Travel Freely, Explore Without Debt",
+    subtitle:
+      "Experience the liberating joy of debt-free travel with our “Pay small small” option. Save effortlessly and travel spontaneously, anytime, anywhere.",
+    button: "Start Saving",
+    link: "/user/wallet",
+  },
+  {
     id: 3,
     imageUrl: "/assets/images/landing-page/slider3.png",
     title: "Flight Convenience at Your Finger Tip",
     subtitle:
       "Enjoy seamless flight booking experiences, hassle-free reservations, and convenient planning for your next adventure.",
     button: "Book Now",
-    link: "/custom-trip",
+    link: "/flights",
   },
 ];
 export const ImageSlider: React.FC<Props> = ({

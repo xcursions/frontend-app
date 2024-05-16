@@ -11,7 +11,7 @@ const WhyChooseUs = () => {
     <section className="xcursion_wcs">
       <div className="xcursion_wcs_wrapper">
         <div>
-          <h3 className="header">Why Choose Us</h3>
+          <h3 className="header">Why Choose Us?</h3>
           {/* <p className="paragraph">The best place you could spend the summer</p> */}
         </div>
 

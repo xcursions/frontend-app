@@ -42,6 +42,9 @@ const Layout = ({ children }: any) => {
       router.push(`/login?clfrm=${pathname}`);
     }
   }, [user, router, pathname]);
+  useEffect(() => {
+    setSidebarMenuActive(false);
+  }, [pathname]);
   return (
     <>
       {domLoading || !appConfig || !isAuthenticated ? (

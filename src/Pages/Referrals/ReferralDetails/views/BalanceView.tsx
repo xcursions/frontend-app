@@ -148,10 +148,10 @@ const BalanceView = () => {
           {showBalance ? (
             <>
               {parseInt(
-                walletBalance?.user?.referralPointAccount?.amount,
+                walletBalance?.user?.referralPointAccount?.amount ?? 0,
                 10
               ).toLocaleString()}
-              <span className="text-[20px]">Points</span>
+              <span className="text-[20px]"> Points</span>
             </>
           ) : (
             "***"
