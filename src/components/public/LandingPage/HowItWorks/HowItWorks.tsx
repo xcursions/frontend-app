@@ -65,7 +65,7 @@ const HowItWorks = () => {
       <div className="xcursion_hiw_card_container">
         <div>
           <Image
-            src="/assets/images/landing-page/hiw3.png"
+            src="/assets/images/landing-page/hiw3.jpg"
             alt="how it works 3"
             width={400}
             height={280}
