@@ -18,7 +18,7 @@ const HowItWorks = () => {
             width={400}
             height={280}
             //   layout="fill"
-            //   className="w-full"
+            className="max-h-[285px] w-full max-w-[400px] object-cover"
           />
         </div>
         <div className="xcursion_hiw_card_container__txt">
@@ -59,18 +59,19 @@ const HowItWorks = () => {
             height={280}
             //   layout="fill"
             //   className="w-full"
+            className="max-h-[285px] w-full max-w-[400px] object-cover"
           />
         </div>
       </div>
       <div className="xcursion_hiw_card_container">
         <div>
           <Image
-            src="/assets/images/landing-page/hiw3.jpg"
+            src="/assets/images/landing-page/hiw3.jpeg"
             alt="how it works 3"
             width={400}
             height={280}
             //   layout="fill"
-            //   className="w-full"
+            className="max-h-[285px] w-full max-w-[400px] rounded-xl object-cover"
           />
         </div>
         <div className="xcursion_hiw_card_container__txt">
