@@ -13,7 +13,7 @@ import { formatedDate } from "@/components/lib/FormatWeekRange/FormatWeekRage";
 import MaskString from "@/components/lib/MaskString/MaskString";
 import { ArrowIcon, DownloadIcon } from "@/components/lib/Svg";
 import Text from "@/components/lib/Text";
-import Addon from "@/components/trips/Addon/Addon";
+// import Addon from "@/components/trips/Addon/Addon";
 import { DataTable } from "@/components/ui/data-table";
 import type { AdminBookingProps } from "@/types";
 
@@ -315,7 +315,7 @@ const BookedTripDetails = ({ detailsData }: Props) => {
           </div>
         </div>
         {/** Itineraries */}
-        <div className="my-[15px] w-full bg-[#ffffff] xl:my-[25px]">
+        {/* <div className="my-[15px] w-full bg-[#ffffff] xl:my-[25px]">
           <div className="p-[24px]">
             <Text className="font-dmSansBold text-[16px] font-bold">
               Itineraries
@@ -334,7 +334,7 @@ const BookedTripDetails = ({ detailsData }: Props) => {
               )}
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
       {isOpen && (
         <>
