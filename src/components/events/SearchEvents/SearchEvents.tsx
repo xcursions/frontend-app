@@ -19,13 +19,22 @@ import EventCard from "./EventCard/EventCard";
 import styles from "./SearchEvents.module.scss";
 
 const optionPrice = [
-  { value: { minPrice: "0", maxPrice: "500000" }, label: "Under 500k" },
-  { value: { minPrice: "500000", maxPrice: "1000000" }, label: "500k - 1M" },
-  { value: { minPrice: "1000000", maxPrice: "1500000" }, label: "1M - 1.5M" },
-  { value: { minPrice: "1500000", maxPrice: "3000000" }, label: "1.5M -3M" },
+  { value: { minPrice: "0", maxPrice: "500000" }, label: "Under 500,000" },
+  {
+    value: { minPrice: "500000", maxPrice: "1000000" },
+    label: "500,000 - 1,000,000",
+  },
+  {
+    value: { minPrice: "1000000", maxPrice: "1500000" },
+    label: "1,000,000 - 1,500,000",
+  },
+  {
+    value: { minPrice: "1500000", maxPrice: "3000000" },
+    label: "1,500,000 -3,000,000",
+  },
   {
     value: { minPrice: "3000000", maxPrice: "20000000" },
-    label: "3M and above",
+    label: "3,000,000 and above",
   },
 ];
 const SearchEvents = () => {

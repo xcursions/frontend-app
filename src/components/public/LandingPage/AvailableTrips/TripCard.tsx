@@ -106,7 +106,7 @@ const TripCard = ({ post }: Props) => {
       {pathname === "/" ? (
         <div className="xcursions_tripcard_type">
           {post.type === "tour" && post?.subType === "private"
-            ? "personalized"
+            ? "personalised"
             : post.type === "tour" && post?.subType}{" "}
           {post.type === "tour" ? "Trip" : null}
         </div>

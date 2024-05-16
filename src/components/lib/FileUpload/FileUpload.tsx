@@ -136,7 +136,7 @@ const FileUpload: FC<FileUploadProps> = ({
               <FiUploadCloud className="text-xl" />
             </figure>
             <span className="cursor-pointer font-semibold text-[#6941C6]">
-              Click to upload
+              Click to upload{" "}
             </span>
             <span>or drag and drop images</span>
             <p className="cursor-pointer text-[#667085]">

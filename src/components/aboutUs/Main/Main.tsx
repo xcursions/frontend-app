@@ -54,7 +54,7 @@ const Main = () => {
             </Text>
             <Text className="my-3 text-justify text-[16px] font-normal text-[#667084]">
               <span className="font-dmSansBold text-[#101828]">
-                Personalization:
+                Personalisation:
               </span>{" "}
               Your journey should reflect your unique interests and desires.
               That&apos;s why we tailor every trip to your preferences, ensuring

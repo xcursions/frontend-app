@@ -7,12 +7,7 @@ import { IoNotificationsOutline } from "react-icons/io5";
 import FullPageLoader from "@/components/lib/FullPageLoader";
 // import Input from "@/components/lib/Input/Input";
 import TimeDifference from "@/components/lib/TimeDifference/TimeDifference";
-import {
-  useAppSelector,
-  useErrorHandler,
-  useLogoutUser,
-  useSuccessHandler,
-} from "@/hooks";
+import { useErrorHandler, useLogoutUser, useSuccessHandler } from "@/hooks";
 import {
   useGetNotificationsQuery,
   useGetUserProfileQuery,
@@ -118,8 +113,8 @@ const NotificationList = ({ img, desc, datetime, id }: any) => {
 };
 
 const Header = ({ toggleSidebarMenu }: any) => {
-  const { data, isSuccess, isError, error } = useGetUserProfileQuery();
-  const { auth } = useAppSelector((state) => state.user);
+  const { data, isError, error } = useGetUserProfileQuery();
+  // const { auth } = useAppSelector((state) => state.user);
   const { data: notificationData, isSuccess: notificationSuccess } =
     useGetNotificationsQuery("?limit=50");
   useErrorHandler({ isError, error });
@@ -226,11 +221,11 @@ const Header = ({ toggleSidebarMenu }: any) => {
                 </ul>
               </DropdownMenu>
             </li>
-            <p className="hidden font-dmSansRegular text-[14px] text-[#101828] lg:block">
+            {/* <p className="hidden font-dmSansRegular text-[14px] text-[#101828] lg:block">
               {auth === "regular-auth"
                 ? isSuccess && data?.data?.username
                 : isSuccess && data?.data?.lastName}
-            </p>
+            </p> */}
           </ul>
         </div>
       </section>
