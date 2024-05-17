@@ -3,8 +3,8 @@ import { notFound } from "next/navigation";
 import React from "react";
 
 import Footer from "@/components/public/Footer/Footer";
-import Navbar from "@/components/public/Navbar/Navbar";
 import Subscription from "@/components/public/Subscription/Subscription";
+import TopNavBar from "@/components/public/TopNavBar";
 import RelatedTrips from "@/components/trips/RelatedTrips";
 import TripDetails from "@/components/trips/TripDetails/TripDetails";
 // import { useSearchOutingsQuery } from "@/services/public";
@@ -104,7 +104,7 @@ const Event = async ({ params }: { params: { slug: string } }) => {
   return (
     <main>
       <div className="bg-[#ffffff]">
-        <Navbar text={"black"} logo={"black"} />
+        <TopNavBar />
         {data && <TripDetails detailsData={data} />}
         {/* {isSuccess && <TripDetails detailsData={data} />} */}
         <RelatedTrips />

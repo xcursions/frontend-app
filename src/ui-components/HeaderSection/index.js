@@ -15,6 +15,7 @@ const HeaderSection = ({ heading, subHeading, rightItem = () => {} }) => {
             fontFamily: "dmSansBold",
             fontWeight: "700",
           }}
+          className=" capitalize"
         >
           {heading}
         </h1>

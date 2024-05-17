@@ -1,0 +1,112 @@
+.xcursions_tripcard {
+    max-width: 273px;
+    margin-top: 40px;
+    width: 100%;
+    position: relative;
+    // overflow: hidden;
+    @include breakpoint(mobile-lg) {
+        max-width: 85vw;
+        margin-top: 40px;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+    }
+    @include breakpoint(mobile-medium) {
+        // max-width: 380px;
+        max-width: 85vw;
+        margin-top: 40px;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+    }
+    &_image {
+        display: block;
+        width: 100%;
+        min-width: 273px;
+        height: 222px;
+        object-fit: cover;
+        border-radius: 16px;
+        @include breakpoint(mobile-lg) {
+            display: block;
+            width: 100%;
+            // max-width: 190px;
+            max-width: 85vw;
+            min-width: 85vw;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 16px;
+        }
+        @include breakpoint(mobile-medium) {
+            display: block;
+            width: 100%;
+            // max-width: 380px;
+            max-width: 85vw;
+            // min-width: 350px;
+            min-width: 85vw;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 16px;
+        }
+    }
+    &_icon {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 30px;
+        border-radius: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 30px;
+        background-color: $color-white;
+        cursor: pointer;
+    }
+    &_type {
+        position: absolute;
+        bottom: 35%;
+        left: 10px;
+        width: fit-content;
+        padding: 10px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 30px;
+        background-color: #00000099;
+        color: $color-white;
+        backdrop-filter: 60%;
+        text-transform: capitalize;
+        @include breakpoint(mobile-lg) {
+            bottom: 45%;
+        }
+        // opacity: 0.6;
+        cursor: pointer;
+    }
+    &_icon:hover {
+        opacity: 0.7;
+    }
+    &_name {
+        // font-size: clamp(12px, 8vw, 18px);
+        font-weight: 700;
+        color: #101828;
+        @apply text-[12px] md:text-[16px] lg:text-[18px];
+    }
+    &_country {
+        display: flex;
+        font-size: 10px;
+        align-items: center;
+        gap: 5px;
+        font-weight: 400;
+        color: #475467;
+        img {
+            width: 13px;
+            height: 13px;
+        }
+    }
+    &_price {
+        font-size: 16px;
+        font-family: $fontDmSans;
+        font-weight: 700;
+        color: #101828;
+    }
+}

@@ -1,8 +1,6 @@
 "use client";
 
 import Image from "next/image";
-// import Link from "next/link";
-import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 // import { AiOutlineWhatsApp } from "react-icons/ai";
 import { FiNavigation, FiPhoneCall } from "react-icons/fi";
@@ -12,7 +10,7 @@ import Button from "@/components/lib/Button";
 import Input from "@/components/lib/Input";
 import Text from "@/components/lib/Text/Text";
 import TextArea from "@/components/lib/TextArea/TextArea";
-import { useAppSelector, useErrorHandler, useSuccessHandler } from "@/hooks";
+import { useErrorHandler, useSuccessHandler } from "@/hooks";
 import { useCreateContactMutation } from "@/services/user";
 
 const initialState = {
@@ -23,8 +21,6 @@ const initialState = {
 
 const Form = () => {
   const [payload, setPayload] = useState(initialState);
-  const router = useRouter();
-  const { user } = useAppSelector((state) => state.user);
   const [createContact, { isSuccess, isError, error }] =
     useCreateContactMutation();
 
@@ -77,22 +73,25 @@ const Form = () => {
               </div>
             </a> */}
             <div className="flex items-center gap-3 pt-3">
-              <div className="rounded-full bg-[#EBF5FF] p-3">
+              <a
+                href={`tel:+2348168277417`}
+                className="rounded-full bg-[#EBF5FF] p-3"
+              >
                 <FiPhoneCall className="text-[#0A83FF]" />
-              </div>
+              </a>
               <Text className="text-[16px] text-[#000000] lg:text-[20px]">
-                <a href={`tel:+2348012914116`}>+2348012914116</a> or{" "}
-                <a href={`tel:+2347057051768`}>+2347057051768</a>
+                <a href={`tel:+2348168277417`}>+2348168277417</a>
               </Text>
             </div>
             <div className="flex items-center gap-3 pt-3">
-              <div className="rounded-full bg-[#EBF5FF] p-3">
+              <a
+                className="rounded-full bg-[#EBF5FF] p-3"
+                href={`mailto:admin@xcursions.ng`}
+              >
                 <TbMailbox className="text-[#0A83FF]" />
-              </div>
+              </a>
               <Text className="text-[16px] text-[#000000] lg:text-[20px]">
-                <a href={`mailto:xcursionsng@gmail.com`}>
-                  xcursionsng@gmail.com
-                </a>
+                <a href={`mailto:admin@xcursions.ng`}>admin@xcursions.ng</a>
               </Text>
             </div>
             <div
@@ -167,22 +166,13 @@ const Form = () => {
                   setPayload({ ...payload, message: event.target.value })
                 }
               />
-              {user && (
-                <Button
-                  className="mt-[32px] w-full rounded-3xl"
-                  onClick={handleSubmit}
-                >
-                  Send Message
-                </Button>
-              )}
-              {!user && (
-                <Button
-                  className="mt-[32px] w-full rounded-3xl"
-                  onClick={() => router.push("/login")}
-                >
-                  Please login to message
-                </Button>
-              )}
+
+              <Button
+                className="mt-[32px] w-full rounded-3xl"
+                onClick={handleSubmit}
+              >
+                Send Message
+              </Button>
             </div>
           </div>
         </div>

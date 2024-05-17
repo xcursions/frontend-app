@@ -16,6 +16,14 @@ type IUser = {
   referralId?: string | null;
   userReferrals: any[];
   user_booking_info: UserBookingInfo;
+  wallet: {
+    amount: string;
+    id: string;
+    lockedAmount: string;
+    createdAt: string;
+    updatedAt: string;
+    userId: string;
+  };
 };
 export default IUser;
 

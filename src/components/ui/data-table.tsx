@@ -10,7 +10,6 @@ import {
 } from "@tanstack/react-table";
 import * as React from "react";
 
-// import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -109,7 +108,7 @@ export function DataTable<TData, TValue>({
             )}
           </TableBody>
         </Table>
-        <div className="text-muted-foreground mx-3 my-1 flex-1 text-xs">
+        <div className="mx-3 my-1 flex-1 text-xs text-muted-foreground">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected.
         </div>

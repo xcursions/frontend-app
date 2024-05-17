@@ -1,11 +1,15 @@
 export { ArrowIcon } from "./ArrowIcon";
+export * from "./CancelIcon";
 export * from "./CheckIcon";
+export { default as ChevronIcon } from "./ChevronIcon";
 export * from "./CoinIcon";
 export { CopyIcon } from "./CopyIcon";
 export { DownloadIcon } from "./DownloadIcon";
 export * from "./EyeIcon";
+export * from "./HamburgerIcon";
 export * from "./HorizontalLineIcon";
 export * from "./InfoIcon";
+export * from "./NigeriaIcon";
 export * from "./OptionsIcon";
 export * from "./ShareIcon";
 export * from "./SocialIcons";

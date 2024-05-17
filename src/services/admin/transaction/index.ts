@@ -1,4 +1,7 @@
 import { authApi } from "@/services/auth";
+import type { ApiResponseTypes } from "@/types/ApiResponseType";
+
+import type { FundUserPayload } from "../payload";
 
 export const transactionApi = authApi.injectEndpoints({
   // reducerPath: "transactionApi",
@@ -61,6 +64,17 @@ export const transactionApi = authApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    fundUser: builder.mutation<
+      ApiResponseTypes<unknown>,
+      { data: FundUserPayload; id: string }
+    >({
+      query: ({ id, data }) => ({
+        url: `/admin-analytic/wallet-credits/users/${id}`,
+        method: "POST",
+        body: { ...data },
+      }),
+      invalidatesTags: ["Admin"],
+    }),
   }),
 });
 
@@ -74,4 +88,5 @@ export const {
   useGetTransactionByIdQuery,
   useGetBookingChartQuery,
   useGetTransactionVolumeQuery,
+  useFundUserMutation,
 } = transactionApi;

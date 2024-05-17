@@ -28,10 +28,7 @@ const SidebarNavigation = ({ sidebarMenuActive }: any) => {
         x
       </button> */}
       <div className={styles["logo-container"]}>
-        <HeaderSection
-          heading={"Account"}
-          subHeading={"Welcome back to your dashboard"}
-        />
+        <HeaderSection heading={"Account"} subHeading={""} />
       </div>
       <ul className={styles["sidebar-container"]}>
         {routes.map((page, index) => (

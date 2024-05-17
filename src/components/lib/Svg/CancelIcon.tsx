@@ -1,4 +1,8 @@
-export const CancelIcon = () => {
+type Props = {
+  color?: string;
+};
+
+export const CancelIcon = ({ color }: Props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -9,14 +13,14 @@ export const CancelIcon = () => {
     >
       <path
         d="M18.9805 6L6.98047 18"
-        stroke="#031439"
+        stroke={color || "#031439"}
         strokeWidth="2"
         strokeLinecap="square"
         strokeLinejoin="round"
       />
       <path
         d="M6.98047 6L18.9805 18"
-        stroke="#031439"
+        stroke={color || "#031439"}
         strokeWidth="2"
         strokeLinecap="square"
         strokeLinejoin="round"

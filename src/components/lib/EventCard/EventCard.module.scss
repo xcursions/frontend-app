@@ -38,7 +38,7 @@
   // }
   .pics {
     max-height: 210px;
-    @apply h-full w-full rounded-[20px] lg:h-[210px];
+    @apply h-full w-full rounded-[20px] lg:h-[210px] object-cover;
   }
   .imagetextbody {
     @apply absolute bottom-0 flex items-center justify-between left-0 right-0 pb-2 pl-4 opacity-100;

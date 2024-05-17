@@ -1,4 +1,6 @@
 import { authApi } from "@/services/auth";
+import type { IUser } from "@/types";
+import type { ApiResponseTypes } from "@/types/ApiResponseType";
 
 import type {
   ChangeEmailOtpPayload,
@@ -13,9 +15,11 @@ import type {
 
 export const userApi = authApi.injectEndpoints({
   endpoints: (builder) => ({
-    getUser: builder.query<any, any>({
+    getUser: builder.query<IUser, void>({
       query: () => ({ url: "/user", method: "GET" }),
       providesTags: ["User"],
+      transformResponse: (response: ApiResponseTypes<IUser>) =>
+        (response?.data as IUser) || {},
     }),
     changePassword: builder.mutation<any, ChangePasswordPayload>({
       query: (data) => ({
@@ -164,6 +168,13 @@ export const userApi = authApi.injectEndpoints({
       }),
       invalidatesTags: ["UserInfo"],
     }),
+    deleteOutingLike: builder.mutation<any, any>({
+      query: (query) => ({
+        url: `/outing-likes/${query}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["UserInfo"],
+    }),
     getOutingLike: builder.query<any, any>({
       query: (query) => ({
         url: `/outing-likes/outings${query}`,
@@ -262,6 +273,16 @@ export const userApi = authApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    generatePayForMeLink: builder.mutation<
+      ApiResponseTypes<unknown>,
+      { id: any; data: any }
+    >({
+      query: ({ id, data }) => ({
+        url: `checkout/bookings/${id}/pay-for-me`,
+        method: "POST",
+        body: { ...data },
+      }),
+    }),
     logout: builder.mutation<any, any>({
       query: () => ({ url: "/user/logout/", method: "POST" }),
     }),
@@ -278,6 +299,7 @@ export const {
   useUpdateUserPictureMutation,
   useUpdateUserProfileMutation,
   useGetUserProfileQuery,
+  useLazyGetUserProfileQuery,
   useGetWalletBalanceQuery,
   useCreateBookingMutation,
   useLazyGetTransactionsQuery,
@@ -299,6 +321,7 @@ export const {
   useMarkNotificationMutation,
   useGetUpcomingScheduleQuery,
   useCreateOutingLikeMutation,
+  useDeleteOutingLikeMutation,
   useGetOutingLikeQuery,
   useLazyGetOutingLikeQuery,
   useCreatePaymentCardMutation,
@@ -308,4 +331,5 @@ export const {
   useCreatePaymentCardPinMutation,
   useGenerateReferalCodeMutation,
   useGetReferralHistoryQuery,
+  useGeneratePayForMeLinkMutation,
 } = userApi;

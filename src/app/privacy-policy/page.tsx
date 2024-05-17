@@ -1,14 +1,14 @@
 import React from "react";
 
 import Footer from "@/components/public/Footer/Footer";
-import Navbar from "@/components/public/Navbar/Navbar";
 import Subscription from "@/components/public/Subscription/Subscription";
+import TopNavBar from "@/components/public/TopNavBar";
 
 const page = () => {
   return (
     <div className="bg-[#ffffff]">
       <div>
-        <Navbar text={"black"} logo={"black"} />
+        <TopNavBar />
         <div className="w-full px-5 pt-[100px] md:pt-[130px] lg:pt-[180px]">
           <div className="relative mx-auto max-w-[900px] font-dmSansMedium">
             <h1 className="text-center font-dmSansBold text-[30px] lg:text-[36px]">

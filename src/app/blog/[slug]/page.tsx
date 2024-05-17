@@ -4,8 +4,8 @@ import React from "react";
 
 import BlogDetails from "@/components/blog/BlogDetails/BlogDetails";
 import Footer from "@/components/public/Footer/Footer";
-import Navbar from "@/components/public/Navbar";
 import Subscription from "@/components/public/Subscription/Subscription";
+import TopNavBar from "@/components/public/TopNavBar";
 // import { useGetSingleBlogQuery } from "@/services/public";
 
 async function getBlogData(slug: string) {
@@ -98,16 +98,11 @@ export async function generateMetadata(
 const Blog = async ({ params }: { params: { slug: string } }) => {
   const { slug } = params;
   const data = await getBlogData(slug);
-  // const { data, isSuccess } = useGetSingleBlogQuery(slug);
-  // if (isSuccess && !data) {
-  //   notFound();
-  // }
   return (
     <div>
       <div className="bg-[#F9FAFB]">
-        <Navbar text={"white"} logo={"white"} />
+        <TopNavBar />
         {data && <BlogDetails detailsData={data} />}
-        {/* {isSuccess && <BlogDetails detailsData={data} />} */}
         <Subscription />
         <Footer />
       </div>

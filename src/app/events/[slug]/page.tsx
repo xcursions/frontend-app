@@ -5,8 +5,8 @@ import React from "react";
 import EventDetails from "@/components/events/EventDetails/EventDetails";
 import RelatedEvents from "@/components/events/RelatedEvents/RelatedEvents";
 import Footer from "@/components/public/Footer/Footer";
-import Navbar from "@/components/public/Navbar/Navbar";
 import Subscription from "@/components/public/Subscription/Subscription";
+import TopNavBar from "@/components/public/TopNavBar";
 // import { useSearchOutingsQuery } from "@/services/public";
 
 async function getOutingData(slug: string) {
@@ -105,7 +105,7 @@ const Event = async ({ params }: { params: { slug: string } }) => {
   return (
     <main>
       <div className="bg-[#ffffff]">
-        <Navbar text={"black"} logo={"black"} />
+        <TopNavBar />
         {data && <EventDetails detailsData={data} />}
         {/* {isSuccess && <EventDetails detailsData={data} />} */}
         <RelatedEvents />

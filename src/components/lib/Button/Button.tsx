@@ -33,7 +33,7 @@ const Button: FC<ButtonProps> = ({
       disabled={loading || disabled}
       className={`${styles.base} ${buttonSize} ${buttonVariant} ${
         loading ? "cursor-wait" : ""
-      } ${className || ""}`}
+      } ${className || ""} ${disabled ? " bg-gray-300" : ""}`}
       {...rest}
     >
       {loading ? <Loader /> : children}

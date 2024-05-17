@@ -1,0 +1,126 @@
+.business_onboard {
+  max-width: 43.3rem;
+  width: 100%;
+  overflow-x: hidden;
+
+  &__head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 0.4rem;
+    margin-bottom: 2.4rem;
+
+    &_step {
+      color: $neutral-300;
+    }
+    &_title {
+      @include breakpoint(tablet-sm) {
+        max-width: 24.2rem;
+      }
+    }
+    &_subtitle {
+      color: $neutral-400;
+    }
+  }
+  &_title {
+    margin-bottom: 1.2rem;
+    color: $neutral-800;
+  }
+  &__form {
+    transition: transform 0.5s ease;
+    &_content {
+      overflow-x: hidden;
+    }
+
+    #slider {
+      display: flex;
+      .slide {
+        flex-shrink: 0;
+        padding: 0 2rem;
+        padding-bottom: 5rem;
+
+        & > .mep_btn {
+          margin-top: 1.2rem;
+        }
+      }
+    }
+
+    &_input {
+      padding-bottom: 1.2rem;
+      .mep_input_wrapper,
+      .mep_dropdown_wrapper {
+        max-width: 100%;
+      }
+      &_tooltip {
+        display: flex;
+        align-items: center;
+        column-gap: 0.6rem;
+        margin-top: 0.6rem;
+        & > span {
+          color: $neutral-500;
+        }
+      }
+
+      &.row {
+        display: flex;
+        align-items: flex-start;
+        column-gap: 1.2rem;
+
+        &.website_url {
+          column-gap: 0.6rem;
+          & > .website_url_prefix {
+            max-width: 8.1rem;
+            & > label {
+              visibility: hidden;
+            }
+          }
+          & > .website_url_value {
+            & > label {
+              margin-left: -8.7rem;
+            }
+          }
+        }
+      }
+    }
+
+    & .cta_row {
+      display: flex;
+      align-items: flex-start;
+      column-gap: 1.8rem;
+      & > .mep_btn {
+        min-width: 45%;
+        width: 100%;
+      }
+    }
+  }
+
+  &__success {
+    max-width: 41.4rem;
+
+    &_popup_wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &_top {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      row-gap: 0.4rem;
+      margin-bottom: 2.4rem;
+
+      & > .illustration {
+        font-size: 3.45rem;
+        padding: 1.6rem;
+        border: 0.1rem solid $neutral-50;
+        background: $neutral-25;
+        border-radius: 50%;
+      }
+    }
+
+    @include breakpoint(tablet-sm) {
+      max-width: 32.2rem;
+    }
+  }
+}

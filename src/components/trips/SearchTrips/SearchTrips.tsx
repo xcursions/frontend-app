@@ -9,6 +9,7 @@ import { FiFilter } from "react-icons/fi";
 import Input from "@/components/lib/Input";
 import { Pagination } from "@/components/lib/Pagination";
 import Select from "@/components/lib/Select/Select";
+import TripCard from "@/components/public/LandingPage/AvailableTrips/TripCard";
 import useSuccessHandler from "@/hooks/useSuccessHandler";
 import {
   useFetchAllOutingsQuery,
@@ -19,16 +20,25 @@ import {
 import type { OutingProps } from "@/types";
 
 import styles from "./SearchTrips.module.scss";
-import TripCard from "./TripCard/TripCard";
+// import TripCard from "./TripCard/TripCard";
 
 const optionPrice = [
-  { value: { minPrice: "0", maxPrice: "500000" }, label: "Under 500k" },
-  { value: { minPrice: "500000", maxPrice: "1000000" }, label: "500k - 1M" },
-  { value: { minPrice: "1000000", maxPrice: "1500000" }, label: "1M - 1.5M" },
-  { value: { minPrice: "1500000", maxPrice: "3000000" }, label: "1.5M -3M" },
+  { value: { minPrice: "0", maxPrice: "500000" }, label: "Under 500,000" },
+  {
+    value: { minPrice: "500000", maxPrice: "1000000" },
+    label: "500,000 - 1,000,000",
+  },
+  {
+    value: { minPrice: "1000000", maxPrice: "1500000" },
+    label: "1,000,000 - 1,500,000",
+  },
+  {
+    value: { minPrice: "1500000", maxPrice: "3000000" },
+    label: "1,500,000 -3,000,000",
+  },
   {
     value: { minPrice: "3000000", maxPrice: "20000000" },
-    label: "3M and above",
+    label: "3,000,000 and above",
   },
 ];
 
@@ -270,7 +280,7 @@ const SearchTrips = () => {
           </form>
         </div>
         {/* Trip Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+        <div className="flex flex-wrap justify-around">
           {outingData.map((post) => (
             <Link key={`${post.id}`} href={`/trips/${post.id}`}>
               <TripCard post={post} />
