@@ -18,6 +18,7 @@
     &_card_container {
         width: 100%;
         display: grid;
+        max-width: 90vw;
         gap: 2%;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         @include breakpoint(tablet-md) {
