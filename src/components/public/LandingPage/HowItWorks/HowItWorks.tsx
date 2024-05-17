@@ -66,12 +66,12 @@ const HowItWorks = () => {
       <div className="xcursion_hiw_card_container">
         <div>
           <Image
-            src="/assets/images/landing-page/hiw3.jpeg"
+            src="/assets/images/landing-page/hiw3.png"
             alt="how it works 3"
             width={400}
             height={280}
             //   layout="fill"
-            className="max-h-[285px] w-full max-w-[400px] rounded-xl object-cover"
+            // className="max-h-[285px] w-full max-w-[400px] rounded-xl object-cover"
           />
         </div>
         <div className="xcursion_hiw_card_container__txt">
