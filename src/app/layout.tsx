@@ -108,28 +108,27 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <Script
-          async
-          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GTAG}`}
-        />
-        <Script
-          id="g_tag"
-          dangerouslySetInnerHTML={{
-            __html: `  window.dataLayer = window.dataLayer || [];
+      <Script
+        async
+        src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GTAG}`}
+      />
+      <Script
+        id="g_tag"
+        dangerouslySetInnerHTML={{
+          __html: `  window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
 
         gtag('config','${process.env.NEXT_PUBLIC_GTAG}', {
           page_path: window.location.pathname,
         })`,
-          }}
-        />
-        <Script
-          id="facebook-pixel"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
+        }}
+      />
+      <Script
+        id="facebook-pixel"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
             !function(f,b,e,v,n,t,s)
             {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
             n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -141,8 +140,16 @@ export default function RootLayout({
             fbq('init', '801857154803217');
             fbq('track', 'PageView');
           `,
-          }}
-        />
+        }}
+      />
+
+      <body
+        className={cn(
+          `${dmSans.className} relative min-h-screen bg-background antialiased`,
+          dmSans.variable
+        )}
+      >
+        {" "}
         <noscript>
           <img
             height="1"
@@ -151,13 +158,6 @@ export default function RootLayout({
             src="https://www.facebook.com/tr?id=801857154803217&ev=PageView&noscript=1"
           />
         </noscript>
-      </head>
-      <body
-        className={cn(
-          `${dmSans.className} relative min-h-screen bg-background antialiased`,
-          dmSans.variable
-        )}
-      >
         <Providers>
           <Toaster position="top-right" toastOptions={toastOptions} />
           {children}
