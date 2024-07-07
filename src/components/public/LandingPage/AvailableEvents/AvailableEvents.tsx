@@ -45,12 +45,8 @@ const AvailableEvents = () => {
                       parseInt(items.outingChargePlan.costGroup, 10) > 1 &&
                       items.outingChargePlan
                   )
-                  .map((post: OutingProps, index: any) => (
-                    <div
-                      key={`${post.outingDestination.id}${post?.outingGallery[0]?.id}--${post.id}-${index}`}
-                    >
-                      <TripCard post={post} />
-                    </div>
+                  .map((post: OutingProps) => (
+                    <TripCard post={post} key={`${post.id}`} />
                   ))}
             </div>
           </div>
@@ -64,12 +60,8 @@ const AvailableEvents = () => {
                     items.outingChargePlan
                 )
                 .slice(0, 4)
-                .map((post: OutingProps, index: any) => (
-                  <div
-                    key={` ${index}----${post.id}${post?.outingGallery[0]?.id}`}
-                  >
-                    <TripCard post={post} />
-                  </div>
+                .map((post: OutingProps) => (
+                  <TripCard post={post} key={`${post.id}`} />
                 ))}
           </div>
           <div className=" mt-2 flex items-center justify-center md:hidden">

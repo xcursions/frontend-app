@@ -42,7 +42,7 @@ const Verify = () => {
           </div>
         </div>
         <div className="m-auto mt-24 content-center items-center justify-center lg:mt-auto">
-          <div className="m-auto mt-8  max-w-[403px] items-center justify-center px-3 lg:mt-4">
+          <div className="m-auto mt-8  max-w-[403px] items-center justify-center px-3 text-center lg:mt-4">
             <div className="mx-auto flex h-[48px] w-[48px] items-center justify-center rounded-full bg-[#12B76A] md:h-[64px] md:w-[64px]">
               <CheckIcon />
             </div>
@@ -51,14 +51,13 @@ const Verify = () => {
               type="h1"
               className="m-auto text-center font-dmSansBold text-[18px] leading-[160%]"
             >
-              Account Created
+              Payment Success
             </Heading>
             <Text className="text-center text-[14px] leading-[160%] text-[#667084]">
-              Account created successfully! Login with your email and password.
-              Keep your login details secure. Thank you for choosing us!
+              Thank you for choosing us!
             </Text>
-            <Link href="/user/dashboard">
-              <Button className="my-[16px] w-full rounded-[100px] font-dmSansRegular text-[16px] font-normal">
+            <Link href="/user/dashboard" className=" text-center">
+              <Button className="my-[16px] w-full rounded-[100px] text-center font-dmSansRegular text-[16px] font-normal">
                 Proceed to Dashboard
               </Button>
             </Link>

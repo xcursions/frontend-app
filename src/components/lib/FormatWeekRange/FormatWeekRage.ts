@@ -2,6 +2,7 @@ const formatDate = (dateString: string | number | Date) => {
   const date = new Date(dateString);
   const day = date.getDate();
   const month = date.toLocaleString("default", { month: "short" });
+  // const year = date.getFullYear();
 
   let daySuffix = "th";
   if (day === 1 || day === 21 || day === 31) {

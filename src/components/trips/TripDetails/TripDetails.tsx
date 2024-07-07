@@ -1,9 +1,8 @@
-// @ts-nocheck
-
 "use client";
 
 import { addDays } from "date-fns";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import type { DateRange } from "react-day-picker";
 import toaster from "react-hot-toast";
@@ -57,7 +56,6 @@ import {
 } from "@/services/user";
 import { setUserBooking } from "@/store/slices/userSlice";
 import type { OutingProps } from "@/types";
-import { isLessThan20DaysFromNow } from "@/utils";
 import { HandleCopyLink } from "@/utils/handleCopyLink";
 
 import Addon from "../Addon/Addon";
@@ -66,8 +64,19 @@ import styles from "./TripDetails.module.scss";
 type Props = {
   detailsData: OutingProps;
 };
-const initialState = {
-  outingDateId: "",
+interface State {
+  numOfAdults: number;
+  numOfChildren: number;
+  numOfInfants: number;
+  outingSubType: string | null;
+  numOfPeopleSharing: number;
+  useCoupleCost: boolean;
+  addonIds: string[];
+  startDate: string | undefined;
+  endDate: string | undefined;
+  outingDateId: string | null | undefined;
+}
+const initialState: State = {
   numOfAdults: 1,
   numOfChildren: 0,
   numOfInfants: 0,
@@ -75,31 +84,108 @@ const initialState = {
   numOfPeopleSharing: 0,
   useCoupleCost: false,
   addonIds: [],
-  startDate: "",
-  endDate: "",
+  startDate: undefined,
+  endDate: undefined,
+  outingDateId: undefined,
 };
+
+function formatDateToDDMMYYYY(date: Date) {
+  if (date) {
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+    const year = date?.getFullYear();
+
+    return `${year}-${month}-${day}`;
+  }
+  return "";
+}
+interface GenerateQueryStringParams {
+  type: string;
+  dateId: string;
+  dateFrom: Date;
+  dateTo: Date;
+  adults: number;
+  children?: number;
+  infants?: number;
+  sharing?: number;
+}
+
+const generateQueryString = ({
+  type,
+  dateId,
+  dateFrom,
+  dateTo,
+  adults,
+  children,
+  infants,
+  sharing,
+}: GenerateQueryStringParams): string => {
+  const queryParams: Record<string, string> = {
+    type,
+  };
+
+  if (adults !== undefined) {
+    queryParams.num_of_adult = String(adults);
+  }
+  if (children !== 0) {
+    queryParams.num_of_children = String(children);
+  }
+  if (infants !== 0) {
+    queryParams.num_of_infant = String(infants);
+  }
+  if (sharing !== 0) {
+    queryParams.num_of_sharing = String(sharing);
+  }
+  if (type === "private") {
+    queryParams.start_date = formatDateToDDMMYYYY(dateFrom);
+    queryParams.end_date = formatDateToDDMMYYYY(dateTo);
+  }
+  if (type === "group") {
+    queryParams.date_id = dateId;
+  }
+
+  return new URLSearchParams(queryParams).toString();
+};
+
 const TripDetails = ({ detailsData }: Props) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const tripType = searchParams?.get("type")
+    ? (searchParams.get("type") as string)
+    : "private";
+  const dateId = searchParams?.get("date_id")
+    ? (searchParams.get("date_id") as string)
+    : "";
+  const startDate = searchParams?.get("start_date");
+  const endDate = searchParams?.get("end_date");
+  const adults = searchParams?.get("num_of_adult")
+    ? (searchParams?.get("num_of_adult") as string)
+    : "1";
+  const children = searchParams?.get("num_of_children")
+    ? (searchParams?.get("num_of_children") as string)
+    : "0";
+  const infants = searchParams?.get("num_of_infant")
+    ? (searchParams?.get("num_of_infant") as string)
+    : "0";
+  const sharing = searchParams?.get("num_of_sharing")
+    ? (searchParams.get("num_of_sharing") as string)
+    : "0";
+
   const { user } = useAppSelector((state) => state.user);
 
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-  const [date, setDate] = React.useState<DateRange | undefined>({
+  const [date, setDate] = React.useState<DateRange>({
     from: addDays(new Date(), 31),
     to: addDays(new Date(), 35),
   });
   const [selectedItems, setSelectedItems] = useState<any[]>([]);
-  const [selectedTrip, setSelectedTrip] = useState<"private" | "group">(
-    detailsData?.subType === "private" ? "private" : "group"
-  );
   const [galleryOpen, setGalleryOpen] = useState(false);
   const [useCouple, setUseCouple] = useState(false);
   const [payload, setPayload] = useState(initialState);
 
-  const { numOfAdults } = payload || 0;
-  const { numOfChildren } = payload || 0;
-  const { numOfInfants } = payload || 0;
-  const goingWithYou = numOfAdults + numOfChildren + numOfInfants;
+  const goingWithYou = Number(adults) + Number(children) + Number(infants);
 
   const { data: outingData, isSuccess: outingSuccess } = useGetOutingAddOnQuery(
     detailsData.id
@@ -133,39 +219,107 @@ const TripDetails = ({ detailsData }: Props) => {
     { isSuccess: isLikeSuccess, isError: isLikeError, error: likeError },
   ] = useCreateOutingLikeMutation();
 
+  const groupQueryString = generateQueryString({
+    type: detailsData?.subType === "private" ? "private" : "group",
+    dateId,
+    dateFrom: date?.from ?? new Date(),
+    dateTo: date?.to ?? new Date(),
+    adults: Number(adults),
+    children: Number(children),
+    infants: Number(infants),
+    sharing: Number(sharing),
+  });
+
+  const privateQueryString = generateQueryString({
+    type: "private",
+    dateId,
+    dateFrom: date?.from ?? new Date(),
+    dateTo: date?.to ?? new Date(),
+    adults: Number(adults),
+    children: Number(children),
+    infants: Number(infants),
+    sharing: Number(sharing),
+  });
+
   useEffect(() => {
-    if (selectedTrip === "private") {
-      setPayload({
-        ...payload,
-        outingDateId: undefined,
-        startDate: date?.from,
-        endDate: date?.to,
-        useCoupleCost: useCouple,
-        outingSubType: selectedTrip,
+    if (dateId) {
+      bookingCost({
+        query: detailsData.id,
+        data: {
+          numOfAdults: adults,
+          numOfChildren: children,
+          numOfInfants: infants,
+          outingSubType: tripType,
+          numOfPeopleSharing: sharing,
+          useCoupleCost: useCouple,
+          addonIds: payload.addonIds,
+          startDate: undefined,
+          endDate: undefined,
+          outingDateId: dateId,
+        },
       });
-    } else {
-      setPayload({
-        ...payload,
-        startDate: undefined,
-        endDate: undefined,
-        useCoupleCost: useCouple,
-        outingSubType: selectedTrip,
+    }
+    if (tripType === "private") {
+      bookingCost({
+        query: detailsData.id,
+        data: {
+          numOfAdults: adults,
+          numOfChildren: children,
+          numOfInfants: infants,
+          outingSubType: tripType,
+          numOfPeopleSharing: sharing,
+          useCoupleCost: useCouple,
+          addonIds: payload.addonIds,
+          startDate: date?.from,
+          endDate: date?.to,
+          outingDateId: undefined,
+        },
       });
     }
-  }, [selectedTrip, date, useCouple]);
-  useEffect(() => {
-    if (payload.outingDateId) {
-      bookingCost({ query: detailsData.id, data: payload });
-    }
-    if (selectedTrip === "private") {
-      bookingCost({ query: detailsData.id, data: payload });
-    }
-  }, [payload]);
+  }, [payload, date, dateId, tripType]);
+
   useEffect(() => {
     if (user) {
       getLikeData("?type=tour");
     }
   }, []);
+
+  useEffect(() => {
+    if (date) {
+      const queryParams = generateQueryString({
+        type: tripType,
+        dateId,
+        dateFrom: date?.from ?? new Date(),
+        dateTo: date?.to ?? new Date(),
+        adults: Number(adults),
+        children: Number(children),
+        infants: Number(infants),
+        sharing: Number(sharing),
+      });
+      router.push(`?${queryParams}`);
+    }
+  }, [date]);
+
+  useEffect(() => {
+    if (payload.numOfChildren || payload.numOfAdults || payload.numOfInfants) {
+      const queryParams = generateQueryString({
+        type: tripType,
+        dateId,
+        dateFrom: date?.from ?? new Date(),
+        dateTo: date?.to ?? new Date(),
+        adults: payload.numOfAdults,
+        children: payload.numOfChildren,
+        infants: payload.numOfInfants,
+        sharing: payload.numOfPeopleSharing,
+      });
+      router.push(`?${queryParams}`);
+    }
+  }, [
+    payload.numOfChildren,
+    payload.numOfAdults,
+    payload.numOfInfants,
+    payload.numOfPeopleSharing,
+  ]);
 
   const handleOpen = () => {
     setGalleryOpen(true);
@@ -175,13 +329,6 @@ const TripDetails = ({ detailsData }: Props) => {
   };
   const toggleModal = () => {
     setIsCalendarOpen(!isCalendarOpen);
-  };
-  const handleSelect = (trip: React.SetStateAction<string>) => {
-    if (detailsData?.subType === "private") {
-      setSelectedTrip("private");
-    } else {
-      setSelectedTrip(trip);
-    }
   };
   const handleItemClick = (item: any) => {
     // @ts-ignore
@@ -227,17 +374,61 @@ const TripDetails = ({ detailsData }: Props) => {
   });
 
   const handleSubmit = () => {
-    if (selectedTrip === "private") {
-      const isAllowed = isLessThan20DaysFromNow(date.from);
-      if (isAllowed) {
-        toaster.error("Start date cannot be less than 21 days from now");
-      } else {
-        createBooking({ query: detailsData.id, data: payload });
-      }
+    if (tripType === "private") {
+      // const isAllowed = isLessThan20DaysFromNow(date.from as Date);
+      // if (isAllowed) {
+      //   toaster.error("Start date cannot be less than 21 days from now");
+      // } else {
+      //   createBooking({ query: detailsData.id, data: payload });
+      // }
+      createBooking({
+        query: detailsData.id,
+        data: {
+          numOfAdults: adults,
+          numOfChildren: children,
+          numOfInfants: infants,
+          outingSubType: tripType,
+          numOfPeopleSharing: sharing,
+          useCoupleCost: useCouple,
+          addonIds: payload.addonIds,
+          startDate: date?.from,
+          endDate: date?.to,
+          outingDateId: undefined,
+        },
+      });
     } else {
-      createBooking({ query: detailsData.id, data: payload });
+      createBooking({
+        query: detailsData.id,
+        data: {
+          numOfAdults: adults,
+          numOfChildren: children,
+          numOfInfants: infants,
+          outingSubType: tripType,
+          numOfPeopleSharing: sharing,
+          useCoupleCost: useCouple,
+          addonIds: payload.addonIds,
+          startDate: undefined,
+          endDate: undefined,
+          outingDateId: dateId,
+        },
+      });
     }
   };
+  useEffect(() => {
+    setPayload({
+      ...payload,
+      numOfAdults: Number(adults),
+      numOfChildren: Number(children),
+      numOfInfants: Number(infants),
+      numOfPeopleSharing: Number(sharing),
+    });
+    if (startDate && endDate) {
+      setDate({
+        from: new Date(startDate),
+        to: new Date(endDate),
+      });
+    }
+  }, []);
   const handleLike = () => {
     if (user) {
       createLike({ query: detailsData.id, data: { liked: true } });
@@ -325,10 +516,6 @@ const TripDetails = ({ detailsData }: Props) => {
           </div>
           <div className={styles.details}>
             <div className={styles.icons}>
-              {/* <AiOutlineShareAlt
-                className={styles.icon}
-                onClick={handleCopyLink}
-              /> */}
               <HandleCopyLink icon={EventCopyLinkIcon} styles={styles.icon} />
               {likedData?.result.some(
                 (res: any) => detailsData.id === res.outing.id
@@ -351,20 +538,20 @@ const TripDetails = ({ detailsData }: Props) => {
             <div className="mt-8 rounded-2xl border bg-[#ffffff] shadow-md">
               <div className="mx-auto pl-4">
                 <div className="mr-3 flex pt-[30px]">
-                  <div
-                    onClick={() => handleSelect("private")}
+                  <Link
+                    href={`?${privateQueryString}`}
                     className={`flex-1 rounded-3xl py-2 text-center text-[14px] ${
-                      selectedTrip === "private"
+                      tripType === "private"
                         ? "bg-black text-white"
                         : "bg-gray-200 text-[#667084]"
                     } cursor-pointer`}
                   >
                     Pesonalized Trip
-                  </div>
-                  <div
-                    onClick={() => handleSelect("group")}
+                  </Link>
+                  <Link
+                    href={`?${groupQueryString}`}
                     className={`ml-[-15px] flex-1 rounded-3xl py-2 text-center text-[14px] ${
-                      selectedTrip === "group"
+                      tripType === "group"
                         ? "bg-black text-white"
                         : "bg-gray-200 text-[#667084]"
                     } ${
@@ -374,9 +561,9 @@ const TripDetails = ({ detailsData }: Props) => {
                     }`}
                   >
                     Group Trip
-                  </div>
+                  </Link>
                 </div>
-                {selectedTrip === "private" ? (
+                {tripType === "private" ? (
                   <div className="mb-3 mt-[30px]">
                     <DatePickerWithRange date={date} setDate={setDate} />
                     {!date && (
@@ -398,8 +585,29 @@ const TripDetails = ({ detailsData }: Props) => {
                             option.endDate
                           ),
                         }))}
-                        onChange={(event) =>
-                          setPayload({ ...payload, outingDateId: event.value })
+                        onChange={
+                          (event) => {
+                            const queryParams = generateQueryString({
+                              type: tripType,
+                              dateId: event.value,
+                              dateFrom: date?.from ?? new Date(),
+                              dateTo: date?.to ?? new Date(),
+                              adults: Number(adults),
+                              children: Number(children),
+                              infants: Number(infants),
+                              sharing: Number(sharing),
+                            });
+                            //   const queryParams = new URLSearchParams({
+                            //     type: tripType,
+                            //     date_id: event.value,
+                            //     num_of_adult: adults,
+                            //     num_of_children: children,
+                            //     num_of_infant: infants,
+                            //     num_of_sharing: sharing,
+                            //   }).toString();
+                            router.push(`?${queryParams}`);
+                          }
+                          // setPayload({ ...payload, outingDateId: event.value })
                         }
                         className="w-[250px] lg:w-[300px]"
                       />
@@ -411,10 +619,12 @@ const TripDetails = ({ detailsData }: Props) => {
                     )}
                   </>
                 )}
-                {selectedTrip === "private" ? (
+                {tripType === "private" ? (
                   <Text className="flex items-center gap-3 font-dmSansRegular text-[14px] text-[#101828]">
                     <FaRegClock className=" text-xl" />
-                    {formatWeeksRange(date?.from, date?.to)}
+                    {date.from && date.to
+                      ? formatWeeksRange(date?.from, date?.to)
+                      : null}
                   </Text>
                 ) : (
                   <Text className="flex items-center gap-3 font-dmSansRegular text-[14px] text-[#101828]">
@@ -425,12 +635,14 @@ const TripDetails = ({ detailsData }: Props) => {
                     )}
                   </Text>
                 )}
-                {selectedTrip === "private" ? (
+                {tripType === "private" ? (
                   <div className="mr-3 mt-7 flex items-center gap-3 rounded-3xl bg-[#FFECEB] py-2">
                     <RiErrorWarningLine className="ml-3 text-[#F04438]" />{" "}
                     <Text className="text-[12px] text-[#601B16]">
                       Deadline for payment is{" "}
-                      {SubtractDate(date?.from, detailsData?.deadlineGap)}
+                      {date.from
+                        ? SubtractDate(date?.from, detailsData?.deadlineGap)
+                        : null}
                     </Text>
                   </div>
                 ) : (
@@ -439,10 +651,6 @@ const TripDetails = ({ detailsData }: Props) => {
                     <Text className="text-[12px] text-[#601B16]">
                       Deadline for payment is {detailsData?.deadlineGap} days
                       before trip start date
-                      {/* {SubtractDate(
-                        detailsData?.outingDate[0]?.startDate,
-                        detailsData?.deadlineGap
-                      )} */}
                     </Text>
                   </div>
                 )}
@@ -454,7 +662,7 @@ const TripDetails = ({ detailsData }: Props) => {
                     <Text className="text-[14px] text-[#667084]">
                       Single Occupancy
                     </Text>
-                    {selectedTrip === "private" ? (
+                    {tripType === "private" ? (
                       <p className="font-dmSansBold text-[18px]">
                         ₦
                         {chargePlanSuccess && useCouple
@@ -486,7 +694,7 @@ const TripDetails = ({ detailsData }: Props) => {
                     <Text className="text-[14px] text-[#667084]">
                       Per Person Sharing
                     </Text>
-                    {selectedTrip === "private" ? (
+                    {tripType === "private" ? (
                       <p className="font-dmSansBold text-[18px]">
                         ₦
                         {!useCouple &&
@@ -661,7 +869,7 @@ const TripDetails = ({ detailsData }: Props) => {
                   <div className="flex items-center gap-3">
                     <Switch
                       checked={useCouple}
-                      value={useCouple}
+                      // value={useCouple}
                       onCheckedChange={() => setUseCouple(!useCouple)}
                     />
                   </div>
@@ -726,7 +934,7 @@ const TripDetails = ({ detailsData }: Props) => {
                     onClick={handleSubmit}
                     disabled={
                       goingWithYou === 0 ||
-                      (selectedTrip === "group" && !payload.outingDateId)
+                      (tripType === "group" && !payload.outingDateId)
                     }
                   >
                     Proceed to Checkout

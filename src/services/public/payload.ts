@@ -1,6 +1,6 @@
 export type GetOutingByContinentPaylod = {
-  minPrice?: number;
-  maxPrice?: number;
+  minPrice?: number | string;
+  maxPrice?: number | string;
   subType?: string;
   page?: number;
   search?: string;
