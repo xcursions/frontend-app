@@ -136,7 +136,7 @@ const Wallet = () => {
     if (payload.amount > 0) {
       initiateLinkDeposit({
         amount: payload.amount,
-        callbackUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/user/wallet`,
+        callbackUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/payment-success`,
       });
     }
   };
@@ -149,7 +149,10 @@ const Wallet = () => {
 
   const handleOtpSubmit = () => {
     if (payload.otp.length > 0) {
-      submitOtp({ otp: payload.otp, reference: payload.reference });
+      submitOtp({ otp: payload.otp, reference: payload.reference })
+        .unwrap()
+        .then(() => router.push("/payment-success"))
+        .catch((err) => console.error(err));
     }
   };
 

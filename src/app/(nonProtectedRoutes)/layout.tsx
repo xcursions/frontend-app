@@ -11,9 +11,10 @@ export default function UnauthourizedLayout({
   const redirectFrom = referer
     ? new URL(referer).searchParams.get("clfrm")
     : undefined;
-
-  if (accessToken?.value) {
+  if (accessToken?.value && redirectFrom) {
     redirect(`${redirectFrom || "/user/dashboard"}`);
+  } else if (redirectFrom) {
+    redirect(`${redirectFrom}`);
   }
   return children;
 }

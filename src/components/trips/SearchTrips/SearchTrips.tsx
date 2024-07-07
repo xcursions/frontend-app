@@ -1,9 +1,8 @@
 "use client";
 
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import type { ChangeEvent } from "react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FiFilter } from "react-icons/fi";
 
 import Input from "@/components/lib/Input";
@@ -43,14 +42,14 @@ const optionPrice = [
 ];
 
 const SearchTrips = () => {
+  const router = useRouter();
   const searchParams = useSearchParams();
+  const location = searchParams?.get("location") ?? undefined;
+  const maxPrice = searchParams?.get("maxPrice") ?? undefined;
+  const minPrice = searchParams?.get("minPrice") ?? undefined;
+  const subType = searchParams?.get("subType") ?? undefined;
+  const queryMonth = searchParams?.get("month") ?? undefined;
   const [search, setSearch] = useState("");
-  const [price, setPrice] = useState("");
-  const [queryType, setQueryType] = useState("");
-  const [queryMonth, setQueryMonth] = useState("");
-  const [minPrice, setMinPrice] = useState<number>();
-  const [maxPrice, setMaxPrice] = useState<number>();
-  const [queryLocation, setQueryLocation] = useState("");
   const [continent, setContinent] = useState([]);
   const [type, setType] = useState([]);
   const [month, setMonth] = useState([]);
@@ -62,40 +61,39 @@ const SearchTrips = () => {
     limit: pageLimit,
     page: currentPage,
     type: "tour",
-    subType: queryType,
+    subType,
     month: queryMonth,
     search,
     isDraft: false,
-    location: queryLocation,
+    location,
     minPrice,
     maxPrice,
   });
   const { isSuccess: continentSuccess, data: continentData } =
-    useGetOutingByContinentsQuery({ type: "tour", location: queryLocation });
+    useGetOutingByContinentsQuery({
+      type: "tour",
+      location,
+      subType,
+    });
   const { isSuccess: typeSuccess, data: typeData } = useGetOutingByTypeQuery({
     type: "tour",
-    location: queryLocation,
-    subType: queryType,
+    location,
+    subType,
     month: queryMonth,
   });
 
   const { isSuccess: monthSuccess, data: monthData } =
     useGetOutingByMonthsQuery({
       type: "tour",
-      location: queryLocation,
-      subType: queryType,
+      location,
+      subType,
       month: queryMonth,
     });
   function splitPriceRange(priceRange: string) {
-    const [min, max] = priceRange.split("-").map(Number);
+    const [min, max] = priceRange.split("-").map(String);
     return { min, max };
   }
 
-  useEffect(() => {
-    const { min, max } = splitPriceRange(price);
-    setMinPrice(min);
-    setMaxPrice(max);
-  }, [price]);
   const [showFilter, setShowFilter] = useState(false);
 
   useSuccessHandler({
@@ -136,14 +134,6 @@ const SearchTrips = () => {
 
     showToast: false,
   });
-
-  useEffect(() => {
-    setQueryLocation(searchParams?.get("location") || "");
-    setMaxPrice(Number(searchParams?.get("maxPrice") || ""));
-    setMinPrice(Number(searchParams?.get("minPrice") || ""));
-    setQueryType(searchParams?.get("subType") || "");
-    setQueryMonth(searchParams?.get("month") || "");
-  }, []);
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
@@ -197,9 +187,25 @@ const SearchTrips = () => {
               {typeSuccess && (
                 <Select
                   placeholder={"Trip type"}
-                  value={queryType}
+                  value={subType}
                   startIcon={"/assets/images/icons/plane.png"}
-                  onChange={(event) => setQueryType(event.value)}
+                  onChange={(event) => {
+                    const queryParams = new URLSearchParams();
+                    if (location) {
+                      queryParams.set("location", location);
+                    }
+                    if (minPrice) {
+                      queryParams.set("minPrice", minPrice);
+                    }
+                    if (maxPrice) {
+                      queryParams.set("maxPrice", maxPrice);
+                    }
+                    if (queryMonth) {
+                      queryParams.set("month", queryMonth);
+                    }
+                    queryParams.set("subType", event.value);
+                    router.push(`?${queryParams.toString()}`);
+                  }}
                   options={type.map(
                     (option: { type: string; totalOuting: number }) => ({
                       value: option.type,
@@ -220,10 +226,25 @@ const SearchTrips = () => {
             >
               <Select
                 placeholder={"Price"}
-                value={price}
+                value={minPrice && `${minPrice}-${maxPrice}`}
                 startIcon={"/assets/images/icons/dollar.png"}
-                // @ts-ignore
-                onChange={(event) => setPrice(event.value)}
+                onChange={(event) => {
+                  const { min, max } = splitPriceRange(event.value);
+                  const queryParams = new URLSearchParams();
+                  if (location) {
+                    queryParams.set("location", location);
+                  }
+                  if (subType) {
+                    queryParams.set("subType", subType);
+                  }
+                  if (queryMonth) {
+                    queryParams.set("month", queryMonth);
+                  }
+                  queryParams.set("minPrice", min);
+                  queryParams.set("maxPrice", max);
+
+                  router.push(`?${queryParams.toString()}`);
+                }}
                 options={optionPrice.map((option) => ({
                   value: `${option.value.minPrice}-${option.value.maxPrice}`,
                   label: option.label,
@@ -240,9 +261,25 @@ const SearchTrips = () => {
               {continentSuccess && (
                 <Select
                   placeholder={"Select Continents"}
-                  value={queryLocation}
+                  value={location}
                   startIcon={"/assets/images/icons/map.png"}
-                  onChange={(event) => setQueryLocation(event.value)}
+                  onChange={(event) => {
+                    const queryParams = new URLSearchParams();
+                    if (minPrice) {
+                      queryParams.set("minPrice", minPrice);
+                    }
+                    if (maxPrice) {
+                      queryParams.set("maxPrice", maxPrice);
+                    }
+                    if (subType) {
+                      queryParams.set("subType", subType);
+                    }
+                    if (queryMonth) {
+                      queryParams.set("month", queryMonth);
+                    }
+                    queryParams.set("location", event.value);
+                    router.push(`?${queryParams.toString()}`);
+                  }}
                   options={continent.map(
                     (option: { continent: string; totalOuting: number }) => ({
                       value: option.continent,
@@ -264,8 +301,23 @@ const SearchTrips = () => {
                   placeholder={"Select Month"}
                   value={queryMonth}
                   startIcon={"/assets/images/icons/calendar1.png"}
-                  // @ts-ignore
-                  onChange={(event) => setQueryMonth(event.value)}
+                  onChange={(event) => {
+                    const queryParams = new URLSearchParams();
+                    if (minPrice) {
+                      queryParams.set("minPrice", minPrice);
+                    }
+                    if (maxPrice) {
+                      queryParams.set("maxPrice", maxPrice);
+                    }
+                    if (subType) {
+                      queryParams.set("subType", subType);
+                    }
+                    if (location) {
+                      queryParams.set("location", location);
+                    }
+                    queryParams.set("month", event.value);
+                    router.push(`?${queryParams.toString()}`);
+                  }}
                   options={month.map(
                     (option: { month: string; totalOuting: number }) => ({
                       value: option.month,
@@ -280,11 +332,9 @@ const SearchTrips = () => {
           </form>
         </div>
         {/* Trip Cards */}
-        <div className="flex flex-wrap justify-around">
+        <div className="flex flex-wrap justify-between">
           {outingData.map((post) => (
-            <Link key={`${post.id}`} href={`/trips/${post.id}`}>
-              <TripCard post={post} />
-            </Link>
+            <TripCard post={post} key={`${post.id}`} />
           ))}
         </div>
         {data && (
@@ -302,10 +352,3 @@ const SearchTrips = () => {
 };
 
 export default SearchTrips;
-
-// .filter(
-//   (items) =>
-//     items.outingGallery.length > 0 &&
-//     parseInt(items.outingChargePlan.costGroup, 10) > 1 &&
-//     items.outingChargePlan
-// )

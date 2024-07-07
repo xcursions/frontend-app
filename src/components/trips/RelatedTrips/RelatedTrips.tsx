@@ -33,7 +33,7 @@ const RelatedTrips = () => {
                     items.outingChargePlan
                 )
                 .map((post: OutingProps) => (
-                  <Link href={`/trips/${post.id}`} key={`${post.id}`}>
+                  <Link href={`/trips/${post.slug}`} key={`${post.id}`}>
                     <TripCard post={post} />
                   </Link>
                 ))}

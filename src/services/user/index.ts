@@ -227,7 +227,7 @@ export const userApi = authApi.injectEndpoints({
     }),
     getUpcomingSchedule: builder.query<any, void>({
       query: () => ({
-        url: "/saving-plan/upcoming-outing-schedules?limit=20",
+        url: "/saving-plan/upcoming-outing-schedules?limit=100",
         method: "GET",
       }),
       providesTags: ["UserInfo"],

@@ -14,6 +14,7 @@ type OutingProps = {
   updatedAt: string;
   viewCount: number;
   isDraft: boolean;
+  slug: string;
   bookingCount: number;
   uniqueBookingCount: number;
   defaultOutingDurationInDays: number;

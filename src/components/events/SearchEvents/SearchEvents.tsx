@@ -40,13 +40,9 @@ const optionPrice = [
 const SearchEvents = () => {
   const [search, setSearch] = useState("");
   const [price, setPrice] = useState("");
-  // const [queryType, setQueryType] = useState("");
   const [queryMonth, setQueryMonth] = useState("");
   const [minPrice, setMinPrice] = useState<number>();
   const [maxPrice, setMaxPrice] = useState<number>();
-  // const [queryLocation, setQueryLocation] = useState("");
-  // const [continent, setContinent] = useState([]);
-  // const [type, setType] = useState([]);
   const [month, setMonth] = useState([]);
 
   const [outingData, setOutingData] = useState<OutingProps[]>([]);
@@ -57,11 +53,9 @@ const SearchEvents = () => {
     limit: pageLimit,
     page: currentPage,
     type: "event",
-    // subType: queryType,
     month: queryMonth,
     isDraft: false,
     search,
-    // location: queryLocation,
     minPrice,
     maxPrice,
   });
@@ -69,8 +63,6 @@ const SearchEvents = () => {
   const { isSuccess: monthSuccess, data: monthData } =
     useGetOutingByMonthsQuery({
       type: "event",
-      // location: queryLocation,
-      // subType: queryType,
       month: queryMonth,
     });
   function splitPriceRange(priceRange: string) {
@@ -93,25 +85,6 @@ const SearchEvents = () => {
 
     showToast: false,
   });
-  // useSuccessHandler({
-  //   isSuccess: continentSuccess,
-  //   dependencies: [continentData],
-  //   successFunction: () => {
-  //     setContinent(continentData);
-  //   },
-
-  //   showToast: false,
-  // });
-
-  // useSuccessHandler({
-  //   isSuccess: typeSuccess,
-  //   dependencies: [typeData || monthData],
-  //   successFunction: () => {
-  //     setType(typeData);
-  //   },
-
-  //   showToast: false,
-  // });
 
   useSuccessHandler({
     isSuccess: monthSuccess,
@@ -167,30 +140,6 @@ const SearchEvents = () => {
                 </button>
               </div>
             </div>
-            {/* <div
-              className={`${
-                showFilter ? "block" : "hidden"
-              } relative w-full lg:block`}
-            >
-              {typeSuccess && (
-                <Select
-                  placeholder={"Trip type"}
-                  value={queryType}
-                  startIcon={"/assets/images/icons/plane.png"}
-                  onChange={(event) => setQueryType(event.value)}
-                  options={type.map(
-                    (option: { type: string; totalOuting: number }) => ({
-                      value: option.type,
-                      label: `${
-                        option.type === "private" ? "personalize" : option.type
-                      } (${option.totalOuting})`,
-                    })
-                  )}
-                  showArrow
-                  className=" block w-full cursor-pointer rounded-lg  text-sm text-[#667084]"
-                />
-              )}
-            </div> */}
             <div
               className={`${
                 showFilter ? "block" : "hidden"
@@ -200,7 +149,6 @@ const SearchEvents = () => {
                 placeholder={"Price"}
                 value={price}
                 startIcon={"/assets/images/icons/dollar.png"}
-                // @ts-ignore
                 onChange={(event) => setPrice(event.value)}
                 options={optionPrice.map((option) => ({
                   value: `${option.value.minPrice}-${option.value.maxPrice}`,
@@ -210,28 +158,6 @@ const SearchEvents = () => {
                 className=" block w-full cursor-pointer  rounded-lg text-sm text-[#667084]"
               />
             </div>
-            {/* <div
-              className={`${
-                showFilter ? "block" : "hidden"
-              } relative w-full lg:block`}
-            >
-              {continentSuccess && (
-                <Select
-                  placeholder={"Select Continents"}
-                  value={queryLocation}
-                  startIcon={"/assets/images/icons/map.png"}
-                  onChange={(event) => setQueryLocation(event.value)}
-                  options={continent.map(
-                    (option: { continent: string; totalOuting: number }) => ({
-                      value: option.continent,
-                      label: `${option.continent} (${option.totalOuting})`,
-                    })
-                  )}
-                  showArrow
-                  className=" block w-full cursor-pointer  rounded-lg text-sm text-[#667084]"
-                />
-              )}
-            </div> */}
             <div
               className={`${
                 showFilter ? "block" : "hidden"
@@ -242,7 +168,6 @@ const SearchEvents = () => {
                   placeholder={"Select month"}
                   value={queryMonth}
                   startIcon={"/assets/images/icons/calendar1.png"}
-                  // @ts-ignore
                   onChange={(event) => setQueryMonth(event.value)}
                   options={month.map(
                     (option: { month: string; totalOuting: number }) => ({
@@ -260,7 +185,7 @@ const SearchEvents = () => {
         {/* Trip Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
           {outingData.map((post) => (
-            <Link key={`${post.id}`} href={`/events/${post.id}`}>
+            <Link key={`${post.id}`} href={`/events/${post.slug}`}>
               <EventCard post={post} />
             </Link>
           ))}
@@ -280,10 +205,3 @@ const SearchEvents = () => {
 };
 
 export default SearchEvents;
-
-// .filter(
-//   (items) =>
-//     items.outingGallery.length > 0 &&
-//     parseInt(items.outingChargePlan.costGroup, 10) > 1 &&
-//     items.outingChargePlan
-// )
