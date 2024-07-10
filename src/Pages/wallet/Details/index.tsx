@@ -36,7 +36,11 @@ const WalletTransactionDetails = ({ detailsData }: Props) => {
   const renderedText =
     textToShow === "Trips" ? (
       <Link
-        href={`/user/booking/${detailsData?.outing?.id}/${detailsData?.checkout?.bookingId}`}
+        href={
+          detailsData.checkout
+            ? `/user/booking/${detailsData?.outing?.id}/${detailsData?.checkout?.bookingId}`
+            : "/user/wallet"
+        }
       >
         <Text className="flex gap-2 font-dmSansBold text-sm font-bold capitalize">
           {textToShow}{" "}

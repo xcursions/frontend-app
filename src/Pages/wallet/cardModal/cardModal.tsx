@@ -27,6 +27,7 @@ export function CardModal({ cardDetails, onClose }: Props) {
   const amountDue =
     parseFloat(cardDetails.remainingAmountToBeCharged) /
     cardDetails.remainingTrials;
+
   return (
     <div>
       <div
@@ -118,8 +119,10 @@ export function CardModal({ cardDetails, onClose }: Props) {
               onClick={() =>
                 router.push(
                   `/${
-                    cardDetails.outing.type === "tour" ? "trips" : "events"
-                  }/${cardDetails.outing.id}`
+                    cardDetails.outing.type === "tour"
+                      ? `trips/africa`
+                      : "events"
+                  }/${cardDetails.outing.slug}`
                 )
               }
             >

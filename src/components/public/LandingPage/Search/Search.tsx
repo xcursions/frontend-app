@@ -117,9 +117,9 @@ const Search = () => {
     if (queryType) {
       queryParams.push(`subType=${queryType}`);
     }
-    if (queryLocation) {
-      queryParams.push(`location=${queryLocation}`);
-    }
+    // if (queryLocation) {
+    //   queryParams.push(`location=${queryLocation}`);
+    // }
     if (queryMonth) {
       queryParams.push(`month=${queryMonth}`);
     }
@@ -132,7 +132,12 @@ const Search = () => {
 
     const newQuery = queryParams.length > 0 ? `?${queryParams.join("&")}` : "";
     setIsRouting(true);
-    router.push(`/trips${newQuery}`);
+    if (queryLocation) {
+      router.push(`/trips/${queryLocation.toLowerCase()}${newQuery}`);
+    } else {
+      setIsRouting(false);
+      return toaster.error("Please select a location");
+    }
   };
 
   return (

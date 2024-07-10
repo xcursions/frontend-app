@@ -79,7 +79,11 @@ const TripCard = ({ post }: Props) => {
   return (
     <div className="xcursions_tripcard">
       <Link
-        href={`/${post.type === "tour" ? "trips" : "events"}/${post.slug}`}
+        href={`/${
+          post.type === "tour"
+            ? `trips/${post.outingDestination.continent.toLowerCase()}`
+            : "events"
+        }/${post.slug}`}
         // key={`${post.id}`}
       >
         <Image
@@ -111,7 +115,13 @@ const TripCard = ({ post }: Props) => {
           {post.type === "tour" ? "Trip" : null}
         </div>
       ) : null}
-      <Link href={`/${post.type === "tour" ? "trips" : "events"}/${post.slug}`}>
+      <Link
+        href={`/${
+          post.type === "tour"
+            ? `trips/${post.outingDestination.continent.toLowerCase()}`
+            : "events"
+        }/${post.slug}`}
+      >
         <div>
           <p className="xcursions_tripcard_name">{post?.name}</p>
           {post.type === "tour" ? (

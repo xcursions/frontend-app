@@ -6,13 +6,13 @@ import React, { useState } from "react";
 import { FiFilter } from "react-icons/fi";
 
 import Input from "@/components/lib/Input";
+import Loader from "@/components/lib/Loader";
 import { Pagination } from "@/components/lib/Pagination";
 import Select from "@/components/lib/Select/Select";
 import TripCard from "@/components/public/LandingPage/AvailableTrips/TripCard";
 import useSuccessHandler from "@/hooks/useSuccessHandler";
 import {
   useFetchAllOutingsQuery,
-  useGetOutingByContinentsQuery,
   useGetOutingByMonthsQuery,
   useGetOutingByTypeQuery,
 } from "@/services/public";
@@ -41,16 +41,14 @@ const optionPrice = [
   },
 ];
 
-const SearchTrips = () => {
+const SearchTrips = ({ location }: { location: string }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const location = searchParams?.get("location") ?? undefined;
   const maxPrice = searchParams?.get("maxPrice") ?? undefined;
   const minPrice = searchParams?.get("minPrice") ?? undefined;
   const subType = searchParams?.get("subType") ?? undefined;
   const queryMonth = searchParams?.get("month") ?? undefined;
   const [search, setSearch] = useState("");
-  const [continent, setContinent] = useState([]);
   const [type, setType] = useState([]);
   const [month, setMonth] = useState([]);
 
@@ -69,12 +67,6 @@ const SearchTrips = () => {
     minPrice,
     maxPrice,
   });
-  const { isSuccess: continentSuccess, data: continentData } =
-    useGetOutingByContinentsQuery({
-      type: "tour",
-      location,
-      subType,
-    });
   const { isSuccess: typeSuccess, data: typeData } = useGetOutingByTypeQuery({
     type: "tour",
     location,
@@ -105,15 +97,6 @@ const SearchTrips = () => {
 
     showToast: false,
   });
-  useSuccessHandler({
-    isSuccess: continentSuccess,
-    dependencies: [continentData],
-    successFunction: () => {
-      setContinent(continentData);
-    },
-
-    showToast: false,
-  });
 
   useSuccessHandler({
     isSuccess: typeSuccess,
@@ -139,7 +122,7 @@ const SearchTrips = () => {
       <div className={styles.container}>
         {/** Search field */}
         <div className="flex">
-          <form className="grid grid-cols-1 items-center gap-10 lg:grid-cols-5 lg:gap-3">
+          <form className="grid grid-cols-1 items-center gap-10 lg:grid-cols-4 lg:gap-3">
             <div className="flex w-full items-center ">
               <div className="relative w-full">
                 <Input
@@ -191,9 +174,6 @@ const SearchTrips = () => {
                   startIcon={"/assets/images/icons/plane.png"}
                   onChange={(event) => {
                     const queryParams = new URLSearchParams();
-                    if (location) {
-                      queryParams.set("location", location);
-                    }
                     if (minPrice) {
                       queryParams.set("minPrice", minPrice);
                     }
@@ -231,9 +211,7 @@ const SearchTrips = () => {
                 onChange={(event) => {
                   const { min, max } = splitPriceRange(event.value);
                   const queryParams = new URLSearchParams();
-                  if (location) {
-                    queryParams.set("location", location);
-                  }
+
                   if (subType) {
                     queryParams.set("subType", subType);
                   }
@@ -252,44 +230,6 @@ const SearchTrips = () => {
                 showArrow
                 className=" block w-full cursor-pointer  rounded-lg text-sm text-[#667084]"
               />
-            </div>
-            <div
-              className={`${
-                showFilter ? "block" : "hidden"
-              } relative w-full lg:block`}
-            >
-              {continentSuccess && (
-                <Select
-                  placeholder={"Select Continents"}
-                  value={location}
-                  startIcon={"/assets/images/icons/map.png"}
-                  onChange={(event) => {
-                    const queryParams = new URLSearchParams();
-                    if (minPrice) {
-                      queryParams.set("minPrice", minPrice);
-                    }
-                    if (maxPrice) {
-                      queryParams.set("maxPrice", maxPrice);
-                    }
-                    if (subType) {
-                      queryParams.set("subType", subType);
-                    }
-                    if (queryMonth) {
-                      queryParams.set("month", queryMonth);
-                    }
-                    queryParams.set("location", event.value);
-                    router.push(`?${queryParams.toString()}`);
-                  }}
-                  options={continent.map(
-                    (option: { continent: string; totalOuting: number }) => ({
-                      value: option.continent,
-                      label: `${option.continent} (${option.totalOuting})`,
-                    })
-                  )}
-                  showArrow
-                  className=" block w-full cursor-pointer  rounded-lg text-sm text-[#667084]"
-                />
-              )}
             </div>
             <div
               className={`${
@@ -333,9 +273,13 @@ const SearchTrips = () => {
         </div>
         {/* Trip Cards */}
         <div className="flex flex-wrap justify-between">
-          {outingData.map((post) => (
-            <TripCard post={post} key={`${post.id}`} />
-          ))}
+          {isSuccess ? (
+            outingData.map((post) => (
+              <TripCard post={post} key={`${post.id}`} />
+            ))
+          ) : (
+            <Loader />
+          )}
         </div>
         {data && (
           <Pagination

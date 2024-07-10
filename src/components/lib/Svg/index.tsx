@@ -11,5 +11,6 @@ export * from "./HorizontalLineIcon";
 export * from "./InfoIcon";
 export * from "./NigeriaIcon";
 export * from "./OptionsIcon";
+export * from "./RightArrowIcon";
 export * from "./ShareIcon";
 export * from "./SocialIcons";
