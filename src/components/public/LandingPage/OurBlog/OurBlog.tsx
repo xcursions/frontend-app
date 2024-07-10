@@ -46,7 +46,7 @@ const OurBlog = () => {
           </div>
           <div className="mx-3 mt-5 grid grid-cols-1 gap-3 object-fill sm:gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {blogData.map((blog) => (
-              <Link key={blog.id} href={`/blog/${blog.id}`}>
+              <Link key={blog.id} href={`/blog/${blog.slug}`}>
                 <div>
                   <Image
                     width={350}

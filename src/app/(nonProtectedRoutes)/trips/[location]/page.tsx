@@ -102,7 +102,7 @@ const trips = ({ params }: { params: { location: string } }) => {
       <div>
         <TopNavBar />
         <Header />
-        <SearchTrips location={location} />
+        <SearchTrips location={decodeURIComponent(location)} />
         <Subscription />
         <Footer />
       </div>
