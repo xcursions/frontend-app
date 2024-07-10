@@ -150,6 +150,9 @@ const Wallet = () => {
   const handleOtpSubmit = () => {
     if (payload.otp.length > 0) {
       submitOtp({ otp: payload.otp, reference: payload.reference });
+      // .unwrap()
+      // .then(() => router.push("/payment-success"))
+      // .catch((err) => console.error(err));
     }
   };
 

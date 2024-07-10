@@ -197,14 +197,17 @@ const Page = () => {
       handleCheckout({
         query: booking?.id,
         data: { paymentMethod: plan, channel: paymentChannel },
-      });
+      })
+        .unwrap()
+        .then(() => router.push("/payment-success"))
+        .catch((err) => console.error(err));
     } else if (paymentChannel === "paystack" && plan === "instant") {
       handleCheckout({
         query: booking?.id,
         data: {
           paymentMethod: plan,
           channel: paymentChannel,
-          callbackUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/user/booking`,
+          callbackUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/payment-success`,
         },
       });
     }
@@ -235,14 +238,17 @@ const Page = () => {
           channel: paymentChannel,
           periodicPaymentType: paymentFrequency,
         },
-      });
+      })
+        .unwrap()
+        .then(() => router.push("/payment-success"))
+        .catch((err) => console.error(err));
     } else if (paymentChannel === "paystack" && plan === "saving-plan") {
       handleCheckout({
         query: booking?.id,
         data: {
           paymentMethod: plan,
           channel: paymentChannel,
-          callbackUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/user/booking`,
+          callbackUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/payment-success`,
           periodicPaymentType: paymentFrequency,
         },
       });

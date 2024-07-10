@@ -60,7 +60,7 @@ export default function Dashboard() {
     isSuccess: outingSuccess,
     isError: isOutingError,
     error: outingError,
-  } = useGetBookingHistoryQuery("?limit=100");
+  } = useGetBookingHistoryQuery("?limit=250");
 
   useErrorHandler({
     isError: isOutingError,

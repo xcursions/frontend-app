@@ -54,7 +54,7 @@ const FavouriteInfo = () => {
                     ?.filter((res: any) => res.outing.type === "tour")
                     ?.map((post: any) => (
                       <Link
-                        href={`/trips/${post.outing.id}`}
+                        href={`/trips/africa/${post.outing.slug}`}
                         key={`${post.id}`}
                       >
                         <TripCard post={post.outing} liked={true} />
@@ -80,7 +80,10 @@ const FavouriteInfo = () => {
                 {likedData?.result
                   ?.filter((res: any) => res.outing.type === "event")
                   ?.map((post: any) => (
-                    <Link href={`/events/${post.outing.id}`} key={`${post.id}`}>
+                    <Link
+                      href={`/events/${post.outing.slug}`}
+                      key={`${post.id}`}
+                    >
                       <EventCard post={post.outing} liked={true} />
                     </Link>
                   ))}

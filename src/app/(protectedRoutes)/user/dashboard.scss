@@ -66,7 +66,7 @@ ul li{
 
 .content{
   // width: calc(100% - 250px);
-  width: 100%;
+  width: 100% !important;
   position: relative;
   display: flex;
   left: 250px;
@@ -87,7 +87,7 @@ ul li{
 
 @media screen and (max-width: 360px) {
   .content{
-    width: 100%;
+    width: 98vw;
     left: 0;
   }
   .content2{
@@ -98,7 +98,7 @@ ul li{
 
 @media screen and (max-width: 768px) {
   .content{
-    width: 100%;
+    width: 98vw;
     left: 0;
   }
   .content2{

@@ -29,10 +29,10 @@ const TripCard = ({ post }: Props) => {
     (item: { featured: any }) => item.featured
   );
   const price = () => {
-    if (post?.subType === "group") {
-      return post?.outingChargePlan?.costGroup;
-    }
-    return post?.outingChargePlan?.cost;
+    // if (post?.subType === "group") {
+    //   return post?.outingChargePlan?.costGroup;
+    // }
+    return post?.outingChargePlan?.perPersonSharingAmount;
   };
   const getCountryCode = (countryName: string) => {
     const countryEntries = Object.entries(countries);
@@ -79,8 +79,12 @@ const TripCard = ({ post }: Props) => {
   return (
     <div className="xcursions_tripcard">
       <Link
-        href={`/${post.type === "tour" ? "trips" : "events"}/${post.id}`}
-        key={`${post.id}`}
+        href={`/${
+          post.type === "tour"
+            ? `trips/${post.outingDestination.continent.toLowerCase()}`
+            : "events"
+        }/${post.slug}`}
+        // key={`${post.id}`}
       >
         <Image
           className="xcursions_tripcard_image object-cover"
@@ -112,8 +116,11 @@ const TripCard = ({ post }: Props) => {
         </div>
       ) : null}
       <Link
-        href={`/${post.type === "tour" ? "trips" : "events"}/${post.id}`}
-        key={`${post.id}`}
+        href={`/${
+          post.type === "tour"
+            ? `trips/${post.outingDestination.continent.toLowerCase()}`
+            : "events"
+        }/${post.slug}`}
       >
         <div>
           <p className="xcursions_tripcard_name">{post?.name}</p>

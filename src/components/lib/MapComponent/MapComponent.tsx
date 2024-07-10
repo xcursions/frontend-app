@@ -35,7 +35,7 @@ const MapComponent = ({ events }: any) => {
       trackResize={false}
       touchZoom={false}
       scrollWheelZoom={false}
-      className=" h-[250px] w-[350px] content-center items-center rounded-2xl md:h-[349px] md:w-[713px]"
+      className=" z-10 h-[250px] w-[350px] content-center items-center rounded-2xl md:h-[349px] md:w-[713px]"
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       <Marker position={[latitude, longitude]}>
