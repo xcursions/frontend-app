@@ -43,7 +43,7 @@ export async function generateMetadata(
     openGraph: {
       title: `${product.name} with Xcursions the number 1 travel and tourism company`,
       description: `${product.description}`,
-      url: `${process.env.NEXT_PUBLIC_SITE_URL}/trips/${params.slug}`,
+      url: `${process.env.NEXT_PUBLIC_SITE_URL}/trips/${product?.outingDestination?.continent}/${params.slug}`,
       images: [
         {
           url: `${product.outingGallery[0].image}`,
