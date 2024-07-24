@@ -29,9 +29,9 @@ const TripCard = ({ post }: Props) => {
     (item: { featured: any }) => item.featured
   );
   const price = () => {
-    // if (post?.subType === "group") {
-    //   return post?.outingChargePlan?.costGroup;
-    // }
+    if (post?.type !== "tour") {
+      return post?.outingChargePlan?.costGroup;
+    }
     return post?.outingChargePlan?.perPersonSharingAmount;
   };
   const getCountryCode = (countryName: string) => {
