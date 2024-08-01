@@ -612,7 +612,7 @@ const TripDetails = ({ detailsData }: Props) => {
                         className="w-[250px] lg:w-[300px]"
                       />
                     </div>
-                    {!payload.outingDateId && (
+                    {!dateId && (
                       <p className="mb-3 text-[10px] text-[#F04438]">
                         Please select Date of your trip
                       </p>
@@ -933,8 +933,7 @@ const TripDetails = ({ detailsData }: Props) => {
                     className="w-full rounded-3xl"
                     onClick={handleSubmit}
                     disabled={
-                      goingWithYou === 0 ||
-                      (tripType === "group" && !payload.outingDateId)
+                      goingWithYou === 0 || (tripType === "group" && !dateId)
                     }
                   >
                     Proceed to Checkout
