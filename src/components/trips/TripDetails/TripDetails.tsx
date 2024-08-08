@@ -276,7 +276,17 @@ const TripDetails = ({ detailsData }: Props) => {
         },
       });
     }
-  }, [payload, date, dateId, tripType]);
+  }, [
+    payload,
+    date,
+    dateId,
+    tripType,
+    sharing,
+    adults,
+    infants,
+    children,
+    useCouple,
+  ]);
 
   useEffect(() => {
     if (user) {
