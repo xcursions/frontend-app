@@ -74,13 +74,15 @@ export default function Dashboard() {
         <div className="mx-[30px]">
           {auth === "regular-auth" ? (
             <HeaderSection
-              heading={`Hello, ${userSuccess && userProfile.data.username} 🏝️`}
+              heading={`Hello, ${
+                userSuccess && userProfile?.data?.username
+              } 🏝️`}
               subHeading={"Welcome back to your dashboard"}
             />
           ) : (
             <HeaderSection
               heading={`Hello, ${
-                (userSuccess && userProfile.data.lastName) ||
+                (userSuccess && userProfile?.data?.lastName) ||
                 (userSuccess && userProfile?.data?.fullName.split(" ")[0])
               } 🏝️`}
               subHeading={"Welcome back to your dashboard"}
@@ -98,7 +100,7 @@ export default function Dashboard() {
                 <p className="font-dmSansBold text-[20px] font-bold text-[#021A33]">
                   ₦
                   {walletBallanceSuccess &&
-                    parseInt(walletBalance.amount, 10).toLocaleString()}
+                    parseInt(walletBalance?.amount ?? 0, 10).toLocaleString()}
                 </p>
               </div>
             </div>
@@ -111,13 +113,13 @@ export default function Dashboard() {
               <div className="items-center text-center">
                 <p className="text-start text-[12px] text-[#FF9E3B]">Trips</p>
                 <div className="font-dmSansBold text-[20px] font-bold text-[#021A33]">
-                  {outingSuccess && outingData.result.length > 0 ? (
+                  {outingSuccess && outingData?.result?.length > 0 ? (
                     <p>
                       {
-                        outingData.result.filter(
+                        outingData?.result?.filter(
                           (res: any) =>
-                            res.status === "successful" &&
-                            res.outing.type === "tour"
+                            res?.status === "successful" &&
+                            res?.outing?.type === "tour"
                         ).length
                       }
                     </p>
@@ -136,13 +138,13 @@ export default function Dashboard() {
               <div className="items-center text-center">
                 <p className="text-start text-[12px] text-[#9E3BFF]">Events</p>
                 <div className="font-dmSansBold text-[20px] font-bold text-[#021A33]">
-                  {outingSuccess && outingData.result.length > 0 ? (
+                  {outingSuccess && outingData?.result?.length > 0 ? (
                     <p>
                       {
                         outingData.result.filter(
                           (res: any) =>
-                            res.status === "successful" &&
-                            res.outing.type === "event"
+                            res?.status === "successful" &&
+                            res?.outing?.type === "event"
                         ).length
                       }
                     </p>
@@ -174,9 +176,7 @@ export default function Dashboard() {
             >
               {isSuccess &&
                 trips.result?.map((post: OutingProps) => (
-                  <Link href={`/trips/${post.id}`} key={`${post.id}`}>
-                    <TripCard post={post} />
-                  </Link>
+                  <TripCard post={post} key={`${post.id}`} />
                 ))}
             </div>
           </div>
@@ -199,7 +199,7 @@ export default function Dashboard() {
             >
               {eventSuccess &&
                 events.result?.map((post: OutingProps) => (
-                  <Link href={`/events/${post.id}`} key={`${post.id}`}>
+                  <Link href={`/events/${post.slug}`} key={`${post.id}`}>
                     <EventCard post={post} />
                   </Link>
                 ))}
