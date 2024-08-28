@@ -52,7 +52,10 @@ const OurBlog = () => {
                     width={350}
                     height={273}
                     alt={blog.title}
-                    src={blog.blogFeaturedImage.image}
+                    src={
+                      blog?.blogFeaturedImage?.image ??
+                      "/public/assets/images/blog/blog_bg.png"
+                    }
                     className="h-[273px] w-full rounded-xl object-cover"
                   />
                   <p className="txt-10 fw-700 mt-2 break-words uppercase text-[#667084]">

@@ -18,7 +18,7 @@ import Input from "@/components/lib/Input/Input";
 import { HorizontalLineIcon } from "@/components/lib/Svg";
 import Text from "@/components/lib/Text/Text";
 import TopNavBar from "@/components/public/TopNavBar";
-import { useAppDispatch, useAppSelector } from "@/hooks";
+import { useAppDispatch, useAppSelector, useLogoutUser } from "@/hooks";
 import { useGoogleLoginMutation, useLoginMutation } from "@/services/auth";
 import { selectedUser } from "@/store/selector/user.selector";
 import {
@@ -45,11 +45,13 @@ const Login = () => {
   } = useForm({ resolver: yupResolver(registerSchema) });
 
   const [login, { isLoading }] = useLoginMutation();
+  const endUserSession = useLogoutUser();
   const [googleLogin] = useGoogleLoginMutation();
   const [isChecked, setIsChecked] = useState(false);
   const user = useAppSelector(selectedUser);
 
-  const onSubmit = (formValues: any) => {
+  const onSubmit = async (formValues: any) => {
+    await endUserSession();
     login(formValues)
       .unwrap()
       .then((data) => {
@@ -74,7 +76,8 @@ const Login = () => {
         toaster.error(error?.data?.meta?.message);
       });
   };
-  const onGoogleSubmit = (credentialResponse: any) => {
+  const onGoogleSubmit = async (credentialResponse: any) => {
+    await endUserSession();
     googleLogin({ idToken: credentialResponse })
       .unwrap()
       .then((data) => {

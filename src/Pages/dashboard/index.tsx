@@ -176,7 +176,9 @@ export default function Dashboard() {
             >
               {isSuccess &&
                 trips.result?.map((post: OutingProps) => (
-                  <TripCard post={post} key={`${post.id}`} />
+                  <div key={`${post.id}`}>
+                    <TripCard post={post} key={`${post.id}`} />
+                  </div>
                 ))}
             </div>
           </div>
