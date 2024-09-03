@@ -176,9 +176,14 @@ const TripDetails = ({ detailsData }: Props) => {
   const { user } = useAppSelector((state) => state.user);
 
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-  const [date, setDate] = React.useState<DateRange>({
+  const [date, setDate] = useState<DateRange>({
     from: addDays(new Date(), 31),
-    to: addDays(new Date(), 35),
+    to: addDays(
+      new Date(),
+      detailsData.defaultOutingDurationInDays
+        ? 33 + detailsData.defaultOutingDurationInDays
+        : 35
+    ),
   });
   const [selectedItems, setSelectedItems] = useState<any[]>([]);
   const [galleryOpen, setGalleryOpen] = useState(false);
