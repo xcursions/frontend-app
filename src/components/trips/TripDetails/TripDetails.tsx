@@ -177,11 +177,15 @@ const TripDetails = ({ detailsData }: Props) => {
 
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [date, setDate] = useState<DateRange>({
-    from: addDays(new Date(), 31),
+    from: addDays(
+      new Date(),
+      detailsData.deadlineGap ? detailsData.deadlineGap + 1 : 31
+    ),
     to: addDays(
       new Date(),
       detailsData.defaultOutingDurationInDays
-        ? 33 + detailsData.defaultOutingDurationInDays
+        ? (detailsData.deadlineGap ? detailsData.deadlineGap + 1 : 31) +
+            detailsData.defaultOutingDurationInDays
         : 35
     ),
   });
