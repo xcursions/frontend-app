@@ -17,25 +17,29 @@ type Props = {
 
 const UpcomingPaymentCard = ({ detailsData, view }: Props) => {
   const percentagePaid =
-    (parseFloat(detailsData.amountSaved) * 100) /
-    (parseFloat(detailsData.amountSaved) +
-      parseFloat(detailsData.remainingAmountToBeCharged));
+    (parseFloat(detailsData?.amountSaved) * 100) /
+    (parseFloat(detailsData?.amountSaved) +
+      parseFloat(detailsData?.remainingAmountToBeCharged));
   const amountDue =
-    parseFloat(detailsData.remainingAmountToBeCharged) /
-    detailsData.remainingTrials;
+    parseFloat(detailsData?.remainingAmountToBeCharged) /
+    (detailsData.remainingTrials ? detailsData.remainingTrials : 1);
   return (
     <div className={view ? `${styles.container1}` : `${styles.container}`}>
       <div className="m-[12px]">
         <div className={view ? `${styles.top1}` : `${styles.top}`}>
-          <Image
-            src={detailsData.outing.outingGallery[0].image}
-            alt={detailsData.outing.name}
-            width={101}
-            height={110}
-            className={view ? `${styles.image1}` : `${styles.image}`}
-          />
+          {detailsData.outing ? (
+            <Image
+              src={detailsData?.outing?.outingGallery[0].image}
+              alt={detailsData?.outing?.name}
+              width={101}
+              height={110}
+              className={view ? `${styles.image1}` : `${styles.image}`}
+            />
+          ) : null}
           <div>
-            <Text className={styles.title}>{detailsData.outing.name}</Text>
+            <Text className={styles.title}>
+              {detailsData?.outing?.name ?? ""}
+            </Text>
             <Text className="mt-[10px] text-[12px] text-[#475467]">
               Amount Due:{" "}
               <span className={styles.title}>
@@ -45,7 +49,7 @@ const UpcomingPaymentCard = ({ detailsData, view }: Props) => {
             <Text className="mt-[10px] text-[12px] text-[#475467]">
               Deadline:{" "}
               <span className="rounded-3xl bg-[#FFECEB] p-3 text-[#F04438]">
-                {formatedDate(detailsData.nextChargeDate)}
+                {formatedDate(detailsData?.nextChargeDate ?? new Date())}
               </span>
             </Text>
           </div>

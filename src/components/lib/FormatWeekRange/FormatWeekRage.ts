@@ -48,7 +48,7 @@ export const formatWeeksRange = (
   const startDate = new Date(startDateString);
   const endDate = new Date(endDateString);
 
-  const timeDifference = endDate.getTime() - startDate.getTime(); // Difference in milliseconds
+  const timeDifference = endDate.getTime() - startDate.getTime() + 1; // Difference in milliseconds
 
   // Calculate the number of weeks and remaining days
   const millisecondsInAWeek = 7 * 24 * 60 * 60 * 1000;

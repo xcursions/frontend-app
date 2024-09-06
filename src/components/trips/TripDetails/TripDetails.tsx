@@ -394,12 +394,6 @@ const TripDetails = ({ detailsData }: Props) => {
 
   const handleSubmit = () => {
     if (tripType === "private") {
-      // const isAllowed = isLessThan20DaysFromNow(date.from as Date);
-      // if (isAllowed) {
-      //   toaster.error("Start date cannot be less than 21 days from now");
-      // } else {
-      //   createBooking({ query: detailsData.id, data: payload });
-      // }
       createBooking({
         query: detailsData.id,
         data: {
@@ -448,6 +442,7 @@ const TripDetails = ({ detailsData }: Props) => {
       });
     }
   }, []);
+
   const handleLike = () => {
     if (user) {
       createLike({ query: detailsData.id, data: { liked: true } });
@@ -616,14 +611,7 @@ const TripDetails = ({ detailsData }: Props) => {
                               infants: Number(infants),
                               sharing: Number(sharing),
                             });
-                            //   const queryParams = new URLSearchParams({
-                            //     type: tripType,
-                            //     date_id: event.value,
-                            //     num_of_adult: adults,
-                            //     num_of_children: children,
-                            //     num_of_infant: infants,
-                            //     num_of_sharing: sharing,
-                            //   }).toString();
+                            // router.replace(`?${queryParams}`);
                             router.push(`?${queryParams}`);
                           }
                           // setPayload({ ...payload, outingDateId: event.value })
@@ -641,7 +629,7 @@ const TripDetails = ({ detailsData }: Props) => {
                 {tripType === "private" ? (
                   <Text className="flex items-center gap-3 font-dmSansRegular text-[14px] text-[#101828]">
                     <FaRegClock className=" text-xl" />
-                    {date.from && date.to
+                    {date?.from && date?.to
                       ? formatWeeksRange(date?.from, date?.to)
                       : null}
                   </Text>
@@ -659,7 +647,7 @@ const TripDetails = ({ detailsData }: Props) => {
                     <RiErrorWarningLine className="ml-3 text-[#F04438]" />{" "}
                     <Text className="text-[12px] text-[#601B16]">
                       Deadline for payment is{" "}
-                      {date.from
+                      {date?.from
                         ? SubtractDate(date?.from, detailsData?.deadlineGap)
                         : null}
                     </Text>

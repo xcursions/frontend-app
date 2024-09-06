@@ -22,11 +22,11 @@ const ScheduleInfo = () => {
       .filter((res: { status: string }) => res.status === "successful")
       .map((res: UpcomingOutingProps) => {
         return {
-          title: res.outing.name,
-          start: res.bookingDate.startDate,
+          title: res.outing ? res?.outing?.name : "",
+          start: res.bookingDate ? res.bookingDate.startDate : "",
           extendedProps: {
-            description: res.outing.description,
-            image: res.outing.outingGallery[0].image,
+            description: res.outing ? res?.outing?.description : "",
+            image: res.outing ? res?.outing?.outingGallery[0]?.image : "",
             updatedAt: res.updatedAt,
             endDate: res.bookingDate.endDate,
           },
