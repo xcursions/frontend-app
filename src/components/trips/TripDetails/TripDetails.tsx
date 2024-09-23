@@ -2,7 +2,7 @@
 
 import { addDays } from "date-fns";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import type { DateRange } from "react-day-picker";
 import toaster from "react-hot-toast";
@@ -151,6 +151,8 @@ const TripDetails = ({ detailsData }: Props) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const SiteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "";
 
   const tripType = searchParams?.get("type")
     ? (searchParams.get("type") as string)
@@ -194,7 +196,10 @@ const TripDetails = ({ detailsData }: Props) => {
   const [useCouple, setUseCouple] = useState(false);
   const [payload, setPayload] = useState(initialState);
 
-  const goingWithYou = Number(adults) + Number(children) + Number(infants);
+  const goingWithYou =
+    Number(payload.numOfAdults) +
+    Number(payload.numOfChildren) +
+    Number(payload.numOfInfants);
 
   const { data: outingData, isSuccess: outingSuccess } = useGetOutingAddOnQuery(
     detailsData.id
@@ -233,10 +238,10 @@ const TripDetails = ({ detailsData }: Props) => {
     dateId,
     dateFrom: date?.from ?? new Date(),
     dateTo: date?.to ?? new Date(),
-    adults: Number(adults),
-    children: Number(children),
-    infants: Number(infants),
-    sharing: Number(sharing),
+    adults: payload.numOfAdults,
+    children: payload.numOfChildren,
+    infants: payload.numOfInfants,
+    sharing: payload.numOfPeopleSharing,
   });
 
   const privateQueryString = generateQueryString({
@@ -244,10 +249,10 @@ const TripDetails = ({ detailsData }: Props) => {
     dateId,
     dateFrom: date?.from ?? new Date(),
     dateTo: date?.to ?? new Date(),
-    adults: Number(adults),
-    children: Number(children),
-    infants: Number(infants),
-    sharing: Number(sharing),
+    adults: payload.numOfAdults,
+    children: payload.numOfChildren,
+    infants: payload.numOfInfants,
+    sharing: payload.numOfPeopleSharing,
   });
 
   useEffect(() => {
@@ -255,11 +260,11 @@ const TripDetails = ({ detailsData }: Props) => {
       bookingCost({
         query: detailsData.id,
         data: {
-          numOfAdults: adults,
-          numOfChildren: children,
-          numOfInfants: infants,
+          numOfAdults: payload.numOfAdults,
+          numOfChildren: payload.numOfChildren,
+          numOfInfants: payload.numOfInfants,
           outingSubType: tripType,
-          numOfPeopleSharing: sharing,
+          numOfPeopleSharing: payload.numOfPeopleSharing,
           useCoupleCost: useCouple,
           addonIds: payload.addonIds,
           startDate: undefined,
@@ -272,11 +277,11 @@ const TripDetails = ({ detailsData }: Props) => {
       bookingCost({
         query: detailsData.id,
         data: {
-          numOfAdults: adults,
-          numOfChildren: children,
-          numOfInfants: infants,
+          numOfAdults: payload.numOfAdults,
+          numOfChildren: payload.numOfChildren,
+          numOfInfants: payload.numOfInfants,
           outingSubType: tripType,
-          numOfPeopleSharing: sharing,
+          numOfPeopleSharing: payload.numOfPeopleSharing,
           useCoupleCost: useCouple,
           addonIds: payload.addonIds,
           startDate: date?.from,
@@ -285,17 +290,7 @@ const TripDetails = ({ detailsData }: Props) => {
         },
       });
     }
-  }, [
-    payload,
-    date,
-    dateId,
-    tripType,
-    sharing,
-    adults,
-    infants,
-    children,
-    useCouple,
-  ]);
+  }, [payload, date, dateId, tripType, useCouple]);
 
   useEffect(() => {
     if (user) {
@@ -303,42 +298,42 @@ const TripDetails = ({ detailsData }: Props) => {
     }
   }, []);
 
-  useEffect(() => {
-    if (date) {
-      const queryParams = generateQueryString({
-        type: tripType,
-        dateId,
-        dateFrom: date?.from ?? new Date(),
-        dateTo: date?.to ?? new Date(),
-        adults: Number(adults),
-        children: Number(children),
-        infants: Number(infants),
-        sharing: Number(sharing),
-      });
-      router.push(`?${queryParams}`);
-    }
-  }, [date]);
+  // useEffect(() => {
+  //   if (date) {
+  //     const queryParams = generateQueryString({
+  //       type: tripType,
+  //       dateId,
+  //       dateFrom: date?.from ?? new Date(),
+  //       dateTo: date?.to ?? new Date(),
+  //       adults: Number(adults),
+  //       children: Number(children),
+  //       infants: Number(infants),
+  //       sharing: Number(sharing),
+  //     });
+  //     router.push(`?${queryParams}`);
+  //   }
+  // }, [date]);
 
-  useEffect(() => {
-    if (payload.numOfChildren || payload.numOfAdults || payload.numOfInfants) {
-      const queryParams = generateQueryString({
-        type: tripType,
-        dateId,
-        dateFrom: date?.from ?? new Date(),
-        dateTo: date?.to ?? new Date(),
-        adults: payload.numOfAdults,
-        children: payload.numOfChildren,
-        infants: payload.numOfInfants,
-        sharing: payload.numOfPeopleSharing,
-      });
-      router.push(`?${queryParams}`);
-    }
-  }, [
-    payload.numOfChildren,
-    payload.numOfAdults,
-    payload.numOfInfants,
-    payload.numOfPeopleSharing,
-  ]);
+  // useEffect(() => {
+  //   if (payload.numOfChildren || payload.numOfAdults || payload.numOfInfants) {
+  //     const queryParams = generateQueryString({
+  //       type: tripType,
+  //       dateId,
+  //       dateFrom: date?.from ?? new Date(),
+  //       dateTo: date?.to ?? new Date(),
+  //       adults: payload.numOfAdults,
+  //       children: payload.numOfChildren,
+  //       infants: payload.numOfInfants,
+  //       sharing: payload.numOfPeopleSharing,
+  //     });
+  //     router.push(`?${queryParams}`);
+  //   }
+  // }, [
+  //   payload.numOfChildren,
+  //   payload.numOfAdults,
+  //   payload.numOfInfants,
+  //   payload.numOfPeopleSharing,
+  // ]);
 
   const handleOpen = () => {
     setGalleryOpen(true);
@@ -397,11 +392,11 @@ const TripDetails = ({ detailsData }: Props) => {
       createBooking({
         query: detailsData.id,
         data: {
-          numOfAdults: adults,
-          numOfChildren: children,
-          numOfInfants: infants,
+          numOfAdults: payload.numOfAdults,
+          numOfChildren: payload.numOfChildren,
+          numOfInfants: payload.numOfInfants,
           outingSubType: tripType,
-          numOfPeopleSharing: sharing,
+          numOfPeopleSharing: payload.numOfPeopleSharing,
           useCoupleCost: useCouple,
           addonIds: payload.addonIds,
           startDate: date?.from,
@@ -413,11 +408,11 @@ const TripDetails = ({ detailsData }: Props) => {
       createBooking({
         query: detailsData.id,
         data: {
-          numOfAdults: adults,
-          numOfChildren: children,
-          numOfInfants: infants,
+          numOfAdults: payload.numOfAdults,
+          numOfChildren: payload.numOfChildren,
+          numOfInfants: payload.numOfInfants,
           outingSubType: tripType,
-          numOfPeopleSharing: sharing,
+          numOfPeopleSharing: payload.numOfPeopleSharing,
           useCoupleCost: useCouple,
           addonIds: payload.addonIds,
           startDate: undefined,
@@ -427,6 +422,7 @@ const TripDetails = ({ detailsData }: Props) => {
       });
     }
   };
+
   useEffect(() => {
     setPayload({
       ...payload,
@@ -530,7 +526,15 @@ const TripDetails = ({ detailsData }: Props) => {
           </div>
           <div className={styles.details}>
             <div className={styles.icons}>
-              <HandleCopyLink icon={EventCopyLinkIcon} styles={styles.icon} />
+              <HandleCopyLink
+                link={
+                  detailsData.subType === "private"
+                    ? `${SiteUrl}${pathname}?${privateQueryString}`
+                    : `${SiteUrl}${pathname}?${groupQueryString}`
+                }
+                icon={EventCopyLinkIcon}
+                styles={styles.icon}
+              />
               {likedData?.result.some(
                 (res: any) => detailsData.id === res.outing.id
               ) ? (
