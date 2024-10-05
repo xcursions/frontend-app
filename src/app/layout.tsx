@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   icons: { apple: "/icon.png" },
   themeColor: "#ffffff",
   openGraph: {
-    title: "Xcursions landing page",
+    title: "Xcursions",
     description:
       "Travel round the world with the best travel agents in Nigeria and experience, take a trip and create unforgettable memories",
     url: "https://xcursions.com.ng", // pending mark as canonical
