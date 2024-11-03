@@ -5,6 +5,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { AiOutlineArrowLeft, AiOutlineClockCircle } from "react-icons/ai";
 import { BsFillArrowRightCircleFill, BsLightningCharge } from "react-icons/bs";
 import { FaTimes } from "react-icons/fa";
@@ -43,6 +44,7 @@ import {
 } from "@/hooks";
 import { useGetAllOutingsQuery } from "@/services/public";
 import {
+  useApplyDiscountMutation,
   useGeneratePayForMeLinkMutation,
   useGetBookingByIdQuery,
   useHandleBookingParticipantsMutation,
@@ -57,6 +59,7 @@ const Page = () => {
   const router = useRouter();
   const [count, setCount] = useState(0);
   const [data, setData] = useState([]);
+  const [code, setCode] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [plan, setPlan] = useState<"instant" | "saving-plan" | "">("");
   const [paymentFrequency, setPaymentFrequency] = useState<
@@ -67,15 +70,19 @@ const Page = () => {
   >("");
   const { user } = useAppSelector((state) => state.user);
   const { booking } = useAppSelector((state) => state.user);
-  const { isAuthenticated } = useAuth(true);
+  const { isAuthenticated } = useAuth();
   const { data: tripInfo, isSuccess } = useGetAllOutingsQuery(
     `/${booking?.outingId || ""}`
   );
-  const { data: bookingData, isSuccess: isBookingSuccess } =
-    useGetBookingByIdQuery({
-      query: booking?.outingId || "",
-      id: booking?.id || "",
-    });
+  const [applyDiscount] = useApplyDiscountMutation();
+  const {
+    data: bookingData,
+    isSuccess: isBookingSuccess,
+    refetch,
+  } = useGetBookingByIdQuery({
+    query: booking?.outingId || "",
+    id: booking?.id || "",
+  });
   const [
     handleCheckout,
     {
@@ -276,6 +283,26 @@ const Page = () => {
   };
   const toggleModal = () => {
     setIsOpen(!isOpen);
+  };
+  const handleDiscount = async () => {
+    applyDiscount({
+      outingId: booking?.outingId || "",
+      bookingId: booking?.id || "",
+      data: {
+        discountCode: code,
+      },
+    })
+      .unwrap()
+      .then(() => {
+        refetch();
+        toast.success("Discount has been applied");
+      })
+      .catch((err) => {
+        toast.error(
+          err?.data?.meta?.message ??
+            "An error occured while applying the discount"
+        );
+      });
   };
   return (
     <>
@@ -753,8 +780,13 @@ const Page = () => {
                         <div className="pr-3">
                           <Input
                             placeholder="Discount code here"
+                            value={code}
+                            onChange={(e) => setCode(e.target.value)}
                             endIcon={
-                              <BsFillArrowRightCircleFill className="text-[#0A83FF]" />
+                              <BsFillArrowRightCircleFill
+                                className="cursor-pointer text-[#0A83FF]"
+                                onClick={handleDiscount}
+                              />
                             }
                           />
                         </div>
@@ -799,6 +831,23 @@ const Page = () => {
                             <span>No Addons</span>
                           )}
                         </div>
+                        {isBookingSuccess && bookingData?.discountedCost ? (
+                          <div className="mr-3  flex items-center justify-between">
+                            <div className=" flex items-center gap-2">
+                              <Text className="font-dmSansMedium text-[12px] text-[#667084]">
+                                Discount
+                              </Text>
+                            </div>
+
+                            <p className="font-dmSansBold text-[14px] text-[#667084]">
+                              ₦{" "}
+                              {(
+                                parseInt(bookingData?.cost ?? 0, 10) -
+                                parseInt(bookingData?.discountedCost ?? 0, 10)
+                              ).toLocaleString()}
+                            </p>
+                          </div>
+                        ) : null}
                         <div className="mr-3  flex items-center justify-between">
                           <div className=" flex items-center gap-2">
                             <Text className="font-dmSansMedium text-[12px] text-[#667084]">
@@ -812,7 +861,7 @@ const Page = () => {
                               ? CalculateVat(
                                   bookingData?.cost,
                                   bookingData?.outing?.vat
-                                )
+                                ).toLocaleString()
                               : null}
                           </Text>
                         </div>
@@ -824,7 +873,16 @@ const Page = () => {
                             Total
                           </Text>
                           <span className="text-[18px] text-[#101828] ">
-                            ₦{parseInt(bookingData?.cost, 10).toLocaleString()}
+                            ₦
+                            {bookingData?.discountedCost
+                              ? parseInt(
+                                  bookingData?.discountedCost,
+                                  10
+                                ).toLocaleString()
+                              : parseInt(
+                                  bookingData?.cost,
+                                  10
+                                ).toLocaleString()}
                           </span>
                         </div>
                       </div>

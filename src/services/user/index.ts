@@ -286,6 +286,16 @@ export const userApi = authApi.injectEndpoints({
     logout: builder.mutation<any, any>({
       query: () => ({ url: "/user/logout/", method: "POST" }),
     }),
+    applyDiscount: builder.mutation<
+      ApiResponseTypes<unknown>,
+      { outingId: string; bookingId: string; data: { discountCode: string } }
+    >({
+      query: ({ outingId, bookingId, data }) => ({
+        url: `/booking/outing/${outingId}/bookings/${bookingId}/apply-discount`,
+        method: "POST",
+        body: { ...data },
+      }),
+    }),
   }),
 });
 
@@ -332,4 +342,5 @@ export const {
   useGenerateReferalCodeMutation,
   useGetReferralHistoryQuery,
   useGeneratePayForMeLinkMutation,
+  useApplyDiscountMutation,
 } = userApi;

@@ -61,3 +61,17 @@ export interface BannerResponse {
   imageUrl: string;
   deletedAt: string | null;
 }
+
+export interface CouponResponse {
+  code: string;
+  createdAt: string;
+  deletedAt: string | null;
+  expirationDate: string;
+  id: string;
+  numberOfRemainingUses: number;
+  numberOfUses: number;
+  outingId: string | null;
+  type: string;
+  updatedAt: string;
+  value: string;
+}

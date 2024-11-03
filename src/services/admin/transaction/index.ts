@@ -1,7 +1,7 @@
 import { authApi } from "@/services/auth";
 import type { ApiResponseTypes } from "@/types/ApiResponseType";
 
-import type { FundUserPayload } from "../payload";
+import type { CouponResponse, FundUserPayload } from "../payload";
 
 export const transactionApi = authApi.injectEndpoints({
   // reducerPath: "transactionApi",
@@ -75,6 +75,61 @@ export const transactionApi = authApi.injectEndpoints({
       }),
       invalidatesTags: ["Admin"],
     }),
+    createCoupon: builder.mutation<
+      ApiResponseTypes<unknown>,
+      {
+        code: string;
+        type: string;
+        numberOfUses: number;
+        value: number;
+        expirationDate: string;
+      }
+    >({
+      query: (data) => ({
+        url: "/discount/discounts",
+        method: "POST",
+        body: { ...data },
+      }),
+    }),
+    editCoupon: builder.mutation<
+      ApiResponseTypes<unknown>,
+      {
+        id: string;
+        data: {
+          code: string;
+          type: string;
+          numberOfUses: number;
+          value: number;
+          expirationDate: string;
+        };
+      }
+    >({
+      query: ({ id, data }) => ({
+        url: `/discount/discounts/${id}`,
+        method: "PUT",
+        body: { ...data },
+      }),
+    }),
+    deleteCoupon: builder.mutation<ApiResponseTypes<unknown>, { id: string }>({
+      query: ({ id }) => ({
+        url: `/discount/discounts/${id}`,
+        method: "DELETE",
+      }),
+    }),
+    getCoupons: builder.query<
+      {
+        result: CouponResponse[];
+        limit: number;
+        totalPages: number;
+        totalElements: number;
+      },
+      { pageLimit: number; currentPage: number }
+    >({
+      query: ({ pageLimit, currentPage }) => ({
+        url: `/discount/discounts?limit=${pageLimit}&currentPage=${currentPage}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -89,4 +144,8 @@ export const {
   useGetBookingChartQuery,
   useGetTransactionVolumeQuery,
   useFundUserMutation,
+  useCreateCouponMutation,
+  useGetCouponsQuery,
+  useEditCouponMutation,
+  useDeleteCouponMutation,
 } = transactionApi;
