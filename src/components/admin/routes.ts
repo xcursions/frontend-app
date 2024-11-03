@@ -1,5 +1,11 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { IoGridOutline, IoHomeOutline } from "react-icons/io5";
+import {
+  IoCashOutline,
+  IoChatbubbleOutline,
+  IoGridOutline,
+  IoHomeOutline,
+  IoSettingsOutline,
+} from "react-icons/io5";
 import { MdOutlineAccountCircle } from "react-icons/md";
 import { TfiWallet } from "react-icons/tfi";
 
@@ -27,16 +33,21 @@ export default [
   {
     to: "/admin/messages",
     name: "Messages",
-    Icon: MdOutlineAccountCircle,
+    Icon: IoChatbubbleOutline,
   },
   {
     to: "/admin/transactions",
     name: "Transactions",
-    Icon: MdOutlineAccountCircle,
+    Icon: IoCashOutline,
+  },
+  {
+    to: "/admin/discount",
+    name: "Discounts",
+    Icon: IoCashOutline,
   },
   {
     to: "/admin/settings",
     name: "Settings",
-    Icon: MdOutlineAccountCircle,
+    Icon: IoSettingsOutline,
   },
 ];
