@@ -5,7 +5,7 @@ import { GoogleLogin } from "@react-oauth/google";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import toaster from "react-hot-toast";
 import * as yup from "yup";
@@ -18,9 +18,8 @@ import Input from "@/components/lib/Input/Input";
 import { HorizontalLineIcon } from "@/components/lib/Svg";
 import Text from "@/components/lib/Text/Text";
 import TopNavBar from "@/components/public/TopNavBar";
-import { useAppDispatch, useAppSelector, useLogoutUser } from "@/hooks";
+import { useAppDispatch, useLogoutUser } from "@/hooks";
 import { useGoogleLoginMutation, useLoginMutation } from "@/services/auth";
-import { selectedUser } from "@/store/selector/user.selector";
 import {
   setUserAuthMethod,
   setUserData,
@@ -48,7 +47,6 @@ const Login = () => {
   const endUserSession = useLogoutUser();
   const [googleLogin] = useGoogleLoginMutation();
   const [isChecked, setIsChecked] = useState(false);
-  const user = useAppSelector(selectedUser);
 
   const onSubmit = async (formValues: any) => {
     await endUserSession();
@@ -101,11 +99,6 @@ const Login = () => {
         toaster.error(error?.data?.meta?.message);
       });
   };
-  useEffect(() => {
-    if (user) {
-      router.push("/user/dashboard");
-    }
-  }, [user]);
   return (
     <div className="w-full  overflow-hidden bg-[#FFFFFF]">
       <div className="lg:hidden">
