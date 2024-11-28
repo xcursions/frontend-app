@@ -100,6 +100,20 @@ const Verify = () => {
       }));
     }
   }, []);
+  useEffect(() => {
+    if (isResendSuccess && ResendOtpData) {
+      setPayload((prev) => ({
+        ...prev,
+        userId: ResendOtpData.data.userId,
+        otpId: ResendOtpData.data.otpId,
+      }));
+      setOtpPayload((prev) => ({
+        ...prev,
+        userId: ResendOtpData.data.userId,
+        otpId: ResendOtpData.data.otpId,
+      }));
+    }
+  }, [isResendSuccess, ResendOtpData]);
   return (
     <div className="w-full  overflow-hidden bg-[#FFFFFF]">
       <div className="lg:hidden">
