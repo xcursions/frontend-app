@@ -82,8 +82,10 @@ export default function Dashboard() {
           ) : (
             <HeaderSection
               heading={`Hello, ${
-                (userSuccess && userProfile?.data?.lastName) ||
-                (userSuccess && userProfile?.data?.fullName.split(" ")[0])
+                (userSuccess ? userProfile?.data?.lastName : "...") ??
+                (userSuccess
+                  ? userProfile?.data?.fullName.split(" ")[0]
+                  : "...")
               } 🏝️`}
               subHeading={"Welcome back to your dashboard"}
             />
