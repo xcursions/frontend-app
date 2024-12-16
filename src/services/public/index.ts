@@ -46,15 +46,13 @@ export const publicApi = authApi.injectEndpoints({
         limit,
         page,
       }) => ({
-        url: `/outing/outings?type=${
-          type || ""
-        }&sort=uniqueBookingCount&isDraft=${isDraft || "false"}&minPrice=${
-          minPrice || ""
-        }&maxPrice=${maxPrice || ""}&subType=${subType || ""}&month=${
-          month || ""
-        }&location=${location || ""}&search=${search || ""}&limit=${
-          limit || ""
-        }&page=${page || ""}`,
+        url: `/outing/outings?type=${type || ""}&isDraft=${
+          isDraft || "false"
+        }&minPrice=${minPrice || ""}&maxPrice=${maxPrice || ""}&subType=${
+          subType || ""
+        }&month=${month || ""}&location=${location || ""}&search=${
+          search || ""
+        }&limit=${limit || ""}&page=${page || ""}`,
         method: "GET",
       }),
     }),
