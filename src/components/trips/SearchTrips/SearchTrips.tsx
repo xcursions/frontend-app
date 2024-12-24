@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import type { ChangeEvent } from "react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FiFilter } from "react-icons/fi";
 
 import Input from "@/components/lib/Input";
@@ -10,6 +10,7 @@ import Loader from "@/components/lib/Loader";
 import { Pagination } from "@/components/lib/Pagination";
 import Select from "@/components/lib/Select/Select";
 import TripCard from "@/components/public/LandingPage/AvailableTrips/TripCard";
+import { useDebounce } from "@/hooks";
 import useSuccessHandler from "@/hooks/useSuccessHandler";
 import {
   useFetchAllOutingsQuery,
@@ -48,20 +49,22 @@ const SearchTrips = ({ location }: { location: string }) => {
   const minPrice = searchParams?.get("minPrice") ?? undefined;
   const subType = searchParams?.get("subType") ?? undefined;
   const queryMonth = searchParams?.get("month") ?? undefined;
-  const [search, setSearch] = useState("");
+  const searchQuery = searchParams?.get("search") || "";
+  const [search, setSearch] = useState(searchQuery);
   const [type, setType] = useState([]);
   const [month, setMonth] = useState([]);
 
   const [outingData, setOutingData] = useState<OutingProps[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const pageLimit = 16;
+  const debounceSearch = useDebounce(search, 1000);
   const { data, isSuccess } = useFetchAllOutingsQuery({
     limit: pageLimit,
     page: currentPage,
     type: "tour",
     subType,
     month: queryMonth,
-    search,
+    search: debounceSearch,
     isDraft: false,
     location,
     minPrice,
@@ -81,10 +84,6 @@ const SearchTrips = ({ location }: { location: string }) => {
       subType,
       month: queryMonth,
     });
-  function splitPriceRange(priceRange: string) {
-    const [min, max] = priceRange.split("-").map(String);
-    return { min, max };
-  }
 
   const [showFilter, setShowFilter] = useState(false);
 
@@ -117,6 +116,27 @@ const SearchTrips = ({ location }: { location: string }) => {
 
     showToast: false,
   });
+  const updateQueryParams = (params: Record<string, string | undefined>) => {
+    const queryParams = new URLSearchParams(searchParams?.toString() || "");
+    Object.entries(params).forEach(([key, value]) => {
+      if (value) {
+        queryParams.set(key, value);
+      } else {
+        queryParams.delete(key);
+      }
+    });
+    router.replace(`?${queryParams.toString()}`);
+  };
+
+  useEffect(() => {
+    updateQueryParams({ search: debounceSearch });
+  }, [debounceSearch]);
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+    }
+  };
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
@@ -127,13 +147,12 @@ const SearchTrips = ({ location }: { location: string }) => {
               <div className="relative w-full">
                 <Input
                   type="text"
-                  name="outing name"
                   startIcon
                   value={search}
                   onChange={(e: ChangeEvent<HTMLInputElement>) =>
                     setSearch(e.target.value)
                   }
-                  id="simple-search"
+                  onKeyDown={handleKeyDown}
                   className="block w-[240px] rounded-lg text-sm text-[#667084] focus:border-blue-500 focus:ring-blue-500 md:w-[350px] lg:w-[342px]"
                   placeholder="Search for trips, events"
                   required
@@ -172,20 +191,9 @@ const SearchTrips = ({ location }: { location: string }) => {
                   placeholder={"Trip type"}
                   value={subType}
                   startIcon={"/assets/images/icons/plane.png"}
-                  onChange={(event) => {
-                    const queryParams = new URLSearchParams();
-                    if (minPrice) {
-                      queryParams.set("minPrice", minPrice);
-                    }
-                    if (maxPrice) {
-                      queryParams.set("maxPrice", maxPrice);
-                    }
-                    if (queryMonth) {
-                      queryParams.set("month", queryMonth);
-                    }
-                    queryParams.set("subType", event.value);
-                    router.push(`?${queryParams.toString()}`);
-                  }}
+                  onChange={(event) =>
+                    updateQueryParams({ subType: event.value })
+                  }
                   options={type.map(
                     (option: { type: string; totalOuting: number }) => ({
                       value: option.type,
@@ -209,19 +217,8 @@ const SearchTrips = ({ location }: { location: string }) => {
                 value={minPrice && `${minPrice}-${maxPrice}`}
                 startIcon={"/assets/images/icons/dollar.png"}
                 onChange={(event) => {
-                  const { min, max } = splitPriceRange(event.value);
-                  const queryParams = new URLSearchParams();
-
-                  if (subType) {
-                    queryParams.set("subType", subType);
-                  }
-                  if (queryMonth) {
-                    queryParams.set("month", queryMonth);
-                  }
-                  queryParams.set("minPrice", min);
-                  queryParams.set("maxPrice", max);
-
-                  router.push(`?${queryParams.toString()}`);
+                  const [min, max] = event.value.split("-");
+                  updateQueryParams({ minPrice: min, maxPrice: max });
                 }}
                 options={optionPrice.map((option) => ({
                   value: `${option.value.minPrice}-${option.value.maxPrice}`,
@@ -242,21 +239,7 @@ const SearchTrips = ({ location }: { location: string }) => {
                   value={queryMonth}
                   startIcon={"/assets/images/icons/calendar1.png"}
                   onChange={(event) => {
-                    const queryParams = new URLSearchParams();
-                    if (minPrice) {
-                      queryParams.set("minPrice", minPrice);
-                    }
-                    if (maxPrice) {
-                      queryParams.set("maxPrice", maxPrice);
-                    }
-                    if (subType) {
-                      queryParams.set("subType", subType);
-                    }
-                    if (location) {
-                      queryParams.set("location", location);
-                    }
-                    queryParams.set("month", event.value);
-                    router.push(`?${queryParams.toString()}`);
+                    updateQueryParams({ month: event.value });
                   }}
                   options={month.map(
                     (option: { month: string; totalOuting: number }) => ({
@@ -272,7 +255,7 @@ const SearchTrips = ({ location }: { location: string }) => {
           </form>
         </div>
         {/* Trip Cards */}
-        <div className="flex flex-wrap justify-between">
+        <div className="flex flex-wrap gap-5">
           {isSuccess ? (
             outingData.map((post) => (
               <TripCard post={post} key={`${post.id}`} />
