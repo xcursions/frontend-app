@@ -43,11 +43,12 @@ const Subscription = () => {
           />
           <div className="max-w-[550px] justify-center">
             <Text className="text-center font-dmSansBold text-[16px] font-bold md:text-start lg:text-[28px]">
-              Subscribe to Our Newsletter
+              Xcursions
             </Text>
             <Text className="py-3 text-[16px] text-[#475467]">
-              Join our community of Co-travelers and be the first to hear about
-              upcoming tours, latest travel gist, and travel opportunities
+              Join 500+ adventure seekers who get exclusive travel deals,
+              destination guides, and unforgettable tour updates sent straight
+              to their inbox weekly.
             </Text>
             <div className="flex flex-col items-center gap-3 py-5 lg:flex-row">
               <Input
