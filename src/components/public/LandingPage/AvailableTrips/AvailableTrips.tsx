@@ -18,10 +18,10 @@ const AvailableTrips = () => {
     <div className="xcursion_availableTrips_wrapper">
       <div className="xcursion_availableTrips_header">
         <div>
-          <h3>Must-See Adventures in 2024</h3>
+          <h3>Adventures That Will Stay With You Forever</h3>
           <p>
-            Go all in with these fun-filled adventures carefully curated to
-            create your most memorable year yet
+            Fill 2025 with unforgettable moments, breathtaking experiences, and
+            stories you&apos;ll cherish for a lifetime.
           </p>
           <div className="slider">
             <p
