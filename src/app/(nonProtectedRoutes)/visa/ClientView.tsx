@@ -42,7 +42,9 @@ const ClientView = () => {
     createVisa(formValues)
       .unwrap()
       .then(() => toast.success("Successful"))
-      .catch(() => toast.error("An Error Occured"));
+      .catch((err) =>
+        toast.error(err?.data?.meta?.message ?? "An Error Occured")
+      );
     setLoading(false);
   };
   const {
