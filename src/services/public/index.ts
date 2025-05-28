@@ -136,7 +136,7 @@ export const publicApi = authApi.injectEndpoints({
       }),
     }),
     createVisaApplication: builder.mutation<
-      ApiResponseTypes<unknown>,
+      { depositLink?: string; transactionId?: string; reference?: string },
       VisaApplicationPayload
     >({
       query: (data) => ({

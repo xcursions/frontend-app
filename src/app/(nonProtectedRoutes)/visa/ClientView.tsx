@@ -6,14 +6,17 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { TbCards } from "react-icons/tb";
 import * as yup from "yup";
 
 import Button from "@/components/lib/Button";
 import Checkbox from "@/components/lib/Checkbox";
+import Heading from "@/components/lib/Heading";
 import Input from "@/components/lib/Input";
 import Select from "@/components/lib/Select";
 import { ArrowIcon } from "@/components/lib/Svg";
 import { useCreateVisaApplicationMutation } from "@/services/public";
+import { type VisaApplicationPayload } from "@/services/public/payload";
 
 const visaSchema = yup.object({
   visaCountry: yup.string().required("This field is required"),
@@ -26,27 +29,49 @@ const visaSchema = yup.object({
   maritalStatus: yup.string().required("marital status is required"),
   dateOfBirth: yup.string().required("date of birth is required"),
   travelHistory: yup.string(),
+  channel: yup.string().oneOf(["wallet", "paystack", ""]).required(),
+  callbackUrl: yup.string().required("callback url is required"),
 });
 
 const marritalOption = [
   { value: "married", label: "Married" },
   { value: "single", label: "Single" },
 ];
+
 const ClientView = () => {
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [paymentChannel, setPaymentChannel] = useState<
+    "wallet" | "paystack" | ""
+  >("");
+
   const router = useRouter();
   const [createVisa] = useCreateVisaApplicationMutation();
-  const onSubmit = (formValues: any) => {
+
+  const onSubmit = (formValues: VisaApplicationPayload) => {
     setLoading(true);
-    createVisa(formValues)
-      .unwrap()
-      .then(() => toast.success("Successful"))
-      .catch((err) =>
-        toast.error(err?.data?.meta?.message ?? "An Error Occured")
-      );
+    if (paymentChannel === "wallet") {
+      createVisa(formValues)
+        .unwrap()
+        .then(() => router.push("/payment-success"))
+        .catch((err) =>
+          toast.error(err?.data?.meta?.message ?? "An Error Occured")
+        );
+    } else {
+      createVisa(formValues)
+        .unwrap()
+        .then((data) => {
+          if (data?.depositLink) {
+            router.push(data?.depositLink);
+          }
+        })
+        .catch((err) =>
+          toast.error(err?.data?.meta?.message ?? "An Error Occured")
+        );
+    }
     setLoading(false);
   };
+
   const {
     register,
     handleSubmit,
@@ -57,9 +82,12 @@ const ClientView = () => {
     resolver: yupResolver(visaSchema),
     defaultValues: {
       hasPassport: false,
+      callbackUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/payment-success`,
     },
   });
+
   const currentState = watch();
+
   const openModal = () => {
     setIsOpen(true);
   };
@@ -68,6 +96,7 @@ const ClientView = () => {
   const closeModal = () => {
     setIsOpen(false);
   };
+
   return (
     <div className="xcursions_visa_wrapper">
       <div className="xcursions_visa_lhs">
@@ -148,7 +177,7 @@ const ClientView = () => {
                 errorMsg={errors.phoneNumber?.message}
               />
               <Select
-                placeholder="Single"
+                placeholder="Select Marital Status"
                 label="Marital Status"
                 options={marritalOption.map((option) => ({
                   value: option.value,
@@ -217,16 +246,58 @@ const ClientView = () => {
               </p>
               <p className=" txt-14 fw-400 text-[#475467]">
                 You will be charged{" "}
-                <span className=" text-[#0A83FF]">₦5,000</span>for this service.
-                This will be deducted from your visa application fee.
+                <span className=" text-[#0A83FF]">₦5,000</span> for this
+                service. This will be deducted from your visa application fee.
               </p>
-              <Button
-                className=" txt-14 fw-400 h-[40px] w-full rounded-[10000px]"
-                onClick={handleSubmit(onSubmit)}
-                loading={loading}
-              >
-                Proceed to Payment
-              </Button>
+              <div className="w-full rounded-3xl bg-white p-5 shadow-lg">
+                <div className="flex justify-between">
+                  <Heading type="h3" className="text-[18px] text-[#101828]">
+                    Select Payment Method
+                  </Heading>
+                </div>
+                <div className="flex flex-col gap-5 py-5">
+                  <div
+                    className={`${
+                      paymentChannel === "wallet" && "border shadow-lg"
+                    } flex h-[56px] cursor-pointer items-center gap-4 rounded-2xl bg-[#FFF5EB]`}
+                    onClick={() => {
+                      setValue("channel", "wallet");
+                      setPaymentChannel("wallet");
+                    }}
+                  >
+                    <span className="pl-5 text-[24px] text-[#FF860A]">
+                      <TbCards />
+                    </span>
+                    <p className="cursor-pointer text-[15px] text-[#475467]">
+                      Pay with Wallet
+                    </p>
+                  </div>
+                  <div
+                    className={`${
+                      paymentChannel === "paystack" && "border shadow-lg"
+                    } flex h-[56px] cursor-pointer items-center gap-4 rounded-2xl bg-[#00C3F71A]`}
+                    onClick={() => {
+                      setValue("channel", "paystack");
+                      setPaymentChannel("paystack");
+                    }}
+                  >
+                    <img
+                      src="/assets/images/icons/paystack.png"
+                      className="pl-5"
+                      alt="paystack"
+                    />
+                    <p className="cursor-pointer">Pay with Paystack</p>
+                  </div>
+                  <Button
+                    className=" txt-14 fw-400 h-[40px] w-full rounded-[10000px]"
+                    onClick={handleSubmit(onSubmit)}
+                    loading={loading}
+                    disabled={!paymentChannel}
+                  >
+                    Proceed to Payment
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -236,4 +307,3 @@ const ClientView = () => {
 };
 
 export default ClientView;
-// onSubmit={handleSubmit(onSubmit)}

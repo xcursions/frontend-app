@@ -24,7 +24,9 @@ export type VisaApplicationPayload = {
   phoneNumber: string;
   maritalStatus: string;
   dateOfBirth: string;
-  travelHistory: string;
+  travelHistory?: string;
+  channel: string;
+  callbackUrl?: string;
 };
 
 export type CustomTripPayload = {

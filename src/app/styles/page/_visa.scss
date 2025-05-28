@@ -28,7 +28,7 @@
     position: fixed; /* Positioning context */
     z-index: 9999; /* Ensure it appears on top of other content */
     left: 0;
-    top: 0;
+    top: 0%;
     width: 100%; /* Full width */
     height: 100%; /* Full height */
     overflow: auto; /* Enable scrolling if needed */
@@ -37,7 +37,7 @@
 
   /* Style for the modal content */
   .modal_content {
-    background-color: white;
+  background-color: white;
   padding: 20px;
   border: 1px solid #888;
   max-width: 400px;
@@ -45,10 +45,12 @@
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   position: absolute;
   left: 50%;
+  max-height: 80vh;
+  overflow-y: auto; /* Enable vertical scrolling if content exceeds height */
   transform: translateX(-50%);
   height: fit-content;
-  margin: 30% auto;
-  bottom: 0;
+  margin: 0% auto;
+  bottom: 10%;
   }
 
   /* Style for the close button */
