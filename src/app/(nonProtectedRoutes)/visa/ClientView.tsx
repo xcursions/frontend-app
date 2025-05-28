@@ -6,16 +6,16 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { TbCards } from "react-icons/tb";
 import * as yup from "yup";
 
 import Button from "@/components/lib/Button";
 import Checkbox from "@/components/lib/Checkbox";
+import Heading from "@/components/lib/Heading";
 import Input from "@/components/lib/Input";
 import Select from "@/components/lib/Select";
 import { ArrowIcon } from "@/components/lib/Svg";
 import { useCreateVisaApplicationMutation } from "@/services/public";
-import Heading from "@/components/lib/Heading";
-import { TbCards } from "react-icons/tb";
 import { type VisaApplicationPayload } from "@/services/public/payload";
 
 const visaSchema = yup.object({
