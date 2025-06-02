@@ -28,7 +28,11 @@ import {
 const registerSchema = yup.object({
   fullName: yup.string().required("Full name is required"),
   username: yup.string().required("User name is required"),
-  email: yup.string().email().required(" Email is required"),
+  email: yup
+    .string()
+    .transform((value) => value.trim())
+    .required("email is required")
+    .email("Invalid email"),
   password: yup
     .string()
     .required()

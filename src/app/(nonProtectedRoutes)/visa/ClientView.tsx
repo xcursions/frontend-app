@@ -24,7 +24,12 @@ const visaSchema = yup.object({
   hasPassport: yup.boolean().required(),
   firstName: yup.string().required("first name is required"),
   lastName: yup.string().required("last name is required"),
-  email: yup.string().required("email is required"),
+  email: yup
+    .string()
+    .transform((value) => value.trim())
+    .required("email is required")
+    .email("Invalid email"),
+
   phoneNumber: yup.string().required("phone number is required"),
   maritalStatus: yup.string().required("marital status is required"),
   dateOfBirth: yup.string().required("date of birth is required"),
