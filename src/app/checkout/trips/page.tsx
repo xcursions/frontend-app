@@ -66,7 +66,7 @@ const Page = () => {
     "weekly" | "daily" | "monthly" | ""
   >("");
   const [paymentChannel, setPaymentChannel] = useState<
-    "wallet" | "paystack" | ""
+    "wallet" | "paystack" | "fintava" | ""
   >("");
   const { user } = useAppSelector((state) => state.user);
   const { booking } = useAppSelector((state) => state.user);
@@ -144,7 +144,7 @@ const Page = () => {
       }
     },
     toastMessage: checkoutData?.depositLink
-      ? "Redirecting to paystack"
+      ? `Redirecting to ${paymentChannel}`
       : "Redirecting to dashboard",
   });
   useEffect(() => {
@@ -200,25 +200,35 @@ const Page = () => {
   }, [paymentFrequency]);
 
   const handleInstantSubmit = () => {
-    if (paymentChannel === "wallet" && plan === "instant") {
-      handleCheckout({
-        query: booking?.id,
-        data: { paymentMethod: plan, channel: paymentChannel },
-      })
+    if (plan !== "instant") return;
+
+    const commonData = {
+      query: booking?.id,
+      data: {
+        paymentMethod: plan,
+        channel: paymentChannel,
+      },
+    };
+
+    if (paymentChannel === "wallet") {
+      handleCheckout(commonData)
         .unwrap()
         .then(() => router.push("/payment-success"))
         .catch((err) => console.error(err));
-    } else if (paymentChannel === "paystack" && plan === "instant") {
-      handleCheckout({
-        query: booking?.id,
-        data: {
-          paymentMethod: plan,
-          channel: paymentChannel,
-          callbackUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/payment-success`,
-        },
-      });
+    } else {
+      const paymentGateways = ["paystack", "fintava"];
+      if (paymentGateways.includes(paymentChannel)) {
+        handleCheckout({
+          ...commonData,
+          data: {
+            ...commonData.data,
+            callbackUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/payment-success`,
+          },
+        });
+      }
     }
   };
+
   const handlePayForMe = () => {
     if (plan === "instant") {
       payForMe({
@@ -236,27 +246,30 @@ const Page = () => {
       });
     }
   };
+
   const handleSavingSubmit = () => {
-    if (paymentChannel === "wallet" && plan === "saving-plan") {
-      handleCheckout({
-        query: booking?.id,
-        data: {
-          paymentMethod: plan,
-          channel: paymentChannel,
-          periodicPaymentType: paymentFrequency,
-        },
-      })
+    if (plan !== "saving-plan") return;
+
+    const commonData = {
+      query: booking?.id,
+      data: {
+        paymentMethod: plan,
+        channel: paymentChannel,
+        periodicPaymentType: paymentFrequency,
+      },
+    };
+
+    if (paymentChannel === "wallet") {
+      handleCheckout(commonData)
         .unwrap()
         .then(() => router.push("/payment-success"))
         .catch((err) => console.error(err));
-    } else if (paymentChannel === "paystack" && plan === "saving-plan") {
+    } else if (["paystack", "fintava"].includes(paymentChannel)) {
       handleCheckout({
-        query: booking?.id,
+        ...commonData,
         data: {
-          paymentMethod: plan,
-          channel: paymentChannel,
+          ...commonData.data,
           callbackUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/payment-success`,
-          periodicPaymentType: paymentFrequency,
         },
       });
     }
@@ -400,20 +413,6 @@ const Page = () => {
                                   }
                                 />
                               </div>
-                              {/* <select
-                                value={item.individualType}
-                                onChange={(e) =>
-                                  handleInputChange(
-                                    index,
-                                    "individualType",
-                                    e.target.value
-                                  )
-                                }
-                              >
-                                <option value="adult">Adult</option>
-                                <option value="children">Children</option>
-                                <option value="infants">Infants</option>
-                              </select> */}
                             </div>
                           ))}
                           {count > 1 && (
@@ -938,6 +937,21 @@ const Page = () => {
                             alt="paystack"
                           />
                           <p className="cursor-pointer">Pay with Paystack</p>
+                        </div>
+                        <div
+                          className={`${
+                            paymentChannel === "fintava" && "border shadow-lg"
+                          } flex h-[56px] cursor-pointer items-center gap-4 rounded-2xl bg-[#7e6a7067]`}
+                          onClick={() => setPaymentChannel("fintava")}
+                        >
+                          <Image
+                            src="/assets/images/icons/fintava.png"
+                            className="pl-5"
+                            alt="fintava"
+                            width={50}
+                            height={50}
+                          />
+                          <p className="cursor-pointer">Pay with Fintava</p>
                         </div>
                         <Button
                           className="cursor-pointer rounded-3xl text-[14px]"
