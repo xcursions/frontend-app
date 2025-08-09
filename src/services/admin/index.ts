@@ -1,4 +1,6 @@
+import { type OutingPayload } from "@/app/(protectedRoutes)/admin/(adminProtectedRoutes)/services/page";
 import { authApi } from "@/services/auth";
+import { type OutingProps } from "@/types";
 import type { ApiResponseTypes } from "@/types/ApiResponseType";
 
 import type {
@@ -7,7 +9,6 @@ import type {
   CreateBlogTagsPayload,
   CreateOutingChargePlanPayload,
   CreateOutingDestinationPayload,
-  CreateOutingPayload,
 } from "./payload";
 
 export const adminApi = authApi.injectEndpoints({
@@ -19,7 +20,7 @@ export const adminApi = authApi.injectEndpoints({
       query: (query) => ({ url: `/outing/outings${query}`, method: "GET" }),
       providesTags: ["Admin"],
     }),
-    createOuting: builder.mutation<any, CreateOutingPayload>({
+    createOuting: builder.mutation<OutingProps, OutingPayload>({
       query: (data) => ({
         url: "/outing/outings",
         method: "POST",

@@ -89,7 +89,7 @@ const initialState: State = {
   outingDateId: undefined,
 };
 
-function formatDateToDDMMYYYY(date: Date) {
+function formatDateToDDMMYYYY(date?: Date) {
   if (date) {
     const day = String(date.getDate()).padStart(2, "0");
     const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
@@ -102,8 +102,8 @@ function formatDateToDDMMYYYY(date: Date) {
 interface GenerateQueryStringParams {
   type: string;
   dateId: string;
-  dateFrom: Date;
-  dateTo: Date;
+  dateFrom?: Date;
+  dateTo?: Date;
   adults: number;
   children?: number;
   infants?: number;
@@ -157,9 +157,9 @@ const TripDetails = ({ detailsData }: Props) => {
   const tripType = searchParams?.get("type")
     ? (searchParams.get("type") as string)
     : "private";
-  const dateId = searchParams?.get("date_id")
-    ? (searchParams.get("date_id") as string)
-    : "";
+  const dateId =
+    searchParams?.get("date_id") ?? detailsData.outingDate[0]?.id ?? "";
+
   const startDate = searchParams?.get("start_date");
   const endDate = searchParams?.get("end_date");
   const adults = searchParams?.get("num_of_adult")
@@ -235,7 +235,7 @@ const TripDetails = ({ detailsData }: Props) => {
 
   const groupQueryString = generateQueryString({
     type: detailsData?.subType === "private" ? "private" : "group",
-    dateId,
+    dateId: dateId.length ? dateId : detailsData.outingDate[0].id,
     dateFrom: date?.from ?? new Date(),
     dateTo: date?.to ?? new Date(),
     adults: payload.numOfAdults,
@@ -297,43 +297,6 @@ const TripDetails = ({ detailsData }: Props) => {
       getLikeData("?type=tour");
     }
   }, []);
-
-  // useEffect(() => {
-  //   if (date) {
-  //     const queryParams = generateQueryString({
-  //       type: tripType,
-  //       dateId,
-  //       dateFrom: date?.from ?? new Date(),
-  //       dateTo: date?.to ?? new Date(),
-  //       adults: Number(adults),
-  //       children: Number(children),
-  //       infants: Number(infants),
-  //       sharing: Number(sharing),
-  //     });
-  //     router.push(`?${queryParams}`);
-  //   }
-  // }, [date]);
-
-  // useEffect(() => {
-  //   if (payload.numOfChildren || payload.numOfAdults || payload.numOfInfants) {
-  //     const queryParams = generateQueryString({
-  //       type: tripType,
-  //       dateId,
-  //       dateFrom: date?.from ?? new Date(),
-  //       dateTo: date?.to ?? new Date(),
-  //       adults: payload.numOfAdults,
-  //       children: payload.numOfChildren,
-  //       infants: payload.numOfInfants,
-  //       sharing: payload.numOfPeopleSharing,
-  //     });
-  //     router.push(`?${queryParams}`);
-  //   }
-  // }, [
-  //   payload.numOfChildren,
-  //   payload.numOfAdults,
-  //   payload.numOfInfants,
-  //   payload.numOfPeopleSharing,
-  // ]);
 
   const handleOpen = () => {
     setGalleryOpen(true);

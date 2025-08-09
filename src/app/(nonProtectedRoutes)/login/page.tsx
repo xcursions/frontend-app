@@ -83,10 +83,9 @@ const Login = () => {
         dispatch(setUserToken(data?.meta?.token));
         dispatch(setUserAuthMethod("social-auth"));
         toaster.success("Successfully logged in using Google");
-        if (!data?.data?.emailVerified) router.push("/verify");
-        else if (!!fromRoute && fromRoute.includes("http"))
+        if (!!fromRoute && fromRoute.includes("http")) {
           window.location.replace(fromRoute);
-        else
+        } else
           router.replace(
             `${
               !!fromRoute && fromRoute !== "null"

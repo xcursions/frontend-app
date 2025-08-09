@@ -42,7 +42,7 @@ import {
   useErrorHandler,
   useSuccessHandler,
 } from "@/hooks";
-import { useGetAllOutingsQuery } from "@/services/public";
+import { useGetSingleOutingQuery } from "@/services/public";
 import {
   useApplyDiscountMutation,
   useGeneratePayForMeLinkMutation,
@@ -71,8 +71,8 @@ const Page = () => {
   const { user } = useAppSelector((state) => state.user);
   const { booking } = useAppSelector((state) => state.user);
   const { isAuthenticated } = useAuth();
-  const { data: tripInfo, isSuccess } = useGetAllOutingsQuery(
-    `/${booking?.outingId || ""}`
+  const { data: tripInfo, isSuccess } = useGetSingleOutingQuery(
+    `${booking?.outingId || ""}`
   );
   const [applyDiscount] = useApplyDiscountMutation();
   const {
@@ -611,7 +611,9 @@ const Page = () => {
                                 <Text className="font-dmSansBold text-[30px] text-[#101828]">
                                   ₦
                                   {savingPlanSummarySuccess &&
-                                    savingPlanSummary?.paymentPerBillingCycle}
+                                    parseFloat(
+                                      savingPlanSummary?.paymentPerBillingCycle
+                                    ).toLocaleString()}
                                   <span className="text-[12px] text-[#667084]">
                                     /{savingPlanSummary?.periodicPaymentType}
                                   </span>

@@ -1,14 +1,18 @@
 "use client";
 
+import { yupResolver } from "@hookform/resolvers/yup";
 import type { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import toaster from "react-hot-toast";
 // import toaster from "react-hot-toast";
 import { AiOutlinePlus } from "react-icons/ai";
 import { FaCalendarAlt } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import * as yup from "yup";
 
 import FormCanvas from "@/components/admin/Bookings/FormCanvas";
 // import { columns } from "@/components/admin/services/Colums";
@@ -20,7 +24,6 @@ import Input from "@/components/lib/Input/Input";
 import { Pagination } from "@/components/lib/Pagination";
 import Text from "@/components/lib/Text";
 import TextArea from "@/components/lib/TextArea/TextArea";
-import useErrorHandler from "@/hooks/useErrorHandler";
 import useSuccessHandler from "@/hooks/useSuccessHandler";
 import {
   useCreateOutingMutation,
@@ -29,24 +32,30 @@ import {
   useDeleteOutingMutation,
   useGetAllBannerQuery,
   useGetBlogPostQuery,
-  useLazyGetOutingsQuery,
+  useGetOutingsQuery,
 } from "@/services/admin";
 import type { BannerResponse } from "@/services/admin/payload";
 import type { BlogProps, OutingProps } from "@/types";
 import { standardDate } from "@/utils/standardDate";
 
-const initialState = {
-  name: "",
-  description: "",
-  currency: "NGN",
-  price: "",
-  type: "",
-  subType: "",
-  startDate: "",
-  endDate: "",
-  deadlineGap: "",
-  defaultOutingDurationInDays: "",
-};
+const outingSchema = yup.object().shape({
+  name: yup.string().required(),
+  description: yup.string().required(),
+  currency: yup.string().required(),
+  price: yup.number().required(),
+  type: yup.string().oneOf(["tour", "event"], "Invalid type").required(),
+  subType: yup.string().oneOf(["private", "group"], "Invalid type").required(),
+  startDate: yup.date().required(),
+  endDate: yup
+    .date()
+    .min(yup.ref("startDate"), "End date cannot be before start date")
+    .required(),
+  deadlineGap: yup.number().required(),
+  defaultOutingDurationInDays: yup.number().required(),
+});
+
+export type OutingPayload = yup.InferType<typeof outingSchema>;
+
 export type Payment = {
   id: string;
   name: string;
@@ -78,8 +87,6 @@ const Page = () => {
   const [newTrip, setNewTrip] = useState(false);
   const [isBlog, setIsBlog] = useState(false);
   const [isBanner, setIsBanner] = useState(false);
-  const [outingType, setOutingType] = useState("tour");
-  const [payload, setPayload] = useState(initialState);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currentPageBlog, setCurrentPageBlog] = useState<number>(1);
   const [activeForm, setActiveForm] = useState("");
@@ -87,18 +94,30 @@ const Page = () => {
   const router = useRouter();
   const pageLimit = 10;
 
-  const [
-    createOuting,
-    {
-      data: outingsData,
-      isLoading: outingLoading,
-      isSuccess: profileSuccess,
-      isError: isProfileError,
-      error: profileError,
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(outingSchema),
+    defaultValues: {
+      currency: "NGN",
+      price: 0,
+      type: "tour",
+      subType: "group",
+      deadlineGap: 21,
     },
-  ] = useCreateOutingMutation();
-  const [getOuting, { data: outingData, isSuccess: outingSuccess }] =
-    useLazyGetOutingsQuery();
+  });
+  const currentState = watch();
+
+  const [createOuting, { isLoading: outingLoading }] =
+    useCreateOutingMutation();
+  const { data: outingData, isSuccess: outingSuccess } = useGetOutingsQuery(
+    `?type=${currentState.type}&limit=${pageLimit}&page=${currentPage}`
+  );
   const [deleteOuting, { isSuccess: deleteSuccess }] =
     useDeleteOutingMutation();
   const [deleteBlog, { isSuccess: deleteBlogSuccess }] =
@@ -113,26 +132,9 @@ const Page = () => {
     useDeleteBannerMutation();
 
   useEffect(() => {
-    setPayload({ ...payload, type: outingType });
-  }, [outingType]);
-  useEffect(() => {
-    getOuting(`?type=${outingType}&limit=${pageLimit}&page=${currentPage}`);
-  }, [currentPage, pageLimit, outingType]);
-  useEffect(() => {
     setCurrentPage(1);
-  }, [outingType]);
+  }, [currentState.type]);
 
-  useErrorHandler({
-    isError: isProfileError,
-    error: profileError,
-  });
-  useSuccessHandler({
-    isSuccess: profileSuccess,
-    successFunction: () => {
-      router.push(`/admin/services/${outingsData.id}`);
-    },
-    toastMessage: "Outing Created successfully!",
-  });
   useSuccessHandler({
     isSuccess: deleteSuccess,
     toastMessage: "Outing Deleted successfully!",
@@ -155,8 +157,19 @@ const Page = () => {
     setNewTrip(false);
     // refetch();
   };
-  const handleCreateOuting = () => {
-    createOuting(payload);
+  const onSubmit = (formItem: OutingPayload) => {
+    createOuting(formItem)
+      .unwrap()
+      .then((res) => {
+        toaster.success("Outing Created successfully!");
+        reset();
+        router.push(`/admin/services/${res.id}`);
+      })
+      .catch((error) => {
+        toaster.error(
+          error?.data?.meta?.message || "Something went wrong, try again later."
+        );
+      });
   };
 
   const data =
@@ -468,6 +481,7 @@ const Page = () => {
       },
     },
   ];
+
   return (
     <>
       <div className="mx-[40px] mt-[40px]">
@@ -476,13 +490,13 @@ const Page = () => {
           <div className="flex gap-5">
             <p
               className={`cursor-pointer text-[16px] font-bold ${
-                outingType === "tour"
+                currentState.type === "tour"
                   ? " border-b-2 border-[#0A83FF] px-3 pb-3 text-[#0A83FF]"
                   : ""
               }`}
               onClick={() => {
                 setIsBlog(false);
-                setOutingType("tour");
+                setValue("type", "tour");
                 setIsBanner(false);
               }}
             >
@@ -490,13 +504,13 @@ const Page = () => {
             </p>
             <p
               className={`cursor-pointer text-[16px] font-bold ${
-                outingType === "event"
+                currentState.type === "event"
                   ? " border-b-2 border-[#0A83FF] px-3 pb-3 text-[#0A83FF]"
                   : ""
               }`}
               onClick={() => {
                 setIsBlog(false);
-                setOutingType("event");
+                setValue("type", "event");
                 setIsBanner(false);
               }}
             >
@@ -509,7 +523,6 @@ const Page = () => {
                   : ""
               }`}
               onClick={() => {
-                setOutingType("");
                 setIsBlog(true);
                 setIsBanner(false);
               }}
@@ -523,7 +536,6 @@ const Page = () => {
                   : ""
               }`}
               onClick={() => {
-                setOutingType("");
                 setIsBlog(false);
                 setIsBanner(true);
               }}
@@ -626,25 +638,28 @@ const Page = () => {
         </div>
         {newTrip && (
           <FormCanvas onClose={handleClose} title={activeForm} center>
-            <div className="w-full rounded-3xl px-[1rem]">
+            <form
+              className="w-full rounded-3xl px-4"
+              onSubmit={handleSubmit(onSubmit)}
+            >
               <div className="mt-[20px] flex gap-5">
                 <p
                   className={`cursor-pointer rounded-md border px-2 py-1 font-dmSansRegular text-[14px] ${
-                    payload.subType === "private"
+                    currentState.subType === "private"
                       ? "  bg-[#000000] text-[#ffffff]"
                       : ""
                   }`}
-                  onClick={() => setPayload({ ...payload, subType: "private" })}
+                  onClick={() => setValue("subType", "private")}
                 >
                   Private Trip
                 </p>
                 <p
                   className={`cursor-pointer rounded-md border px-2 py-1 font-dmSansRegular text-[14px] ${
-                    payload.subType === "group"
+                    currentState.subType === "group"
                       ? "  bg-[#000000] text-[#ffffff]"
                       : ""
                   }`}
-                  onClick={() => setPayload({ ...payload, subType: "group" })}
+                  onClick={() => setValue("subType", "group")}
                 >
                   Group Trip
                 </p>
@@ -653,97 +668,71 @@ const Page = () => {
                 <Input
                   label="Trip Name"
                   placeholder="Enter the trip name"
-                  value={payload.name}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                    setPayload({ ...payload, name: event.target.value })
-                  }
+                  register={register("name")}
+                  errorMsg={errors.name?.message}
                 />
                 <div className="flex w-full gap-2">
                   <Input
                     label="Price"
                     type="number"
+                    register={register("price")}
                     placeholder="Enter the Outing price"
-                    value={payload.price}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                      setPayload({ ...payload, price: event.target.value })
-                    }
-                    className="w-[195px]"
+                    // className="w-[195px]"
+                    errorMsg={errors.price?.message}
                   />
                   <Input
                     label="Default Duration"
                     type="number"
+                    register={register("defaultOutingDurationInDays")}
                     placeholder="Default Outing Duration in Days"
-                    value={payload.defaultOutingDurationInDays}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                      setPayload({
-                        ...payload,
-                        defaultOutingDurationInDays: event.target.value,
-                      })
-                    }
-                    className="w-[205px]"
+                    errorMsg={errors.defaultOutingDurationInDays?.message}
+                    // className="w-[205px]"
                   />
                 </div>
                 <TextArea
                   label="Descriptions"
                   placeholder="your placeholder here"
                   className="h-[135px]"
-                  value={payload.description}
+                  value={currentState.description}
                   onChange={(event) =>
-                    setPayload({
-                      ...payload,
-                      description: event.target.value,
-                    })
+                    setValue("description", event.target.value)
                   }
                 />
                 <div className="flex gap-2">
                   <Input
                     label="Start Date"
                     placeholder="Select start date"
+                    register={register("startDate")}
                     type="date"
-                    value={payload.startDate}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                      setPayload({
-                        ...payload,
-                        startDate: event.target.value,
-                      })
-                    }
                     className="w-[200px]"
+                    errorMsg={errors.startDate?.message}
                   />
                   <Input
                     label="End Date"
                     placeholder="Select end date"
-                    value={payload.endDate}
                     type="date"
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                      setPayload({ ...payload, endDate: event.target.value })
-                    }
+                    register={register("endDate")}
                     className="w-[200px]"
+                    errorMsg={errors.endDate?.message}
                   />
                 </div>
                 <Input
                   placeholder="Enter payment limit in days"
                   type="number"
                   label="Payment Deadline"
-                  value={payload.deadlineGap}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                    setPayload({
-                      ...payload,
-                      deadlineGap: event.target.value,
-                    })
-                  }
+                  register={register("deadlineGap")}
+                  errorMsg={errors.deadlineGap?.message}
                 />
                 <Button
                   className="mt-5 w-full rounded-3xl bg-[#0A83FF]"
-                  onClick={handleCreateOuting}
-                  disabled={
-                    !payload.name || !payload.description || !payload.startDate
-                  }
+                  // onClick={handleCreateOuting}
+                  type="submit"
                 >
-                  Create {outingType === "tour" ? "Trip" : " Event"}
+                  Create {currentState.type === "tour" ? "Trip" : " Event"}
                 </Button>
                 {outingLoading && <FullPageLoader />}
               </div>
-            </div>
+            </form>
           </FormCanvas>
         )}
       </div>
