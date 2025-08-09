@@ -1,4 +1,5 @@
 import { authApi } from "@/services/auth";
+import { type OutingProps } from "@/types";
 import type { ApiResponseTypes } from "@/types/ApiResponseType";
 
 import type {
@@ -12,6 +13,12 @@ export const publicApi = authApi.injectEndpoints({
     getAllOutings: builder.query<any, any>({
       query: (query) => ({
         url: `/outing/outings${query}&sort=uniqueBookingCount&isDraft=false`,
+        method: "GET",
+      }),
+    }),
+    getSingleOuting: builder.query<OutingProps, string>({
+      query: (id) => ({
+        url: `/outing/outings/${id}`,
         method: "GET",
       }),
     }),
@@ -159,6 +166,7 @@ export const publicApi = authApi.injectEndpoints({
 });
 export const {
   useGetAllOutingsQuery,
+  useGetSingleOutingQuery,
   useLazyGetAllOutingsQuery,
   useSearchOutingsQuery,
   useGetOutingAddOnQuery,
