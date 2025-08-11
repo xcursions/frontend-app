@@ -88,17 +88,16 @@ const Booking = () => {
     toastMessage: "Successful",
   });
   useErrorHandler({ isError: isFlightError, error: flightError });
-
   const data =
     bookingHistorySuccess &&
     bookingHistory.result.map((res: AdminBookingProps) => {
       return {
-        id: res.bookingDate.bookingId,
-        type: res.outing.type,
-        status: res.status,
-        createdAt: res.createdAt.split("T")[0],
-        bookingStatus: res.status,
-        outingId: res.outingId,
+        id: res?.bookingDate?.bookingId,
+        type: res?.outing?.type,
+        status: res?.status,
+        createdAt: res?.createdAt.split("T")[0],
+        bookingStatus: res?.status,
+        outingId: res?.outingId,
       };
     });
   const columns: ColumnDef<Payment>[] = [
