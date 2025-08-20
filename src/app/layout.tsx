@@ -7,7 +7,7 @@ import Script from "next/script";
 import { Suspense } from "react";
 import { Toaster } from "react-hot-toast";
 
-// import Whatsapp from "@/components/lib/Whatsapp";
+import Whatsapp from "@/components/lib/Whatsapp";
 import { FacebookPixelEvents } from "@/components/pixelEvent/pixelEvent";
 import { cn } from "@/lib/utils";
 import { toastOptions } from "@/utils/config";
@@ -179,7 +179,7 @@ twq('config','${process.env.NEXT_PUBLIC_X_TAG}');
           <Suspense>
             <FacebookPixelEvents />
           </Suspense>
-          {/* <Whatsapp /> */}
+          <Whatsapp />
         </Providers>
       </body>
     </html>
