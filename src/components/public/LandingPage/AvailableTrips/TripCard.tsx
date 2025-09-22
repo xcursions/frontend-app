@@ -35,6 +35,12 @@ const TripCard = ({ post }: Props) => {
     return post?.outingChargePlan?.perPersonSharingAmount;
   };
   const getCountryCode = (countryName: string) => {
+    if (countryName === "Zanzibar") {
+      return "TZ"; // Tanzania code
+    }
+    if (countryName === "Casablanca") {
+      return "MA"; // Morocco code
+    }
     const countryEntries = Object.entries(countries);
 
     const foundEntry = countryEntries.find(
