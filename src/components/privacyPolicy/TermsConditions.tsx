@@ -3,7 +3,7 @@ import React from "react";
 import Heading from "../lib/Heading/Heading";
 import Text from "../lib/Text/Text";
 
-const PrivacyPolicy = () => {
+const TermsConditions = () => {
   return (
     <div className="w-full px-5 pt-[100px] md:pt-[130px] lg:pt-[180px]">
       <div className="relative mx-auto max-w-[900px]">
@@ -111,4 +111,4 @@ const PrivacyPolicy = () => {
   );
 };
 
-export default PrivacyPolicy;
+export default TermsConditions;
