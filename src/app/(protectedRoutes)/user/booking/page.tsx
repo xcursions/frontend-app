@@ -3,7 +3,7 @@
 
 import React from "react";
 
-import Booking from "@/Pages/booking";
+import Booking from "@/views/booking";
 
 export default () => (
   <div className="bg-[#ffffff]">

@@ -384,8 +384,8 @@ const Wallet = () => {
               ))}
             </div>
           ) : (
-            <div className="mx-auto max-w-[200px] content-center items-center justify-center py-10">
-              <div className="mx-auto content-center items-center justify-items-center">
+            <div className="mx-auto max-w-[200px] place-content-center items-center py-10">
+              <div className="mx-auto place-items-center content-center">
                 <img
                   src="/assets/images/dashboard/Illustration.png"
                   alt="book a trip"
@@ -410,9 +410,9 @@ const Wallet = () => {
           <div className="mr-2 w-full bg-[#ffffff] px-3">
             <DataTable columns={columns} data={data} />
           </div>
-          <div className="mx-auto max-w-[200px] content-center items-center justify-center py-10">
+          <div className="mx-auto max-w-[200px] place-content-center items-center py-10">
             {data?.length < 1 && (
-              <div className="mx-auto content-center items-center justify-items-center">
+              <div className="mx-auto place-items-center content-center">
                 <Text className="mx-auto mb-5 mt-7 text-center text-[12px]">
                   Sorry you don’t have any schedule at the moment
                 </Text>

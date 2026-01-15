@@ -3,7 +3,7 @@
 
 import React from "react";
 
-import Payment from "@/Pages/Payment";
+import Payment from "@/views/Payment";
 
 export default () => (
   <div className="bg-[#ffffff]">

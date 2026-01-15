@@ -142,7 +142,7 @@ const Signup = () => {
             </Text>
           </div>
         </div>
-        <div className="m-auto mt-16 content-center items-center justify-center lg:mt-auto">
+        <div className="m-auto mt-16 place-content-center items-center lg:mt-auto">
           <div className="m-auto mt-8 max-w-[344px] items-center  justify-center px-1 md:max-w-[482px] lg:mt-4">
             <Heading
               type="h1"
@@ -253,7 +253,7 @@ const Signup = () => {
                 <span className="underline">Login</span>
               </Link>
             </Text>
-            <Text className="my-[1rem] text-center text-sm text-[#667084] underline">
+            <Text className="my-4 text-center text-sm text-[#667084] underline">
               <Link href="/privacy-policy">Privacy</Link> &{" "}
               <Link href="/terms">Terms</Link>
             </Text>

@@ -3,7 +3,7 @@
 
 import React from "react";
 
-import Dashboard from "@/Pages/dashboard";
+import Dashboard from "@/views/dashboard";
 
 export default () => (
   <div className="bg-[#ffffff]">

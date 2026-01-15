@@ -5,9 +5,9 @@ import React, { useState } from "react";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 
 import UpcomingPaymentCard from "@/components/lib/UpcomingPaymentCard/UpcomingPaymentCard";
-import { CardModal } from "@/Pages/wallet/cardModal/cardModal";
 import { useGetUpcomingPaymentQuery } from "@/services/user/savingPlan";
 import type UpcomingPaymentProps from "@/types/UpcomingPaymentProps";
+import { CardModal } from "@/views/wallet/cardModal/cardModal";
 
 const SavingPlan = () => {
   const router = useRouter();

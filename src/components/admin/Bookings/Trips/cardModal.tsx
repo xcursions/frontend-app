@@ -34,7 +34,7 @@ type Props = {
 export function CardModal({ cardDetails, onClose }: Props) {
   return (
     <div>
-      <div className=" px-[3rem]">
+      <div className=" px-12">
         <Heading className="text-center text-[20px]">
           Customer Booking Details
         </Heading>

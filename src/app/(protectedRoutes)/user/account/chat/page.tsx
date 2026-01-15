@@ -3,7 +3,7 @@
 
 import React from "react";
 
-import Chat from "@/Pages/chat";
+import Chat from "@/views/chat";
 
 export default () => (
   <div className="bg-[#ffffff]">

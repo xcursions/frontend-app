@@ -130,7 +130,7 @@ const Login = () => {
             </Text>
           </div>
         </div>
-        <div className="m-auto mt-16 content-center items-center justify-center lg:mt-auto">
+        <div className="m-auto mt-16 place-content-center items-center lg:mt-auto">
           <div className="m-auto mt-8 max-w-[344px] items-center justify-center  px-1 md:max-w-[482px] lg:mt-4">
             <Heading
               type="h1"

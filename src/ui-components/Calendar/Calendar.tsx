@@ -30,8 +30,8 @@ const CalendarComponent = () => {
     );
 
   const noScheduleMessage = (
-    <div className="mx-auto max-w-[200px] content-center items-center justify-center py-10">
-      <div className="mx-auto content-center items-center justify-items-center">
+    <div className="mx-auto max-w-[200px] place-content-center items-center py-10">
+      <div className="mx-auto place-items-center content-center">
         <img
           src="/assets/images/dashboard/Illustration.png"
           alt="book a trip"

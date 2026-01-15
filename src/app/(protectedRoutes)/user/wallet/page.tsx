@@ -3,7 +3,7 @@
 
 import React from "react";
 
-import Wallet from "@/Pages/wallet";
+import Wallet from "@/views/wallet";
 
 export default () => (
   <div className="bg-[#ffffff]">

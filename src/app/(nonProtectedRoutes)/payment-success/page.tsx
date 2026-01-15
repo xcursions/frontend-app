@@ -41,7 +41,7 @@ const Verify = () => {
             </Text>
           </div>
         </div>
-        <div className="m-auto mt-24 content-center items-center justify-center lg:mt-auto">
+        <div className="m-auto mt-24 place-content-center items-center lg:mt-auto">
           <div className="m-auto mt-8  max-w-[403px] items-center justify-center px-3 text-center lg:mt-4">
             <div className="mx-auto flex h-[48px] w-[48px] items-center justify-center rounded-full bg-[#12B76A] md:h-[64px] md:w-[64px]">
               <CheckIcon />

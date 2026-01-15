@@ -2,8 +2,8 @@
 
 import React from "react";
 
-import BookedTripDetails from "@/Pages/booking/Details";
 import { useGetBookingByIdQuery } from "@/services/user";
+import BookedTripDetails from "@/views/booking/Details";
 
 type RouteParams = {
   slug: string[];

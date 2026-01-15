@@ -3,7 +3,7 @@
 
 import React from "react";
 
-import Referrals from "@/Pages/Referrals";
+import Referrals from "@/views/Referrals";
 
 export default () => (
   <div className="bg-[#ffffff]">

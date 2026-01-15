@@ -3,7 +3,7 @@
 
 import React from "react";
 
-import Schedule from "@/Pages/Schedule";
+import Schedule from "@/views/Schedule";
 
 export default () => (
   <div className="bg-[#ffffff]">

@@ -3,7 +3,7 @@
 
 import React from "react";
 
-import Profile from "@/Pages/Profile";
+import Profile from "@/views/Profile";
 
 export default () => (
   <div className="bg-[#ffffff]">

@@ -7,7 +7,7 @@ export default function NotFound() {
   return (
     <>
       <div className="bg-[#ffffff]">
-        <div className="flex h-[100vh] items-center justify-center">
+        <div className="flex h-screen items-center justify-center">
           <div className="text-center">
             <Heading>Coming Soon</Heading>
             <p className="my-5">

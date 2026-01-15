@@ -148,7 +148,7 @@ const Verify = () => {
             </Text>
           </div>
         </div>
-        <div className="m-auto mt-24 content-center items-center justify-center lg:mt-auto">
+        <div className="m-auto mt-24 place-content-center items-center lg:mt-auto">
           <div className="m-auto mt-8 items-center justify-center px-3 lg:mt-4">
             <Heading
               type="h1"

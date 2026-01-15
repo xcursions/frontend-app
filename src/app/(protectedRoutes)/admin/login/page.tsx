@@ -84,7 +84,7 @@ const Login = () => {
         </Link>
       </div>
       <div className=" mx-auto mt-10 items-center justify-center">
-        <div className="mx-auto max-w-[500px] content-center items-center justify-center  rounded-xl bg-[#FFFFFF] p-10">
+        <div className="mx-auto max-w-[500px] place-content-center items-center rounded-xl  bg-[#FFFFFF] p-10">
           <Heading
             type="h1"
             className="m-auto text-center font-dmSansBold text-[24px]"

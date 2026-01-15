@@ -3,7 +3,7 @@
 
 import React from "react";
 
-import Favourites from "@/Pages/Favourites";
+import Favourites from "@/views/Favourites";
 
 export default () => (
   <div className="bg-[#ffffff]">

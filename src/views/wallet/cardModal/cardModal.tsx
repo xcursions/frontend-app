@@ -142,3 +142,5 @@ export function CardModal({ cardDetails, onClose }: Props) {
     </>
   );
 }
+
+export default CardModal;

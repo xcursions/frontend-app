@@ -2,8 +2,8 @@
 
 import React from "react";
 
-import WalletTransactionDetails from "@/Pages/wallet/Details";
 import { useGetTransactionsByIdQuery } from "@/services/user";
+import WalletTransactionDetails from "@/views/wallet/Details";
 
 type RouteParams = {
   slug: string;

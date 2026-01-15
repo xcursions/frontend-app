@@ -7,7 +7,7 @@ export default function NotFound() {
   return (
     <div className="bg-[#ffffff]">
       <TopNavBar />
-      <div className="flex h-[100vh] items-center justify-center">
+      <div className="flex h-screen items-center justify-center">
         <div className="text-center">
           <h1>404 - Page Not Found</h1>
           <p className="my-5"> The page you are looking for does not exist.</p>

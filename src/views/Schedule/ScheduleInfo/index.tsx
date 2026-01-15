@@ -4,7 +4,6 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import Fullcalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import * as bootstrap from "bootstrap";
 import React from "react";
 
 import {
@@ -56,24 +55,26 @@ const ScheduleInfo = () => {
           // height={"90vh"}
           events={events}
           eventDidMount={(info) => {
-            return new bootstrap.Popover(info.el, {
-              title: info.event.title,
-              placement: "top",
-              trigger: "hover",
-              customClass: "popoverStyle",
-              content: `${formatDatesRange(
-                // @ts-ignore
-                info.event.start,
-                info.event.extendedProps.endDate
-              )} <br /> <br /> <img src=${
-                info.event.extendedProps.image ||
-                "/assets/images/user/schedule.png"
-              } alt="outing" /> <br /> <p>${
-                info.event.extendedProps.description
-              }</p> <br /> <hr /> <br /> last updated ${formatedDate(
-                info.event.extendedProps.updatedAt
-              )}`,
-              html: true,
+            import("bootstrap").then((bootstrap) => {
+              return new bootstrap.Popover(info.el, {
+                title: info.event.title,
+                placement: "top",
+                trigger: "hover",
+                customClass: "popoverStyle",
+                content: `${formatDatesRange(
+                  // @ts-ignore
+                  info.event.start,
+                  info.event.extendedProps.endDate
+                )} <br /> <br /> <img src=${
+                  info.event.extendedProps.image ||
+                  "/assets/images/user/schedule.png"
+                } alt="outing" /> <br /> <p>${
+                  info.event.extendedProps.description
+                }</p> <br /> <hr /> <br /> last updated ${formatedDate(
+                  info.event.extendedProps.updatedAt
+                )}`,
+                html: true,
+              });
             });
           }}
         />

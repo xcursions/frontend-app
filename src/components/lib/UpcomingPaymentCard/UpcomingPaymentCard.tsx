@@ -55,7 +55,7 @@ const UpcomingPaymentCard = ({ detailsData, view }: Props) => {
           </div>
         </div>
         <div className={styles.progress}>
-          <Progress value={percentagePaid} className="w-[100%]" />
+          <Progress value={percentagePaid} className="w-full" />
           <span className="font-dmSansBold text-[12px] text-[#667084]">
             {Math.ceil(percentagePaid)}%
           </span>
