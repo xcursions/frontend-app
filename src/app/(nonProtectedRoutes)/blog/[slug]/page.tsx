@@ -44,12 +44,16 @@ export async function generateMetadata(
       description: `${product?.description || ""}`,
       url: `${process.env.NEXT_PUBLIC_SITE_URL}/blog/${params.slug}`,
       images: [
-        {
-          url: `${product.blogFeaturedImage.image}`,
-          width: 800,
-          height: 600,
-          alt: `${product.title}`,
-        },
+        ...(product?.blogFeaturedImage?.image
+          ? [
+              {
+                url: `${product.blogFeaturedImage.image}`,
+                width: 800,
+                height: 600,
+                alt: `${product.title}`,
+              },
+            ]
+          : []),
         ...previousImages,
       ],
     },
@@ -83,14 +87,16 @@ export async function generateMetadata(
       siteId: "",
       creator: "@xcursionsdotng",
       creatorId: "",
-      images: [
-        {
-          url: `${product.blogFeaturedImage.image}`,
-          width: 800,
-          height: 600,
-          alt: `${product.title}`,
-        },
-      ],
+      images: product?.blogFeaturedImage?.image
+        ? [
+            {
+              url: `${product.blogFeaturedImage.image}`,
+              width: 800,
+              height: 600,
+              alt: `${product.title}`,
+            },
+          ]
+        : [],
     },
   };
 }

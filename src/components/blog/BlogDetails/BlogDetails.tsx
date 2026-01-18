@@ -43,18 +43,20 @@ const BlogDetails = ({ detailsData }: Props) => {
           </div>
         </div>
       </div>
-      <div className={styles.background_container}>
-        <div className={styles.featured_blog}>
-          <Image
-            width={800}
-            height={415}
-            // layout="fill"
-            src={detailsData.blogFeaturedImage.image}
-            alt="featured blog"
-            className={styles.image}
-          />
+      {detailsData?.blogFeaturedImage?.image && (
+        <div className={styles.background_container}>
+          <div className={styles.featured_blog}>
+            <Image
+              width={800}
+              height={415}
+              // layout="fill"
+              src={detailsData.blogFeaturedImage.image}
+              alt="featured blog"
+              className={styles.image}
+            />
+          </div>
         </div>
-      </div>
+      )}
       <div
         dangerouslySetInnerHTML={{ __html: detailsData.content }}
         className={styles.text_content}
@@ -85,15 +87,17 @@ const BlogDetails = ({ detailsData }: Props) => {
           {isSuccess &&
             data.posts.slice(0, 3).map((res: BlogProps) => (
               <div key={res.id} className="mt-[50px] cursor-pointer">
-                <Link href={`/blog/${res.slug}`}>
-                  <Image
-                    width={348}
-                    height={223}
-                    src={res.blogFeaturedImage.image}
-                    alt="featured blog"
-                    className="h-[223px] w-[348px] rounded-[24px]"
-                  />
-                </Link>
+                {res?.blogFeaturedImage?.image && (
+                  <Link href={`/blog/${res.slug}`}>
+                    <Image
+                      width={348}
+                      height={223}
+                      src={res.blogFeaturedImage.image}
+                      alt="featured blog"
+                      className="h-[223px] w-[348px] rounded-[24px]"
+                    />
+                  </Link>
+                )}
                 <Text className="mt-[20px]  items-center font-dmSansRegular text-[14px] text-[#0A83FF] lg:text-[16px] ">
                   {formatedDate(res.createdAt)}
                 </Text>
