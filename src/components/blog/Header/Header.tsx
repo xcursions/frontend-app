@@ -82,42 +82,44 @@ const Header = () => {
           </div>
         </div>
         <div className={styles.background_container}>
-          {isFeaturedSuccess && featuredPost && (
-            <div className={styles.featured_blog}>
-              <Image
-                width={800}
-                height={415}
-                src={featuredPost.blogFeaturedImage.image}
-                alt="featured blog"
-                className={styles.image}
-              />
-              <Text className="mt-[30px] items-center font-dmSansRegular text-[16px] text-[#0A83FF] ">
-                {formatedDate(featuredPost.createdAt)}
-              </Text>
-              <Link href={`/blog/${featuredPost.slug}`}>
-                <Heading
-                  type="h3"
-                  className="cursor-pointer font-dmSansBold text-[21px] lg:text-[24px]"
-                >
-                  {featuredPost.title}
-                </Heading>
-              </Link>
-              <div
-                dangerouslySetInnerHTML={{ __html: featuredPost.content }}
-                className={styles.text_content}
-              />
-              <div className="mt-[8px] flex gap-[8px]">
-                {featuredPost.categories.map((res) => (
-                  <span
-                    key={res.id}
-                    className="rounded-2xl bg-[#F2F4F7] px-2 py-1 text-[#475467]"
+          {isFeaturedSuccess &&
+            featuredPost &&
+            featuredPost?.blogFeaturedImage?.image && (
+              <div className={styles.featured_blog}>
+                <Image
+                  width={800}
+                  height={415}
+                  src={featuredPost.blogFeaturedImage.image}
+                  alt="featured blog"
+                  className={styles.image}
+                />
+                <Text className="mt-[30px] items-center font-dmSansRegular text-[16px] text-[#0A83FF] ">
+                  {formatedDate(featuredPost.createdAt)}
+                </Text>
+                <Link href={`/blog/${featuredPost.slug}`}>
+                  <Heading
+                    type="h3"
+                    className="cursor-pointer font-dmSansBold text-[21px] lg:text-[24px]"
                   >
-                    {res.name}
-                  </span>
-                ))}
+                    {featuredPost.title}
+                  </Heading>
+                </Link>
+                <div
+                  dangerouslySetInnerHTML={{ __html: featuredPost.content }}
+                  className={styles.text_content}
+                />
+                <div className="mt-[8px] flex gap-[8px]">
+                  {featuredPost.categories.map((res) => (
+                    <span
+                      key={res.id}
+                      className="rounded-2xl bg-[#F2F4F7] px-2 py-1 text-[#475467]"
+                    >
+                      {res.name}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
+            )}
         </div>
       </div>
       <div className=" mx-[3%] my-[50px]">
@@ -125,15 +127,17 @@ const Header = () => {
           <div className={styles.card_container}>
             {blogData.map((res) => (
               <div key={res.id} className="flex cursor-pointer flex-col">
-                <Link href={`/blog/${res.slug}`}>
-                  <Image
-                    width={800}
-                    height={415}
-                    src={res?.blogFeaturedImage?.image}
-                    alt="featured blog"
-                    className={styles.image}
-                  />
-                </Link>
+                {res?.blogFeaturedImage?.image && (
+                  <Link href={`/blog/${res.slug}`}>
+                    <Image
+                      width={800}
+                      height={415}
+                      src={res.blogFeaturedImage.image}
+                      alt="featured blog"
+                      className={styles.image}
+                    />
+                  </Link>
+                )}
                 <Text className="mt-[20px]  items-center font-dmSansRegular text-[14px] text-[#0A83FF] lg:text-[16px] ">
                   {formatedDate(res.createdAt)}
                 </Text>
